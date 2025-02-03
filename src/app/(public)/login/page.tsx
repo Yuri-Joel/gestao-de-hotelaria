@@ -1,9 +1,8 @@
-"use client"
 import Link from 'next/link';
 import React from 'react';
 
 const page: React.FC = () => {
-    const slug = "algo" 
+    const slug = "hotel-ao" 
     return (
         <div>
             <h1>Login</h1>

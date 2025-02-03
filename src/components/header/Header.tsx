@@ -1,10 +1,11 @@
+"use client";
 import Link from 'next/link';
 import React from 'react';
 import { usePathname } from 'next/navigation';
 
 export const Header = () => {
   const pathname = usePathname(); 
-  const slug = "algo"
+  const slug = "hotel-ao"
 
   return (
     <header className="h-[60px] px-10 flex justify-between items-center bg-gradient-to-r from-[#6100C2] to-[#5954FB]">
@@ -14,7 +15,7 @@ export const Header = () => {
 
       <nav className='flex gap-5'>
         <Link
-          href="/propriedade"
+          href="/propriedades"
           className="text-lg text-white font-semibold"
         >
           Selecionar Propriedade
