@@ -13,7 +13,7 @@ const ConfirmLoginPage = () => {
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(false);
 	const { password, email, reset } = useLoginFormStore();
-	const handleNextClick = () => {
+	const handleSignInClick = () => {
 		setIsLoading(true);
 		Cookies.set("pms_token", JSON.stringify({ email, password }));
 		router.push("/");
@@ -54,7 +54,7 @@ const ConfirmLoginPage = () => {
 				<Button
 					width="108px"
 					height="100%"
-					handleClick={handleNextClick}
+					handleClick={handleSignInClick}
 					isLoading={isLoading}
 					border="solid"
 					className="rounded-none"
@@ -62,7 +62,7 @@ const ConfirmLoginPage = () => {
 						return true;
 					}}
 				>
-					Avançar
+					Entrar
 				</Button>
 				<Button
 					width="108px"
