@@ -1,6 +1,8 @@
 const PublicLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <>{children}</>
+    <div className="min-h-screen bg-white">
+      {children}
+    </div>
   );
 };
 

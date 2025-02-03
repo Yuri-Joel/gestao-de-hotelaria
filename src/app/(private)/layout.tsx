@@ -1,10 +1,15 @@
+import { Header } from "@/components/header/Header";
+
 const PrivateLayout = ({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) => {
   return (
-    <>{children}</>
+    <div className="bg-white h-screen">
+      <Header />
+      {children}
+    </div>
   )
 }
 
