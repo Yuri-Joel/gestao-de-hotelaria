@@ -1,9 +1,10 @@
+"use client"
 import Link from 'next/link';
 import React from 'react';
 import { usePathname } from 'next/navigation';
 
 export const Header = () => {
-  const pathname = usePathname(); 
+  const pathname = usePathname();
   const slug = "algo"
 
   return (
