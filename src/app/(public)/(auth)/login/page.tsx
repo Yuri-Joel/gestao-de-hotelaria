@@ -18,14 +18,14 @@ const LoginPage = () => {
 	};
 	return (
 		<section className="flex flex-col gap-4">
-			<h1 className="font-bold text-2xl">Hoteli Apps</h1>
+			<h1 className="font-bold text-2xl text-center">Hoteli Apps</h1>
 			<div className="flex flex-col gap-2 mt-4">
 				<div className="font-bold text-xl">
 					<h1>Iniciar sessão</h1>
 				</div>
-				<div className="h-12">
+				<div className="h-12 mb-4">
 					<Input
-						className="h-12 rounded-none"
+						className="h-12 rounded-md"
 						type="email"
 						placeholder="email"
 						value={email}
@@ -41,7 +41,6 @@ const LoginPage = () => {
 				<Button
 					width="108px"
 					height="100%"
-					toolTipTitle="Acessar a sua conta"
 					handleClick={handleNextClick}
 					isLoading={isLoading}
 					border="solid"

@@ -4,27 +4,42 @@ import { Input } from "@/components/Input/Input";
 import { Button } from "@/components/Button/Button";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useLoginFormStore } from "@/store/loginFormStore";
+import Cookies from "js-cookie";
 
 const ConfirmLoginPage = () => {
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(false);
-	const { password, email } = useLoginFormStore();
+	const { password, email, reset } = useLoginFormStore();
 	const handleNextClick = () => {
 		setIsLoading(true);
-		router.push("/login/confirm");
+		Cookies.set("pms_token", JSON.stringify({ email, password }));
+		router.push("/");
 	};
+	useEffect(() => {
+	  if (!email)
+		router.push("/login");
+	}, [email, router])
+	
 	return (
-		<section className="flex flex-col gap-4">
-			<h1 className="font-bold text-xl">Hoteli Apps</h1>
-			<div>
-				<h1>{email}</h1>
-			</div>
-			<div>
+		<section className="flex flex-col gap-8">
+			<h1 className="font-bold text-2xl text-center">Hoteli Apps</h1>
+			<div className="mb-2 flex flex-col gap-2">
 				<Input
-					className="h-12 rounded-none"
+					className="h-12 rounded-md"
+					type="email"
+					value={email}
+					disabled
+					handleValue={(e) => {
+						useLoginFormStore.setState({
+							password: e.target.value,
+						});
+					}}
+				/>
+				<Input
+					className="h-12 rounded-md"
 					type="password"
 					placeholder="Senha"
 					value={password}
@@ -35,11 +50,10 @@ const ConfirmLoginPage = () => {
 					}}
 				/>
 			</div>
-			<div className="w-full h-12 flex justify-end">
+			<div className="w-full h-12 flex justify-start flex-row-reverse">
 				<Button
 					width="108px"
 					height="100%"
-					toolTipTitle="Acessar a sua conta"
 					handleClick={handleNextClick}
 					isLoading={isLoading}
 					border="solid"
@@ -49,6 +63,21 @@ const ConfirmLoginPage = () => {
 					}}
 				>
 					Avançar
+				</Button>
+				<Button
+					width="108px"
+					height="100%"
+					handleClick={() => {
+						reset();
+						router.back();
+					}}
+					border="solid"
+					className="rounded-none"
+					handleActive={() => {
+						return true;
+					}}
+				>
+					Cancelar
 				</Button>
 			</div>
 		</section>
