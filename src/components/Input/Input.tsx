@@ -1,6 +1,6 @@
-import { formatCNPJ } from '@/helpers/formatCNPJ'
+/* eslint-disable prefer-const */
 import { IInput } from '@/types/Input/InputType'
-import React, { ChangeEvent, useEffect } from 'react'
+import React, { ChangeEvent } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { Loading } from '../Loading/Loading'
 import { formatCEP } from '@/helpers/formatCEP'
@@ -51,6 +51,7 @@ export const Input: React.FC<IInput> = ({
   ...props
 }) => {
   function handleSelecItemArray(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     item: any,
   ) {
     if (callback) {
@@ -255,7 +256,7 @@ export const Input: React.FC<IInput> = ({
     const cleaned = inputString.replace(/\D+/g, '');
 
     // Limita o comprimento a no máximo 4 caracteres
-    let limited = cleaned.slice(0, 4);
+    let limited  = cleaned.slice(0, 4);
 
     // Se o comprimento for menor que 2, retorne apenas os números digitados
     if (limited.length <= 2) {
