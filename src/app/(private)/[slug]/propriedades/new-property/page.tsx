@@ -16,7 +16,6 @@ const page = () => {
     setCategory,
     nextStep,
     resetStore,
-    // eslint-disable-next-line react-hooks/rules-of-hooks
   } = usePropertyStore();
 
   return (
