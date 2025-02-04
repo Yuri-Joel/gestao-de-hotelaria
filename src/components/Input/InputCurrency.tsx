@@ -9,6 +9,7 @@ interface TInputCurrency extends IInput {
 }
 
 export const InputCurrency: React.FC<TInputCurrency> = ({
+
     label,
     type,
     IconLeft,

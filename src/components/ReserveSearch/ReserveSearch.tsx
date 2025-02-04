@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import {  useRef, useState } from "react"
 import { guests } from "../Home/test-api"
 import { formatDateShort } from "@/helpers/formatDateExperimental"
 import ReserveSearchStore from "@/store/ReserveSearchStore"

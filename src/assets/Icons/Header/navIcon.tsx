@@ -1,6 +1,7 @@
 import { Ticon } from "@/types/icon/iconType";
 import React from "react";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const NavIcon: React.FC<Ticon> = ({ width, height, fill, stroke }) => {
     return (
         <>

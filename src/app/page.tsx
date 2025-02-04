@@ -1,27 +1,25 @@
-"use client"
+/* eslint-disable react-hooks/rules-of-hooks */
+'use client'
+import { Loading } from "@/components/Loading/Loading";
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from "react";
+import Cookies from 'js-cookie'
+import { delay } from "@/helpers/delay";
 
-import { Loading } from "@/components/Loading/Loading"
-import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
-import Cookies from "js-cookie"
-import { delay } from "@/helpers/delay"
-
-export default function Page() {
+export default function page() {
   const router = useRouter()
   const [property] = useState("hotel-ao");
 
   useEffect(() => {
-    const checkAuthAndRedirect = async () => {
+    ; (async function () {
       const cookie = Cookies.get("pms_token")
-      await delay(2000)
+      await delay(2000);
       if (cookie && property) {
-        router.push(`/${property}/home`)
+        router.push(`/${property}/home`);
       } else {
-        router.push("/login")
+        router.push('/login')
       }
-    }
-
-    checkAuthAndRedirect()
+    })()
   }, [property, router])
 
   return (

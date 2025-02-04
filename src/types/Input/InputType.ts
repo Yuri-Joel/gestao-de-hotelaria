@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentProps, FC } from 'react'
 import { Ticon } from '../icon/iconType'
 
@@ -16,9 +15,9 @@ export interface IInput extends ComponentProps<'input'> {
   isNumber?: boolean
   isCEP?: boolean
   isTime?: boolean
-  arrayType?: any
-  array?: any
-  callback?: (arg: any) => any
+  arrayType?: unknown
+  array?: unknown
+  callback?: (arg: unknown) => unknown
   handleSelected?: () => void
   handleBlur?: () => void
   togglePasswordVisibility?: () => void
