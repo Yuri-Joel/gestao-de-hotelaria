@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prefer-const */
 import { IInput } from '@/types/Input/InputType'
 import React, { ChangeEvent } from 'react'

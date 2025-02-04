@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 import Cookies from 'js-cookie'
 import { delay } from "@/helpers/delay";
 
-export default function page() {
+export default function Page() {
   const router = useRouter()
-  const [property, setProperty] = useState("hotel-ao");
+  const [property] = useState("hotel-ao");
 
   useEffect(() => {
     ; (async function () {

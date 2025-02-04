@@ -5,7 +5,6 @@ interface LoginFormState {
 	password: string;
 	setEmail: (email: string) => void;
 	setPassword: (password: string) => void;
-	reset: () => void;
 }
 
 export const useLoginFormStore = create<LoginFormState>((set) => ({
@@ -13,5 +12,4 @@ export const useLoginFormStore = create<LoginFormState>((set) => ({
 	password: "",
 	setEmail: (email) => set({ email }),
 	setPassword: (password) => set({ password }),
-	reset: () => set({ email: "", password: "" }),
 }));

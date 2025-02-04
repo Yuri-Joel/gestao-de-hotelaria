@@ -4,16 +4,23 @@ import Link from "next/link"
 import { TableCell } from "../Table/table-cell"
 import { TableHeader } from "../Table/table-header"
 import { TableRow } from "../Table/table-row"
-import { IconButton } from "../iconButton"
+import { IconButton } from "../Table/table-button-navigation"
 import { BiChevronLeft, BiChevronRight, BiChevronsLeft, BiChevronsRight } from "react-icons/bi"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { fakeProperties } from "@/data/properties"
+import { Table } from "../Table/table"
+import { Search } from "./Search"
+import { Input } from "../Input/Input"
+import { propertyStore } from "@/store/propertyStore"
+import { Properties } from "@/interfaces/Properties"
 
+interface PropertiesProps {
+  data: Properties[]
+}
 
-export function PropertiesList() {
+export function PropertiesList({data}: PropertiesProps) {
   
   const [page, setPage] = useState(()=> {
-
     const url = new URL(window.location.toString())
 
     if ( url.searchParams.has("page")) {
@@ -22,32 +29,35 @@ export function PropertiesList() {
 
     return 1
   })
+  const { 
+    searchData, 
+    searchInput, 
+    setSearchData, 
+    setSearchInput
+  } = propertyStore()
+  const [manyproperties, setManyProperties] = useState(10)
+  const totalPages = Math.ceil(searchData.length / 10)
 
-  const [manyproperties, setManyProperties] = useState(5)
-  const totalPages = Math.ceil(fakeProperties.length / 5)
-
-  function goToFirstPage () {
+  function goToFirstPage() {
     setCurrentPage(1)
-    setManyProperties(5)
-
+    setManyProperties(10)
   }
 
-  function goToNextPage () {
+  function goToNextPage() {
     setCurrentPage(page + 1)
-    setManyProperties((prev) => prev + 5)
+    setManyProperties((prev) => prev + 10)
   }
 
-  function goToPreviousPage () {
+  function goToPreviousPage() {
     setCurrentPage(page - 1)
-    if(manyproperties !== 5){
-      setManyProperties((prev) => prev - 5)
+    if(manyproperties !== 10){
+      setManyProperties((prev) => prev - 10)
     }
   }
 
-  function goToLastPage () {
+  function goToLastPage() {
     setCurrentPage(totalPages)
     setManyProperties(fakeProperties.length)
-
   }
 
   function setCurrentPage(page: number) {
@@ -59,32 +69,62 @@ export function PropertiesList() {
     setPage(page)
   }
 
+  useEffect(() => {
+    setSearchData(data)
+  }, [])
+  
   return(
     <div className="mt-5">
-      <table className="w-full">
+      <Search
+        data={data}
+        setPage={setPage}
+        searchData={searchData}
+        setSearchData={setSearchData}
+        searchInput={searchInput}
+        setSearchInput={setSearchInput}
+        setManyProperties={setManyProperties}
+      />
+
+      <Table className="w-full">
         <thead>
           <tr className="border-none">
-            <TableHeader className="px-8 font-bold">Propriedades</TableHeader>
+            <TableHeader className="px-8 font-bold">Propriedade</TableHeader>
             <TableHeader className="text-right px-[5rem] font-bold">Status</TableHeader>
           </tr>
         </thead>
         <tbody>
           {
-            fakeProperties.slice(manyproperties === 5 ? 0 : manyproperties - 5, manyproperties).map((property) => (
-              <TableRow key={property.id} className="border-none">
-                <TableCell className="flex flex-col gap-2">
-                  <Link href=""  className="text-primary-700 font-medium">{property.name}</Link>
-                  <span className="space-x-2">
-                    ID: {property.id}
-                  </span>
-                </TableCell>
-                <TableCell className="text-right">
-                  <div className="mb-6">
-                    {property.state === "active" ? "Disponivel para reserva" : "Indisponivel para reserva"}
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))
+            searchData.length > 0 ? 
+              searchData.slice(manyproperties === 10 ? 0 : manyproperties - 10, manyproperties).map((property, index) => (
+                <TableRow className={index % 2 === 0 ? "bg-gray-90" : "bg-white"} key={property.id}>
+                  <TableCell className="flex flex-col gap-2">
+                    <Link href="/hotel-ao/home"  className="text-primary-700 font-medium">{property.name}</Link>
+                    <span className="space-x-2">
+                      ID: {property.id}
+                    </span>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <div className="mb-6">
+                      {property.state === "active" ? "Disponivel para reserva" : "Indisponivel para reserva"}
+                    </div>
+                  </TableCell>
+                </TableRow>
+              )) :
+              data.slice(manyproperties === 10 ? 0 : manyproperties - 10, manyproperties).map((property) => (
+                <TableRow key={property.id}>
+                  <TableCell className="flex flex-col gap-2">
+                    <Link href="/hotel-ao/home"  className="text-primary-700 font-medium">{property.name}</Link>
+                    <span className="space-x-2">
+                      ID: {property.id}
+                    </span>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <div className="mb-6">
+                      {property.state === "active" ? "Disponivel para reserva" : "Indisponivel para reserva"}
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
           }
         </tbody>
         <tfoot>
@@ -116,8 +156,8 @@ export function PropertiesList() {
                 </IconButton>
                 <IconButton 
                   onClick= {goToLastPage}
-                  disabled= {page === totalPages}
-                  transparent= {page === totalPages ? true : false}
+                  disabled= {page === totalPages || totalPages === 0}
+                  transparent= {page === totalPages || totalPages === 0 ? true : false}
                 >
                   <BiChevronsRight className="size-4"/>
                 </IconButton>
@@ -126,9 +166,9 @@ export function PropertiesList() {
             </TableCell>
           </tr>
         </tfoot>
-      </table>
+      </Table>
       <div className="mt-7">
-        <Link href="propriedades/nova-propriedade" className="text-primary-700 font-bold text-md">Adicionar propriedade</Link>
+        <Link href="propriedades/new-property" className="text-primary-700 font-bold text-md">Adicionar propriedade</Link>
       </div>
     </div>
   ) 

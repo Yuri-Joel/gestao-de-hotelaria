@@ -1,4 +1,5 @@
-import { Component, ComponentProps, FC } from 'react'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ComponentProps, FC } from 'react'
 import { Ticon } from '../icon/iconType'
 
 export type TinpuType = 'text' | 'email' | 'search' | 'password' | "date"
