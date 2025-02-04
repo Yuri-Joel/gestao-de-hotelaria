@@ -30,7 +30,7 @@ export const Header = () => {
       </div>
       <nav className='flex gap-5'>
         <Link
-          href="#"
+          href="propriedades"
         >
           Selecionar Propriedade
         </Link>
