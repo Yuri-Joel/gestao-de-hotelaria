@@ -5,9 +5,10 @@ import { Button } from "@/components/Button/Button";
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import Link from "next/link";
 
 import { useLoginFormStore } from "@/store/loginFormStore";
-import Cookies from "js-cookie";
 
 const ConfirmLoginPage = () => {
 	const router = useRouter();
@@ -18,30 +19,29 @@ const ConfirmLoginPage = () => {
 		Cookies.set("pms_token", JSON.stringify({ email, password }));
 		router.push("/");
 	};
+	const handleSignInActive = () => {
+		if (password.length > 0) return true;
+		return false;
+	}
+	const handleReturnActive = () => {
+		return true;
+	}
 	useEffect(() => {
-	  if (!email)
-		router.push("/login");
-	}, [email, router])
-	
+		if (!email) router.push("/login");
+	}, [email, router]);
+
 	return (
-		<section className="flex flex-col gap-8">
-			<h1 className="font-bold text-2xl text-center">Hoteli Apps</h1>
-			<div className="mb-2 flex flex-col gap-2">
+		<section className="flex flex-col gap-2">
+			<h1 className="font-bold text-xl">Hoteli Apps</h1>
+			<div className="flex gap-2 items-center my-2">
+				<h1>{email}</h1>
+			</div>
+			<h2 className="font-medium text-xl">Insira a sua senha</h2>
+			<div className="flex flex-col gap-2">
 				<Input
-					className="h-12 rounded-md"
-					type="email"
-					value={email}
-					disabled
-					handleValue={(e) => {
-						useLoginFormStore.setState({
-							password: e.target.value,
-						});
-					}}
-				/>
-				<Input
-					className="h-12 rounded-md"
+					className="h-10 rounded-sm"
 					type="password"
-					placeholder="Senha"
+					placeholder="Sua senha"
 					value={password}
 					handleValue={(e) => {
 						useLoginFormStore.setState({
@@ -50,7 +50,12 @@ const ConfirmLoginPage = () => {
 					}}
 				/>
 			</div>
-			<div className="w-full h-12 flex justify-start flex-row-reverse">
+			<div className="mb-8">
+				<Link href="#" className="text-primary hover:underline text-sm">
+					Esqueceu a sua senha?
+				</Link>
+			</div>
+			<div className="w-full h-10 flex justify-start flex-row-reverse">
 				<Button
 					width="108px"
 					height="100%"
@@ -58,9 +63,7 @@ const ConfirmLoginPage = () => {
 					isLoading={isLoading}
 					border="solid"
 					className="rounded-none"
-					handleActive={() => {
-						return true;
-					}}
+					handleActive={handleSignInActive}
 				>
 					Entrar
 				</Button>
@@ -68,16 +71,14 @@ const ConfirmLoginPage = () => {
 					width="108px"
 					height="100%"
 					handleClick={() => {
-						reset();
 						router.back();
+						reset();
 					}}
 					border="solid"
 					className="rounded-none"
-					handleActive={() => {
-						return true;
-					}}
+					handleActive={handleReturnActive}
 				>
-					Cancelar
+					Voltar
 				</Button>
 			</div>
 		</section>
