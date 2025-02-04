@@ -1,3 +1,4 @@
+"use client"
 import { Header } from "@/components/header/Header";
 import { ReservationSearch } from "@/components/ReserveSearch/ReserveSearch";
 import { Sidebar } from "@/components/Sidebar/Sidebar";
