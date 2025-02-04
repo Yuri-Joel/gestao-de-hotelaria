@@ -1,4 +1,4 @@
-type TmenuSidebar = {
+export type TmenuSidebar = {
     label: string
     path: string 
     IconLeft?: React.ElementType

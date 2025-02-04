@@ -1,4 +1,4 @@
-import { Header } from "@/components/Header/Header";
+import { Header } from "@/components/header/Header";
 import { Sidebar } from "@/components/Sidebar/Sidebar";
 
 const PrivateLayout = ({

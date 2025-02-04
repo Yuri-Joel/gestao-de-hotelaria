@@ -4,6 +4,7 @@ import { BedIcon } from '@/assets/Icons/BedIcon';
 import { DirectionRightIcon } from '@/assets/Icons/DirectionRightIcon';
 import { PresentationIcon } from '@/assets/Icons/PresentationIcon';
 import sideBarStateStore from '@/store/sideBarStateStore';
+import { TmenuSidebar } from '@/types/menuSidebar';
 import Link from 'next/link';
 import { useState } from 'react';
 
