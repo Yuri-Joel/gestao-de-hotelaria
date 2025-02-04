@@ -1,9 +1,21 @@
+"use client"
+import { ReserveList } from '@/components/Home/ReserveList';
+import { TabNavigation } from '@/components/TabNavigation/TabNavigation';
 import React from 'react';
 
 const page: React.FC = () => {
     return (
-        <div><h1>Home</h1></div>
-    );
+        <div className="flex flex-col h-screen">
+         <TabNavigation />     
+          <div className="flex flex-1 overflow-hidden">
+            <div className="flex-1 border-r"> 
+              <div className="divide-y">
+              <ReserveList />
+              </div>
+            </div>
+          </div>
+        </div>
+      )
 }
 
 export default page;
