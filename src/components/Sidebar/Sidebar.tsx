@@ -5,6 +5,7 @@ import { DirectionRightIcon } from '@/assets/Icons/DirectionRightIcon';
 import { MapaIcon } from '@/assets/Icons/MapaIcon';
 import { StartIcon } from '@/assets/Icons/StartIcon';
 import sideBarStateStore from '@/store/sideBarStateStore';
+import { TmenuSidebar } from '@/types/menuSidebar';
 import Link from 'next/link';
 import { useState } from 'react';
 
