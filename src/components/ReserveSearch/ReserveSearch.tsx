@@ -1,6 +1,6 @@
 "use client"
 
-import {  useRef, useState } from "react"
+import { useRef, useState, useEffect } from "react"
 import { guests } from "../Home/test-api"
 import { formatDateShort } from "@/helpers/formatDateExperimental"
 import ReserveSearchStore from "@/store/ReserveSearchStore"
@@ -37,7 +37,7 @@ export function ReservationSearch() {
         setLoading(true);
 
         const guestsFiltered = guests.filter(
-            (guest) =>   guest.name.toLowerCase().includes(searchTerm.toLowerCase()),
+            (guest) => guest.name.toLowerCase().includes(searchTerm.toLowerCase()),
         )
         await delay()
 
