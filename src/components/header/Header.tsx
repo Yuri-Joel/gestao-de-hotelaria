@@ -12,11 +12,12 @@ export const Header = () => {
   const pathname = usePathname();
   const slug = "hotel-ao"
   const { changeSideBarState, state } = sideBarStateStore();
-  const {handleOpenReserveSearch, state: stateOpen} = ReserveSearchStore()
+  const { handleOpenReserveSearch, state: stateOpen } = ReserveSearchStore()
 
   const toggleSidebar = () => {
     changeSideBarState(!state);
   }
+
   return (
     <header className="fixed top-0 left-0 right-0 h-[65px] px-5 text-black flex justify-between items-center bg-white border-b">
       <div className="flex items-center space-x-4">
@@ -33,17 +34,17 @@ export const Header = () => {
         >
           Selecionar Propriedade
         </Link>
-          <Link
-            href="#"
-            onClick={()=> handleOpenReserveSearch(!stateOpen)}
-          >
-          <MagnifieIcon  width={50} height={30} stroke='black' />
+        {pathname && ["home", "reservas", "quartos"].includes(pathname.split('/').pop()!) && (
+          <Link href="#" onClick={() => handleOpenReserveSearch(!stateOpen)}>
+            <MagnifieIcon width={50} height={30} stroke="black" />
           </Link>
+        )}
+
         <Link
           href="#"
           className=" text-black"
         >
-         <UserCircleIcon width={50} height={30}/>
+          <UserCircleIcon width={50} height={30} />
         </Link>
       </nav>
     </header>

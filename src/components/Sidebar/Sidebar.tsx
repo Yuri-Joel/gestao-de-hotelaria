@@ -2,7 +2,8 @@
 import { ArrowDown } from '@/assets/Icons/ArrowDown';
 import { BedIcon } from '@/assets/Icons/BedIcon';
 import { DirectionRightIcon } from '@/assets/Icons/DirectionRightIcon';
-import { PresentationIcon } from '@/assets/Icons/PresentationIcon';
+import { MapaIcon } from '@/assets/Icons/MapaIcon';
+import { StartIcon } from '@/assets/Icons/StartIcon';
 import sideBarStateStore from '@/store/sideBarStateStore';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -15,10 +16,10 @@ export function Sidebar() {
 
     const menuItems: TmenuSidebar = [
         {
-            label: "Home",
+            label: "Inicio",
             path: "/home",
             iconClass: "h-6 w-6",
-            IconLeft: PresentationIcon,
+            IconLeft: StartIcon,
             IconRight: ArrowDown,
 
         },
@@ -30,17 +31,11 @@ export function Sidebar() {
             IconRight: ArrowDown,
             subMenu: [
                 {
-                    label: "Mapa de reservas",
-                    path: "/recepcao/mapa-de-reservas",
+                    label: "inicio",
+                    path: "inicio",
                     iconClass: "w-full p-2 pl-9 rounded-md",
-                    Icon: PresentationIcon
+                    Icon: StartIcon
 
-                },
-                {
-                    label: "Mapa de UHs",
-                    path: "/recepcao/mapa-de-uh",
-                    iconClass: "w-full p-2 pl-9 rounded-md",
-                    Icon: PresentationIcon
                 },
             ],
         },
@@ -53,9 +48,16 @@ export function Sidebar() {
             subMenu: [
                 {
                     label: "inicio",
-                    path: "/recepcao/mapa-de-reservas",
+                    path: "inicio",
                     iconClass: "w-full p-2 pl-9 rounded-md",
-                    Icon: PresentationIcon
+                    Icon: StartIcon
+
+                },
+                {
+                    label: "Mapa",
+                    path: "Mapa",
+                    iconClass: "w-full p-2 pl-9 rounded-md",
+                    Icon: MapaIcon
 
                 }
             ]

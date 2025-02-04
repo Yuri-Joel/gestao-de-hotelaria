@@ -8,9 +8,9 @@ import { delay } from "@/helpers/delay";
 export const ReserveList = () => {
   const { selectedStateReserve } = StateReserveStore(); // Estado selecionado no header
   const [loading, setLoading] = useState<boolean>(false);
-  const [guestsFiltered, setGuestsFiltered] = useState<typeof guests>([]); // Hóspedes filtrados
+  const [guestsFiltered, setGuestsFiltered] = useState<typeof guests>([]);
 
-  // Simula a requisição ao clicar ou mudar o estado selecionado
+  // Simula a requisição
   useEffect(() => {
     setLoading(true); 
     
