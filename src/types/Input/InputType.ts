@@ -1,4 +1,5 @@
-import { Component, ComponentProps, FC } from 'react'
+// import { Component, ComponentProps, FC } from 'react'
+import {  ComponentProps, FC } from 'react'
 import { Ticon } from '../icon/iconType'
 
 export type TinpuType = 'text' | 'email' | 'search' | 'password' | "date"
@@ -15,9 +16,9 @@ export interface IInput extends ComponentProps<'input'> {
   isNumber?: boolean
   isCEP?: boolean
   isTime?: boolean
-  arrayType?: any
-  array?: any
-  callback?: (arg: any) => any
+  arrayType?: unknown
+  array?: unknown
+  callback?: (arg: unknown) => unknown
   handleSelected?: () => void
   handleBlur?: () => void
   togglePasswordVisibility?: () => void

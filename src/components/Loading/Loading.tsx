@@ -1,6 +1,7 @@
 import React from "react";
 import { twMerge } from "tailwind-merge"
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface T extends React.ComponentProps<'div'> { }
 
 export const Loading: React.FC<T> = ({ ...props }) => {

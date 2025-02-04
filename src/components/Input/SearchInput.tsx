@@ -1,4 +1,3 @@
-
 import { MagnifieIcon } from "@/assets/Icons/MagnifierIcon";
 import { twMerge } from "tailwind-merge";
 
@@ -11,7 +10,8 @@ interface SearchInputProps {
     value?: string;
 }
 
-const SearchInput = ({ placeholder, onChange, isIconLeft = false, disabled = false, value, className }: SearchInputProps) => {
+// const SearchInput = ({ placeholder, onChange, isIconLeft = false, disabled = false, value, className }: SearchInputProps) => {
+    const SearchInput = ({ placeholder, onChange, disabled = false, value, className }: SearchInputProps) => {
     return (
         <div className={twMerge("relative bg-white w-full lg:w-[476px] h-14 flex", className)}>
             <div className={`absolute duration-75 z-10 top-4 right-2.5 size-6`}>
