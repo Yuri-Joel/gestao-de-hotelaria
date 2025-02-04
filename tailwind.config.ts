@@ -9,7 +9,7 @@ export default {
   theme: {
     extend: {
 		backgroundImage: {
-			"custom-gradient": "linear-gradient(86deg, #f5efe6 0%, #ddeaf2 50%, #e3f2e1 100%)"
+			"custom-gradient": "linear-gradient(35deg, #ffffff 0%, rgba(128, 128, 128, 0.37) 50%, #f5f5dc 100%)"
 		},
       colors: {
         transparent: "transparent",

@@ -22,18 +22,25 @@ const ConfirmLoginPage = () => {
 	const handleSignInActive = () => {
 		if (password.length > 0) return true;
 		return false;
-	}
+	};
 	const handleReturnActive = () => {
 		return true;
-	}
+	};
+	const handleReturnClick = () => {
+		reset();
+		router.push("/login");
+	};
 	useEffect(() => {
 		if (!email) router.push("/login");
 	}, [email, router]);
 
 	return (
-		<section className="flex flex-col gap-2">
-			<h1 className="font-bold text-xl">Hoteli Apps</h1>
-			<div className="flex gap-2 items-center my-2">
+		<section className="flex flex-col gap-1">
+			<div>
+				<h1 className="font-bold text-xl">Hoteli Apps</h1>
+				<p className="text-gray-300 text-xs">Entrar como:</p>
+			</div>
+			<div className="items-center">
 				<h1>{email}</h1>
 			</div>
 			<h2 className="font-medium text-xl">Insira a sua senha</h2>
@@ -50,7 +57,7 @@ const ConfirmLoginPage = () => {
 					}}
 				/>
 			</div>
-			<div className="mb-8">
+			<div className="mb-12">
 				<Link href="#" className="text-primary hover:underline text-sm">
 					Esqueceu a sua senha?
 				</Link>
@@ -70,10 +77,7 @@ const ConfirmLoginPage = () => {
 				<Button
 					width="108px"
 					height="100%"
-					handleClick={() => {
-						router.back();
-						reset();
-					}}
+					handleClick={handleReturnClick}
 					border="solid"
 					className="rounded-none"
 					handleActive={handleReturnActive}
