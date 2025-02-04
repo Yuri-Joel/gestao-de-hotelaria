@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { MagnifieIcon } from "@/assets/Icons/MagnifierIcon";
 import { twMerge } from "tailwind-merge";

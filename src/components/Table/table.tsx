@@ -6,7 +6,7 @@ interface TableProps extends ComponentProps<'table'> {}
 
 export function Table(props: TableProps) {
   return (
-    <div className="border w-full border-gray/10 overflow-y-scroll max-h-[60vh] rounded-lg flex-1">
+    <div className=" w-full mt-4">
       <table {...props} className={twMerge('w-full', props.className)} />
     </div>
   )

@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { formatCurrency } from '@/helpers/formatCurrency'
 import { IInput } from '@/types/Input/InputType'
-import React, { ChangeEvent, useEffect } from 'react'
+import React, { ChangeEvent } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 interface TInputCurrency extends IInput {

@@ -14,7 +14,7 @@ export function validateCPF(cpf: string): boolean {
     soma += parseInt(cpf.charAt(i)) * (10 - i)
   }
   let resto = 11 - (soma % 11)
-  let primeiroDigitoVerificador = resto === 10 || resto === 11 ? 0 : resto
+  const primeiroDigitoVerificador = resto === 10 || resto === 11 ? 0 : resto
 
   if (primeiroDigitoVerificador !== parseInt(cpf.charAt(9))) {
     return false
@@ -26,7 +26,7 @@ export function validateCPF(cpf: string): boolean {
     soma += parseInt(cpf.charAt(i)) * (11 - i)
   }
   resto = 11 - (soma % 11)
-  let segundoDigitoVerificador = resto === 10 || resto === 11 ? 0 : resto
+  const segundoDigitoVerificador = resto === 10 || resto === 11 ? 0 : resto
 
   if (segundoDigitoVerificador !== parseInt(cpf.charAt(10))) {
     return false

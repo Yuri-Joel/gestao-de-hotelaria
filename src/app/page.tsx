@@ -8,7 +8,7 @@ import { delay } from "@/helpers/delay"
 
 export default function Page() {
   const router = useRouter()
-  const [property] = useState("hotel-ao")
+  const [property] = useState("hotel-ao");
 
   useEffect(() => {
     const checkAuthAndRedirect = async () => {

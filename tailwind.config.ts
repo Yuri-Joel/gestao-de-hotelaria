@@ -8,6 +8,9 @@ export default {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        "custom-gradient": "linear-gradient(35deg, #ffffff 0%, rgba(128, 128, 128, 0.37) 50%, #f5f5dc 100%)"
+      },
       animation: {
         shimmer: "shimmer 2s linear infinite",
       },

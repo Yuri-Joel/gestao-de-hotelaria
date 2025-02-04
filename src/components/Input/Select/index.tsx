@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import IconArrow from '@/assets/Icons/IconArrow';
 import React, { useState } from 'react';
 import Dropdown from './Dropdown';
