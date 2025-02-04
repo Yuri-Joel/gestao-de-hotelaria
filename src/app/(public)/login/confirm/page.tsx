@@ -13,7 +13,7 @@ import { useLoginFormStore } from "@/store/loginFormStore";
 const ConfirmLoginPage = () => {
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(false);
-	const { password, email, reset } = useLoginFormStore();
+	const { password, email } = useLoginFormStore();
 	const handleSignInClick = () => {
 		setIsLoading(true);
 		Cookies.set("pms_token", JSON.stringify({ email, password }));
@@ -24,10 +24,10 @@ const ConfirmLoginPage = () => {
 		return false;
 	};
 	const handleReturnActive = () => {
+		if (isLoading) return false;
 		return true;
 	};
 	const handleReturnClick = () => {
-		reset();
 		router.push("/login");
 	};
 	useEffect(() => {
@@ -35,12 +35,12 @@ const ConfirmLoginPage = () => {
 	}, [email, router]);
 
 	return (
-		<section className="flex flex-col gap-1">
+		<section className="flex flex-col">
 			<div>
 				<h1 className="font-bold text-xl">Hoteli Apps</h1>
-				<p className="text-gray-300 text-xs">Entrar como:</p>
+				<p className="text-gray-300 text-sm">Entrar como:</p>
 			</div>
-			<div className="items-center">
+			<div className="items-center mb-2">
 				<h1>{email}</h1>
 			</div>
 			<h2 className="font-medium text-xl">Insira a sua senha</h2>
@@ -57,7 +57,7 @@ const ConfirmLoginPage = () => {
 					}}
 				/>
 			</div>
-			<div className="mb-12">
+			<div className="mb-14">
 				<Link href="#" className="text-primary hover:underline text-sm">
 					Esqueceu a sua senha?
 				</Link>

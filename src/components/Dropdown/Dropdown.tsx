@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentProps, FC, useEffect, useRef, useState } from 'react';
 import useOutsideClick from '@/helpers/useOutsideClick';
 import IconArrow from '@/assets/Icons/IconArrow';
@@ -55,7 +56,6 @@ const Dropdown = ({
     onSelect,
     Icon,
     IconVisible,
-    customClassesButton,
     IsLeft,
     IsDisabled
 }: DropdownProps) => {
@@ -67,14 +67,18 @@ const Dropdown = ({
 
     const handleChange = (item: DropdownItem) => {
         setSelectedItem(item);
-        onSelect && onSelect(item.id);
+        if (onSelect) {
+            onSelect(item.id);
+        }
         setIsOpen(false);
     };
 
     useEffect(() => {
         if (selectedId && data) {
             const newSelectedItem = data.find((item) => item.id === selectedId);
-            newSelectedItem && setSelectedItem(newSelectedItem);
+            if (newSelectedItem) {
+                setSelectedItem(newSelectedItem);
+            }
         } else {
             setSelectedItem(undefined);
         }

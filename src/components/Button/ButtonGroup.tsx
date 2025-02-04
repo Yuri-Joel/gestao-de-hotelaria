@@ -34,7 +34,7 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({
         `;
 
         // Clone each child and add the className
-        return React.cloneElement(child as React.ReactElement, { className });
+        return React.cloneElement(child as React.ReactElement<React.HTMLAttributes<HTMLButtonElement>>, { className });
     });
 
     return (
