@@ -2,18 +2,23 @@
 import { ArrowDown } from '@/assets/Icons/ArrowDown';
 import { BedIcon } from '@/assets/Icons/BedIcon';
 import { DirectionRightIcon } from '@/assets/Icons/DirectionRightIcon';
+import { PresentationIcon } from '@/assets/Icons/PresentationIcon';
+import sideBarStateStore from '@/store/sideBarStateStore';
 import Link from 'next/link';
 import { useState } from 'react';
 
 export function Sidebar() {
-    const [isOpen, setIsOpen] = useState(true);
+
+    const { state } = sideBarStateStore();
+    const slug = "hotel-ao"
+
 
     const menuItems: TmenuSidebar = [
         {
             label: "Home",
             path: "/home",
             iconClass: "h-6 w-6",
-            IconLeft: DirectionRightIcon,
+            IconLeft: PresentationIcon,
             IconRight: ArrowDown,
 
         },
@@ -23,17 +28,19 @@ export function Sidebar() {
             iconClass: "h-6 w-6",
             IconLeft: BedIcon,
             IconRight: ArrowDown,
-            styleItemSubMenu: 'rotate-[-90deg]',
             subMenu: [
                 {
                     label: "Mapa de reservas",
                     path: "/recepcao/mapa-de-reservas",
                     iconClass: "w-full p-2 pl-9 rounded-md",
+                    Icon: PresentationIcon
+
                 },
                 {
                     label: "Mapa de UHs",
                     path: "/recepcao/mapa-de-uh",
                     iconClass: "w-full p-2 pl-9 rounded-md",
+                    Icon: PresentationIcon
                 },
             ],
         },
@@ -43,26 +50,38 @@ export function Sidebar() {
             iconClass: "h-6 w-6",
             IconLeft: DirectionRightIcon,
             IconRight: ArrowDown,
+            subMenu: [
+                {
+                    label: "inicio",
+                    path: "/recepcao/mapa-de-reservas",
+                    iconClass: "w-full p-2 pl-9 rounded-md",
+                    Icon: PresentationIcon
 
+                }
+            ]
         },
     ]
 
-    const [openSubMenus, setOpenSubMenus] = useState<{ [key: string]: boolean }>({})
+    const [openSubMenus, setOpenSubMenus] = useState<{ [key: string]: boolean }>({});
 
     const toggleSubMenu = (label: string) => {
-        setOpenSubMenus((prev) => ({ ...prev, [label]: !prev[label] }))
-    }
+        setOpenSubMenus((prev) => ({
+            ...prev,
+            [label]: !prev[label],
+        }));
+    };
+
     return (
         <aside
-            className={`bg-white-700 text-gray-900 font-medium transition-all duration-300 ease-in-out ${isOpen ? "w-64" : "w-16"} flex flex-col`}
+            className={`bg-white-700 text-gray-900 border-black-100 font-medium transition-all shadow-xl duration-300 ease-in-out ${state ? "w-64" : "w-16"} flex flex-col`}
         >
-            <nav className="flex-1 overflow-y-auto">
+            <nav className="flex-1 overflow-hidden">
                 <div className="mt-1">
                     {menuItems.map((item) => (
                         <div key={item.label}>
-                            <a
-                                href={item.path}
-                                className="flex items-center px-4 py-2 hover:bg-[#D5CEE5]"
+                            <Link
+                                href={`/${slug}${item.path}`}
+                                className="flex items-center px-4 py-4  hover:bg-[#D5CEE5]"
                                 onClick={(e) => {
                                     if (item.subMenu) {
                                         e.preventDefault()
@@ -74,26 +93,39 @@ export function Sidebar() {
                                     className={item.iconClass}>
                                     {item.IconLeft && <item.IconLeft />}
                                 </div>
-                                <span className={`ml-2 ${isOpen ? "" : "hidden"}`}>{item.label}</span>
-                                {item.IconRight && isOpen && item.subMenu && (
-                                    <div className={item.styleItemSubMenu}>
-                                        {item.IconRight && <item.IconRight />}
-                                    </div>
-                                )}
-                            </a>
-                            {item.subMenu && isOpen && openSubMenus[item.label] && (
+                                <div className="flex items-center justify-between w-full">
+                                    <span className={`ml-2 ${state ? "" : "hidden"}`}>{item.label}</span>
+                                    {item.IconRight && state && item.subMenu && (
+                                        <div
+                                            className={`transform transition-transform duration-300 ${openSubMenus[item.label] ? 'rotate-270' : '-rotate-90'
+                                                }`}
+                                        >
+                                            <item.IconRight />
+                                        </div>
+                                    )}
+                                </div>
+                            </Link>
+                            {item.subMenu && openSubMenus[item.label] && (
                                 <div className="bg-white-800">
                                     {item.subMenu.map((subItem) => (
-                                        <a
+                                        <Link
                                             key={subItem.label}
-                                            href={subItem.path}
-                                            className={`block ${subItem.iconClass} hover:bg-[#D5CEE5]`}
+                                            href={"#"}
+                                            className="flex items-center  px-4 py-2 hover:bg-[#D5CEE5]"
                                         >
-                                            {subItem.label}
-                                        </a>
+                                            {/* Exibe o ícone do submenu sempre, se ele estiver definido */}
+                                            {subItem.Icon && (
+                                                <div className="mr-2">
+                                                    <subItem.Icon />
+                                                </div>
+                                            )}
+                                            {/* Exibe o texto somente se o sidebar estiver aberto */}
+                                            {state && <span>{subItem.label}</span>}
+                                        </Link>
                                     ))}
                                 </div>
                             )}
+
                         </div>
                     ))}
                 </div>

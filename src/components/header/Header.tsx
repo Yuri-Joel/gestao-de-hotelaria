@@ -1,39 +1,49 @@
+"use client"
 import Link from 'next/link';
 import React from 'react';
 import { usePathname } from 'next/navigation';
+import { NavIcon } from '@/assets/Icons/Header/navIcon';
+import sideBarStateStore from '@/store/sideBarStateStore';
+import { UserCircleIcon } from '@/assets/Icons/UserIcon';
+import { MagnifieIcon } from '@/assets/Icons/MagnifierIcon';
+import ReserveSearchStore from '@/store/ReserveSearchStore';
 
 export const Header = () => {
-  const pathname = usePathname(); 
-  const slug = "algo"
+  const pathname = usePathname();
+  const slug = "hotel-ao"
+  const { changeSideBarState, state } = sideBarStateStore();
+  const {handleOpenReserveSearch, state: stateOpen} = ReserveSearchStore()
 
+  const toggleSidebar = () => {
+    changeSideBarState(!state);
+  }
   return (
-    <header className="h-[60px] px-10 flex justify-between items-center bg-gradient-to-r from-[#6100C2] to-[#5954FB]">
-      <Link href="/">
-        <h1 className='text-white font-bold'>Hoteli Apps - PMS</h1>
-      </Link>
-
+    <header className="fixed top-0 left-0 right-0 h-[65px] px-5 text-black flex justify-between items-center bg-white border-b">
+      <div className="flex items-center space-x-4">
+        <button onClick={toggleSidebar} className="text-gray-500 focus:outline-none">
+          <NavIcon stroke='black' />
+        </button>
+        <Link href="/">
+          <h1 className="">Hoteli Apps - PMS</h1>
+        </Link>
+      </div>
       <nav className='flex gap-5'>
         <Link
-          href="/propriedade"
-          className="text-lg text-white font-semibold"
+          href="#"
         >
           Selecionar Propriedade
         </Link>
-
-        {pathname === `/${slug}/reservas` && (
           <Link
             href="#"
-            className="text-lg text-white font-semibold"
+            onClick={()=> handleOpenReserveSearch(!stateOpen)}
           >
-            Reservas
+          <MagnifieIcon  width={50} height={30} stroke='black' />
           </Link>
-        )}
-
         <Link
-          href="/perfil"
-          className="text-lg text-white font-semibold"
+          href="#"
+          className=" text-black"
         >
-          Perfil
+         <UserCircleIcon width={50} height={30}/>
         </Link>
       </nav>
     </header>

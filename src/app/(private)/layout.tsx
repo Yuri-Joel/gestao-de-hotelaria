@@ -1,4 +1,4 @@
-import { Header } from "@/components/header/Header";
+import { Header } from "@/components/Header/Header";
 import { Sidebar } from "@/components/Sidebar/Sidebar";
 
 const PrivateLayout = ({
@@ -10,10 +10,10 @@ const PrivateLayout = ({
     <div className="flex flex-col h-screen">
        <Header />  
      
-       <div className="flex flex-1 overflow-hidden">
+       <div className="pt-[60px] flex flex-1 overflow-hidden">
         <Sidebar />
-        <main className="flex-1 overflow-auto p-4 bg-gray-100">
-          <div className="rounded-lg border bg-white p-4 shadow">{children}</div>
+        <main className="flex-1 overflow-auto bg-white-100">
+          <div className="">{children}</div>
         </main>
       </div>
      
