@@ -9,6 +9,7 @@ import React from "react";
 import { useState } from "react";
 
 const Page: React.FC = () => {
+
   const router = useRouter();
   const categoryItems = ["Hotel", "Pousada", "Hostel", "Outro"];
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -83,7 +84,6 @@ const Page: React.FC = () => {
           <h1 className="font-bold text-xl w-full text-center">
             Dados da Propriedade
           </h1>
-          
 
           <span className="mt-6 w-full outline-none  text-black">
             Nome: {name}
