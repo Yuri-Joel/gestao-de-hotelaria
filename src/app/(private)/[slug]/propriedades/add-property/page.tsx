@@ -127,7 +127,7 @@ const Page: React.FC = () => {
               ? "Sua propriedade foi cadastrada com sucesso"
               : "Falha ao cadastrar uma nova propriedade"
           }
-          confirmTitleBtn={name ? "Ok" : "Voltar"}
+          confirmTitleBtn={name ? "Ir para propriedades" : "Voltar"}
           cancelTitleBtn="Voltar"
           isOpenedModalManagement={isModalOpen}
           handleConfirm={handleConfirm}

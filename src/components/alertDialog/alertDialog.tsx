@@ -31,14 +31,14 @@ const AlertDialog: React.FC<IAlertDialog> = ({
         isOpenedModalManagement ? "h-full" : "h-0 overflow-hidden"
       } flex items-center justify-center`}
     >
-      <div className="w-[450px] bg-white h-auto rounded-2xl flex flex-col p-7 gap-5">
+      <div className="w-[450px] bg-white h-auto flex flex-col p-7 gap-5">
         <div className="flex flex-col items-center relative">
           <div
             className="cursor-pointer absolute right-0"
             onClick={handleCancel}
           >
             <XIcon
-              fill={typeAlert == "Confirmar" ? "#5954FB" : "rgb(200 30 30)"}
+              fill="#000"
             />
           </div>
           {typeAlert === "Confirmar" ? (
@@ -51,7 +51,7 @@ const AlertDialog: React.FC<IAlertDialog> = ({
             </div>
           )}
           <h2 className="text-lg font-semibold text-black">
-            {typeAlert === "Confirmar" ? "Sucesso" : "Falha"}
+            {typeAlert === "Confirmar" ? "Sucesso" : "Erro"}
           </h2>
           {description && (
             <p className="text-md text-gray-600 ">{description}</p>
