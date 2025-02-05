@@ -1,8 +1,10 @@
 import type React from "react";
-import { Check, X } from "lucide-react";
+import { Check} from "lucide-react";
 import { Button } from "@/components/Button/Button";
 import { XIcon } from "@/assets/Icons/XIcon";
 import { usePropertyStore } from "@/store/propetyAcordionStorage";
+import { X } from "@/assets/Icons/X"
+import { Right } from "@/assets/Icons/Right"
 interface IAlertDialog {
   title: string;
   description: string;
@@ -48,7 +50,7 @@ const handleAddPropety = ()=>{
           </div>
           {typeAlert === "Confirmar" ? (
             <div className="rounded-full bg-green-100 p-4 mb-4">
-              <Check className="h-10 w-10 text-green-600" />
+              <Right className="h-10 w-10 text-green-600" />
             </div>
           ) : (
             <div className="rounded-full bg-red-100 p-4 mb-4">
