@@ -38,7 +38,7 @@ export const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 h-[65px] px-5 text-black flex justify-between items-center bg-white border-b">
       <div className="flex items-center space-x-4">
-        {pathname && ["home", "reservas", "quartos"].includes(formatPathName(pathname)) && (
+        {pathname && !["propriedades", "add-property"].includes(formatPathName(pathname)) && (
           <button onClick={toggleSidebar} className="text-gray-500 focus:outline-none">
             <NavIcon stroke='black' />
           </button>
@@ -53,7 +53,7 @@ export const Header = () => {
           Selecionar Propriedade
         </Link>
         {pathname &&
-          ["home", "reservas", "quartos"].includes(formatPathName(pathname)) && (
+          !["propriedades", "add-property"].includes(formatPathName(pathname)) && (
             <button onClick={() => toggleMenuReserve()} className='outline-none'>
               <MagnifieIcon width={50} height={30} stroke="black" />
             </button>

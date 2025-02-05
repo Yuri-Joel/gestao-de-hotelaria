@@ -21,7 +21,7 @@ const PrivateLayout = ({
     window.location.href = '/login'
   }
   const pathname = usePathname();
-  
+
   return (
     <div className="flex flex-col h-screen">
       <Header />
@@ -30,7 +30,7 @@ const PrivateLayout = ({
         <MenuProfile />
         <ReservationSearch />
         <div className="pt-[60px] flex flex-1 overflow-hidden">
-          {formatPathName(pathname) !== "propriedades" && <Sidebar />}
+          {!["propriedades", "add-property"].includes(formatPathName(pathname)) && <Sidebar />}
 
           <main className="flex-1 overflow-auto bg-white-100">
             <div className="">{children}</div>
