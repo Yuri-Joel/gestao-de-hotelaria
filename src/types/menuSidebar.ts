@@ -7,8 +7,6 @@ export type TmenuSidebar = {
     subMenu?: {
       label: string
       path: string
-      iconClass: string
-      Icon?: React.ElementType
     }[]
   }[]
   

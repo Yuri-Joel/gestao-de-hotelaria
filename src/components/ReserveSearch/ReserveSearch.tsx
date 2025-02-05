@@ -7,25 +7,36 @@ import ReserveSearchStore from "@/store/ReserveSearchStore"
 import { delay } from "@/helpers/delay"
 import { MagnifieIcon } from "@/assets/Icons/MagnifierIcon"
 import { useRouter } from "next/navigation"
+import { Skeleton } from "../Skeleton/Skeleton"
 
 export function ReservationSearch() {
     const [searchTerm, setSearchTerm] = useState("")
     const [reservations, setReservations] = useState<typeof guests>([])
     const [loading, setLoading] = useState(false)
-    const dropdownRef = useRef<HTMLDivElement>(null)
+    const dropdownRefReserveSearch = useRef<HTMLDivElement>(null)
     const { handleOpenReserveSearch, state } = ReserveSearchStore()
     const router = useRouter();
 
     useEffect(() => {
+        if (!state) return;
+
         function handleClickOutside(event: MouseEvent) {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                handleOpenReserveSearch(false)
+            if (
+                dropdownRefReserveSearch.current &&
+                !dropdownRefReserveSearch.current.contains(event.target as Node)
+            ) {
+                handleOpenReserveSearch(false);
             }
         }
 
-        document.addEventListener("mousedown", handleClickOutside)
-        return () => document.removeEventListener("mousedown", handleClickOutside)
-    }, [])
+        document.addEventListener("mousedown", handleClickOutside);
+
+        // Remove o evento quando o dropdown é fechado
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [state]);
+
 
 
     const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,6 +56,15 @@ export function ReservationSearch() {
         setLoading(false)
     }
 
+    const handleClickEnter = async (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (searchTerm.length === 0) {
+            return;
+        }
+        if (event.key === "Enter") {
+            await handleSubmit();
+        }
+    }
+
     const handleExecute = () => {
         setSearchTerm("");
         setReservations([])
@@ -52,55 +72,82 @@ export function ReservationSearch() {
         router.push(`/hotel-ao/reservas`);
     }
     return (
-        <div className="fixed top-16 right-2 w-[350px] shadow-md  border-gray-300 bg-white rounded-lg z-50"
-            ref={dropdownRef}>
-
-            {/* Dropdown  */}
+        <div
+            className={`fixed top-16 right-2 w-[400px] shadow-md border border-gray-200 bg-white rounded-lg z-50
+          transition-transform duration-200 ${state ? "scale-100 opacity-100" : "scale-95 opacity-0 pointer-events-none"
+                }`}
+            ref={dropdownRefReserveSearch}
+        >
             {state && (
-                <div className="absolute w-full mt-1 bg-white rounded-lg shadow-lg z-10">
-                    <div className="flex items-center space-x-2 rounded-lg border border-gray-300 bg-white p-1 shadow-sm">
-                        {/* Input para buscar reservas */}
-                        <input
-                            value={searchTerm}
-                            onChange={handleChange}
-                            placeholder="Buscar reservas"
-                            className="flex-1 p-2 text-sm border-none focus:outline-none focus:ring-0"
-                        />
+                <div className="p-4">
+                    {/* Título */}
+                    <p className="text-sm text-gray-500 mb-4">
+                        Busque reservas pelo ID da reserva ou nome do hóspede
+                    </p>
+
+                    {/* Input e Botão */}
+                    <div className="flex items-center border border-gray-300 focus-within:border-primary bg-gray-50 p-2 shadow-sm transition-colors">
                         <button
                             onClick={handleSubmit}
-                            disabled={searchTerm.length > 0 ? false : true}
-                            className="flex items-center justify-center p-2 bg-primary text-white rounded-md hover:bg-primary-600 focus:ring-2 focus:ring-primary-300 disabled:bg-gray-400"
+                            disabled={!searchTerm.length}
+                            className="flex items-center justify-center p-2 outline-none focus:ring-0 transition-colors"
                         >
-                            <MagnifieIcon stroke="white" height={20} width={20} />
+                            <MagnifieIcon
+                                stroke={searchTerm.length ? "#5954FB" : "#9ca3af"}
+                                height={20}
+                                width={20}
+                            />
                         </button>
+                        <input
+                            value={searchTerm}
+                            onKeyDown={handleClickEnter}
+                            onChange={handleChange}
+                            placeholder="Buscar reservas"
+                            className="flex-1 px-4 py-2 text-sm bg-transparent placeholder-gray-500 text-gray-700 border-none focus:outline-none focus:ring-0 "
+                        />
                     </div>
-                    {loading ? (
-                        <div className="px-4 py-3 text-sm text-gray-500">Buscando reservas...</div>
-                    ) : reservations.length === 0 ? (
-                        <div className="px-4 py-3 text-sm text-gray-500">Nenhuma reserva encontrada.</div>
-                    ) : (
-                        <div className="max-h-60 overflow-y-auto">
-                            {reservations.map((reservation) => (
-                                <div
-                                    key={reservation.id}
-                                    className="px-4 py-4 hover:bg-[#D5CEE5] cursor-pointer border-b text-black"
-                                    onClick={() => handleExecute()}
-                                >
-                                    <div className="flex justify-between mb-3">
-                                        <div className="text-sm font-medium">{reservation.name}</div>
-                                        <div className="text-sm font-medium">(ID: {reservation.id})</div>
-
+                    {/* Loading  e Resultados */}
+                    <div className="mt-4">
+                        {loading ? (
+                            <div className="p-2  space-y-2">
+                                {[...Array(2)].map((_, i) => (
+                                    <div key={i} className="p-4 bg-white">
+                                        <Skeleton className="h-6 w-3/4 mb-4" />
+                                        <Skeleton className="h-4 w-1/2" />
                                     </div>
-                                    <div className="text-xs">
-                                        CheckIn: {formatDateShort(reservation.checkin)} - CheckOut: {formatDateShort(reservation.checkout)}
+                                ))}
+                            </div>
+                        ) : reservations.length === 0 ? (
+                            <div className="text-sm text-gray-500">
+                                Nenhuma reserva encontrada.
+                            </div>
+                        ) : (
+                            <div className="max-h-60 overflow-y-auto border-t mt-2 pt-2">
+                                {reservations.map((reservation) => (
+                                    <div
+                                        key={reservation.id}
+                                        className="px-4 py-3 hover:bg-gray-100 cursor-pointer border-b text-gray-700"
+                                        onClick={() => handleExecute()}
+                                    >
+                                        <div className="flex justify-between mb-2">
+                                            <div className="text-sm font-medium">{reservation.name}</div>
+                                            <div className="text-sm font-medium text-gray-500">
+                                                (ID: {reservation.id})
+                                            </div>
+                                        </div>
+                                        <div className="text-xs text-gray-500">
+                                            CheckIn: {formatDateShort(reservation.checkin)} - CheckOut:{" "}
+                                            {formatDateShort(reservation.checkout)}
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
-                        </div>
-                    )}
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 </div>
             )}
         </div>
+
     )
 }
 
