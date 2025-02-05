@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 import Link from "next/link"
+import { usePropertyStore } from "@/store/propetyAcordionStorage"
 import { TableCell } from "../Table/table-cell"
 import { TableHeader } from "../Table/table-header"
 import { TableRow } from "../Table/table-row"
@@ -19,7 +20,7 @@ interface PropertiesProps {
 }
 
 export function PropertiesList({data}: PropertiesProps) {
-  
+  const { resetStore } = usePropertyStore();
   const [page, setPage] = useState(()=> {
     const url = new URL(window.location.toString())
 
@@ -167,8 +168,8 @@ export function PropertiesList({data}: PropertiesProps) {
           </tr>
         </tfoot>
       </Table>
-      <div className="mt-7">
-        <Link href="propriedades/new-property" className="text-primary-700 font-bold text-md">Adicionar propriedade</Link>
+      <div onClick={resetStore} className="mt-7">
+        <Link href="propriedades/add-property" className="text-primary-700 font-bold text-md">Adicionar propriedade</Link>
       </div>
     </div>
   ) 
