@@ -1,4 +1,4 @@
-import { DetailsList } from "@/components/reservas/DetailsList";
+import { DetailsList } from "@/components/reservas/details/DetailsList";
 
 const page: React.FC = () => {
   return (
