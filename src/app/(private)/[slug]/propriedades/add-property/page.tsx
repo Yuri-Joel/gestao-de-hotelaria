@@ -83,7 +83,7 @@ const Page: React.FC = () => {
           <h1 className="font-bold text-xl w-full text-center">
             Dados da Propriedade
           </h1>
-          
+
 
           <span className="mt-6 w-full outline-none  text-black">
             Nome: {name}
@@ -131,7 +131,7 @@ const Page: React.FC = () => {
           handleConfirm={handleConfirm}
           handleCancel={handleCancel}
           typeAlert={name ? "Confirmar" : "Voltar"}
-          mapUhTypeBg={name ? "bg-gray-200/50" : "bg-gray-200/50"}
+          hideCloseButton
         />
       )}
     </div>

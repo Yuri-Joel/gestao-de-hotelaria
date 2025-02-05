@@ -15,6 +15,7 @@ interface IAlertDialog {
   handleConfirm: () => void;
   handleCancel: () => void;
   typeAlert: "Confirmar" | "Voltar";
+  hideCloseButton?: boolean
 }
 
 const AlertDialog: React.FC<IAlertDialog> = ({
@@ -24,6 +25,7 @@ const AlertDialog: React.FC<IAlertDialog> = ({
   handleConfirm,
   handleCancel,
   typeAlert = "Voltar",
+  hideCloseButton = false
 }) => {
   const { nextStep, resetStore, firstStore } = usePropertyStore();
   const handleAddPropety = () => {
@@ -37,14 +39,17 @@ const AlertDialog: React.FC<IAlertDialog> = ({
     >
       <div className="w-[450px] bg-white h-auto flex flex-col p-7 gap-5">
         <div className="flex flex-col items-center relative">
-          <div
-            className="cursor-pointer absolute right-0"
-            onClick={handleCancel}
-          >
-            <XIcon
-              fill="#000"
-            />
-          </div>
+          {!hideCloseButton && (
+            <div
+              className="cursor-pointer absolute right-0"
+              onClick={handleCancel}
+            >
+              <XIcon
+                fill="#000"
+              />
+            </div>
+          )}
+
           {typeAlert === "Confirmar" ? (
             <div className="rounded-full bg-green-100 p-4 mb-4">
               <Right className="h-10 w-10 text-green-600" />

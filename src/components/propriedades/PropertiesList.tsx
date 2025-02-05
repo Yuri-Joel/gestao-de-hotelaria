@@ -16,19 +16,19 @@ interface PropertiesProps {
   data: Properties[]
 }
 
-export function PropertiesList({data}: PropertiesProps) {
-  
-  const { 
-    searchData, 
-    searchInput, 
-    setSearchData, 
+export function PropertiesList({ data }: PropertiesProps) {
+
+  const {
+    searchData,
+    searchInput,
+    setSearchData,
     setSearchInput,
     setPage,
     setPropertyPerPage,
     propertyPerPage,
     page
   } = propertyStore()
-  
+
   const searchParams = useSearchParams()
   const router = useRouter();
 
@@ -54,7 +54,7 @@ export function PropertiesList({data}: PropertiesProps) {
 
   function goToPreviousPage() {
     goToPage(page - 1)
-    if(propertyPerPage !== 10){
+    if (propertyPerPage !== 10) {
       setPropertyPerPage(propertyPerPage - 10)
     }
   }
@@ -64,7 +64,7 @@ export function PropertiesList({data}: PropertiesProps) {
     const lastPageItems = searchData.length % 10 || 10;
     setPropertyPerPage(searchData.length - lastPageItems + 10);
   }
-  
+
   //Para manter a pagina caso abrir em outro browser 
   useEffect(() => {
     const pageFromUrl = searchParams.get("page");
@@ -75,8 +75,8 @@ export function PropertiesList({data}: PropertiesProps) {
   useEffect(() => {
     setSearchData(data)
   }, [])
-  
-  return(
+
+  return (
     <div className="mt-5">
       <Search
         data={data}
@@ -95,11 +95,11 @@ export function PropertiesList({data}: PropertiesProps) {
         </thead>
         <tbody>
           {
-            searchData.length > 0 ? 
+            searchData.length > 0 ?
               searchData.slice(propertyPerPage === 10 ? 0 : propertyPerPage - 10, propertyPerPage).map((property, index) => (
                 <TableRow className={index % 2 === 0 ? "bg-gray-90" : "bg-white"} key={property.id}>
                   <TableCell className="flex flex-col gap-2">
-                    <Link href="/hotel-ao/home"  className="text-primary-700 font-medium">{property.name}</Link>
+                    <Link href="/hotel-ao/home" className="text-primary-700 font-medium">{property.name}</Link>
                     <span className="space-x-2">
                       ID: {property.id}
                     </span>
@@ -112,12 +112,12 @@ export function PropertiesList({data}: PropertiesProps) {
                 </TableRow>
               )) :
               data.slice(propertyPerPage === 10 ? 0 : propertyPerPage - 10, propertyPerPage).map((property, index) => (
-                <TableRow 
-                  className={index % 2 === 0 ? "bg-gray-90" : "bg-white"} 
+                <TableRow
+                  className={index % 2 === 0 ? "bg-gray-90" : "bg-white"}
                   key={property.id}
                 >
                   <TableCell className="flex flex-col gap-2">
-                    <Link href="/hotel-ao/home"  className="text-primary-700 font-medium">{property.name}</Link>
+                    <Link href="/hotel-ao/home" className="text-primary-700 font-medium">{property.name}</Link>
                     <span className="space-x-2">
                       ID: {property.id}
                     </span>
@@ -137,34 +137,34 @@ export function PropertiesList({data}: PropertiesProps) {
               <div className="flex items-center justify-end gap-8">
                 <span>Pagina {page} de {totalPages}</span>
                 <div className="flex gap-1.5">
-                <IconButton 
-                  disabled= {page === 1}
-                  transparent= {page != 1 ? false : true}
-                  onClick= {goToFirstPage}
-                >
-                  <BiChevronsLeft className="size-4"/>
-                </IconButton>
-                <IconButton 
-                  onClick= {goToPreviousPage}
-                  disabled = {page === 1}
-                  transparent={ page === 1 ? true : false}
-                >
-                  <BiChevronLeft className="size-4"/>
-                </IconButton>
-                <IconButton 
-                  onClick= {goToNextPage}
-                  disabled = {page === totalPages || totalPages === 0}
-                  transparent={page === totalPages || totalPages === 0 ? true : false}
-                >
-                  <BiChevronRight className="size-4"/>
-                </IconButton>
-                <IconButton 
-                  onClick= {goToLastPage}
-                  disabled= {page === totalPages || totalPages === 0}
-                  transparent= {page === totalPages || totalPages === 0 ? true : false}
-                >
-                  <BiChevronsRight className="size-4"/>
-                </IconButton>
+                  <IconButton
+                    disabled={page === 1}
+                    transparent={page != 1 ? false : true}
+                    onClick={goToFirstPage}
+                  >
+                    <BiChevronsLeft className="size-4" />
+                  </IconButton>
+                  <IconButton
+                    onClick={goToPreviousPage}
+                    disabled={page === 1}
+                    transparent={page === 1 ? true : false}
+                  >
+                    <BiChevronLeft className="size-4" />
+                  </IconButton>
+                  <IconButton
+                    onClick={goToNextPage}
+                    disabled={page === totalPages || totalPages === 0}
+                    transparent={page === totalPages || totalPages === 0 ? true : false}
+                  >
+                    <BiChevronRight className="size-4" />
+                  </IconButton>
+                  <IconButton
+                    onClick={goToLastPage}
+                    disabled={page === totalPages || totalPages === 0}
+                    transparent={page === totalPages || totalPages === 0 ? true : false}
+                  >
+                    <BiChevronsRight className="size-4" />
+                  </IconButton>
                 </div>
               </div>
             </TableCell>
@@ -172,9 +172,9 @@ export function PropertiesList({data}: PropertiesProps) {
         </tfoot>
       </Table>
       <div className="mt-7">
-        <Link href="propriedades/new-property" className="text-primary-700 font-bold text-md">Adicionar propriedade</Link>
+        <Link href="propriedades/add-property" className="text-primary-700 font-bold text-md">Adicionar propriedade</Link>
       </div>
     </div>
-  ) 
+  )
 
 }

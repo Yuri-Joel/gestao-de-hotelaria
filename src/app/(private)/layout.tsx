@@ -37,6 +37,7 @@ const PrivateLayout = ({
           </main>
         </div>
       </div>
+
       <AlertDialog
         typeAlert="Voltar"
         title="Tem certeza que deseja terminar a sua sessão?"
