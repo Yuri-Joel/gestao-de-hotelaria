@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 import Link from "next/link"
 import { TableCell } from "../Table/table-cell"
@@ -13,6 +12,7 @@ import { Search } from "./Search"
 import { Input } from "../Input/Input"
 import { propertyStore } from "@/store/propertyStore"
 import { Properties } from "@/interfaces/Properties"
+import { useSearchParams, useRouter } from "next/navigation"
 
 interface PropertiesProps {
   data: Properties[]
@@ -20,54 +20,52 @@ interface PropertiesProps {
 
 export function PropertiesList({data}: PropertiesProps) {
   
-  const [page, setPage] = useState(()=> {
-    const url = new URL(window.location.toString())
-
-    if ( url.searchParams.has("page")) {
-      return Number(url.searchParams.get('page'))
-    }
-
-    return 1
-  })
   const { 
     searchData, 
     searchInput, 
     setSearchData, 
-    setSearchInput
+    setSearchInput,
+    setPage,
+    setPropertyPerPage,
+    propertyPerPage,
+    page
   } = propertyStore()
-  const [manyproperties, setManyProperties] = useState(10)
+  
+  const searchParams = useSearchParams()
+  const router = useRouter();
+
   const totalPages = Math.ceil(searchData.length / 10)
 
+  function goToPage(page: number) {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", String(page));
+    router.push(`?${params.toString()}`);
+    setPage(page)
+  }
+
   function goToFirstPage() {
-    setCurrentPage(1)
-    setManyProperties(10)
+    goToPage(1)
+    setPropertyPerPage(10)
   }
 
   function goToNextPage() {
-    setCurrentPage(page + 1)
-    setManyProperties((prev) => prev + 10)
+    goToPage(page + 1)
+    setPropertyPerPage(propertyPerPage + 10)
   }
 
   function goToPreviousPage() {
-    setCurrentPage(page - 1)
-    if(manyproperties !== 10){
-      setManyProperties((prev) => prev - 10)
+    goToPage(page - 1)
+    if(propertyPerPage !== 10){
+      setPropertyPerPage(propertyPerPage - 10)
     }
   }
 
   function goToLastPage() {
-    setCurrentPage(totalPages)
-    setManyProperties(fakeProperties.length)
+    goToPage(totalPages)
+    const lastPageItems = searchData.length % 10 || 10;
+    setPropertyPerPage(searchData.length - lastPageItems + 10);
   }
-
-  function setCurrentPage(page: number) {
-    const url = new URL(window.location.toString())
-
-    url.searchParams.set('page', String(page))
-
-    window.history.pushState({}, "", url)
-    setPage(page)
-  }
+  
 
   useEffect(() => {
     setSearchData(data)
@@ -78,11 +76,9 @@ export function PropertiesList({data}: PropertiesProps) {
       <Search
         data={data}
         setPage={setPage}
-        searchData={searchData}
         setSearchData={setSearchData}
         searchInput={searchInput}
         setSearchInput={setSearchInput}
-        setManyProperties={setManyProperties}
       />
 
       <Table className="w-full">
@@ -95,7 +91,7 @@ export function PropertiesList({data}: PropertiesProps) {
         <tbody>
           {
             searchData.length > 0 ? 
-              searchData.slice(manyproperties === 10 ? 0 : manyproperties - 10, manyproperties).map((property, index) => (
+              searchData.slice(propertyPerPage === 10 ? 0 : propertyPerPage - 10, propertyPerPage).map((property, index) => (
                 <TableRow className={index % 2 === 0 ? "bg-gray-90" : "bg-white"} key={property.id}>
                   <TableCell className="flex flex-col gap-2">
                     <Link href="/hotel-ao/home"  className="text-primary-700 font-medium">{property.name}</Link>
@@ -110,8 +106,11 @@ export function PropertiesList({data}: PropertiesProps) {
                   </TableCell>
                 </TableRow>
               )) :
-              data.slice(manyproperties === 10 ? 0 : manyproperties - 10, manyproperties).map((property) => (
-                <TableRow key={property.id}>
+              data.slice(propertyPerPage === 10 ? 0 : propertyPerPage - 10, propertyPerPage).map((property, index) => (
+                <TableRow 
+                  className={index % 2 === 0 ? "bg-gray-90" : "bg-white"} 
+                  key={property.id}
+                >
                   <TableCell className="flex flex-col gap-2">
                     <Link href="/hotel-ao/home"  className="text-primary-700 font-medium">{property.name}</Link>
                     <span className="space-x-2">

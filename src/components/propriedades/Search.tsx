@@ -1,20 +1,20 @@
 'use client'
+import { propertyStore } from "@/store/propertyStore";
 import { Input } from "../Input/Input";
 import { Properties } from "@/interfaces/Properties";
 
 interface SearchProps {
   data: Properties[];
-  searchData: Properties[];
   setSearchData: (value: Properties[]) => void;
   searchInput: string;
   setSearchInput: (value: string) => void;
   setPage: (value: number) => void;
-  setManyProperties: (value: number) => void
 }
 
 
-export function Search({ data, searchData, setSearchData, searchInput, setSearchInput, setPage, setManyProperties }: SearchProps) {
+export function Search({ data, setSearchData, searchInput, setSearchInput, setPage }: SearchProps) {
 
+  const { setPropertyPerPage } = propertyStore()
   const searchFilter = (textInput: React.ChangeEvent<HTMLInputElement>) => {
     const text = textInput.target.value.toString()
     
@@ -24,20 +24,20 @@ export function Search({ data, searchData, setSearchData, searchInput, setSearch
     return;
   }
 
-  let filteredData = searchData.filter((item) => 
+  let filteredData = [...data].filter((item) => 
     item.name.toLowerCase().includes(text)
   );
 
   // Se não encontrar pelo nome, busca pelo ID
   if (filteredData.length === 0) {
-    filteredData = searchData.filter((item) => 
+    filteredData = [...data].filter((item) => 
       String(item.id).includes(text)
     );
   }
 
   setSearchData(filteredData);
   setSearchInput(text);
-  setManyProperties(10);
+  setPropertyPerPage(10);
   setPage(1);
 }
 
@@ -49,7 +49,6 @@ export function Search({ data, searchData, setSearchData, searchInput, setSearch
           value={searchInput}
           placeholder="Nome ou ID da propriedade"
           handleValue={searchFilter}
-          className="h-12"
         />          
       </div>
         <div className="bg-black h-[1.5px] w-full mt-12"></div>
