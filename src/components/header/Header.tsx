@@ -1,51 +1,67 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { NavIcon } from '@/assets/Icons/Header/navIcon';
 import sideBarStateStore from '@/store/sideBarStateStore';
 import { UserCircleIcon } from '@/assets/Icons/UserIcon';
 import { MagnifieIcon } from '@/assets/Icons/MagnifierIcon';
 import ReserveSearchStore from '@/store/ReserveSearchStore';
+import MenuProfileStore from '@/store/MenuProfile';
 
 export const Header = () => {
   const pathname = usePathname();
   const slug = "hotel-ao"
   const { changeSideBarState, state } = sideBarStateStore();
-  const { handleOpenReserveSearch, state: stateOpen } = ReserveSearchStore()
+  const { handleOpenReserveSearch } = ReserveSearchStore()
+  const { handleOpenDropdownProfile } = MenuProfileStore();
+
+  const [OpenReserve, setOpenReserve] = useState(false);
+  const [OpenProfile, setOpenProfile] = useState(false)
 
   const toggleSidebar = () => {
     changeSideBarState(!state);
   }
 
+  const toggleMenuReserve = () => {
+    setOpenReserve(!OpenReserve)
+    setOpenProfile(false)
+    handleOpenReserveSearch(!OpenReserve)
+  }
+  
+  const toggleMenuProfile = () => {
+    setOpenReserve(false)
+    setOpenProfile(!OpenProfile)
+    handleOpenDropdownProfile(!OpenProfile)
+  }
+
   return (
     <header className="fixed top-0 left-0 right-0 h-[65px] px-5 text-black flex justify-between items-center bg-white border-b">
       <div className="flex items-center space-x-4">
-        <button onClick={toggleSidebar} className="text-gray-500 focus:outline-none">
-          <NavIcon stroke='black' />
-        </button>
+        {pathname && ["home", "reservas", "quartos"].includes(pathname.split('/').pop()!) && (
+          <button onClick={toggleSidebar} className="text-gray-500 focus:outline-none">
+            <NavIcon stroke='black' />
+          </button>
+        )}
+
         <Link href="/">
           <h1 className="">Hoteli Apps - PMS</h1>
         </Link>
       </div>
-      <nav className='flex gap-5'>
-        <Link
-          href={`/${slug}/propriedades`}
-        >
+      <div className="flex gap-5 mt-2">
+        <Link href={`/${slug}/propriedades`} className='mr-6'>
           Selecionar Propriedade
         </Link>
-        {pathname && ["home", "reservas", "quartos"].includes(pathname.split('/').pop()!) && (
-          <Link href="#" onClick={() => handleOpenReserveSearch(!stateOpen)}>
-            <MagnifieIcon width={50} height={30} stroke="black" />
-          </Link>
-        )}
-
-        <Link
-          href="#"
-          className=" text-black"
-        >
+        {pathname &&
+          ["home", "reservas", "quartos"].includes(pathname.split("/").pop()!) && (
+            <button onClick={() => toggleMenuReserve()} className='outline-none'>
+              <MagnifieIcon width={50} height={30} stroke="black" />
+            </button>
+          )}
+        <button className='outline-none' onClick={()=> toggleMenuProfile()}>
           <UserCircleIcon width={50} height={30} />
-        </Link>
-      </nav>
+        </button>
+      </div>
+
     </header>
   );
 };
