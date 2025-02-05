@@ -30,7 +30,7 @@ const PrivateLayout = ({
         <MenuProfile />
         <ReservationSearch />
         <div className="pt-[60px] flex flex-1 overflow-hidden">
-          {!["propriedades", "add-property"].includes(formatPathName(pathname)) && <Sidebar />}
+          {formatPathName(pathname) !== "propriedades" && <Sidebar />}
 
           <main className="flex-1 overflow-auto bg-white-100">
             <div className="">{children}</div>
