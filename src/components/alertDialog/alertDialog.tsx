@@ -15,7 +15,6 @@ interface IAlertDialog {
   handleConfirm: () => void;
   handleCancel: () => void;
   typeAlert: "Confirmar" | "Voltar";
-  mapUhTypeBg?: string;
 }
 
 const AlertDialog: React.FC<IAlertDialog> = ({
@@ -25,18 +24,16 @@ const AlertDialog: React.FC<IAlertDialog> = ({
   handleConfirm,
   handleCancel,
   typeAlert = "Voltar",
-  mapUhTypeBg,
 }) => {
-const { nextStep , resetStore, firstStore } =  usePropertyStore();
-const handleAddPropety = ()=>{
-  resetStore();
-  firstStore();
-}
+  const { nextStep, resetStore, firstStore } = usePropertyStore();
+  const handleAddPropety = () => {
+    resetStore();
+    firstStore();
+  }
   return (
     <div
-      className={`${mapUhTypeBg ? mapUhTypeBg : "bg-gray-600/25"} shadow-lg fixed top-0 left-0 right-0 bottom-0 z-[1000] ${
-        isOpenedModalManagement ? "h-full" : "h-0 overflow-hidden"
-      } flex items-center justify-center`}
+      className={`bg-gray-600/25 shadow-lg fixed top-0 left-0 right-0 bottom-0 z-[1000] ${isOpenedModalManagement ? "h-full" : "h-0 overflow-hidden"
+        } flex items-center justify-center`}
     >
       <div className="w-[450px] bg-white h-auto flex flex-col p-7 gap-5">
         <div className="flex flex-col items-center relative">
@@ -77,22 +74,22 @@ const handleAddPropety = ()=>{
             {confirmTitleBtn}
           </Button>
           {typeAlert == "Confirmar" && (
-           <Button
-           handleClick={handleAddPropety}
-           handleActive={() => true}
-           width="100%"
-           backgroundColor={
-             typeAlert === "Confirmar" ? "primary" : "rgb(200 30 30)"
-           }
-         >
-          {" Adicionar mais propriedade"}
-         </Button>
+            <Button
+              handleClick={handleAddPropety}
+              handleActive={() => true}
+              width="100%"
+              backgroundColor={
+                typeAlert === "Confirmar" ? "primary" : "rgb(200 30 30)"
+              }
+            >
+              {" Adicionar mais propriedade"}
+            </Button>
 
 
           )
-           
+
           }
-         
+
         </div>
       </div>
     </div>
