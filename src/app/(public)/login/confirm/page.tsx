@@ -13,6 +13,7 @@ import { useLoginFormStore } from "@/store/loginFormStore";
 const ConfirmLoginPage = () => {
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(false);
+	const [isInvalidPassword, setIsInvalidPassword] = useState(false);
 	const { password, email } = useLoginFormStore();
 	const handleSignInClick = () => {
 		setIsLoading(true);
@@ -44,9 +45,9 @@ const ConfirmLoginPage = () => {
 				<h1>{email}</h1>
 			</div>
 			<h2 className="font-medium text-xl">Insira a sua senha</h2>
-			<div className="flex flex-col gap-2">
+			<div className="h-24 mb-8">
 				<Input
-					className="h-10 rounded-sm"
+					className={`mb-1 ${isInvalidPassword ? "border-red-500" : "border-inherit"}`}
 					type="password"
 					placeholder="Sua senha"
 					value={password}
@@ -54,18 +55,21 @@ const ConfirmLoginPage = () => {
 						useLoginFormStore.setState({
 							password: e.target.value,
 						});
+						if (isInvalidPassword) setIsInvalidPassword(false);
 					}}
 				/>
-			</div>
-			<div className="mb-14">
-				<Link href="#" className="text-primary hover:underline text-sm">
+				{isInvalidPassword && 
+					(
+						<span className="text-red-500 text-xs flex">Senha inválida</span>
+					)
+				}
+				<Link href="#" className="text-primary hover:underline text-sm  inline-flex">
 					Esqueceu a sua senha?
 				</Link>
 			</div>
 			<div className="w-full h-10 flex justify-start flex-row-reverse">
 				<Button
 					width="108px"
-					height="100%"
 					handleClick={handleSignInClick}
 					isLoading={isLoading}
 					border="solid"
@@ -76,7 +80,6 @@ const ConfirmLoginPage = () => {
 				</Button>
 				<Button
 					width="108px"
-					height="100%"
 					handleClick={handleReturnClick}
 					border="solid"
 					className="rounded-none"

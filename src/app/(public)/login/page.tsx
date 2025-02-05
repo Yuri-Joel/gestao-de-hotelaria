@@ -13,6 +13,7 @@ import { useState } from "react";
 const LoginPage = () => {
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(false);
+	const [isInvalidEmail, setIsInvalidEmail] = useState(false);
 	const { email } = useLoginFormStore();
 	const handleNextClick = () => {
 		setIsLoading(true);
@@ -29,30 +30,35 @@ const LoginPage = () => {
 				<div className="font-medium text-xl">
 					<h1>Iniciar sessão</h1>
 				</div>
-				<div className="h-10 mb-2">
+				<div className="h-24 mb-9">
 					<Input
-						className="h-10 rounded-sm"
 						type="email"
 						placeholder="Seu email"
+						className={`mb-1 ${isInvalidEmail ? "border-red-500" : "border-inherit"}`}
 						value={email}
 						handleValue={(e) => {
 							useLoginFormStore.setState({
 								email: e.target.value,
 							});
+							if (isInvalidEmail) setIsInvalidEmail(false);
 						}}
 					/>
+					{isInvalidEmail && 
+						(
+							<span className="text-red-500 text-xs flex">Conta não encontrada</span>
+						)
+					}
+					<Link
+						href="#"
+						className="text-primary hover:underline text-sm inline-flex"
+					>
+						Esqueceu sua senha?
+					</Link>
 				</div>
-				<Link
-					href="#"
-					className="text-primary hover:underline text-sm mb-16"
-				>
-					Esqueceu sua senha?
-				</Link>
 			</div>
 			<div className="w-full h-10 flex justify-end">
 				<Button
-					width="108px"
-					height="100%"
+					width="120px"
 					handleClick={handleNextClick}
 					isLoading={isLoading}
 					border="solid"

@@ -341,7 +341,7 @@ export const Input: React.FC<IInput> = ({
           onBlur={handleBlur}
           type={type}
           className={twMerge(
-            `bg-gray-50 px-2 appearance-none outline-none h-14 w-full text-black rounded-lg border focus:border-primary ${(!props.disabled && value) && !inputCheckedFocusDisable ? 'border-primary' : ''} `,
+            `bg-gray-50 px-2 appearance-none outline-none h-14 w-full text-black rounded-sm border focus:border-primary ${(!props.disabled && value) && !inputCheckedFocusDisable ? 'border-primary' : ''} `,
             IconLeft && "pl-[38px]",
             props.className,
             props.disabled && ' bg-gray-100 pointer-events-none',
