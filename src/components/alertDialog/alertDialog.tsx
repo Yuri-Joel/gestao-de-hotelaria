@@ -2,8 +2,7 @@ import type React from "react";
 import { Button } from "@/components/Button/Button";
 import { XIcon } from "@/assets/Icons/XIcon";
 import { usePropertyStore } from "@/store/propetyAcordionStorage";
-import { X } from "@/assets/Icons/X"
-import { Right } from "@/assets/Icons/Right"
+import { RightIcon } from "@/assets/Icons/RightIcon";
 
 interface IAlertDialog {
   title: string;
@@ -27,11 +26,13 @@ const AlertDialog: React.FC<IAlertDialog> = ({
   typeAlert = "Voltar",
   hideCloseButton = false
 }) => {
-  const { nextStep, resetStore, firstStore } = usePropertyStore();
+
+  const { resetStore, firstStore } = usePropertyStore();
   const handleAddPropety = () => {
     resetStore();
     firstStore();
-  }
+  };
+
   return (
     <div
       className={`bg-gray-600/25 shadow-lg fixed top-0 left-0 right-0 bottom-0 z-[1000] ${isOpenedModalManagement ? "h-full" : "h-0 overflow-hidden"
@@ -52,11 +53,16 @@ const AlertDialog: React.FC<IAlertDialog> = ({
 
           {typeAlert === "Confirmar" ? (
             <div className="rounded-full bg-green-100 p-4 mb-4">
-              <Right className="h-10 w-10 text-green-600" />
+              <RightIcon className="h-10 w-10 text-green-600" />
             </div>
           ) : (
-            <div className="rounded-full bg-red-100 p-4 mb-4">
-              <X className="h-10 w-10 text-red-600" />
+            <div className="rounded-full bg-red-100 p-2 mb-4">
+              <XIcon
+                fill="red"
+                width="42"
+                height="42"
+                className="text-2xl  h-1 w-10 text-red-600"
+              />
             </div>
           )}
           <h2 className="text-lg font-semibold text-black">
@@ -89,12 +95,7 @@ const AlertDialog: React.FC<IAlertDialog> = ({
             >
               {" Adicionar mais propriedade"}
             </Button>
-
-
-          )
-
-          }
-
+          )}
         </div>
       </div>
     </div>

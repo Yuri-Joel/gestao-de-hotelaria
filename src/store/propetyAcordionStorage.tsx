@@ -1,10 +1,12 @@
 import { create } from "zustand";
 
-interface PropertyStore {
+type State = {
   name: string;
   category: string;
   step: "first" | "second" | "validation" | "";
+}
 
+type Actions ={
   setName: (name: string) => void;
   setCategory: (category: string) => void;
   nextStep: () => void;
@@ -14,7 +16,7 @@ interface PropertyStore {
   firstStore: () => void;
 }
 
-export const usePropertyStore = create<PropertyStore>((set) => ({
+export const usePropertyStore = create<State & Actions>((set) => ({
   name: "",
   category: "",
   step: "first",
@@ -38,7 +40,7 @@ export const usePropertyStore = create<PropertyStore>((set) => ({
     set((state) => {
       switch (state.step) {
         case "validation":
-          return { step: "first" };
+          return { step: "second" };
         case "second":
           return { step: "first" };
         default:

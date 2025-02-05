@@ -1,7 +1,8 @@
 import { Ticon } from "@/types/icon/iconType";
 import React from "react";
 
-export const Right: React.FC<Ticon> = ({ width, height, fill }) => {
+export const RightIcon: React.FC<Ticon> = ({ width, height, fill }) => {
+  
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
