@@ -18,14 +18,13 @@ export function ReservationSearch() {
     const router = useRouter();
 
     useEffect(() => {
-        if (!state) return; // Só adiciona o evento se o dropdown estiver aberto
+        if (!state) return;
 
         function handleClickOutside(event: MouseEvent) {
             if (
                 dropdownRefReserveSearch.current &&
                 !dropdownRefReserveSearch.current.contains(event.target as Node)
             ) {
-                console.log("Clicou fora, fechando o dropdown...");
                 handleOpenReserveSearch(false);
             }
         }
@@ -58,14 +57,14 @@ export function ReservationSearch() {
     }
 
     const handleClickEnter = async (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (searchTerm.length === 0) { 
+        if (searchTerm.length === 0) {
             return;
         }
         if (event.key === "Enter") {
             await handleSubmit();
         }
     }
-    
+
     const handleExecute = () => {
         setSearchTerm("");
         setReservations([])
@@ -94,7 +93,7 @@ export function ReservationSearch() {
                             className="flex items-center justify-center p-2 outline-none focus:ring-0 transition-colors"
                         >
                             <MagnifieIcon
-                                stroke={searchTerm.length ? "#5954FB" : "#9ca3af"} // Cor do ícone muda com base no estado
+                                stroke={searchTerm.length ? "#5954FB" : "#9ca3af"}
                                 height={20}
                                 width={20}
                             />
@@ -110,14 +109,14 @@ export function ReservationSearch() {
                     {/* Loading  e Resultados */}
                     <div className="mt-4">
                         {loading ? (
-                            <div className="p-4  space-y-4">
-                            {[...Array(2)].map((_, i) => (
-                              <div key={i}  className="p-4 bg-white">
-                                <Skeleton className="h-6 w-3/4 mb-4" />
-                                <Skeleton className="h-4 w-1/2" />
-                              </div>
-                            ))}
-                          </div>
+                            <div className="p-2  space-y-2">
+                                {[...Array(2)].map((_, i) => (
+                                    <div key={i} className="p-4 bg-white">
+                                        <Skeleton className="h-6 w-3/4 mb-4" />
+                                        <Skeleton className="h-4 w-1/2" />
+                                    </div>
+                                ))}
+                            </div>
                         ) : reservations.length === 0 ? (
                             <div className="text-sm text-gray-500">
                                 Nenhuma reserva encontrada.
