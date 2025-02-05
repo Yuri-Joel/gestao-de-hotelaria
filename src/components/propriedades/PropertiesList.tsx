@@ -6,10 +6,8 @@ import { TableRow } from "../Table/table-row"
 import { IconButton } from "../Table/table-button-navigation"
 import { BiChevronLeft, BiChevronRight, BiChevronsLeft, BiChevronsRight } from "react-icons/bi"
 import { useEffect, useState } from "react"
-import { fakeProperties } from "@/data/properties"
 import { Table } from "../Table/table"
 import { Search } from "./Search"
-import { Input } from "../Input/Input"
 import { propertyStore } from "@/store/propertyStore"
 import { Properties } from "@/interfaces/Properties"
 import { useSearchParams, useRouter } from "next/navigation"
@@ -35,6 +33,7 @@ export function PropertiesList({data}: PropertiesProps) {
   const router = useRouter();
 
   const totalPages = Math.ceil(searchData.length / 10)
+
 
   function goToPage(page: number) {
     const params = new URLSearchParams(searchParams.toString());
@@ -66,6 +65,12 @@ export function PropertiesList({data}: PropertiesProps) {
     setPropertyPerPage(searchData.length - lastPageItems + 10);
   }
   
+  //Para manter a pagina caso abrir em outro browser 
+  useEffect(() => {
+    const pageFromUrl = searchParams.get("page");
+    const initialPage = pageFromUrl ? Number(pageFromUrl) : 1;
+    setPage(initialPage);
+  }, []);
 
   useEffect(() => {
     setSearchData(data)
