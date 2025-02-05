@@ -1,10 +1,10 @@
 import type React from "react";
-import { Check} from "lucide-react";
 import { Button } from "@/components/Button/Button";
 import { XIcon } from "@/assets/Icons/XIcon";
 import { usePropertyStore } from "@/store/propetyAcordionStorage";
 import { X } from "@/assets/Icons/X"
 import { Right } from "@/assets/Icons/Right"
+
 interface IAlertDialog {
   title: string;
   description: string;
