@@ -58,12 +58,15 @@ const ConfirmLoginPage = () => {
 						if (isInvalidPassword) setIsInvalidPassword(false);
 					}}
 				/>
-				{isInvalidPassword && 
-					(
-						<span className="text-red-500 text-xs flex">Senha inválida</span>
-					)
-				}
-				<Link href="#" className="text-primary hover:underline text-sm  inline-flex">
+				{isInvalidPassword && (
+					<span className="text-red-500 text-xs flex">
+						Senha inválida
+					</span>
+				)}
+				<Link
+					href="#"
+					className="text-primary hover:underline text-sm  inline-flex"
+				>
 					Esqueceu a sua senha?
 				</Link>
 			</div>

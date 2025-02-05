@@ -22,7 +22,7 @@ const LoginPage = () => {
 	const handleNextActive = () => {
 		if (isValidEmail(email)) return true;
 		return false;
-	}
+	};
 	return (
 		<section className="flex flex-col gap-4">
 			<h1 className="font-bold text-xl">Hoteli Apps</h1>
@@ -43,11 +43,11 @@ const LoginPage = () => {
 							if (isInvalidEmail) setIsInvalidEmail(false);
 						}}
 					/>
-					{isInvalidEmail && 
-						(
-							<span className="text-red-500 text-xs flex">Conta não encontrada</span>
-						)
-					}
+					{isInvalidEmail && (
+						<span className="text-red-500 text-xs flex">
+							Conta não encontrada
+						</span>
+					)}
 					<Link
 						href="#"
 						className="text-primary hover:underline text-sm inline-flex"
