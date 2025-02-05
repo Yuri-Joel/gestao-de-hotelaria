@@ -2,7 +2,7 @@ import type React from "react";
 import { Check, X } from "lucide-react";
 import { Button } from "@/components/Button/Button";
 import { XIcon } from "@/assets/Icons/XIcon";
-
+import { usePropertyStore } from "@/store/propetyAcordionStorage";
 interface IAlertDialog {
   title: string;
   description: string;
@@ -25,6 +25,11 @@ const AlertDialog: React.FC<IAlertDialog> = ({
   typeAlert = "Voltar",
   mapUhTypeBg,
 }) => {
+const { nextStep , resetStore, firstStore } =  usePropertyStore();
+const handleAddPropety = ()=>{
+  resetStore();
+  firstStore();
+}
   return (
     <div
       className={`${mapUhTypeBg ? mapUhTypeBg : "bg-gray-600/25"} shadow-lg fixed top-0 left-0 right-0 bottom-0 z-[1000] ${
@@ -69,6 +74,23 @@ const AlertDialog: React.FC<IAlertDialog> = ({
           >
             {confirmTitleBtn}
           </Button>
+          {typeAlert == "Confirmar" && (
+           <Button
+           handleClick={handleAddPropety}
+           handleActive={() => true}
+           width="100%"
+           backgroundColor={
+             typeAlert === "Confirmar" ? "primary" : "rgb(200 30 30)"
+           }
+         >
+          {" Adicionar mais propriedade"}
+         </Button>
+
+
+          )
+           
+          }
+         
         </div>
       </div>
     </div>

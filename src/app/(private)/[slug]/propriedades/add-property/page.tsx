@@ -44,10 +44,10 @@ const Page: React.FC = () => {
     <div className="flex items-center justify-center relative">
       {step === "first" && (
         <div className="mt-10 w-[600px]  bg-white shadow-xl flex flex-col p-10">
-          <h1 className="font-bold text-xl">
+          <h1 className="font-bold text-xl w-full text-center">
             Vamos cadastrar a sua propriedade?
           </h1>
-          <span className="text-sm ">
+          <span className="text-sm  w-full text-center">
             Informe o nome da sua propriedade e em seguida, o tipo.
           </span>
 
@@ -80,12 +80,10 @@ const Page: React.FC = () => {
 
       {step === "second" && (
         <div className="mt-10 w-[600px] bg-white shadow-xl flex flex-col p-10">
-          <h1 className="font-bold text-xl">
-            Confirme os dados da sua propriedade
+          <h1 className="font-bold text-xl w-full text-center">
+            Dados da Propriedade
           </h1>
-          <span className="text-sm">
-            Verifique as informações antes de continuar.
-          </span>
+          
 
           <span className="mt-6 w-full outline-none  text-black">
             Nome: {name}
