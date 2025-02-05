@@ -29,7 +29,7 @@ export const Header = () => {
       </div>
       <nav className='flex gap-5'>
         <Link
-          href="propriedades"
+          href={`/${slug}/propriedades`}
         >
           Selecionar Propriedade
         </Link>
