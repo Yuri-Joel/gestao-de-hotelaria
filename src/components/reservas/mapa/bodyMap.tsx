@@ -47,7 +47,7 @@ export function BodyMap() {
           
         </div>
 
-        <div className="flex h-screen w-full">
+        <div className="flex h-screen w-full mb-5">
           <div className="h-full bg-gray-200 flex items-center justify-center border-r-4 border-gray-300 w-[195px]">
             Área Quartos
           </div>
