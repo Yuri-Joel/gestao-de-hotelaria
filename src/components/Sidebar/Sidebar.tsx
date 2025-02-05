@@ -2,7 +2,6 @@
 import { ArrowDown } from '@/assets/Icons/ArrowDown';
 import { BedIcon } from '@/assets/Icons/BedIcon';
 import { DirectionRightIcon } from '@/assets/Icons/DirectionRightIcon';
-import { MapaIcon } from '@/assets/Icons/MapaIcon';
 import { StartIcon } from '@/assets/Icons/StartIcon';
 import sideBarStateStore from '@/store/sideBarStateStore';
 import { TmenuSidebar } from '@/types/menuSidebar';
@@ -124,7 +123,6 @@ export function Sidebar() {
                                     ))}
                                 </div>
                             )}
-
                         </div>
                     ))}
                 </div>
