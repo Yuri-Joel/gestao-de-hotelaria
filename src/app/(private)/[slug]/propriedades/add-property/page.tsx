@@ -5,14 +5,13 @@ import { Input } from "@/components/Input/Input";
 import Select from "@/components/Input/Select";
 import { usePropertyStore } from "@/store/propetyAcordionStorage";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 
 const Page: React.FC = () => {
   const router = useRouter();
   const categoryItems = ["Hotel", "Pousada", "Hostel", "Outro"];
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isloading, setIsloading] = useState(false);
 
   const {
     name,
@@ -26,24 +25,23 @@ const Page: React.FC = () => {
   } = usePropertyStore();
 
   const handleConfirm = () => {
-    setIsloading(true);
-    if (name) {
-      router.push("/hotel-ao/propriedades");
-    } else {
-      resetStore();
-    }
+    router.push("/hotel-ao/propriedades");
+    resetStore();
     setIsModalOpen(false);
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
-    resetStore();
+    firstStore();
   };
+  useEffect(() => {
+    firstStore()
+  },[])
 
   return (
-    <div className="flex items-center justify-center relative">
+    <div className="flex items-center justify-center h-[calc(100vh-60px)] w-full ">
       {step === "first" && (
-        <div className="mt-10 w-[600px]  bg-white shadow-xl flex flex-col p-10">
+        <div className=" w-[600px]  bg-white shadow-xl flex flex-col p-10">
           <h1 className="font-bold text-xl w-full text-center">
             Vamos cadastrar a sua propriedade?
           </h1>
@@ -69,7 +67,7 @@ const Page: React.FC = () => {
           />
 
           <Button
-            handleActive={() => true}
+            handleActive={()=> category && name ? true : false }
             handleClick={() => nextStep()}
             className="mt-6 w-full  text-white bg-primary"
           >
@@ -79,11 +77,10 @@ const Page: React.FC = () => {
       )}
 
       {step === "second" && (
-        <div className="mt-10 w-[600px] bg-white shadow-xl flex flex-col p-10">
+        <div className=" w-[600px] bg-white shadow-xl flex flex-col p-10">
           <h1 className="font-bold text-xl w-full text-center">
             Dados da Propriedade
           </h1>
-
 
           <span className="mt-6 w-full outline-none  text-black">
             Nome: {name}
@@ -119,7 +116,6 @@ const Page: React.FC = () => {
       {step === "validation" && (
         <AlertDialog
           title=""
-          isBtnLoading={isloading}
           description={
             name
               ? "Sua propriedade foi cadastrada com sucesso"
@@ -129,8 +125,8 @@ const Page: React.FC = () => {
           cancelTitleBtn="Voltar"
           isOpenedModalManagement={isModalOpen}
           handleConfirm={handleConfirm}
-          handleCancel={handleCancel}
-          typeAlert={name ? "Confirmar" : "Voltar"}
+          handleCancel={name ? handleCancel : () => firstStore()}
+          typeAlert={Math.random() < 0.2 ? "Confirmar" : "Voltar"}
           hideCloseButton
         />
       )}

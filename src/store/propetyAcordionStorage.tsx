@@ -13,7 +13,7 @@ type Actions ={
   previousStep: () => void;
   resetStore: () => void;
   completeStore: () => void;
-  firstStore: () => void;
+  firstStore: () => void | undefined;
 }
 
 export const usePropertyStore = create<State & Actions>((set) => ({

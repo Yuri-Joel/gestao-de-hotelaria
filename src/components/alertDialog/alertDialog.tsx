@@ -1,9 +1,10 @@
 import type React from "react";
 import { Button } from "@/components/Button/Button";
 import { XIcon } from "@/assets/Icons/XIcon";
-import { usePropertyStore } from "@/store/propetyAcordionStorage";
 import { RightIcon } from "@/assets/Icons/RightIcon";
-
+import { usePropertyStore } from "@/store/propetyAcordionStorage";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 interface IAlertDialog {
   title: string;
   description: string;
@@ -27,11 +28,23 @@ const AlertDialog: React.FC<IAlertDialog> = ({
   hideCloseButton = false
 }) => {
 
-  const { resetStore, firstStore } = usePropertyStore();
-  const handleAddPropety = () => {
+  const {resetStore, firstStore} = usePropertyStore();
+  const Route = useRouter();
+  const [Isloading , setIsloading] = useState(false);
+  
+  const handleAddPropety =  () => {
     resetStore();
-    firstStore();
   };
+
+  const handleCheckConfirm =  () => {
+    setIsloading(true)
+    try {
+      Route.push("/hotel-ao/propriedades")
+    } finally {
+      setIsloading(false)
+    }
+  };
+ 
 
   return (
     <div
@@ -75,9 +88,10 @@ const AlertDialog: React.FC<IAlertDialog> = ({
 
         <div className="flex flex-col justify-end gap-2">
           <Button
-            handleClick={() => handleConfirm()}
+            handleClick={typeAlert === "Confirmar" ? () => handleCheckConfirm() : () => firstStore()}
             handleActive={() => true}
             width="100%"
+            isLoading ={Isloading}
             backgroundColor={
               typeAlert === "Confirmar" ? "primary" : "rgb(200 30 30)"
             }

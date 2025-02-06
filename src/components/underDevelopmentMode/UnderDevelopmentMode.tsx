@@ -4,8 +4,8 @@ import { UpdateIcon } from "@/assets/Icons/UpdateIcon";
 const UnderDevelopmentMode = () => {
   
   return (
-    <div className="flex items-center justify-center h-full w-full">
-      <div className="max-w-lg mt-12 my-auto bg-white shadow-lg rounded-2xl p-6 sm:p-8">
+    <div className=" flex container  items-center justify-center max-h-full h-[calc(100vh-250px)] w-full">
+      <div className="  max-w-lg  my-auto ">
         <div className="flex justify-center mb-6">
           <div className="w-16 h-16 text-primary" aria-hidden="true">
             <UpdateIcon />
