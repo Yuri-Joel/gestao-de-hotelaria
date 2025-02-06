@@ -22,7 +22,7 @@ export const MenuProfile = () => {
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [state]);
 
   const handleNavigate = (path: string) => {
     handleOpenDropdownProfile(false);
@@ -31,7 +31,7 @@ export const MenuProfile = () => {
 
   return (
     <div
-      className={`fixed top-16 right-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50 transition-transform duration-200 ${
+      className={`fixed top-[4.3rem] right-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50 transition-transform duration-200 ${
         state ? "scale-100" : "scale-0"
       }`}
       ref={dropdownRef}

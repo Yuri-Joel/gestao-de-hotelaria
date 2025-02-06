@@ -6,11 +6,11 @@ import { StartIcon } from '@/assets/Icons/StartIcon';
 import sideBarStateStore from '@/store/sideBarStateStore';
 import { TmenuSidebar } from '@/types/menuSidebar';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export function Sidebar() {
 
-    const { state } = sideBarStateStore();
+    const { state, closeAllSubMenus, openSubMenus, setOpenSubMenus } = sideBarStateStore();
     const slug = "hotel-ao"
     const menuItems: TmenuSidebar = [
         {
@@ -29,37 +29,54 @@ export function Sidebar() {
             subMenu: [
                 {
                     label: "Inicio",
-                    path: "inicio",
+                    path: "/inicio",
+                },
+                {
+                    label: "Mapa",
+                    path: "/mapa",
                 },
             ],
         },
         {
             label: "Reservas",
-            path: "/reservas",
+            path: "/reservas/details",
             iconClass: "h-6 w-6",
             IconLeft: DirectionRightIcon,
             IconRight: ArrowDown,
             subMenu: [
                 {
                     label: "Inicio",
-                    path: "inicio",
+                    path: "/inicio",
                 },
                 {
                     label: "Mapa",
-                    path: "Mapa",
+                    path: "/mapa",
                 }
             ]
         },
     ]
 
-    const [openSubMenus, setOpenSubMenus] = useState<{ [key: string]: string | null }>({});
-
+    const SubMenuRef = useRef<HTMLDivElement>(null);
     const toggleSubMenu = (label: string) => {
-        setOpenSubMenus((prev) => ({
-            [label]: prev[label] ? null : label,  // Se o submenu já estiver aberto, fecha; caso contrário, abre
-        }));
+        if (!state) {
+            setOpenSubMenus({ [label]: !openSubMenus[label] }); // Fecha outros submenus no estado comprimido
+        } else {
+            setOpenSubMenus({
+                ...openSubMenus,
+                [label]: !openSubMenus[label],
+            });
+        }
     };
-    
+
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (SubMenuRef.current && !SubMenuRef.current.contains(event.target as Node)) {
+                closeAllSubMenus();
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, [!state]);
 
     return (
         <aside
@@ -96,11 +113,11 @@ export function Sidebar() {
 
                             {/* Submenu no estado comprimido */}
                             {item.subMenu && openSubMenus[item.label] && !state && (
-                                <div className="absolute left-[4.5rem] w-[8rem]  transform -translate-x-2 -translate-y-14 bg-white border border-gray-200 rounded-md items-center shadow-lg z-50 transition-all duration-300">
+                                <div ref={SubMenuRef} className="absolute left-[4.5rem] w-[8rem]  transform -translate-x-2 -translate-y-14 bg-white border border-gray-200 rounded-md items-center shadow-lg z-50 transition-all duration-300">
                                     {item.subMenu.map((subItem) => (
                                         <Link
                                             key={subItem.label}
-                                            href={"#"}
+                                            href={`/${slug}${subItem.path}`}
                                             className="flex items-center px-4 py-2 hover:bg-[#D5CEE5]"
                                         >
                                             <span>{subItem.label}</span>
@@ -115,7 +132,7 @@ export function Sidebar() {
                                     {item.subMenu.map((subItem) => (
                                         <Link
                                             key={subItem.label}
-                                            href={"#"}
+                                            href={`/${slug}${subItem.path}`}
                                             className="flex items-center px-4 py-4 hover:bg-[#D5CEE5]"
                                         >
                                             {state && <span className='ml-8'>{subItem.label}</span>}

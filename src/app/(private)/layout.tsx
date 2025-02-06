@@ -47,8 +47,8 @@ const PrivateLayout = ({
         <AlertDialog
           typeAlert="Voltar"
           title="Tem certeza que deseja terminar a sua sessão?"
-          description="Ao confirmar, as sua sessão será terminada."
-          confirmTitleBtn="Sim, tenho certeza"
+          /* description="Ao confirmar, as sua sessão será terminada."
+          confirmTitleBtn="Sim, tenho certeza" */
           cancelTitleBtn="Cancelar"
           isOpenedModalManagement={isOpenedAlertDialogConfirmLogout}
           handleConfirm={handleOut}

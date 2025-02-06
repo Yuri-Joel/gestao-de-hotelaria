@@ -10,11 +10,12 @@ import { useRouter } from "next/navigation"
 import { Skeleton } from "../Skeleton/Skeleton"
 
 export function ReservationSearch() {
-    const [searchTerm, setSearchTerm] = useState("")
-    const [reservations, setReservations] = useState<typeof guests>([])
-    const [loading, setLoading] = useState(false)
-    const dropdownRefReserveSearch = useRef<HTMLDivElement>(null)
-    const { handleOpenReserveSearch, state } = ReserveSearchStore()
+    const [searchTerm, setSearchTerm] = useState("");
+    const [reservations, setReservations] = useState<typeof guests>([]);
+    const [loading, setLoading] = useState(false);
+    const [hasSearched, setHasSearched] = useState(false); // Novo estado
+    const dropdownRefReserveSearch = useRef<HTMLDivElement>(null);
+    const { handleOpenReserveSearch, state } = ReserveSearchStore();
     const router = useRouter();
 
     useEffect(() => {
@@ -26,6 +27,9 @@ export function ReservationSearch() {
                 !dropdownRefReserveSearch.current.contains(event.target as Node)
             ) {
                 handleOpenReserveSearch(false);
+                setReservations([]);
+                setHasSearched(false); 
+                setSearchTerm("")
             }
         }
 
@@ -37,24 +41,23 @@ export function ReservationSearch() {
         };
     }, [state]);
 
-
-
     const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const search = event.target.value
-        setSearchTerm(search)
-    }
+        const search = event.target.value;
+        setSearchTerm(search);
+    };
 
     const handleSubmit = async () => {
         setLoading(true);
+        setHasSearched(true); // Atualiza o estado para indicar que a pesquisa foi feita
 
         const guestsFiltered = guests.filter(
-            (guest) => guest.name.toLowerCase().includes(searchTerm.toLowerCase()),
-        )
-        await delay()
+            (guest) => guest.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        await delay();
 
-        setReservations(guestsFiltered)
-        setLoading(false)
-    }
+        setReservations(guestsFiltered);
+        setLoading(false);
+    };
 
     const handleClickEnter = async (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (searchTerm.length === 0) {
@@ -63,28 +66,25 @@ export function ReservationSearch() {
         if (event.key === "Enter") {
             await handleSubmit();
         }
-    }
+    };
 
     const handleExecute = () => {
         setSearchTerm("");
-        setReservations([])
+        setReservations([]);
+        setHasSearched(false); 
         handleOpenReserveSearch(false);
         router.push(`/hotel-ao/reservas`);
-    }
+    };
+
     return (
         <div
-            className={`fixed top-16 right-2 w-[400px] shadow-md border border-gray-200 bg-white rounded-lg z-50
+            className={`fixed top-[4.3rem] right-2 w-[400px] shadow-md border border-gray-200 bg-white rounded-lg z-50
           transition-transform duration-200 ${state ? "scale-100 opacity-100" : "scale-95 opacity-0 pointer-events-none"
                 }`}
             ref={dropdownRefReserveSearch}
         >
             {state && (
                 <div className="p-4">
-                    {/* Título */}
-                    <p className="text-sm text-gray-500 mb-4">
-                        Busque reservas pelo ID da reserva ou nome do hóspede
-                    </p>
-
                     {/* Input e Botão */}
                     <div className="flex items-center border border-gray-300 focus-within:border-primary bg-gray-50 p-2 shadow-sm transition-colors">
                         <button
@@ -106,10 +106,11 @@ export function ReservationSearch() {
                             className="flex-1 px-4 py-2 text-sm bg-transparent placeholder-gray-500 text-gray-700 border-none focus:outline-none focus:ring-0 "
                         />
                     </div>
-                    {/* Loading  e Resultados */}
+
+                    {/* Loading e Resultados */}
                     <div className="mt-4">
                         {loading ? (
-                            <div className="p-2  space-y-2">
+                            <div className="p-2 space-y-2">
                                 {[...Array(2)].map((_, i) => (
                                     <div key={i} className="p-4 bg-white">
                                         <Skeleton className="h-6 w-3/4 mb-4" />
@@ -117,11 +118,18 @@ export function ReservationSearch() {
                                     </div>
                                 ))}
                             </div>
-                        ) : reservations.length === 0 ? (
+                        ) : reservations.length === 0 && !hasSearched ? (
+                            // Mostra a mensagem inicial quando não há pesquisa
+                            <p className="text-sm text-gray-500 mb-4">
+                                Busque reservas pelo ID da reserva ou nome do hóspede
+                            </p>
+                        ) : reservations.length === 0 ?  (
+                            // Mostra a mensagem de "nenhuma reserva encontrada" após a pesquisa
                             <div className="text-sm text-gray-500">
                                 Nenhuma reserva encontrada.
                             </div>
                         ) : (
+                            // Exibe os resultados quando existem
                             <div className="max-h-60 overflow-y-auto border-t mt-2 pt-2">
                                 {reservations.map((reservation) => (
                                     <div
@@ -144,10 +152,11 @@ export function ReservationSearch() {
                             </div>
                         )}
                     </div>
+
                 </div>
             )}
         </div>
-
-    )
+    );
 }
+
 
