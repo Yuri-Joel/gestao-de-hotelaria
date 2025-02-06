@@ -50,7 +50,7 @@ const ConfirmLoginPage = () => {
 				<h1>{email}</h1>
 			</div>
 			<h2 className="font-medium text-xl">Insira a sua senha</h2>
-			<div className="h-24 mb-8">
+			<div className="h-24 mb-14">
 				<Input
 					className={`mb-1 ${isInvalidPassword ? "border-red-500" : "border-inherit"}`}
 					type="password"
