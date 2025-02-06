@@ -1,68 +1,69 @@
-"use client";
-import AlertDialog from "@/components/AlertDialog/AlertDialog";
-import { Header } from "@/components/header/Header";
-import HeadTitle from "@/components/HeadTitle";
-import { MenuProfile } from "@/components/MenuProfileDrop/MenuProfile";
-import { ReservationSearch } from "@/components/ReserveSearch/ReserveSearch";
-import { Sidebar } from "@/components/Sidebar/Sidebar";
-import { formatPathName } from "@/helpers/formatPathString";
-import { modalManagementStore } from "@/store/modalManagementStore";
-import { usePathname } from "next/navigation";
+import Link from 'next/link';
+import React, { useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { NavIcon } from '@/assets/Icons/Header/navIcon';
+import sideBarStateStore from '@/store/sideBarStateStore';
+import { UserCircleIcon } from '@/assets/Icons/UserIcon';
+import { MagnifieIcon } from '@/assets/Icons/MagnifierIcon';
+import ReserveSearchStore from '@/store/ReserveSearchStore';
+import MenuProfileStore from '@/store/MenuProfile';
+import { formatPathName } from '@/helpers/formatPathString';
 
-const PrivateLayout = ({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) => {
-
-  const { handleOpenAlertDialogConfirmLogout, isOpenedAlertDialogConfirmLogout } = modalManagementStore();
-
-  const handleOut = () => {
-    // removeAuthCookie() // remove o cookie do navegador
-    window.location.href = '/login'
-  }
+export const Header = () => {
   const pathname = usePathname();
+  const slug = "hotel-ao"
+  const { changeSideBarState, state, closeAllSubMenus } = sideBarStateStore();
+  const { handleOpenReserveSearch } = ReserveSearchStore()
+  const { handleOpenDropdownProfile } = MenuProfileStore();
 
-  const route = pathname.split('/')[2].toUpperCase();
+  const [OpenReserve, setOpenReserve] = useState(false);
+  const [OpenProfile, setOpenProfile] = useState(false)
+  const toggleSidebar = () => {
+    if (state) {
+      closeAllSubMenus(); // Fecha todos os submenus
+    }
+    changeSideBarState(!state); // Alterna o estado do sidebar
+  };
+
+  const toggleMenuReserve = () => {
+    setOpenReserve(!OpenReserve)
+    setOpenProfile(false)
+    handleOpenReserveSearch(!OpenReserve)
+  }
+
+  const toggleMenuProfile = () => {
+    setOpenReserve(false)
+    setOpenProfile(!OpenProfile)
+    handleOpenDropdownProfile(!OpenProfile)
+  }
 
   return (
-    <>
-      <HeadTitle title={route && `${route} - Hoteli Apps - PMS`} />
+    <header className="fixed top-0 left-0 right-0 h-[65px] px-5 text-black flex justify-between items-center bg-white border-b">
+      <div className="flex items-center space-x-4">
+        {formatPathName(pathname) !== "propriedades" && (
+          <button onClick={toggleSidebar} className="text-gray-500 focus:outline-none">
+            <NavIcon stroke='black' />
+          </button>
+        )}
 
-      <div className="flex flex-col h-screen">
-        <Header />
-
-        <div className="flex flex-col h-screen">
-          <MenuProfile />
-          <ReservationSearch />
-          <div className="pt-[60px] flex flex-1 overflow-hidden">
-            {formatPathName(pathname) !== "propriedades" && <Sidebar />}
-
-            <main className="flex-1 overflow-auto bg-white-100">
-              <div className="">{children}</div>
-            </main>
-          </div>
-        </div>
-
-        <AlertDialog
-          typeAlert="confirm"
-          title="Tem certeza que deseja terminar a sua sessão?"
-          description="Ao confirmar, as sua sessão será terminada."
-
-          confirmTitleBtn="Sim, tenho certeza"
-          cancelTitleBtn="Cancelar"
-
-          hideTypeAlertIcon
-          modeLogout
-
-          isOpenedModalManagement={isOpenedAlertDialogConfirmLogout}
-          handleConfirm={handleOut}
-          handleCancel={handleOpenAlertDialogConfirmLogout}
-          isBtnLoading={false}
-        />
+        <Link href="/">
+          <h1 className="">Hoteli Apps - PMS</h1>
+        </Link>
       </div>
-    </>
+      <div className="flex gap-2 mt-2">
+        <Link href={/${slug}/propriedades} className='mr-1'>
+          Selecionar Propriedade
+        </Link>
+        {formatPathName(pathname) !== "propriedades" && (
+          <button onClick={() => toggleMenuReserve()} className='outline-none'>
+            <MagnifieIcon width={50} height={30} stroke="black" />
+          </button>
+        )}
+        <button className='outline-none' onClick={() => toggleMenuProfile()}>
+          <UserCircleIcon width={50} height={30} />
+        </button>
+      </div>
+
+    </header>
   );
 };
-
-export default PrivateLayout;
