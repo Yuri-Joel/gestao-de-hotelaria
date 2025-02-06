@@ -1,6 +1,6 @@
 "use client";
 import AlertDialog from "@/components/AlertDialog/AlertDialog";
-import { Header } from "@/components/Header/Header";
+import { Header } from "@/components/header/Header";
 import HeadTitle from "@/components/HeadTitle";
 import { MenuProfile } from "@/components/MenuProfileDrop/MenuProfile";
 import { ReservationSearch } from "@/components/ReserveSearch/ReserveSearch";
