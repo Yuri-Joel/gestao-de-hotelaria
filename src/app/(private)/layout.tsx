@@ -1,6 +1,6 @@
 "use client";
 import AlertDialog from "@/components/alertDialog/alertDialog";
-import { Header } from "@/components/header/Header";
+import { Header } from "@/components/Header/Header";
 import HeadTitle from "@/components/HeadTitle";
 import { MenuProfile } from "@/components/MenuProfileDrop/MenuProfile";
 import { ReservationSearch } from "@/components/ReserveSearch/ReserveSearch";
@@ -31,7 +31,6 @@ const PrivateLayout = ({
 
       <div className="flex flex-col h-screen">
         <Header />
-
         <div className="flex flex-col h-screen">
           <MenuProfile />
           <ReservationSearch />
