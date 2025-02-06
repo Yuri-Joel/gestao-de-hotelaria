@@ -9,6 +9,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 
 const Page: React.FC = () => {
+  
   const router = useRouter();
   const categoryItems = ["Hotel", "Pousada", "Hostel", "Outro"];
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -37,7 +38,7 @@ const Page: React.FC = () => {
   useEffect(() => {
     resetStore();
     firstStore();
-  }, [])
+  }, []);
 
   return (
     <div className="flex items-center justify-center h-[calc(100vh-60px)] w-full ">
@@ -68,7 +69,7 @@ const Page: React.FC = () => {
           />
 
           <Button
-            handleActive={() => category && name ? true : false}
+            handleActive={() => (category && name ? true : false)}
             handleClick={() => nextStep()}
             className="mt-6 w-full  text-white bg-primary"
           >
@@ -117,17 +118,11 @@ const Page: React.FC = () => {
       {step === "validation" && (
         <AlertDialog
           title=""
-          description={
-            name
-              ? "Sua propriedade foi cadastrada com sucesso"
-              : "Falha ao cadastrar uma nova propriedade"
-          }
-          confirmTitleBtn={name ? "Ir para propriedades" : "Voltar"}
           cancelTitleBtn="Voltar"
           isOpenedModalManagement={isModalOpen}
           handleConfirm={handleConfirm}
           handleCancel={name ? handleCancel : () => firstStore()}
-          typeAlert={(Math.random() * (1 - 0) + 0) < 0.4 ? "Confirmar" : "Voltar"}
+          typeAlert={Math.random() * (1 - 0) + 0 < 0.4 ? "Confirmar" : "Voltar"}
           hideCloseButton
         />
       )}

@@ -5,51 +5,46 @@ import { RightIcon } from "@/assets/Icons/RightIcon";
 import { usePropertyStore } from "@/store/propetyAcordionStorage";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+
 interface IAlertDialog {
   title: string;
-  description: string;
-  confirmTitleBtn: string;
   cancelTitleBtn: string;
   isOpenedModalManagement: boolean;
   isBtnLoading?: any | boolean;
   handleConfirm: () => void;
   handleCancel: () => void;
   typeAlert: "Confirmar" | "Voltar";
-  hideCloseButton?: boolean
+  hideCloseButton?: boolean;
 }
 
 const AlertDialog: React.FC<IAlertDialog> = ({
-  description,
-  confirmTitleBtn,
   isOpenedModalManagement,
-  handleConfirm,
   handleCancel,
   typeAlert = "Voltar",
-  hideCloseButton = false
+  hideCloseButton = false,
 }) => {
-
-  const {resetStore, firstStore} = usePropertyStore();
+  const { resetStore, firstStore } = usePropertyStore();
   const Route = useRouter();
-  const [Isloading , setIsloading] = useState(false);
-  
-  const handleAddPropety =  () => {
+  const [Isloading, setIsloading] = useState(false);
+
+  const handleAddPropety = () => {
     resetStore();
   };
 
-  const handleCheckConfirm =  () => {
-    setIsloading(true)
+  const handleCheckConfirm = () => {
+    setIsloading(true);
     try {
-      Route.push("/hotel-ao/propriedades")
+      Route.push("/hotel-ao/propriedades");
     } finally {
-      setIsloading(false)
+      setIsloading(false);
     }
   };
- 
 
   return (
     <div
-      className={`bg-gray-600/25 shadow-lg fixed top-0 left-0 right-0 bottom-0 z-[1000] ${isOpenedModalManagement ? "h-full" : "h-0 overflow-hidden"
-        } flex items-center justify-center`}
+      className={`bg-gray-600/25 shadow-lg fixed top-0 left-0 right-0 bottom-0 z-[1000] ${
+        isOpenedModalManagement ? "h-full" : "h-0 overflow-hidden"
+      } flex items-center justify-center`}
     >
       <div className="w-[450px] bg-white h-auto flex flex-col p-7 gap-5">
         <div className="flex flex-col items-center relative">
@@ -58,9 +53,7 @@ const AlertDialog: React.FC<IAlertDialog> = ({
               className="cursor-pointer absolute right-0"
               onClick={handleCancel}
             >
-              <XIcon
-                fill="#000"
-              />
+              <XIcon fill="#000" />
             </div>
           )}
 
@@ -81,22 +74,32 @@ const AlertDialog: React.FC<IAlertDialog> = ({
           <h2 className="text-lg font-semibold text-black">
             {typeAlert === "Confirmar" ? "Sucesso" : "Erro"}
           </h2>
-          {description && (
-            <p className="text-md text-gray-600 ">{description}</p>
+          {typeAlert == "Confirmar" ? (
+            <p className="text-md text-gray-600 ">
+              {"Sua propriedade foi cadastrada com sucesso"}
+            </p>
+          ) : (
+            <p className="text-md text-gray-600 ">
+              {"Falha ao cadastrar uma nova propriedade"}
+            </p>
           )}
         </div>
 
         <div className="flex flex-col justify-end gap-2">
           <Button
-            handleClick={typeAlert === "Confirmar" ? () => handleCheckConfirm() : () => firstStore()}
+            handleClick={
+              typeAlert === "Confirmar"
+                ? () => handleCheckConfirm()
+                : () => firstStore()
+            }
             handleActive={() => true}
             width="100%"
-            isLoading ={Isloading}
+            isLoading={Isloading}
             backgroundColor={
               typeAlert === "Confirmar" ? "primary" : "rgb(200 30 30)"
             }
           >
-            {confirmTitleBtn}
+            {typeAlert === "Confirmar" ? "Ir para propriedades" : "Voltar"}
           </Button>
           {typeAlert == "Confirmar" && (
             <Button
