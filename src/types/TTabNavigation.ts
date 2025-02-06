@@ -1,4 +1,4 @@
-export interface TTabNavigation {
+export type TTabNavigation = {
   label: string;
   id: number;
 }
