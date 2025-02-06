@@ -1,12 +1,30 @@
 "use client"
 import { ReserveList } from '@/components/Home/ReserveList';
 import { TabNavigation } from '@/components/TabNavigation/TabNavigation';
+import { ITabNavigation } from '@/interfaces/TabNavigation';
+import StateReserveStore from '@/store/home/headerStore';
 import React from 'react';
 
 const page: React.FC = () => {
+  
+  const {selectedStateReserve,setSelectStateStateReserve} = StateReserveStore();
+
+  const menuItems = [
+    { id: 1, label: "Novas Reservas" },
+    { id: 2, label: "Minhas reservas" },
+    { id: 3, label: "Chegadas" },
+    { id: 4, label: "Durante a estadia" },
+    { id: 5, label: "Partidas" },
+    { id: 6, label: "Cancelamentos" },
+];
+
     return (
         <div className="flex flex-col h-screen">
-         <TabNavigation />     
+         <TabNavigation
+          selectedTitle={selectedStateReserve}
+          setSelectedTitle={setSelectStateStateReserve} 
+          menuItems={menuItems}
+         />     
           <div className="flex flex-1 overflow-hidden">
             <div className="flex-1 border-r"> 
               <div className="divide-y">
