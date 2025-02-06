@@ -8,14 +8,14 @@ import { modalManagementStore } from "@/store/modalManagementStore";
 export const MenuProfile = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { handleOpenDropdownProfile, state } = MenuProfileStore();
-    const { handleOpenAlertDialogConfirmLogout } = modalManagementStore();
-  
+  const { handleOpenAlertDialogConfirmLogout } = modalManagementStore();
+
   const router = useRouter();
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        
+
         handleOpenDropdownProfile(false);
       }
     }
@@ -31,9 +31,8 @@ export const MenuProfile = () => {
 
   return (
     <div
-      className={`fixed top-[4.3rem] right-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50 transition-transform duration-200 ${
-        state ? "scale-100" : "scale-0"
-      }`}
+      className={`fixed top-[4.3rem] right-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50 transition-transform duration-200 ${state ? "scale-100" : "scale-0"
+        }`}
       ref={dropdownRef}
     >
       {/* Dropdown Content */}
@@ -41,7 +40,7 @@ export const MenuProfile = () => {
         <ul className="py-2">
           <li>
             <button
-              onClick={() => handleNavigate("/minha-conta")}
+              onClick={() => handleNavigate("/profile")}
               className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
             >
               Minha Conta
@@ -49,7 +48,7 @@ export const MenuProfile = () => {
           </li>
           <li>
             <button
-              onClick={() => handleNavigate("/configuracoes")}
+              onClick={() => handleNavigate("/settings")}
               className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
             >
               Configurações
@@ -59,7 +58,7 @@ export const MenuProfile = () => {
             <button
               onClick={() => {
                 handleOpenDropdownProfile(false);
-               handleOpenAlertDialogConfirmLogout()
+                handleOpenAlertDialogConfirmLogout()
               }}
               className="w-full px-4 py-2 text-left text-sm text-red-500 hover:bg-gray-100"
             >
