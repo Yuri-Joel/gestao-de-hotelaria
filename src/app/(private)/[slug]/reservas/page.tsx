@@ -1,5 +1,5 @@
 import { BodyHome } from "@/components/reservas/home/BodyHome";
-import { fakeGuest } from "@/data/guest";
+import { fakeGuest } from "@/utils/api/guest";
 
 
 const page: React.FC = () => {

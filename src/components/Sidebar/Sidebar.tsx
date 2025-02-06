@@ -50,7 +50,7 @@ export function Sidebar() {
                 },
                 {
                     label: "Mapa",
-                    path: "/mapa",
+                    path: "/reservas/mapa",
                 }
             ]
         },
