@@ -29,7 +29,7 @@ export function Sidebar() {
             subMenu: [
                 {
                     label: "Inicio",
-                    path: "/inicio",
+                    path: "/quartos",
                 },
                 {
                     label: "Mapa",
@@ -39,14 +39,14 @@ export function Sidebar() {
         },
         {
             label: "Reservas",
-            path: "/reservas/details",
+            path: "/reservas",
             iconClass: "h-6 w-6",
             IconLeft: DirectionRightIcon,
             IconRight: ArrowDown,
             subMenu: [
                 {
                     label: "Inicio",
-                    path: "/inicio",
+                    path: "/reservas",
                 },
                 {
                     label: "Mapa",
