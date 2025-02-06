@@ -1,4 +1,3 @@
-import { IRoomDetail } from "@/interfaces/IRoomDetail";
 import {
 	FaX,
 	FaUser,
@@ -12,12 +11,13 @@ import { formatCurrency } from "@/helpers/formatCurrency";
 import Link from "next/link";
 import { Tooltip } from "react-tooltip";
 import { Dispatch, SetStateAction } from "react";
+import { RoomEntity } from "@/interfaces/RoomEntity";
 
 export const RoomDetailModal = ({
 	room,
 	close,
 }: {
-	room: IRoomDetail;
+	room: RoomEntity;
 	close: Dispatch<SetStateAction<boolean>>;
 }) => {
 	const states = [
@@ -41,7 +41,7 @@ export const RoomDetailModal = ({
 	const handleCopy = (e: React.SyntheticEvent<SVGElement>) => {
 		(async () => {
 			try {
-				await window.navigator.clipboard.writeText(room.reserveId);
+				await window.navigator.clipboard.writeText(room.reserve?.id.toString() || "");
 			} catch (e) {
 				console.log(e);
 			}
@@ -54,10 +54,10 @@ export const RoomDetailModal = ({
 		<div className="pt-[65px] min-h-screen w-fit fixed top-0 right-0 bottom-0 flex justify-end z-[100]">
 			<div className="bg-white shadow-[0px_4px_4px_5px_rgba(0,0,0,0.4)] h-full w-[22rem] border overflow-auto no-scrollbar">
 				<div
-					className={`flex ${states[room.stateId].bg} text-white justify-between items-center p-8`}
+					className={`flex ${states[room.state].bg} text-white justify-between items-center p-8`}
 				>
 					<h1 className="font-bold text-2xl">
-						{states[room.stateId].title}
+						{states[room.state].title}
 					</h1>
 					<button
 						className=" w-8 h-8 rounded-[50%] flex items-center justify-center text-white cursor-pointer"
@@ -69,11 +69,11 @@ export const RoomDetailModal = ({
 				<div className="border-b p-8 border-b-black gap-2 flex flex-col *:text-sm">
 					<div className="flex items-center gap-2">
 						<FaUser />
-						<h1 className="font-bold">{room.userFullName}</h1>
+						<h1 className="font-bold">{room.reserve?.guest.name}</h1>
 					</div>
 					<div className="flex items-center gap-2">
 						<FaWhatsapp />
-						<h1>{room.userCellNumber}</h1>
+						<h1>{room.reserve?.guest?.name}</h1>
 					</div>
 				</div>
 				<div className="border-b p-8 border-b-black gap-2 flex flex-col *:text-sm">
@@ -84,7 +84,7 @@ export const RoomDetailModal = ({
 						</div>
 						<div className="pl-6">
 							<p className="text-black">
-								{room.agency ? room.agency : "Não informado"}
+								{room.reserve?.agency ? room.reserve?.agency : "Não informado"}
 							</p>
 						</div>
 					</div>
@@ -95,7 +95,7 @@ export const RoomDetailModal = ({
 						</div>
 						<div className="pl-6">
 							<p className="text-black">
-								{room.client ? room.client : "Não informado"}
+								{room.reserve?.guest.name ? room.reserve?.guest.name : "Não informado"}
 							</p>
 						</div>
 					</div>
@@ -103,7 +103,7 @@ export const RoomDetailModal = ({
 				<div className="border-b p-8 border-b-black gap-2 flex flex-col *:text-sm">
 					<div className="flex flex-col justify-center gap-2">
 						<div className="flex items-center gap-2">
-							<h1 className="font-bold">#{room.reserveId}</h1>
+							<h1 className="font-bold">#{room.reserve?.id}</h1>
 							<FaCopy
 								className="cursor-pointer"
 								data-tooltip-id="copiar"
@@ -114,8 +114,8 @@ export const RoomDetailModal = ({
 						</div>
 						<div>
 							<p className="text-black">
-								{room.createdAt.toLocaleDateString("pt-BR")} -{" "}
-								{room.updatedAt.toLocaleDateString("pt-BR")}
+								{room.reserve?.createdAt.toLocaleDateString("pt-BR")} -{" "}
+								{room.reserve?.updatedAt.toLocaleDateString("pt-BR")}
 							</p>
 						</div>
 					</div>
@@ -125,7 +125,7 @@ export const RoomDetailModal = ({
 							<h1 className="font-bold">Referência externa</h1>
 						</div>
 						<div className="flex items-center gap-2">
-							<h1>#{room.externReference}</h1>
+							<h1>#{room.reserve?.externReference}</h1>
 							<FaArrowRight
 								className="cursor-pointer"
 								data-tooltip-id="ref"
@@ -138,19 +138,19 @@ export const RoomDetailModal = ({
 				<div className="p-8 gap-2 flex flex-col *:text-sm">
 					<div className="flex flex-col justify-center gap-2">
 						<h1 className="font-bold">VALOR DA DIÁRIA</h1>
-						<p>{formatCurrency(room.dailyValue)}</p>
+						<p>{formatCurrency(room.reserve?.dailyValue || 0)}</p>
 					</div>
 					<div className="flex flex-col justify-center gap-2">
 						<h1 className="font-bold">VALOR DOS PRODUTOS</h1>
-						<p>{formatCurrency(room.productValue)}</p>
+						<p>{formatCurrency(room.reserve?.productValue || 0)}</p>
 					</div>
 					<div className="flex flex-col justify-center gap-2">
 						<h1 className="font-bold">VALOR DOS SERVIÇOS</h1>
-						<p>{formatCurrency(room.servicesValue)}</p>
+						<p>{formatCurrency(room.reserve?.servicesValue || 0)}</p>
 					</div>
 					<div className="flex flex-col justify-center gap-2">
 						<h1 className="font-bold">VALOR DA COBRANÇA</h1>
-						<p>{formatCurrency(room.taxValue)}</p>
+						<p>{formatCurrency(room.reserve?.taxValue || 0)}</p>
 					</div>
 				</div>
 				<div className="flex justify-end w-full">

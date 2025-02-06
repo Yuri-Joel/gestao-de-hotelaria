@@ -1,6 +1,6 @@
 "use client"
 
-import { ITabNavigation } from "@/interfaces/TabNavigationEntity";
+import { ITabNavigation } from "@/interfaces/TTabNavigation";
 import StateReserveStore from "@/store/home/headerStore";
 
 interface TabNavigationProps {

@@ -1,9 +1,9 @@
-import { guestEntity } from "./guestEntity";
+import { GuestEntity } from "./GuestEntity";
 import { RoomEntity } from "./RoomEntity";
 
 export interface ReserveEntity {
   id: number;
-  guest: guestEntity
+  guest: GuestEntity
   room: RoomEntity
   checkIn: Date
   checkOut: Date
