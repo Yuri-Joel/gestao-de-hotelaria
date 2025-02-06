@@ -35,13 +35,14 @@ const Page: React.FC = () => {
     firstStore();
   };
   useEffect(() => {
-    firstStore()
+    resetStore();
+    firstStore();
   }, [])
 
   return (
     <div className="flex items-center justify-center h-[calc(100vh-60px)] w-full ">
       {step === "first" && (
-        <div className=" w-[600px]  bg-white shadow-xl flex flex-col p-10">
+        <div className=" w-[600px]  bg-white shadow-[0_0_10px_rgba(0,0,0,0.3)] flex flex-col p-10">
           <h1 className="font-bold text-xl w-full text-center">
             Vamos cadastrar a sua propriedade?
           </h1>
@@ -77,7 +78,7 @@ const Page: React.FC = () => {
       )}
 
       {step === "second" && (
-        <div className=" w-[600px] bg-white shadow-xl flex flex-col p-10">
+        <div className=" w-[600px] shadow-[0_0_10px_rgba(0,0,0,0.3)]  bg-white flex flex-col p-10">
           <h1 className="font-bold text-xl w-full text-center">
             Dados da Propriedade
           </h1>
