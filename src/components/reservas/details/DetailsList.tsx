@@ -21,7 +21,7 @@ export function DetailsList() {
   return(
     <div className="flex flex-col gap-y-5">
       <Box title="Tarefas Rapidas">
-        <ul className="flex flex-col gap-y-3">
+        <ul className="flex flex-col gap-y-3 text-primary-700">
           {
             tarefas.map((tarefas,index) => (
               <li className="text-md cursor-pointer" key={index}>

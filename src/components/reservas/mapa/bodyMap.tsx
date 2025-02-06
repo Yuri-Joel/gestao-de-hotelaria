@@ -1,7 +1,7 @@
 'use client'
 import { CgChevronLeft, CgChevronRight } from "react-icons/cg";
 import { formatDateShort } from "@/helpers/formatDateExperimental";
-import { reservaStore } from "@/store/reservasStore";
+import { reserveStore } from "@/store/reserveStore";
 import { Wrapper } from "@/components/Wrapper";
 
 export function BodyMap() {
@@ -10,7 +10,7 @@ export function BodyMap() {
   const { 
     currentDate, 
     setCurrentDate
-  } = reservaStore()
+  } = reserveStore()
   const indexDay = new Date().getDay()
   const year = new Date().getFullYear()
   const newDate = days[indexDay] + " , " + formatDateShort(currentDate) + " " + year

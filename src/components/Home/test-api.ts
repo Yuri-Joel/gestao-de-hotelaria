@@ -9,7 +9,7 @@ export  const guests = [
     {id:7, name: "Yuri Gomes", checkin: new Date("2025-02-07"), checkout: new Date("2025-02-10"), state: "Novas Reservas" },
     {id: 8, name: "Jumper", checkin: new Date("2025-02-07"), checkout: new Date("2025-02-10"), state: "Novas Reservas" },
     {id:9, name: "Abraão Daniel", checkin: new Date("2025-02-04"), checkout: new Date("2025-02-08"), state: "Cancelamentos" },
-    { id:10,name: "ROSA MOURA", checkin: new Date("2025-02-06"), checkout: new Date("2025-02-09"), state: "nova reserva" },
+    {id:10,name: "ROSA MOURA", checkin: new Date("2025-02-06"), checkout: new Date("2025-02-09"), state: "nova reserva" },
     {id:11, name: "BRUNA ALMEIDA", checkin: new Date("2025-02-03"), checkout: new Date("2025-02-07"), state: "Cancelamentos" },
     {id:12, name: "CARLOS EDUARDO", checkin: new Date("2025-02-08"), checkout: new Date("2025-02-11"), state: "Minhas reservas" },
   ];
