@@ -1,7 +1,7 @@
 "use client"
 import { ReserveList } from '@/components/Home/ReserveList';
 import { TabNavigation } from '@/components/TabNavigation/TabNavigation';
-import { ITabNavigation } from '@/interfaces/TabNavigation';
+import { ITabNavigation } from '@/interfaces/TabNavigationEntity';
 import StateReserveStore from '@/store/home/headerStore';
 import React from 'react';
 
@@ -11,7 +11,6 @@ const page: React.FC = () => {
 
   const menuItems = [
     { id: 1, label: "Novas Reservas" },
-    { id: 2, label: "Minhas reservas" },
     { id: 3, label: "Chegadas" },
     { id: 4, label: "Durante a estadia" },
     { id: 5, label: "Partidas" },
