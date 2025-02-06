@@ -1,6 +1,6 @@
 import { formatDateShort } from "@/helpers/formatDateExperimental";
 import StateReserveStore from "@/store/home/headerStore";
-import { guests } from "./test-api";
+import { guests } from "../../utils/api/test-api";
 import { Skeleton } from "../Skeleton/Skeleton";
 import { useState, useEffect } from "react";
 import { delay } from "@/helpers/delay";

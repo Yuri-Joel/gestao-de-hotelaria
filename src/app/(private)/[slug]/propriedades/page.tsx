@@ -1,7 +1,7 @@
 "use client"
 import { PropertiesList } from '@/components/propriedades/PropertiesList';
 import React from 'react';
-import { fakeProperties } from '@/data/properties';
+import { fakeProperties } from '@/utils/api/properties';
 
 const page: React.FC = () => {
   return (
