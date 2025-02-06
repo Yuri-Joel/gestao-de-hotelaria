@@ -1,5 +1,5 @@
 import { Wrapper } from "@/components/Wrapper";
-import UnderDevelopmentMode from "@/components/underDevelopmentMode/UnderDevelopmentMode";
+import UnderDevelopmentMode from "@/components/UnderDevelopmentMode/UnderDevelopmentMode";
 
 const page: React.FC = () => {
   return <Wrapper title="QUARTOS-INICIO" children={<UnderDevelopmentMode />} />;

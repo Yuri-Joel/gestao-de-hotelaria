@@ -15,22 +15,27 @@ const ConfirmLoginPage = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isInvalidPassword, setIsInvalidPassword] = useState(false);
 	const { password, email } = useLoginFormStore();
+
 	const handleSignInClick = () => {
 		setIsLoading(true);
-		Cookies.set("pms_token", JSON.stringify({ email, password }));
+		Cookies.set(`${process.env.NEXT_PUBLIC_TOKEN_COOKIE_NAME}`, JSON.stringify({ email, password }));
 		router.push("/");
 	};
+
 	const handleSignInActive = () => {
 		if (password.length > 0) return true;
 		return false;
 	};
+
 	const handleReturnActive = () => {
 		if (isLoading) return false;
 		return true;
 	};
+
 	const handleReturnClick = () => {
 		router.push("/login");
 	};
+
 	useEffect(() => {
 		if (!email) router.push("/login");
 	}, [email, router]);

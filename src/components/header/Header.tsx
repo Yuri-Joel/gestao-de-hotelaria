@@ -28,7 +28,7 @@ export const Header = () => {
     setOpenProfile(false)
     handleOpenReserveSearch(!OpenReserve)
   }
-  
+
   const toggleMenuProfile = () => {
     setOpenReserve(false)
     setOpenProfile(!OpenProfile)
@@ -38,7 +38,7 @@ export const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 h-[65px] px-5 text-black flex justify-between items-center bg-white border-b">
       <div className="flex items-center space-x-4">
-        {pathname && !["propriedades", "add-property"].includes(formatPathName(pathname)) && (
+        {formatPathName(pathname) !== "propriedades" && (
           <button onClick={toggleSidebar} className="text-gray-500 focus:outline-none">
             <NavIcon stroke='black' />
           </button>
@@ -53,12 +53,12 @@ export const Header = () => {
           Selecionar Propriedade
         </Link>
         {pathname &&
-          !["propriedades", "add-property"].includes(formatPathName(pathname)) && (
+          formatPathName(pathname) !== "propriedades" && (
             <button onClick={() => toggleMenuReserve()} className='outline-none'>
               <MagnifieIcon width={50} height={30} stroke="black" />
             </button>
           )}
-        <button className='outline-none' onClick={()=> toggleMenuProfile()}>
+        <button className='outline-none' onClick={() => toggleMenuProfile()}>
           <UserCircleIcon width={50} height={30} />
         </button>
       </div>

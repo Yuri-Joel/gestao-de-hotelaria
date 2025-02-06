@@ -12,7 +12,7 @@ export default function page() {
 
   useEffect(() => {
     ; (async function () {
-      const cookie = Cookies.get("pms_token")
+      const cookie = Cookies.get(`${process.env.NEXT_PUBLIC_TOKEN_COOKIE_NAME}`)
       await delay(2000);
       if (cookie && property) {
         router.push(`/${property}/home`);
