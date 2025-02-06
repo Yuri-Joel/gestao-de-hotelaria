@@ -10,7 +10,7 @@ const Dropdown: React.FC<T> = ({ list = [], addItem, dropdownPositionAbsolute })
   return (
     // <div id="dropdown" className="absolute shadow top-100 bg-white z-40 w-full lef-0 rounded max-h-select overflow-y-auto ">
     <div
-      className={`border bg-white rounded-md max-h-[200px] mt-2 ${Array.isArray(list) && list.length > 4 ? 'overflow-y-scroll' : ''} ${dropdownPositionAbsolute && 'absolute w-full'}`}
+      className={`border bg-white max-h-[200px] mt-2 ${Array.isArray(list) && list.length > 4 ? 'overflow-y-scroll' : ''} ${dropdownPositionAbsolute && 'absolute w-full'}`}
     >
       <div className="flex flex-col w-full">
         {list.map((item, key) => {

@@ -36,7 +36,7 @@ const Page: React.FC = () => {
   };
   useEffect(() => {
     firstStore()
-  },[])
+  }, [])
 
   return (
     <div className="flex items-center justify-center h-[calc(100vh-60px)] w-full ">
@@ -67,7 +67,7 @@ const Page: React.FC = () => {
           />
 
           <Button
-            handleActive={()=> category && name ? true : false }
+            handleActive={() => category && name ? true : false}
             handleClick={() => nextStep()}
             className="mt-6 w-full  text-white bg-primary"
           >
@@ -126,7 +126,7 @@ const Page: React.FC = () => {
           isOpenedModalManagement={isModalOpen}
           handleConfirm={handleConfirm}
           handleCancel={name ? handleCancel : () => firstStore()}
-          typeAlert={Math.random() < 0.2 ? "Confirmar" : "Voltar"}
+          typeAlert={(Math.random() * (1 - 0) + 0) < 0.4 ? "Confirmar" : "Voltar"}
           hideCloseButton
         />
       )}

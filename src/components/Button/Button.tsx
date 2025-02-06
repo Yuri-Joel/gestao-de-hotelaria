@@ -60,7 +60,7 @@ export const Button: React.FC<Tprops> = ({
   }, [toolTipTitle]);
 
   const classDefault = twMerge(
-    `bg-gray-400 duration-500 text-white h-[52px] rounded-lg font-semibold ${isActive ? 'bg-primary' : 'bg-gray-400'} disabled:bg-gray-300 select-none`,
+    `bg-gray-400 duration-500 text-white h-[52px] font-semibold ${isActive ? 'bg-primary' : 'bg-gray-400'} disabled:bg-gray-300 select-none`,
     props.className,
   )
 

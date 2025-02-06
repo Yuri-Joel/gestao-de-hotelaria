@@ -66,7 +66,7 @@ const Select: React.FC<SelectProps> = ({
     <div className={`w-full ${dropdownPositionAbsolute ? "relative z-10" : ""}`}>
       <div
         className={twMerge(
-          `flex flex-col h-14 rounded-lg border cursor-pointer ${selectedItem ? "bg-white" : ""} ${isOpen ? "border-primary bg-white" : "border-gray-200 bg-gray-50"}`,
+          `flex flex-col h-14 border cursor-pointer ${selectedItem ? "bg-white" : ""} ${isOpen ? "border-primary bg-white" : "border-gray-200 bg-gray-50"}`,
           className,
         )}
         onClick={onClick}
