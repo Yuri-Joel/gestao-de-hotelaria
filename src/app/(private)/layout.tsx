@@ -1,5 +1,5 @@
 "use client";
-import AlertDialog from "@/components/alertDialog/alertDialog";
+import AlertDialog from "@/components/AlertDialog/AlertDialog";
 import { Header } from "@/components/Header/Header";
 import HeadTitle from "@/components/HeadTitle";
 import { MenuProfile } from "@/components/MenuProfileDrop/MenuProfile";
@@ -44,11 +44,16 @@ const PrivateLayout = ({
         </div>
 
         <AlertDialog
-          typeAlert="Voltar"
+          typeAlert="confirm"
           title="Tem certeza que deseja terminar a sua sessão?"
-          /* description="Ao confirmar, as sua sessão será terminada."
-          confirmTitleBtn="Sim, tenho certeza" */
+          description="Ao confirmar, as sua sessão será terminada."
+
+          confirmTitleBtn="Sim, tenho certeza"
           cancelTitleBtn="Cancelar"
+
+          hideTypeAlertIcon
+          modeLogout
+
           isOpenedModalManagement={isOpenedAlertDialogConfirmLogout}
           handleConfirm={handleOut}
           handleCancel={handleOpenAlertDialogConfirmLogout}

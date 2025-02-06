@@ -1,5 +1,5 @@
 "use client";
-import AlertDialog from "@/components/alertDialog/alertDialog";
+import AlertDialog from "@/components/AlertDialog/AlertDialog";
 import { Button } from "@/components/Button/Button";
 import { Input } from "@/components/Input/Input";
 import Select from "@/components/Input/Select";
@@ -9,11 +9,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 
 const Page: React.FC = () => {
-  
   const router = useRouter();
-  const categoryItems = ["Hotel", "Pousada", "Hostel", "Outro"];
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const {
     name,
     category,
@@ -25,16 +21,45 @@ const Page: React.FC = () => {
     firstStore,
   } = usePropertyStore();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalCancelOpen, setIsModalCancelOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [isValidated, setIsValidated] = useState(false);
+
+  const categoryItems = ["Hotel", "Pousada", "Hostel", "Outro"];
+
   const handleConfirm = () => {
-    router.push("/hotel-ao/propriedades");
+    setIsLoading(true);
+    try {
+      router.push("/hotel-ao/propriedades");
+      resetStore();
+      setIsModalOpen(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setIsModalCancelOpen(false);
+    firstStore();
+  };
+
+  const handleAddMoreProperty = () => {
     resetStore();
     setIsModalOpen(false);
   };
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
-    firstStore();
-  };
+  const handleStepSecond = () => {
+    nextStep();
+
+    if (Math.random() * (1 - 0) + 0 >= 0.5) {
+      setIsModalOpen(true);
+    } else {
+      setIsModalCancelOpen(true);
+    }
+  }
+
   useEffect(() => {
     resetStore();
     firstStore();
@@ -78,7 +103,7 @@ const Page: React.FC = () => {
         </div>
       )}
 
-      {step === "second" && (
+      {(step === "second" || step === "validation") && (
         <div className=" w-[600px] shadow-[0_0_10px_rgba(0,0,0,0.3)]  bg-white flex flex-col p-10">
           <h1 className="font-bold text-xl w-full text-center">
             Dados da Propriedade
@@ -103,10 +128,7 @@ const Page: React.FC = () => {
             </Button>
             <Button
               handleActive={() => true}
-              handleClick={() => {
-                nextStep();
-                setIsModalOpen(true);
-              }}
+              handleClick={handleStepSecond}
               className="mt-6 w-full  text-white bg-primary"
             >
               Confirmar
@@ -117,13 +139,31 @@ const Page: React.FC = () => {
 
       {step === "validation" && (
         <AlertDialog
-          title=""
-          cancelTitleBtn="Voltar"
+          typeAlert={"confirm"}
+          title="Sucesso"
+          description="Sua propriedade foi cadastrada com sucesso"
+
+          confirmTitleBtn="Ir para propriedades"
+          cancelTitleBtn="Adicionar mais propriedade"
+
           isOpenedModalManagement={isModalOpen}
           handleConfirm={handleConfirm}
-          handleCancel={name ? handleCancel : () => firstStore()}
-          typeAlert={Math.random() * (1 - 0) + 0 < 0.4 ? "Confirmar" : "Voltar"}
-          hideCloseButton
+          handleCancel={handleAddMoreProperty}
+          hideCloseTopButton
+        />
+      )}
+
+      {step === "validation" && (
+        <AlertDialog
+          typeAlert={"cancel"}
+          title="Erro"
+          description="Falha ao cadastrar uma nova propriedade"
+
+          cancelTitleBtn="Voltar"
+
+          isOpenedModalManagement={isModalCancelOpen}
+          handleCancel={handleCancel}
+          hideCloseTopButton
         />
       )}
     </div>

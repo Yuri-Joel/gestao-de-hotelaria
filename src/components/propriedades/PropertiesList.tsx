@@ -133,7 +133,7 @@ export function PropertiesList({ data }: PropertiesProps) {
         </tbody>
         <tfoot>
           <tr>
-            <TableCell className="text-right" colSpan={2}>
+            <TableCell colSpan={2}>
               <div className="flex items-center justify-end gap-8">
                 <span>Pagina {page} de {totalPages}</span>
                 <div className="flex gap-1.5">

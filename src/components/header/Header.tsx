@@ -30,7 +30,7 @@ export const Header = () => {
     setOpenProfile(false)
     handleOpenReserveSearch(!OpenReserve)
   }
-  
+
   const toggleMenuProfile = () => {
     setOpenReserve(false)
     setOpenProfile(!OpenProfile)
@@ -59,11 +59,11 @@ export const Header = () => {
               <MagnifieIcon width={50} height={30} stroke="black" />
             </button>
           )}
-        <button className='outline-none' onClick={()=> toggleMenuProfile()}>
+        <button className='outline-none' onClick={() => toggleMenuProfile()}>
           <UserCircleIcon width={50} height={30} />
         </button>
       </div>
 
     </header>
-  );
+  ); 
 };

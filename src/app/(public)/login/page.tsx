@@ -30,7 +30,7 @@ const LoginPage = () => {
 				<div className="font-medium text-xl">
 					<h1>Iniciar sessão</h1>
 				</div>
-				<div className="h-24 mb-9">
+				<div className="h-24 mb-16">
 					<Input
 						type="email"
 						placeholder="Seu email"

@@ -15,22 +15,27 @@ const ConfirmLoginPage = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isInvalidPassword, setIsInvalidPassword] = useState(false);
 	const { password, email } = useLoginFormStore();
+
 	const handleSignInClick = () => {
 		setIsLoading(true);
-		Cookies.set("pms_token", JSON.stringify({ email, password }));
+		Cookies.set(`${process.env.NEXT_PUBLIC_TOKEN_COOKIE_NAME}`, JSON.stringify({ email, password }));
 		router.push("/");
 	};
+
 	const handleSignInActive = () => {
 		if (password.length > 0) return true;
 		return false;
 	};
+
 	const handleReturnActive = () => {
 		if (isLoading) return false;
 		return true;
 	};
+
 	const handleReturnClick = () => {
 		router.push("/login");
 	};
+
 	useEffect(() => {
 		if (!email) router.push("/login");
 	}, [email, router]);
@@ -45,7 +50,7 @@ const ConfirmLoginPage = () => {
 				<h1>{email}</h1>
 			</div>
 			<h2 className="font-medium text-xl">Insira a sua senha</h2>
-			<div className="h-24 mb-8">
+			<div className="h-24 mb-14">
 				<Input
 					className={`mb-1 ${isInvalidPassword ? "border-red-500" : "border-inherit"}`}
 					type="password"
