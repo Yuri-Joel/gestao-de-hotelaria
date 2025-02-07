@@ -1,3 +1,5 @@
+import { FloorListEntity } from "@/interfaces/FloorListEntity"
+
 export const fakeGuest: Reservers[] = [
   { id: 11111112, name: "CAROLINE DA SILVA", phone:"55 35 5432-3985",checkIn: new Date("2025-02-01"), checkOut: new Date("2025-02-03"),externReference: 2222222222, createAt: new Date("2025-02-05"), room: 101, payment: 1500 },
   { id: 11111113, name: "JOÃO PEREIRA", phone:"",checkIn: new Date("2025-02-04"), checkOut: new Date("2025-02-06"), externReference: 2222222222, createAt: new Date("2025-02-04"), room: 102, payment: 1500 },
@@ -16,4 +18,14 @@ export const fakeGuest: Reservers[] = [
   { id: 11525254, name: "Ana Maria", phone:"55 35 5432-3985",checkIn: new Date("2025-02-08"), checkOut: new Date("2025-02-11"), externReference: 2222222222, createAt: new Date("2025-02-05"), room: 405, payment: 1500 },
   { id: 11552554, name: "Alberto Costa EDUARDO", phone:"55 35 5432-3985",checkIn: new Date("2025-02-08"), checkOut: new Date("2025-02-11"), externReference: 2222222222, createAt: new Date("2025-02-05"), room: 302, payment: 1500 },
   { id: 15245454, name: " EDUARDO José", phone:"",checkIn: new Date("2025-02-08"), checkOut: new Date("2025-02-11"), externReference: 2222222222, createAt: new Date("2025-02-05"), room: 303, payment: 1500 },
+]
+export const fakeAndar : FloorListEntity[] = [
+  {id: 1, name: "1 Andar", Accessibility: "Sim", Status: "Disponível", Description: "Lorem Ipsum Chablau",
+  },
+  {id: 2, name: "2 Andar", Accessibility: "Não", Status: "Disponível", Description: "Lorem Ipsum Chablau",
+  },
+  {id: 3, name: "3 Andar", Accessibility: "Sim", Status: "Disponível", Description: "Lorem Ipsum Chablau",
+  },
+  {id: 4, name: "4 Andar", Accessibility: "Sim", Status: "Disponível", Description: "Lorem Ipsum Chablau",
+  },
 ]
