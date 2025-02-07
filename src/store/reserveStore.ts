@@ -1,12 +1,13 @@
 import { removeAuthCookie } from '@/helpers/cookies/authCookie';
 import { IResponse } from '@/helpers/handleRequest';
+import { ReserveEntity } from '@/interfaces/ReservesEntity';
 import { reserveServices } from '@/services/reserve/reserve';
 import { Types } from 'mongoose';
 import { create } from 'zustand'
 
 type State = {
-  reserves: Reservers[];
-  reserve: Reservers | null;
+  reserves: ReserveEntity[] | null;
+  reserve: ReserveEntity | null;
 
   searchData: Reservers[];
   searchInput: string;
@@ -30,8 +31,8 @@ type Actions = {
   setReservePerPage: (page: number) => void;
   setIschecked: (isChecked: string) => void
 
-  find: () => Promise<any>;
-  findOne: (reserveId: Types.ObjectId) => Promise<any>;
+  find: () => Promise<IResponse<ReserveEntity[]>>;
+  findOne: (reserveId: Types.ObjectId) => Promise<IResponse<ReserveEntity>>;
 }
 
 
