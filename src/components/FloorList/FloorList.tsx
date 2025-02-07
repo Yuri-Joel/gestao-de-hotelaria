@@ -12,6 +12,7 @@ import { Search } from "./Search";
 import { useFloorListStore } from "@/store/FloorListStore";
 import { FloorListEntity } from "@/interfaces/FloorListEntity";
 import { useSearchParams, useRouter } from "next/navigation";
+import Dropdown from "../Dropdown/Dropdown";
 
 interface PropertiesProps {
   data: FloorListEntity[];
@@ -43,7 +44,7 @@ export function FloorList({ data }: PropertiesProps) {
 
   function goToFirstPage() {
     goToPage(1);
-    setFloorsPerPage(10);
+    setFloorsPerPage(10); 
   }
 
   function goToNextPage() {
@@ -76,6 +77,7 @@ export function FloorList({ data }: PropertiesProps) {
 
   return (
     <div className="mt-5">
+      { false && (
       <Search
         data={data}
         setPage={setPage}
@@ -83,6 +85,10 @@ export function FloorList({ data }: PropertiesProps) {
         searchInput={searchInput}
         setSearchInput={setSearchInput}
       />
+    )}
+    <div className="mt-7">
+        <Link href="propriedades/add-floor" className="text-primary-700 font-bold text-md">Adicionar novo andar</Link>
+     </div>
 
       <Table className="w-full">
         <thead>
@@ -116,17 +122,23 @@ export function FloorList({ data }: PropertiesProps) {
                   {floor.Description}
                 </div>
               </TableCell>
-              <TableCell className="text-center">
-                <div className="p-2">
-                  {floor.name}
-                </div>
+              <TableCell className="text-right items-center flex justify-center">
+                <div className="flex justify-center relative items-center w-14 h-14 p-2">
+                 <Dropdown
+                 IconVisible= {false}
+                 id="2"
+                 data={[{id: "1", title: "Editar"},{id: "2", title: "Excluir"}]}
+                 selectedId="true"
+                 IsLeft ={false}
+                 />
+                 </div>
               </TableCell>
             </TableRow>
           ))}
         </tbody>
         <tfoot>
           <tr>
-            <TableCell colSpan={2}>
+            <TableCell colSpan={5}>
               <div className="flex items-center justify-end gap-8">
                 <span>Página {page} de {totalPages}</span>
                 <div className="flex gap-1.5">
@@ -148,9 +160,7 @@ export function FloorList({ data }: PropertiesProps) {
           </tr>
         </tfoot>
       </Table>
-      <div className="mt-7">
-        <Link href="propriedades/add-floor" className="text-primary-700 font-bold text-md">Adicionar novo andar</Link>
-      </div>
+      
     </div>
   );
 }

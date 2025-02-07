@@ -47,7 +47,7 @@ export function Search({ data, setSearchData, searchInput, setSearchInput, setPa
         <h1 className="font-semibold">Todos os Andares</h1>
         <Input
           value={searchInput}
-          placeholder="Nome ou ID da propriedade"
+          placeholder="Nome ou ID do andar"
           handleValue={searchFilter}
         />          
       </div>
