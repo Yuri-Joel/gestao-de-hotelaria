@@ -1,7 +1,6 @@
 "use client"
 import { ReserveList } from '@/components/Home/ReserveList';
 import { TabNavigation } from '@/components/TabNavigation/TabNavigation';
-import { ITabNavigation } from '@/interfaces/TabNavigationEntity';
 import StateReserveStore from '@/store/home/headerStore';
 import React from 'react';
 
