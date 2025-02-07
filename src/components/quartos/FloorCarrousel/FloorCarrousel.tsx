@@ -7,16 +7,19 @@ import { ArrowLeft } from '@/assets/Icons/ArrowLeft'
 import { ArrowRight } from '@/assets/Icons/ArrowRight'
 import { Skeleton } from '@/components/Skeleton/Skeleton'
 
-interface FloorCarouselProps { }
+interface FloorCarouselProps { 
+    loading: boolean
+    setloading: (arg: boolean)=> void
+}
 
-const FloorCarousel: React.FC<FloorCarouselProps> = () => {
+const FloorCarousel: React.FC<FloorCarouselProps> = ({loading, setloading}) => {
     const { floors, selectedFloor, setSelectedFloor } = floorStore()
     const carouselRef = useRef<HTMLDivElement>(null)
 
     const [showLeftArrow, setShowLeftArrow] = useState(false)
     const [showRightArrow, setShowRightArrow] = useState(true)
     const [lastScrollLeft, setLastScrollLeft] = useState(0);
-    const [loading, setloading] = useState(false)
+    
 
     // Função para verificar a posição do scroll e mostrar/esconder as setas
     const checkScrollPosition = () => {
@@ -85,6 +88,8 @@ const FloorCarousel: React.FC<FloorCarouselProps> = () => {
     useEffect(() => {
         // Cria um novo observador para detectar mudanças no tamanho do elemento
         const observer = new ResizeObserver(() => {
+            console.log("isso" ,observer);
+            
             checkScrollPosition(); // Chama a função para verificar a posição do scroll sempre que o tamanho muda
         });
 

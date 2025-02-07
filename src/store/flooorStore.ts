@@ -2,6 +2,8 @@ import { Types } from 'mongoose'
 import { create } from 'zustand'
 
 import { FloorEntity } from '@/interfaces/FloorEntity'
+import { removeAuthCookie } from '@/helpers/cookies/authCookie'
+import { floorServices } from '@/services/floor/floor'
 
 type State = {
   floors: FloorEntity[] | null
@@ -10,7 +12,7 @@ type State = {
 
 type Action = {
   setSelectedFloor: (floor: FloorEntity | null) => void
-  getFloors: (hotelId: Types.ObjectId) => Promise<any>
+  getFloors: () => Promise<any>
 }
 
 export const floorStore = create<State & Action>((set, get) => ({
@@ -22,6 +24,16 @@ export const floorStore = create<State & Action>((set, get) => ({
   setSelectedFloor: (floor) => set({ selectedFloor: floor }),
 
   getFloors: async () => {
+    const response = await floorServices().find();
   
+      if (response.status === 401) {
+        removeAuthCookie()
+        window.location.href = '/login'
+      }      
+      if (!response.error.value) {
+        set({ floors: response.data });
+      }
+  
+      return response;
   },
 }))

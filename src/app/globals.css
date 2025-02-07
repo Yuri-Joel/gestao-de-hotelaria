@@ -56,3 +56,13 @@ body {
   scrollbar-width: none;
   /* Firefox */
 }
+
+/* Scroll completamente invisível */
+.scrollbar-invisible {
+  -ms-overflow-style: none; /* Para IE e Edge */
+  scrollbar-width: none; /* Para Firefox */
+}
+
+.scrollbar-invisible::-webkit-scrollbar {
+  display: none; /* Para Chrome, Safari e Opera */
+}
