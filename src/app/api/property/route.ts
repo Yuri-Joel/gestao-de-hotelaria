@@ -10,11 +10,10 @@ export async function GET(): Promise<NextResponse> {
 
         const data = JSON.parse(jsonData);
 
-        return NextResponse.json(data, {
-            status: 200,
-        });
+        return NextResponse.json({ data, status: 200 });
     } catch (error) {
-        return NextResponse.json({ mensagem: 'Erro ao ler o arquivo.' }, {
+        return NextResponse.json({
+            error: 'Erro ao ler o arquivo.',
             status: 500,
         });
     }

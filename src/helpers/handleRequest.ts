@@ -8,21 +8,21 @@ interface IUseRequest extends RequestInit {
   apiBrasil?: boolean
 }
 
-export type IResponse = {
+export type IResponse<T> = {
   error: { value: boolean; msg: string }
   status: number | null
-  data: any | null
+  data: T | null
 }
 
 const baseURL = process.env.NEXT_PUBLIC_API_PMS as string
 const apiBrasilURl = process.env.NEXT_PUBLIC_API_BRASIL as string
 
-async function handleRequest({
+async function handleRequest<T>({
   url,
   method,
   apiBrasil,
   ...props
-}: IUseRequest): Promise<IResponse> {
+}: IUseRequest): Promise<IResponse<T>> {
   // Verifica conexão com a internet
   if (!navigator.onLine) {
     console.error(
@@ -71,7 +71,7 @@ async function handleRequest({
     return {
       error: { value: false, msg: '' },
       status: response.status,
-      data: res,
+      data: res.data as T,
     }
   } catch (error: any) {
     console.log('Erro global: ', error)

@@ -10,12 +10,11 @@ export async function GET(): Promise<NextResponse> {
 
         const data = JSON.parse(jsonData);
 
-        return NextResponse.json(data, {
-            status: 200,
-        });
+        return NextResponse.json({ data, status: 200 });
 
     } catch (error) {
-        return NextResponse.json({ mensagem: 'Erro ao ler o arquivo.' }, {
+        return NextResponse.json({
+            error: 'Erro ao ler o arquivo.',
             status: 500,
         });
     }
@@ -32,9 +31,9 @@ export async function POST(request: Request) {
 
         await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8');
 
-        return NextResponse.json({ mensagem: 'Dados adicionados com sucesso!' }, { status: 200 });
+        return NextResponse.json({ success: 'Dados adicionados com sucesso!', status: 200 });
     } catch (error) {
-        return NextResponse.json({ mensagem: 'Erro ao adicionar os dados.' }, { status: 500 });
+        return NextResponse.json({ error: 'Erro ao adicionar os dados.', status: 500 });
     }
 }
 
@@ -48,16 +47,16 @@ export async function PUT(request: Request) {
         const user = data.find((user: { email: string }) => user.email === email);
 
         if (!user) {
-            return NextResponse.json({ mensagem: 'Usuário não encontrado.' }, { status: 404 });
+            return NextResponse.json({ error: 'Usuário não encontrado.', status: 404 });
         }
 
         user.password = newPassword;
 
         await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8');
 
-        return NextResponse.json({ mensagem: 'Senha atualizada com sucesso!' }, { status: 200 });
+        return NextResponse.json({ success: 'Senha atualizada com sucesso!', status: 200 });
     } catch (error) {
-        return NextResponse.json({ mensagem: 'Erro ao atualizar a senha.' }, { status: 500 });
+        return NextResponse.json({ error: 'Erro ao atualizar a senha.', status: 500 });
     }
 }
 
@@ -71,15 +70,15 @@ export async function DELETE(request: Request) {
         const userIndex = data.findIndex((user: { email: string }) => user.email === email);
 
         if (userIndex === -1) {
-            return NextResponse.json({ mensagem: 'Usuário não encontrado.' }, { status: 404 });
+            return NextResponse.json({ error: 'Usuário não encontrado.', status: 404 });
         }
 
         data.splice(userIndex, 1);
 
         await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8');
 
-        return NextResponse.json({ mensagem: 'Usuário removido com sucesso!' }, { status: 200 });
+        return NextResponse.json({ success: 'Usuário removido com sucesso!', status: 200 });
     } catch (error) {
-        return NextResponse.json({ mensagem: 'Erro ao remover o usuário.' }, { status: 500 });
+        return NextResponse.json({ error: 'Erro ao remover o usuário.', status: 500 });
     }
 }
