@@ -1,0 +1,598 @@
+[
+  {
+    "id": 1,
+    "guest": {
+      "name": "Carlos Silva",
+      "email": "carlos.silva@email.com",
+      "phoneNumber": "+5511987654321"
+    },
+    "room": {
+      "name": "Suite Master 101",
+      "state": "occupied",
+      "floor": {
+        "_id": "floor-1",
+        "title": "Primeiro Andar"
+      }
+    },
+    "checkIn": "2025-02-10T00:00:00.000Z",
+    "checkOut": "2025-02-15T00:00:00.000Z",
+    "externReference": 1001,
+    "dailyValue": 250,
+    "agency": "Booking.com",
+    "productValue": 100,
+    "servicesValue": 50,
+    "taxValue": 20,
+    "state": "confirmed",
+    "payment": 420,
+    "createdAt": "2025-02-07T12:00:00.000Z",
+    "updatedAt": "2025-02-07T12:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "guest": {
+      "name": "Mariana Souza",
+      "email": "mariana.souza@email.com",
+      "phoneNumber": "+5511981234567"
+    },
+    "room": {
+      "name": "Apartamento Luxo 202",
+      "state": "available",
+      "floor": {
+        "_id": "floor-2",
+        "title": "Segundo Andar"
+      }
+    },
+    "checkIn": "2025-02-12T00:00:00.000Z",
+    "checkOut": "2025-02-18T00:00:00.000Z",
+    "externReference": 1002,
+    "dailyValue": 200,
+    "agency": null,
+    "productValue": 80,
+    "servicesValue": 40,
+    "taxValue": 15,
+    "state": "pending",
+    "payment": 335,
+    "createdAt": "2025-02-07T12:00:00.000Z",
+    "updatedAt": "2025-02-07T12:00:00.000Z"
+  },
+  {
+    "id": 3,
+    "guest": {
+      "name": "Ricardo Almeida",
+      "email": "ricardo.almeida@email.com",
+      "phoneNumber": "+5511976543210",
+      "room": {
+        "userFullName": "Ricardo Almeida",
+        "userCellNumber": "+5511976543210",
+        "reserveId": "3",
+        "createdAt": "2025-02-07T12:00:00.000Z",
+        "updatedAt": "2025-02-07T12:00:00.000Z",
+        "agency": "Expedia",
+        "client": "Ricardo Almeida",
+        "externReference": "EXT-1003",
+        "dailyValue": 180,
+        "productValue": 70,
+        "servicesValue": 35,
+        "taxValue": 12,
+        "stateId": 3
+      }
+    },
+    "room": {
+      "name": "Standard 303",
+      "state": "occupied",
+      "reserve": null,
+      "floor": {
+        "_id": "floor-3",
+        "title": "Terceiro Andar",
+        "rooms": []
+      }
+    },
+    "checkIn": "2025-02-12T00:00:00.000Z",
+    "checkOut": "2025-02-15T00:00:00.000Z",
+    "externReference": 1003,
+    "dailyValue": 180,
+    "agency": "Expedia",
+    "productValue": 70,
+    "servicesValue": 35,
+    "taxValue": 12,
+    "state": "confirmed",
+    "payment": 297,
+    "createdAt": "2025-02-07T12:00:00.000Z",
+    "updatedAt": "2025-02-07T12:00:00.000Z"
+  },
+  {
+    "id": 4,
+    "guest": {
+      "name": "Beatriz Gomes",
+      "email": "beatriz.gomes@email.com",
+      "phoneNumber": "+5511954321098",
+      "room": {
+        "userFullName": "Beatriz Gomes",
+        "userCellNumber": "+5511954321098",
+        "reserveId": "4",
+        "createdAt": "2025-02-07T12:00:00.000Z",
+        "updatedAt": "2025-02-07T12:00:00.000Z",
+        "agency": "Hoteis.com",
+        "client": "Beatriz Gomes",
+        "externReference": "EXT-1004",
+        "dailyValue": 210,
+        "productValue": 90,
+        "servicesValue": 45,
+        "taxValue": 18,
+        "stateId": 4
+      }
+    },
+    "room": {
+      "name": "Deluxe 404",
+      "state": "available",
+      "reserve": null,
+      "floor": {
+        "_id": "floor-4",
+        "title": "Quarto Andar",
+        "rooms": []
+      }
+    },
+    "checkIn": "2025-02-10T00:00:00.000Z",
+    "checkOut": "2025-02-15T00:00:00.000Z",
+    "externReference": 1004,
+    "dailyValue": 210,
+    "agency": "Hoteis.com",
+    "productValue": 90,
+    "servicesValue": 45,
+    "taxValue": 18,
+    "state": "confirmed",
+    "payment": 363,
+    "createdAt": "2025-02-07T12:00:00.000Z",
+    "updatedAt": "2025-02-07T12:00:00.000Z"
+  },
+  {
+    "id": 5,
+    "guest": {
+      "name": "Lucas Oliveira",
+      "email": "lucas.oliveira@email.com",
+      "phoneNumber": "+5511945678901",
+      "room": {
+        "userFullName": "Lucas Oliveira",
+        "userCellNumber": "+5511945678901",
+        "reserveId": "5",
+        "createdAt": "2025-02-07T12:00:00.000Z",
+        "updatedAt": "2025-02-07T12:00:00.000Z",
+        "agency": "Decolar",
+        "client": "Lucas Oliveira",
+        "externReference": "EXT-1005",
+        "dailyValue": 175,
+        "productValue": 65,
+        "servicesValue": 30,
+        "taxValue": 10,
+        "stateId": 5
+      }
+    },
+    "room": {
+      "name": "Suíte Vista Mar 505",
+      "state": "occupied",
+      "reserve": null,
+      "floor": {
+        "_id": "floor-5",
+        "title": "Quinto Andar",
+        "rooms": []
+      }
+    },
+    "checkIn": "2025-02-09T00:00:00.000Z",
+    "checkOut": "2025-02-11T00:00:00.000Z",
+    "externReference": 1005,
+    "dailyValue": 175,
+    "agency": "Decolar",
+    "productValue": 65,
+    "servicesValue": 30,
+    "taxValue": 10,
+    "state": "confirmed",
+    "payment": 280,
+    "createdAt": "2025-02-07T12:00:00.000Z",
+    "updatedAt": "2025-02-07T12:00:00.000Z"
+  },
+  {
+    "id": 6,
+    "guest": {
+      "name": "João Oliveira",
+      "email": "lucas.oliveira@email.com",
+      "phoneNumber": "+5511945678901",
+      "room": {
+        "userFullName": "Lucas Oliveira",
+        "userCellNumber": "+5511945678901",
+        "reserveId": "6",
+        "createdAt": "2025-02-07T12:00:00.000Z",
+        "updatedAt": "2025-02-07T12:00:00.000Z",
+        "agency": "Decolar",
+        "client": "João Oliveira",
+        "externReference": "EXT-1005",
+        "dailyValue": 175,
+        "productValue": 65,
+        "servicesValue": 30,
+        "taxValue": 10,
+        "stateId": 5
+      }
+    },
+    "room": {
+      "name": "Suíte Vista Mar 505",
+      "state": "occupied",
+      "reserve": null,
+      "floor": {
+        "_id": "floor-5",
+        "title": "Quinto Andar",
+        "rooms": []
+      }
+    },
+    "checkIn": "2025-02-07T00:00:00.000Z",
+    "checkOut": "2025-02-10T00:00:00.000Z",
+    "externReference": 1005,
+    "dailyValue": 175,
+    "agency": "Decolar",
+    "productValue": 65,
+    "servicesValue": 30,
+    "taxValue": 10,
+    "state": "confirmed",
+    "payment": 280,
+    "createdAt": "2025-02-07T12:00:00.000Z",
+    "updatedAt": "2025-02-07T12:00:00.000Z"
+  },
+  {
+    "id": 7,
+    "guest": {
+      "name": "Abraão Daniel",
+      "email": "abraao.daniel@email.com",
+      "phoneNumber": "+5511945678901",
+      "room": {
+        "userFullName": "Abraão Daniel",
+        "userCellNumber": "+5511945678901",
+        "reserveId": "5",
+        "createdAt": "2025-02-07T12:00:00.000Z",
+        "updatedAt": "2025-02-07T12:00:00.000Z",
+        "agency": "",
+        "client": "Abraão Daniel",
+        "externReference": "EXT-1005",
+        "dailyValue": 175,
+        "productValue": 65,
+        "servicesValue": 30,
+        "taxValue": 10,
+        "stateId": 5
+      }
+    },
+    "room": {
+      "name": "Suíte Vista Mar 506",
+      "state": "occupied",
+      "reserve": null,
+      "floor": {
+        "_id": "floor-5",
+        "title": "Quinto Andar",
+        "rooms": []
+      }
+    },
+    "checkIn": "2025-02-09T00:00:00.000Z",
+    "checkOut": "2025-02-11T00:00:00.000Z",
+    "externReference": 1005,
+    "dailyValue": 175,
+    "agency": "Decolar",
+    "productValue": 65,
+    "servicesValue": 30,
+    "taxValue": 10,
+    "state": "confirmed",
+    "payment": 280,
+    "createdAt": "2025-02-07T12:00:00.000Z",
+    "updatedAt": "2025-02-07T12:00:00.000Z"
+  },
+  {
+    "id": 8,
+    "guest": {
+      "name": "Yuri Gomes",
+      "email": "yuri.oliveira@email.com",
+      "phoneNumber": "",
+      "room": {
+        "userFullName": "Yuri Gomes",
+        "userCellNumber": "+5511945678901",
+        "reserveId": "5",
+        "createdAt": "2025-02-06T12:00:00.000Z",
+        "updatedAt": "2025-02-06T12:00:00.000Z",
+        "agency": "Decolar",
+        "client": "Lucas Oliveira",
+        "externReference": "EXT-1005",
+        "dailyValue": 175,
+        "productValue": 65,
+        "servicesValue": 30,
+        "taxValue": 10,
+        "stateId": 5
+      }
+    },
+    "room": {
+      "name": "Suíte Vista Mar 505",
+      "state": "occupied",
+      "reserve": null,
+      "floor": {
+        "_id": "floor-5",
+        "title": "Quinto Andar",
+        "rooms": []
+      }
+    },
+    "checkIn": "2025-02-08T00:00:00.000Z",
+    "checkOut": "2025-02-13T00:00:00.000Z",
+    "externReference": 1005,
+    "dailyValue": 175,
+    "agency": "Decolar",
+    "productValue": 65,
+    "servicesValue": 30,
+    "taxValue": 10,
+    "state": "confirmed",
+    "payment": 280,
+    "createdAt": "2025-02-07T12:00:00.000Z",
+    "updatedAt": "2025-02-07T12:00:00.000Z"
+  },
+  {
+    "id": 9,
+    "guest": {
+      "name": "Aderito Caxala",
+      "email": "aderito.caxala@email.com",
+      "phoneNumber": "",
+      "room": {
+        "userFullName": "Aderito Caxala",
+        "userCellNumber": "+5511945678901",
+        "reserveId": "5",
+        "createdAt": "2025-02-07T12:00:00.000Z",
+        "updatedAt": "2025-02-07T12:00:00.000Z",
+        "agency": "Decolar",
+        "client": "Aderito Caxala",
+        "externReference": "EXT-1005",
+        "dailyValue": 175,
+        "productValue": 65,
+        "servicesValue": 30,
+        "taxValue": 10,
+        "stateId": 5
+      }
+    },
+    "room": {
+      "name": "Suíte Vista Mar 505",
+      "state": "occupied",
+      "reserve": null,
+      "floor": {
+        "_id": "floor-5",
+        "title": "Quinto Andar",
+        "rooms": []
+      }
+    },
+    "checkIn": "2025-02-08T00:00:00.000Z",
+    "checkOut": "2025-02-15T00:00:00.000Z",
+    "externReference": 1005,
+    "dailyValue": 175,
+    "agency": "Decolar",
+    "productValue": 65,
+    "servicesValue": 30,
+    "taxValue": 10,
+    "state": "confirmed",
+    "payment": 280,
+    "createdAt": "2025-02-07T12:00:00.000Z",
+    "updatedAt": "2025-02-07T12:00:00.000Z"
+  },
+  {
+    "id": 10,
+    "guest": {
+      "name": "Elmer da Silva",
+      "email": "elmer.silva@email.com",
+      "phoneNumber": "",
+      "room": {
+        "userFullName": "Elmer da Silva",
+        "userCellNumber": "+5511945678901",
+        "reserveId": "5",
+        "createdAt": "2025-02-07T12:00:00.000Z",
+        "updatedAt": "2025-02-07T12:00:00.000Z",
+        "agency": "Decolar",
+        "client": "Elmer da Silva",
+        "externReference": "EXT-1005",
+        "dailyValue": 175,
+        "productValue": 65,
+        "servicesValue": 30,
+        "taxValue": 10,
+        "stateId": 5
+      }
+    },
+    "room": {
+      "name": "Suíte Vista Mar 506",
+      "state": "occupied",
+      "reserve": null,
+      "floor": {
+        "_id": "floor-5",
+        "title": "Quinto Andar",
+        "rooms": []
+      }
+    },
+    "checkIn": "2025-02-09T00:00:00.000Z",
+    "checkOut": "2025-02-12T00:00:00.000Z",
+    "externReference": 1005,
+    "dailyValue": 175,
+    "agency": "Decolar",
+    "productValue": 65,
+    "servicesValue": 30,
+    "taxValue": 10,
+    "state": "confirmed",
+    "payment": 280,
+    "createdAt": "2025-02-07T12:00:00.000Z",
+    "updatedAt": "2025-02-07T12:00:00.000Z"
+  },
+  {
+    "id": 11,
+    "guest": {
+      "name": "Luis Oliveira",
+      "email": "luis.oliveira@email.com",
+      "phoneNumber": "",
+      "room": {
+        "userFullName": "Luis Oliveira",
+        "userCellNumber": "+5511945678901",
+        "reserveId": "5",
+        "createdAt": "2025-02-07T12:00:00.000Z",
+        "updatedAt": "2025-02-07T12:00:00.000Z",
+        "agency": "Decolar",
+        "client": "Luis Oliveira",
+        "externReference": "EXT-1005",
+        "dailyValue": 175,
+        "productValue": 65,
+        "servicesValue": 30,
+        "taxValue": 10,
+        "stateId": 5
+      }
+    },
+    "room": {
+      "name": "Quarto 400",
+      "state": "occupied",
+      "reserve": null,
+      "floor": {
+        "_id": "floor-5",
+        "title": "Quinto Andar",
+        "rooms": []
+      }
+    },
+    "checkIn": "2025-02-10T00:00:00.000Z",
+    "checkOut": "2025-02-11T00:00:00.000Z",
+    "externReference": 1005,
+    "dailyValue": 175,
+    "agency": "Decolar",
+    "productValue": 65,
+    "servicesValue": 30,
+    "taxValue": 10,
+    "state": "confirmed",
+    "payment": 280,
+    "createdAt": "2025-02-06T12:00:00.000Z",
+    "updatedAt": "2025-02-06T12:00:00.000Z"
+  },
+  {
+    "id": 12,
+    "guest": {
+      "name": "Celson Fonseca",
+      "email": "celson.fonseca@email.com",
+      "phoneNumber": "",
+      "room": {
+        "userFullName": "Celson Fonseca",
+        "userCellNumber": "",
+        "reserveId": "5",
+        "createdAt": "2025-02-07T12:00:00.000Z",
+        "updatedAt": "2025-02-07T12:00:00.000Z",
+        "agency": "Decolar",
+        "client": "Celson Fonseca",
+        "externReference": "EXT-1005",
+        "dailyValue": 175,
+        "productValue": 65,
+        "servicesValue": 30,
+        "taxValue": 10,
+        "stateId": 5
+      }
+    },
+    "room": {
+      "name": "Suíte Vista Mar 505",
+      "state": "occupied",
+      "reserve": null,
+      "floor": {
+        "_id": "floor-5",
+        "title": "Quinto Andar",
+        "rooms": []
+      }
+    },
+    "checkIn": "2025-02-09T00:00:00.000Z",
+    "checkOut": "2025-02-11T00:00:00.000Z",
+    "externReference": 1005,
+    "dailyValue": 175,
+    "agency": "Decolar",
+    "productValue": 65,
+    "servicesValue": 30,
+    "taxValue": 10,
+    "state": "confirmed",
+    "payment": 280,
+    "createdAt": "2025-02-07T12:00:00.000Z",
+    "updatedAt": "2025-02-07T12:00:00.000Z"
+  },
+  {
+    "id": 13,
+    "guest": {
+      "name": "Lucas Oliveira",
+      "email": "lucas.oliveira@email.com",
+      "phoneNumber": "+5511945678901",
+      "room": {
+        "userFullName": "Lucas Oliveira",
+        "userCellNumber": "+5511945678901",
+        "reserveId": "5",
+        "createdAt": "2025-02-07T12:00:00.000Z",
+        "updatedAt": "2025-02-07T12:00:00.000Z",
+        "agency": "Decolar",
+        "client": "Lucas Oliveira",
+        "externReference": "EXT-1005",
+        "dailyValue": 175,
+        "productValue": 65,
+        "servicesValue": 30,
+        "taxValue": 10,
+        "stateId": 5
+      }
+    },
+    "room": {
+      "name": "Suíte Vista Mar 505",
+      "state": "occupied",
+      "reserve": null,
+      "floor": {
+        "_id": "floor-5",
+        "title": "Quinto Andar",
+        "rooms": []
+      }
+    },
+    "checkIn": "2025-02-09T00:00:00.000Z",
+    "checkOut": "2025-02-11T00:00:00.000Z",
+    "externReference": 1005,
+    "dailyValue": 175,
+    "agency": "Decolar",
+    "productValue": 65,
+    "servicesValue": 30,
+    "taxValue": 10,
+    "state": "confirmed",
+    "payment": 280,
+    "createdAt": "2025-02-07T12:00:00.000Z",
+    "updatedAt": "2025-02-07T12:00:00.000Z"
+  },
+  {
+    "id": 14,
+    "guest": {
+      "name": "Lucas Oliveira",
+      "email": "lucas.oliveira@email.com",
+      "phoneNumber": "+5511945678901",
+      "room": {
+        "userFullName": "Lucas Oliveira",
+        "userCellNumber": "+5511945678901",
+        "reserveId": "5",
+        "createdAt": "2025-02-07T12:00:00.000Z",
+        "updatedAt": "2025-02-07T12:00:00.000Z",
+        "agency": "Decolar",
+        "client": "Lucas Oliveira",
+        "externReference": "EXT-1005",
+        "dailyValue": 175,
+        "productValue": 65,
+        "servicesValue": 30,
+        "taxValue": 10,
+        "stateId": 5
+      }
+    },
+    "room": {
+      "name": "Suíte Vista Mar 505",
+      "state": "occupied",
+      "reserve": null,
+      "floor": {
+        "_id": "floor-5",
+        "title": "Quinto Andar",
+        "rooms": []
+      }
+    },
+    "checkIn": "2025-02-09T00:00:00.000Z",
+    "checkOut": "2025-02-11T00:00:00.000Z",
+    "externReference": 1005,
+    "dailyValue": 175,
+    "agency": "Decolar",
+    "productValue": 65,
+    "servicesValue": 30,
+    "taxValue": 10,
+    "state": "confirmed",
+    "payment": 280,
+    "createdAt": "2025-02-07T12:00:00.000Z",
+    "updatedAt": "2025-02-07T12:00:00.000Z"
+  }
+]

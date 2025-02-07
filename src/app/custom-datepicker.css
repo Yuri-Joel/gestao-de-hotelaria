@@ -1,0 +1,71 @@
+
+.react-datepicker__header {
+    @apply bg-white border-none;
+}
+
+.react-datepicker__day {
+    @apply text-xs font-bold text-gray-600 font-sans;
+}
+
+.react-datepicker__day-name {
+    @apply font-semibold text-xs text-gray-450;
+}
+
+.react-datepicker__current-month {
+    @apply font-bold text-xs text-gray-600;
+}
+
+.react-datepicker__day--today {
+    /* current day style */
+    @apply bg-primary-400 rounded-md;
+}
+
+.react-datepicker__day:hover,
+.react-datepicker__month-text:hover,
+.react-datepicker__quarter-text:hover,
+.react-datepicker__year-text:hover {
+    @apply bg-primary text-white;
+}
+
+.react-datepicker__day--in-selecting-range:not(.react-datepicker__day--in-range, .react-datepicker__month-text--in-range, .react-datepicker__quarter-text--in-range, .react-datepicker__year-text--in-range),
+.react-datepicker__month-text--in-selecting-range:not(.react-datepicker__day--in-range, .react-datepicker__month-text--in-range, .react-datepicker__quarter-text--in-range, .react-datepicker__year-text--in-range),
+.react-datepicker__quarter-text--in-selecting-range:not(.react-datepicker__day--in-range, .react-datepicker__month-text--in-range, .react-datepicker__quarter-text--in-range, .react-datepicker__year-text--in-range),
+.react-datepicker__year-text--in-selecting-range:not(.react-datepicker__day--in-range, .react-datepicker__month-text--in-range, .react-datepicker__quarter-text--in-range, .react-datepicker__year-text--in-range) {
+    background-color: #8B87FC;
+}
+
+.react-datepicker__day--keyboard-selected {
+    @apply bg-primary text-white;
+}
+
+.react-datepicker__day--selecting-range-start {
+    @apply bg-primary text-white;
+}
+
+.react-datepicker__day--selecting-range-start.react-datepicker__day--in-selecting-range {
+    @apply bg-primary text-white;
+}
+
+.react-datepicker__day--selecting-range-start:hover {
+    @apply bg-primary text-white;
+}
+
+.react-datepicker__day--selecting-range-end {
+    @apply bg-primary text-white;
+}
+
+.react-datepicker__day--selecting-range-end:hover {
+    @apply bg-primary text-white;
+}
+
+.react-datepicker__day--selecting-range-start.react-datepicker__day--selecting-range-end.react-datepicker__day--in-selecting-range {
+    @apply bg-primary text-white rounded-md;
+}
+
+.react-datepicker__day--in-range {
+    @apply bg-primary text-white;
+}
+
+.react-datepicker-wrapper {
+    width: 100%;
+}

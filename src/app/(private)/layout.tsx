@@ -1,6 +1,6 @@
 "use client";
 import AlertDialog from "@/components/AlertDialog/AlertDialog";
-import { Header } from "@/components/Header/Header";
+import { Header } from "@/components/header/Header";
 import HeadTitle from "@/components/HeadTitle";
 import { MenuProfile } from "@/components/MenuProfileDrop/MenuProfile";
 import { ReservationSearch } from "@/components/ReserveSearch/ReserveSearch";
@@ -8,6 +8,8 @@ import { Sidebar } from "@/components/Sidebar/Sidebar";
 import { formatPathName } from "@/helpers/formatPathString";
 import { modalManagementStore } from "@/store/modalManagementStore";
 import { usePathname } from "next/navigation";
+import "react-datepicker/dist/react-datepicker.css";
+import "../../app/custom-datepicker.css";
 
 const PrivateLayout = ({
   children,

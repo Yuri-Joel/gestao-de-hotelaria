@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET(): Promise<NextResponse> {
     try {
-        const filePath = path.resolve(process.cwd(), 'src', 'utils', 'api', 'oTeuArquivoFake.json');
+        const filePath = path.resolve(process.cwd(), 'src', 'utils', 'api', 'reserve.json');
 
         const jsonData = await fs.readFile(filePath, 'utf-8');
 

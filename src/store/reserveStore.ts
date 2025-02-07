@@ -1,7 +1,8 @@
+import { ReserversEntity } from '@/interfaces/reserve';
 import { create } from 'zustand'
 
 type State = {
-  searchData: Reservers[];
+  searchData: ReserversEntity[];
   searchInput: string;
   currentDate: Date,
   dateFrom: string,
@@ -13,7 +14,7 @@ type State = {
 }
 
 type Actions = {
-  setSearchData: (searchData: Reservers[]) => void;
+  setSearchData: (searchData: ReserversEntity[]) => void;
   setSearchInput: (searchInput: string) => void;
   setCurrentDate: (data: Date) => void;
   setDateFrom: (data: string) => void;
@@ -31,8 +32,8 @@ export const reserveStore = create<State & Actions>((set) => ({
   selectedTitleHeader: "Chegadas",
   isChecked:"",
   currentDate: new Date(),
-  dateFrom: "",
-  dateTo: "",
+  dateFrom: new Date().toISOString().split('T')[0],
+  dateTo: new Date().toISOString().split('T')[0],
   page: 1,
   reservePerPage: 10,
   setPage: (data) => set({page: data}),
