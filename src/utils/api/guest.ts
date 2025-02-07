@@ -1,4 +1,6 @@
-export const fakeGuest: Reservers[] = [
+import { ReserversEntity } from "@/interfaces/ReservesEntity";
+
+export const fakeGuest: ReserversEntity[] = [
   { id: 11111112, name: "CAROLINE DA SILVA", phone:"55 35 5432-3985",checkIn: new Date("2025-02-01"), checkOut: new Date("2025-02-03"),externReference: 2222222222, createAt: new Date("2025-02-05"), room: 101, payment: 1500 },
   { id: 11111113, name: "JOÃO PEREIRA", phone:"",checkIn: new Date("2025-02-04"), checkOut: new Date("2025-02-06"), externReference: 2222222222, createAt: new Date("2025-02-04"), room: 102, payment: 1500 },
   { id: 11111222, name: "MARIA OLIVEIRA", phone:"55 35 5432-3985",checkIn: new Date("2025-02-02"), checkOut: new Date("2025-02-05"), externReference: 2222222222, createAt: new Date("2025-02-05"), room: 103, payment: 1500 },
