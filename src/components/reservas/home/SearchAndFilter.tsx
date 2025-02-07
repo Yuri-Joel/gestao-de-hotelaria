@@ -99,6 +99,10 @@ export function SearchAndFilter({ data }: SearchProps) {
     setIschecked(isChecked === id ? "" : id);
   }
 
+  const normalizeDate = (date: Date) => {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  };
+
   function handleClickDate() {
     let filteredData = searchData
     
@@ -108,8 +112,11 @@ export function SearchAndFilter({ data }: SearchProps) {
       case "Check-in":
         if (startDate && endDate) {
           filteredData = data.filter((item) => {
-            const checkInDate = new Date(item.checkIn);
-            return checkInDate >= new Date(startDate) && checkInDate <= new Date(endDate);
+            const checkInDate = normalizeDate(new Date(item.checkIn));
+            const start = normalizeDate(new Date(startDate));
+            const end = normalizeDate(new Date(endDate));
+
+            return checkInDate >= start && checkInDate <= end;
           });
           setSearchData(filteredData);
           setSearchInput("");
@@ -120,8 +127,11 @@ export function SearchAndFilter({ data }: SearchProps) {
       case "Check-out":
         if (startDate && endDate) {
           filteredData = data.filter((item) => {
-            const checkOutDate = new Date(item.checkOut);
-            return checkOutDate >= new Date(startDate) && checkOutDate <= new Date(endDate);
+            const checkOutDate = normalizeDate(new Date(item.checkOut));
+            const start = normalizeDate(new Date(startDate));
+            const end = normalizeDate(new Date(endDate));
+
+            return checkOutDate >= start && checkOutDate <= end;
           });
           
           setSearchData(filteredData);
@@ -133,8 +143,11 @@ export function SearchAndFilter({ data }: SearchProps) {
       case "Data de criação":
         if (startDate && endDate) {
           filteredData = data.filter((item) => {
-            const createdAt = new Date(item.createdAt);
-            return createdAt >= new Date(startDate) && createdAt <= new Date(endDate);
+            const createdAt = normalizeDate(new Date(item.createdAt));
+            const start = normalizeDate(new Date(startDate));
+            const end = normalizeDate(new Date(endDate));
+
+            return createdAt >= start && createdAt <= end;
           });
           setSearchData(filteredData);
           setSearchInput("");
