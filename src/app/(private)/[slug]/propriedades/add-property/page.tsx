@@ -25,8 +25,6 @@ const Page: React.FC = () => {
   const [isModalCancelOpen, setIsModalCancelOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [isValidated, setIsValidated] = useState(false);
-
   const categoryItems = ["Hotel", "Pousada", "Hostel", "Outro"];
 
   const handleConfirm = () => {

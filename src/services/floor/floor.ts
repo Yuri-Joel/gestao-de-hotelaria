@@ -8,10 +8,8 @@ export const floorServices = () => {
       url: `/floors?page=${page}`,
       method: "GET",
     });
-
     return response;
   };
- 
   return {
     find,
   };

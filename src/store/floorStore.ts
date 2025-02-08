@@ -4,7 +4,6 @@ import { floorServices } from "@/services/floor/floor";
 import { removeAuthCookie } from "@/helpers/cookies/authCookie";
 import { IResponse } from "@/helpers/handleRequest";
 import { TModelPagination } from "@/types/TModelPagination";
-import { Types } from "mongoose";
 
 type State = {
   floors: FloorEntity[] | null;
