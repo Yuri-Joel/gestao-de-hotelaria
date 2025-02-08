@@ -6,6 +6,7 @@ import { FloorEntity } from "@/interfaces/FloorEntity";
 import { BiChevronDown } from "react-icons/bi";
 import { Button } from "@/components/Button/Button";
 import { Input } from "@/components/Input/Input";
+import InputTextArea from "@/components/Input/InputTextArea";
 
 function page() {
   const [openMenuId, setOpenMenuId] = useState<any | null>(null);
@@ -131,9 +132,8 @@ function page() {
                 </div>
                 <div>
                   <label className="font-bold">Descrição</label>
-                  <Input
+                  <InputTextArea
                     handleValue={()=> floor?.description || ""}
-                    type="text"
                     value={floor?.description || ""}
                     onChange={(e) => setEditedFloor({ ...editedFloor, description: e.target.value } as FloorEntity)}
                     className="w-full p-2 border border-gray-300 rounded"
@@ -143,7 +143,7 @@ function page() {
                   <Button
                     handleActive={()=> true}
                     handleClick={handleSaveClick}
-                    className="px-4 py-2 bg-blue-500 text-white rounded"
+                    className="px-4 py-2 bg-primary text-white rounded"
                   >
                     Salvar
                   </Button>
