@@ -1,18 +1,24 @@
 'use client'
 import { Wrapper } from "@/components/Wrapper";
 import { SearchAndFilter } from "./SearchAndFilter";
-import { CgChevronLeft, CgChevronRight } from "react-icons/cg";
 import { reserveStore } from "@/store/reserveStore";
-import { formatDateShort } from "@/helpers/formatDateExperimental";
 import { TabNavigation } from "@/components/TabNavigation/TabNavigation";
 import { ReserveList } from "./ReserveList";
-import { datePickerStore } from "@/store/datePickerStore";
-import { ReserversEntity } from "@/interfaces/reserve";
-interface HomeProps {
-  data: ReserversEntity[];
-}
+import { useEffect, useState } from "react";
+import { delay } from "@/helpers/delay";
 
-export function BodyHome({data}: HomeProps){
+
+export function BodyHome(){
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const { 
+    selectedTitleHeader,
+    setSelectedTitleHeader,
+    getReserve, 
+    reserves,
+    currentPage,
+
+  } = reserveStore()
 
   const menuItems = [
     {
@@ -29,37 +35,41 @@ export function BodyHome({data}: HomeProps){
     }
   ]
 
-  
-    const { 
-      currentDate, 
-      setCurrentDate,
-      selectedTitleHeader,
-      setSelectedTitleHeader,
-      setIschecked,
-      setSearchInput,
-      setDateFrom,
-      setDateTo,
-      setSearchData
-    } = reserveStore()
+  useEffect(() => {
+    (async () => {
+      try{
+        setLoading(true)
+        await getReserve(currentPage);
+        await delay(2000);
+        setLoading(false)
+      }catch(error){}
+    } 
+    )()
+  }, [!reserves, selectedTitleHeader])
 
-    
+  useEffect(() => {
+    (async () => {
+      try{
+        await getReserve(currentPage);
+      }catch(error){}
+    } 
+    )()
+  }, [currentPage])
 
   return(
     <Wrapper title="RESERVA - INICIO">
       <SearchAndFilter
-        data={data}
+        data={reserves}
       />
-      
-      
       <div className="w-full mt-5 shadow-md shadow-gray-200 mb-5">
-
         <TabNavigation
           menuItems={menuItems}
           selectedTitle={selectedTitleHeader}
           setSelectedTitle={setSelectedTitleHeader}
         />
         <ReserveList
-          data={data}
+          data={reserves}
+          loading={loading}
         />
       </div>
     </Wrapper>

@@ -5,13 +5,13 @@ import { Button } from "@/components/Button/Button";
 import { Checkbox } from "@/components/Input/CheckBox";
 import DatePicker from "react-datepicker";
 import { datePickerStore } from "@/store/datePickerStore";
-import { ReserversEntity } from "@/interfaces/reserve";
+import { ReserverEntity } from "@/interfaces/reserveEntity";
 import { CgChevronLeft, CgChevronRight } from "react-icons/cg";
 import { formatDate } from "@/helpers/formatDateReserve";
 import { useEffect } from "react";
 
 interface SearchProps {
-  data: ReserversEntity[];
+  data: ReserverEntity[] | null;
 }
 
 
@@ -43,12 +43,13 @@ export function SearchAndFilter({ data }: SearchProps) {
     searchData, 
     setSearchData, 
     setSearchInput, 
-    setPage,
+    setCurrentPage,
     currentDate, 
     setCurrentDate,
     setReservePerPage, 
     setIschecked, 
-    isChecked 
+    isChecked,
+    reserveToSearch 
   } = reserveStore()
   
   const { 
@@ -64,22 +65,23 @@ export function SearchAndFilter({ data }: SearchProps) {
 
   const searchFilter = () => {
     
-    let filteredData = data.filter((item) => item.guest.name.toLowerCase().includes(searchInput.toLowerCase()));
-    
+    if(reserveToSearch) {
+      let filteredData = reserveToSearch.filter((item) => item.guest.name.toLowerCase().includes(searchInput.toLowerCase()));
       // Se não encontrar pelo nome, busca pelo ID
-    if (filteredData.length === 0) {
-      filteredData = [...data].filter((item) => 
-        String(item.id).includes(searchInput)
-      );
-    }
-    
-    setSearchData(filteredData);
-    setSearchInput(searchInput);
-    setReservePerPage(10);
-    setEndDate(null)
-    setStartDate(null)
-    setIschecked("")
-    setPage(1);
+      if (filteredData.length === 0) {
+        filteredData = [...reserveToSearch].filter((item) => 
+          String(item.id).includes(searchInput)
+        );
+      }
+      
+      setSearchData(filteredData);
+      setSearchInput(searchInput);
+      setReservePerPage(10);
+      setEndDate(null)
+      setStartDate(null)
+      setIschecked("")
+      setCurrentPage(1);
+      }
   }
   
   function handleRedifine() {
@@ -87,7 +89,9 @@ export function SearchAndFilter({ data }: SearchProps) {
     setSearchInput("")
     setEndDate(null)
     setStartDate(null)
+    setCurrentDate(new Date())
     setSearchData(data)
+
   }
 
   function handleChange(textInput: React.ChangeEvent<HTMLInputElement>) {
@@ -110,7 +114,7 @@ export function SearchAndFilter({ data }: SearchProps) {
 
     switch (itemChecked[0].title) {
       case "Check-in":
-        if (startDate && endDate) {
+        if (startDate && endDate && data) {
           filteredData = data.filter((item) => {
             const checkInDate = normalizeDate(new Date(item.checkIn));
             const start = normalizeDate(new Date(startDate));
@@ -121,11 +125,11 @@ export function SearchAndFilter({ data }: SearchProps) {
           setSearchData(filteredData);
           setSearchInput("");
           setReservePerPage(10);
-          setPage(1);
+          setCurrentPage(1);
         }
         break;
       case "Check-out":
-        if (startDate && endDate) {
+        if (startDate && endDate && data) {
           filteredData = data.filter((item) => {
             const checkOutDate = normalizeDate(new Date(item.checkOut));
             const start = normalizeDate(new Date(startDate));
@@ -137,11 +141,11 @@ export function SearchAndFilter({ data }: SearchProps) {
           setSearchData(filteredData);
           setSearchInput("");
           setReservePerPage(10);
-          setPage(1);
+          setCurrentPage(1);
         }
       break;
       case "Data de criação":
-        if (startDate && endDate) {
+        if (startDate && endDate && data) {
           filteredData = data.filter((item) => {
             const createdAt = normalizeDate(new Date(item.createdAt));
             const start = normalizeDate(new Date(startDate));
@@ -152,7 +156,7 @@ export function SearchAndFilter({ data }: SearchProps) {
           setSearchData(filteredData);
           setSearchInput("");
           setReservePerPage(10);
-          setPage(1);
+          setCurrentPage(1);
         }
       break;
       default:
@@ -176,9 +180,9 @@ export function SearchAndFilter({ data }: SearchProps) {
   }, [isChecked])
 
   useEffect(() => {
-    
-  
-    let filteredData = data;
+    const today = new Date().toDateString();
+    if(data && currentDate.toDateString() !== today) {
+      let filteredData = data;
 
     filteredData = data.filter((item) => {
       const checkInDate = new Date(item.checkIn);
@@ -188,7 +192,9 @@ export function SearchAndFilter({ data }: SearchProps) {
     setSearchData(filteredData);
     setSearchInput("");
     setReservePerPage(10);
-    setPage(1);
+    setCurrentPage(1);
+    }
+
   }, [currentDate]);
 
   return(

@@ -1,21 +1,27 @@
-import fs from 'fs/promises';
-import path from 'path';
 import { NextResponse } from 'next/server';
+import filePath from "@/utils/api/reserve.json"
 
-export async function GET(): Promise<NextResponse> {
-    try {
-        const filePath = path.resolve(process.cwd(), 'src', 'utils', 'api', 'reserve.json');
 
-        const jsonData = await fs.readFile(filePath, 'utf-8');
+export async function GET(request: Request): Promise<NextResponse> {
+    const { searchParams } = new URL(request.url);
+    
+    const page = parseInt(searchParams.get("page") || "1", 10);
+    const limit = parseInt(searchParams.get("limit") || "10", 10);
 
-        const data = JSON.parse(jsonData);
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+    const paginatedItems = filePath.slice(startIndex, endIndex);
 
-        return NextResponse.json(data, {
-            status: 200,
-        });
-    } catch (error) {
-        return NextResponse.json({ mensagem: 'Erro ao ler o arquivo.' }, {
-            status: 500,
-        });
+    const totalItems = filePath.length;
+    const totalPages = Math.ceil(totalItems / limit);
+
+    return NextResponse.json({ data: {
+        page,
+        limit,
+        totalItems,
+        totalPages,
+        data: paginatedItems,
+        dataSearch: filePath
     }
-}
+    });
+  }

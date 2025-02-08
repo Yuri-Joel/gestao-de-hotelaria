@@ -1,0 +1,167 @@
+[
+  {
+    "_id": "floor_1",
+    "title": "1º andar",
+    "accessibility": "sim",
+    "status": "Disponível",
+    "description": "Andar calmo e reservado",
+    "rooms": [
+      {
+        "name": "Quarto 101",
+        "state": "occupied",
+        "reserve": {
+          "_id": 1,
+          "guest": {
+            "name": "João Silva",
+            "email": "joao.silva@email.com",
+            "phoneNumber": "+55 (11) 91234-5678",
+            "room": null,
+            "reserve": null
+          },
+          "room": null,
+          "checkIn": "2025-02-01T00:00:00.000Z",
+          "checkOut": "2025-02-03T00:00:00.000Z",
+          "externReference": 1001,
+          "dailyValue": 200.0,
+          "agency": "Agência X",
+          "productValue": 600.0,
+          "servicesValue": 50.0,
+          "taxValue": 30.0,
+          "state": "confirmado",
+          "payment": 680.0,
+          "createdAt": "2025-01-25T00:00:00.000Z",
+          "updatedAt": "2025-01-30T00:00:00.000Z"
+        },
+        "floor": null,
+        "isClean": true,
+        "isMaintenance": false,
+        "quantityBeds": {
+          "single": 2,
+          "double": 1
+        }
+      },
+      {
+        "name": "Quarto 102",
+        "state": "vague",
+        "reserve": null,
+        "floor": null,
+        "isClean": true,
+        "isMaintenance": false,
+        "quantityBeds": {
+          "single": 1,
+          "double": 1
+        }
+      }
+    ]
+  },
+  {
+    "_id": "floor_2",
+    "title": "2º andar",
+    "accessibility": "não",
+    "status": "Indisponível",
+    "description": "Andar agitado",
+    "rooms": [
+      {
+        "name": "Quarto 201",
+        "state": "occupied",
+        "reserve": {
+          "_id": 2,
+          "guest": {
+            "name": "Maria Oliveira",
+            "email": "maria.oliveira@email.com",
+            "phoneNumber": "+55 (21) 98765-4321",
+            "room": null,
+            "reserve": null
+          },
+          "room": null,
+          "checkIn": "2025-02-02T00:00:00.000Z",
+          "checkOut": "2025-02-04T00:00:00.000Z",
+          "externReference": 1002,
+          "dailyValue": 250.0,
+          "agency": null,
+          "productValue": 750.0,
+          "servicesValue": 100.0,
+          "taxValue": 50.0,
+          "state": "confirmado",
+          "payment": 900.0,
+          "createdAt": "2025-01-20T00:00:00.000Z",
+          "updatedAt": "2025-01-28T00:00:00.000Z"
+        },
+        "floor": null,
+        "isClean": false,
+        "isMaintenance": true,
+        "quantityBeds": {
+          "single": 3,
+          "double": 0
+        }
+      },
+      {
+        "name": "Quarto 202",
+        "state": "vague",
+        "reserve": null,
+        "floor": null,
+        "isClean": true,
+        "isMaintenance": false,
+        "quantityBeds": {
+          "single": 2,
+          "double": 1
+        }
+      }
+    ]
+  },
+  {
+    "_id": "floor_3",
+    "title": "3º andar",
+    "accessibility": "sim",
+    "status": "Disponível",
+    "description": "Andar calmo e reservado",
+    "rooms": [
+      {
+        "name": "Quarto 301",
+        "state": "occupied",
+        "reserve": {
+          "_id": 3,
+          "guest": {
+            "name": "Carlos Oliveira",
+            "email": "carlos.oliveira@email.com",
+            "phoneNumber": "+55 (21) 91234-5678",
+            "room": null,
+            "reserve": null
+          },
+          "room": null,
+          "checkIn": "2025-02-01T00:00:00.000Z",
+          "checkOut": "2025-02-03T00:00:00.000Z",
+          "externReference": 1003,
+          "dailyValue": 220.0,
+          "agency": "Agência Y",
+          "productValue": 660.0,
+          "servicesValue": 60.0,
+          "taxValue": 40.0,
+          "state": "confirmado",
+          "payment": 740.0,
+          "createdAt": "2025-01-24T00:00:00.000Z",
+          "updatedAt": "2025-01-29T00:00:00.000Z"
+        },
+        "floor": null,
+        "isClean": false,
+        "isMaintenance": true,
+        "quantityBeds": {
+          "single": 1,
+          "double": 2
+        }
+      },
+      {
+        "name": "Quarto 302",
+        "state": "vague",
+        "reserve": null,
+        "floor": null,
+        "isClean": true,
+        "isMaintenance": false,
+        "quantityBeds": {
+          "single": 1,
+          "double": 0
+        }
+      }
+    ]
+  }
+]
