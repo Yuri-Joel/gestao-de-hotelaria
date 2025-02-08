@@ -23,7 +23,7 @@ export const PasswordModal = ({
 				</div>
 				<form method="post" className="flex flex-col p-4 gap-2">
 					<div>
-						<label htmlFor="senha_atual">Senha Atual</label>
+						<label htmlFor="senha_atual">*Senha Atual</label>
 						<Input
 							type="password"
 							id="senha_atual"
@@ -33,7 +33,7 @@ export const PasswordModal = ({
 						/>
 					</div>
 					<div>
-						<label htmlFor="senha_atual">Nova Senha</label>
+						<label htmlFor="senha_atual">*Nova Senha</label>
 						<Input
 							type="password"
 							id="senha_atual"
@@ -43,7 +43,7 @@ export const PasswordModal = ({
 						/>
 					</div>
 					<div>
-						<label htmlFor="senha_atual">Confirmar Nova Senha</label>
+						<label htmlFor="senha_atual">*Confirmar Nova Senha</label>
 						<Input
 							type="password"
 							id="senha_atual"
