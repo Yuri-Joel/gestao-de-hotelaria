@@ -59,7 +59,6 @@ async function handleRequest<T>({
       method,
       headers,
     })
-
     // Lida com respostas não OK
     if (!response.ok) {
       const error = await response.json()

@@ -1,16 +1,19 @@
-"use client"
 import React from 'react';
-import { fakeAndar } from '@/utils/api/guest';
-import { Wrapper } from '@/components/Wrapper';
 import { FloorList } from '@/components/FloorList/FloorList';
-const page: React.FC = () => {
+import { Wrapper } from '@/components/Wrapper';
 
+function page() {
   return (
-    <Wrapper title='CADASTROS-ANDARES' children={
-        <FloorList  
-          data={fakeAndar}
-        />
-    }/>
+    <div className=" p-8">
+      <Wrapper 
+
+      key={"3"}
+      title='CADASTROS - ANDARES'
+      description='Adicione, edite ou exclua os seus andares'
+      children={<FloorList />}
+      />
+      
+    </div>
   );
 }
 

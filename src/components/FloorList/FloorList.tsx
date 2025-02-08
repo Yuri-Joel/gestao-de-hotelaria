@@ -1,137 +1,160 @@
 "use client";
-
 import Link from "next/link";
 import { TableCell } from "../Table/table-cell";
 import { TableHeader } from "../Table/table-header";
 import { TableRow } from "../Table/table-row";
 import { IconButton } from "../Table/table-button-navigation";
-import { BiChevronLeft, BiChevronRight, BiChevronsLeft, BiChevronsRight } from "react-icons/bi";
-import { useEffect } from "react";
+import {
+  BiChevronLeft,
+  BiChevronRight,
+  BiChevronsLeft,
+  BiChevronsRight,
+} from "react-icons/bi";
 import { Table } from "../Table/table";
-import { Search } from "./Search";
-import { useFloorListStore } from "@/store/FloorListStore";
-import { FloorListEntity } from "@/interfaces/FloorListEntity";
-import { useSearchParams, useRouter } from "next/navigation";
-import Dropdown from "../Dropdown/Dropdown";
+import { floorStore } from "@/store/floorStore";
+import { useEffect, useRef, useState } from "react";
+import { RightIcon } from "@/assets/Icons/RightIcon";
+import { useRouter } from "next/navigation";
+import { Button } from "../Button/Button";
 
-interface PropertiesProps {
-  data: FloorListEntity[];
-}
-
-export function FloorList({ data }: PropertiesProps) {
-  const {
-    searchInput,
-    setSearchData,
-    setSearchInput,
-    searchData,
-    setPage,
-    setFloorsPerPage,
-    floorsPerPage,
-    page,
-  } = useFloorListStore();
-
-  const searchParams = useSearchParams();
+export function FloorList() {
   const router = useRouter();
 
-  const totalPages = Math.ceil(searchData.length / 10);
-
-  function goToPage(page: number) {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("page", String(page));
-    router.push(`?${params.toString()}`);
-    setPage(page);
-  }
-
-  function goToFirstPage() {
-    goToPage(1);
-    setFloorsPerPage(10); 
-  }
-
-  function goToNextPage() {
-    goToPage(page + 1);
-    setFloorsPerPage(floorsPerPage + 10);
-  }
-
-  function goToPreviousPage() {
-    goToPage(page - 1);
-    if (floorsPerPage !== 10) {
-      setFloorsPerPage(floorsPerPage - 10);
-    }
-  }
-
-  function goToLastPage() {
-    goToPage(totalPages);
-    const lastPageItems = searchData.length % 10 === 0 ? 10 : searchData.length % 10;
-    setFloorsPerPage(searchData.length - lastPageItems + 10);
-  }
+  const {
+    find,
+    floors,
+    setSelectedFloor,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+  } = floorStore();
+  const [openMenuId, setOpenMenuId] = useState<any | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const pageFromUrl = searchParams.get("page");
-    const initialPage = pageFromUrl ? Number(pageFromUrl) : 1;
-    setPage(initialPage);
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setOpenMenuId(null);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   useEffect(() => {
-    setSearchData(data);
-  }, [data, setSearchData]);
+    if (!find || !currentPage) return;
+    (async () => {
+      try {
+        await find(currentPage);
+      } catch (error) {
+        console.error("Erro ao buscar andares:", error);
+      }
+    })();
+  }, [currentPage, find]);
 
   return (
     <div className="mt-5">
-      { false && (
-      <Search
-        data={data}
-        setPage={setPage}
-        setSearchData={setSearchData}
-        searchInput={searchInput}
-        setSearchInput={setSearchInput}
-      />
-    )}
-    <div className="mt-7">
-        <Link href="propriedades/add-floor" className="text-primary-700 font-bold text-md">Adicionar novo andar</Link>
-     </div>
+      <div className="mt-7">
+        <Link
+          href="propriedades/add-floor"
+          className="text-primary-700 font-bold text-md"
+        >
+          Adicionar novo andar
+        </Link>
+      </div>
 
       <Table className="w-full">
         <thead>
           <tr className="border-none">
             <TableHeader className="px-8 font-bold">Nome</TableHeader>
-            <TableHeader className="text-right px-[5rem] font-bold">Acessibilidade</TableHeader>
-            <TableHeader className="text-right px-[5rem] font-bold">Status</TableHeader>
-            <TableHeader className="text-right px-[5rem] font-bold">Descrição</TableHeader>
-            <TableHeader className="text-right px-[5rem] font-bold">Ações</TableHeader>
+            <TableHeader className="text-center px-[5rem] font-bold">
+              Acessibilidade
+            </TableHeader>
+            <TableHeader className="text-center px-[5rem] font-bold">
+              Status
+            </TableHeader>
+            <TableHeader className="text-center px-[5rem] font-bold">
+              Descrição
+            </TableHeader>
+            <TableHeader className="text-center px-[5rem] font-bold">
+              Ações
+            </TableHeader>
           </tr>
         </thead>
         <tbody>
-          {searchData.slice(floorsPerPage - 10, floorsPerPage).map((floor, index) => (
-            <TableRow className={index % 2 === 0 ? "bg-gray-90" : "bg-white "} key={floor.id}>
-              <TableCell className="flex flex-col gap-2">
-                <Link href="/hotel-ao/home" className="text-primary-700 p-2 font-medium">{floor.name}</Link>
-                {/* <span className="space-x-2">ID: {floor.id}</span> */}
+          {floors?.map((floor: any, index: number) => (
+            <TableRow
+              className={index % 2 === 0 ? "bg-gray-90" : "bg-white "}
+              key={index}
+            >
+              <TableCell className="text-center min-w-28 ">
+                <Link href={`/hotel-ao/cadastros/andares/details/`}>
+                  <div
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setSelectedFloor(floor);
+                      router.push(`/hotel-ao/cadastros/andares/details/`);
+                    }}
+                    className="p-2 w-full text-center text-primary "
+                  >
+                    {floor.title}
+                  </div>
+                </Link>
               </TableCell>
               <TableCell className="text-center">
-                <div className="p-2">
-                  {floor.Accessibility}
+                <div className="p-2 w-full text-center">
+                  {floor.accessibility}
                 </div>
               </TableCell>
               <TableCell className="text-center">
-                <div className="p-2">
-                  {floor.Status}
-                </div>
+                <div className="p-2 w-full text-center">{floor.status}</div>
               </TableCell>
               <TableCell className="text-center">
-                <div className="p-2">
-                  {floor.Description}
+                <div className="p-2 w-full text-center">
+                  {floor.description}
                 </div>
               </TableCell>
-              <TableCell className="text-right items-center flex justify-center">
-                <div className="flex justify-center relative items-center w-14 h-14 p-2">
-                 <Dropdown
-                 IconVisible= {false}
-                 id="2"
-                 data={[{id: "1", title: "Editar"},{id: "2", title: "Excluir"}]}
-                 selectedId="true"
-                 IsLeft ={false}
-                 />
-                 </div>
+              <TableCell className="text-center items-center flex justify-center">
+                <div className="flex justify-center relative" ref={menuRef}>
+                  <div
+                    onClick={() => {
+                      setOpenMenuId(openMenuId == floor._id ? null : floor._id);
+                    }}
+                    className=" w-6 h-6 bg-white border border-gray-300 rounded cursor-pointer flex items-center justify-center transition-colors"
+                  >
+                    {openMenuId === floor._id && (
+                      <RightIcon className="text-white h-14 w-14" />
+                    )}
+                  </div>
+
+                  {openMenuId === floor._id && (
+                    <div className="absolute  mt-8 w-20 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
+                      <div
+                        className="py-1"
+                        role="menu"
+                        aria-orientation="vertical"
+                      >
+                        <Button
+                          className="w-full text-left px-4 py-2 text-sm text-gray-700 bg-white  hover:bg-gray-100"
+                          role="menuitem"
+                          handleClick={()=> true}
+                          handleActive={() => true}
+                        >
+                          Editar
+                        </Button>
+                        <Button
+                          className="w-full text-left px-4 py-2 text-sm text-red-600 bg-white hover:bg-gray-100"
+                          role="menuitem"
+                          handleClick={()=> true}
+                          handleActive={() => true}
+                        >
+                          Excluir
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </TableCell>
             </TableRow>
           ))}
@@ -139,19 +162,33 @@ export function FloorList({ data }: PropertiesProps) {
         <tfoot>
           <tr>
             <TableCell colSpan={5}>
-              <div className="flex items-center justify-end gap-8">
-                <span>Página {page} de {totalPages}</span>
+              <div className="flex  items-center justify-end gap-8">
+                <span>
+                  Página {currentPage} de {totalPages}
+                </span>
                 <div className="flex gap-1.5">
-                  <IconButton disabled={page === 1} onClick={goToFirstPage}>
+                  <IconButton
+                    disabled={currentPage === 1}
+                    onClick={() => setCurrentPage(1)}
+                  >
                     <BiChevronsLeft className="size-4" />
                   </IconButton>
-                  <IconButton disabled={page === 1} onClick={goToPreviousPage}>
+                  <IconButton
+                    disabled={currentPage == 1}
+                    onClick={() => setCurrentPage(currentPage - 1)}
+                  >
                     <BiChevronLeft className="size-4" />
                   </IconButton>
-                  <IconButton disabled={page === totalPages || totalPages === 0} onClick={goToNextPage}>
+                  <IconButton
+                    disabled={currentPage === totalPages || totalPages === 1}
+                    onClick={() => setCurrentPage(currentPage + 1)}
+                  >
                     <BiChevronRight className="size-4" />
                   </IconButton>
-                  <IconButton disabled={page === totalPages || totalPages === 0} onClick={goToLastPage}>
+                  <IconButton
+                    disabled={currentPage === totalPages || totalPages === 1}
+                    onClick={() => setCurrentPage(totalPages)}
+                  >
                     <BiChevronsRight className="size-4" />
                   </IconButton>
                 </div>
@@ -160,7 +197,6 @@ export function FloorList({ data }: PropertiesProps) {
           </tr>
         </tfoot>
       </Table>
-      
     </div>
   );
 }
