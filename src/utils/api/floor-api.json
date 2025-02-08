@@ -2,8 +2,8 @@
   {
     "_id": "floor_1",
     "title": "1º andar",
-    "accessibility": "sim",
-    "status": "Disponível",
+    "accessibility": "Disponível",
+    "status": "sim",
     "description": "Andar calmo e reservado",
     "rooms": [
       {
@@ -45,8 +45,8 @@
   {
     "_id": "floor_2",
     "title": "2º andar",
-    "accessibility": "não",
-    "status": "Indisponível",
+    "accessibility": "Indisponível",
+    "status": "nao",
     "description": "Andar agitado",
     "rooms": [
       {
@@ -88,8 +88,8 @@
   {
     "_id": "floor_3",
     "title": "3º andar",
-    "accessibility": "sim",
-    "status": "Disponível",
+    "accessibility": "Disponível",
+    "status": "não",
     "description": "Andar calmo e reservado",
     "rooms": [
       {
@@ -131,7 +131,7 @@
   {
     "_id": "floor_4",
     "title": "4º andar",
-    "accessibility": "não",
+    "accessibility": "sim",
     "status": "Indisponível",
     "description": "Andar agitado",
     "rooms": [
@@ -173,9 +173,9 @@
   },
   {
     "_id": "floor_5",
-    "title": "1º andar",
-    "accessibility": "sim",
-    "status": "Disponível",
+    "title": "5º andar",
+    "accessibility": "Disponível",
+    "status": "não",
     "description": "Andar calmo e reservado",
     "rooms": [
       {
@@ -216,9 +216,9 @@
   },
   {
     "_id": "floor_6",
-    "title": "2º andar",
-    "accessibility": "não",
-    "status": "Indisponível",
+    "title": "6º andar",
+    "accessibility": "Indisponível",
+    "status": "sim",
     "description": "Andar agitado",
     "rooms": [
       {
@@ -259,9 +259,9 @@
   },
   {
     "_id": "floor_7",
-    "title": "3º andar",
-    "accessibility": "sim",
-    "status": "Disponível",
+    "title": "7º andar",
+    "accessibility": "Disponível",
+    "status": "não",
     "description": "Andar calmo e reservado",
     "rooms": [
       {
@@ -302,9 +302,9 @@
   },
   {
     "_id": "floor_8",
-    "title": "4º andar",
-    "accessibility": "não",
-    "status": "Indisponível",
+    "title": "8º andar",
+    "accessibility": "Indisponível",
+    "status": "não",
     "description": "Andar agitado",
     "rooms": [
       {
@@ -345,9 +345,9 @@
   },
   {
     "_id": "floor_9",
-    "title": "1º andar",
-    "accessibility": "sim",
-    "status": "Disponível",
+    "title": "9º andar",
+    "accessibility": "Disponível",
+    "status": "sim",
     "description": "Andar calmo e reservado",
     "rooms": [
       {
@@ -388,9 +388,9 @@
   },
   {
     "_id": "floor_10",
-    "title": "2º andar",
-    "accessibility": "não",
-    "status": "Indisponível",
+    "title": "10º andar",
+    "accessibility": "Indisponível",
+    "status": "não",
     "description": "Andar agitado",
     "rooms": [
       {
@@ -431,9 +431,9 @@
   },
   {
     "_id": "floor_11",
-    "title": "3º andar",
-    "accessibility": "sim",
-    "status": "Disponível",
+    "title": "11º andar",
+    "accessibility": "Disponível",
+    "status": "sim",
     "description": "Andar calmo e reservado",
     "rooms": [
       {
@@ -474,9 +474,9 @@
   },
   {
     "_id": "floor_12",
-    "title": "4º andar",
-    "accessibility": "não",
-    "status": "Indisponível",
+    "title": "12º andar",
+    "accessibility": "Indisponível",
+    "status": "não",
     "description": "Andar agitado",
     "rooms": [
       {
