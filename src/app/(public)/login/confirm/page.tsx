@@ -8,18 +8,32 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import Link from "next/link";
 
-import { useLoginFormStore } from "@/store/loginFormStore";
+import { useLoginStore } from "@/store/loginStore";
 
 const ConfirmLoginPage = () => {
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(false);
 	const [isInvalidPassword, setIsInvalidPassword] = useState(false);
-	const { password, email } = useLoginFormStore();
+	const { password, email, checkIntegrity } = useLoginStore();
 
 	const handleSignInClick = () => {
 		setIsLoading(true);
-		Cookies.set(`${process.env.NEXT_PUBLIC_TOKEN_COOKIE_NAME}`, JSON.stringify({ email, password }));
-		router.push("/");
+		checkIntegrity()
+			.then((value) => {
+				if (value) {
+					Cookies.set(
+						`${process.env.NEXT_PUBLIC_TOKEN_COOKIE_NAME}`,
+						JSON.stringify({ email, password }),
+					);
+					router.push("/");
+				} else {
+					setIsInvalidPassword(true);
+					setIsLoading(false);
+				}
+			})
+			.catch((e) => {
+				console.log(e);
+			});
 	};
 
 	const handleSignInActive = () => {
@@ -46,7 +60,7 @@ const ConfirmLoginPage = () => {
 				<h1 className="font-bold text-xl">Hoteli Apps</h1>
 				<p className="text-gray-300 text-sm">Entrar como:</p>
 			</div>
-			<div className="items-center mb-2">
+			<div className="employees-center mb-2">
 				<h1>{email}</h1>
 			</div>
 			<h2 className="font-medium text-xl">Insira a sua senha</h2>
@@ -57,7 +71,7 @@ const ConfirmLoginPage = () => {
 					placeholder="Sua senha"
 					value={password}
 					handleValue={(e) => {
-						useLoginFormStore.setState({
+						useLoginStore.setState({
 							password: e.target.value,
 						});
 						if (isInvalidPassword) setIsInvalidPassword(false);

@@ -4,7 +4,7 @@ import { Button } from "@/components/Button/Button";
 import { Input } from "@/components/Input/Input";
 import { isValidEmail } from "@/helpers/isValidEmail";
 
-import { useLoginFormStore } from "@/store/loginFormStore";
+import { useLoginStore } from "@/store/loginStore";
 import Link from "next/link";
 
 import { useRouter } from "next/navigation";
@@ -14,10 +14,21 @@ const LoginPage = () => {
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(false);
 	const [isInvalidEmail, setIsInvalidEmail] = useState(false);
-	const { email } = useLoginFormStore();
+	const { email, accountExists } = useLoginStore();
+
 	const handleNextClick = () => {
 		setIsLoading(true);
-		router.push("/login/confirm");
+		accountExists()
+			.then((value) => {
+				if (value) router.push("/login/confirm");
+				else {
+					setIsInvalidEmail(true);
+					setIsLoading(false);
+				}
+			})
+			.catch((e) => {
+				console.log(e);
+			});
 	};
 	const handleNextActive = () => {
 		if (isValidEmail(email)) return true;
@@ -37,7 +48,7 @@ const LoginPage = () => {
 						className={`mb-1 ${isInvalidEmail ? "border-red-500" : "border-inherit"}`}
 						value={email}
 						handleValue={(e) => {
-							useLoginFormStore.setState({
+							useLoginStore.setState({
 								email: e.target.value,
 							});
 							if (isInvalidEmail) setIsInvalidEmail(false);

@@ -1,0 +1,32 @@
+[
+	{
+		"_id": "60d0fe4f5311236168a109ca",
+		"fullName": "Paulo Manuel Patrão",
+		"email": "paulomanuelpatrao.zeno@gmail.com",
+		"password": "password123"
+	},
+	{
+		"_id": "60d0fe4f5311236168a109cb",
+		"fullName": "Adérito Caxala",
+		"email": "aderitocaxala.zeno@gmail.com",
+		"password": "password123"
+	},
+	{
+		"_id": "60d0fe4f5311236168a109cc",
+		"fullName": "Yuri Gomes",
+		"email": "yurigomes.zeno@gmail.com",
+		"password": "password123"
+	},
+	{
+		"_id": "60d0fe4f5311236168a109cd",
+		"fullName": "Domingos Morais",
+		"email": "domingosmorais.zeno@gmail.com",
+		"password": "password123"
+	},
+	{
+		"_id": "60d0fe4f5311236168a109ce",
+		"fullName": "Abraão Daniel",
+		"email": "abraaodaniel.zeno@gmail.com",
+		"password": "password123"
+	}
+]

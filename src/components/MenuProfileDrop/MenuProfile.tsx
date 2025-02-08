@@ -40,7 +40,7 @@ export const MenuProfile = () => {
         <ul className="py-2">
           <li>
             <button
-              onClick={() => handleNavigate("/profile")}
+              onClick={() => handleNavigate("/home-ao/perfil")}
               className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
             >
               Minha Conta

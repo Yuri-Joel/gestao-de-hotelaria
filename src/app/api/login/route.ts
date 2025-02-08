@@ -2,7 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { NextResponse } from 'next/server';
 
-const filePath = path.resolve(process.cwd(), 'src', 'utils', 'api', 'oTeuArquivoFake.json');
+const filePath = path.resolve(process.cwd(), 'src', 'utils', 'api', 'employee.json');
 
 export async function GET(): Promise<NextResponse> {
     try {
