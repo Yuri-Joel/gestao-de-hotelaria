@@ -41,7 +41,7 @@ export const RoomDetailModal = ({
 	const handleCopy = (e: React.SyntheticEvent<SVGElement>) => {
 		(async () => {
 			try {
-				await window.navigator.clipboard.writeText(room.reserve?.id.toString() || "");
+				await window.navigator.clipboard.writeText(room.reserve?._id.toString() || "");
 			} catch (e) {
 				console.log(e);
 			}

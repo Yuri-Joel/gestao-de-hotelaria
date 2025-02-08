@@ -174,7 +174,7 @@ export function FloorList() {
                     <BiChevronsLeft className="size-4" />
                   </IconButton>
                   <IconButton
-                    disabled={currentPage == 1}
+                    disabled={currentPage === 1}
                     onClick={() => setCurrentPage(currentPage - 1)}
                   >
                     <BiChevronLeft className="size-4" />
