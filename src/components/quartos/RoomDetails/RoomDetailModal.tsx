@@ -149,7 +149,7 @@ export const RoomDetailModal = ({
 				<div className="flex justify-end w-full">
 					<Button
 						className="flex bg-purple-800 text-white border-l rounded-l-3xl px-4 py-3 w-[80%] self-end"
-						handleActive={()=> true}
+						handleActive={()=> room.reserve?.note ? true: false}
 						handleClick={()=> handleOpenNote()}
 					>
 						Conferir todos os detalhes
