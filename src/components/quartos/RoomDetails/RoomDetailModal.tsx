@@ -8,62 +8,55 @@ import {
 	FaArrowRight,
 } from "react-icons/fa6";
 import { formatCurrency } from "@/helpers/formatCurrency";
-import Link from "next/link";
 import { Tooltip } from "react-tooltip";
-import { Dispatch, SetStateAction } from "react";
 import { RoomEntity } from "@/interfaces/RoomEntity";
+import { XIcon } from "@/assets/Icons/XIcon";
+import RoomStore from "@/store/RoomStore";
+import { getRoomStatus } from "../Room/Room";
+import { formatDateIsoToBr } from "@/helpers/formatDateisoToBr";
+import { Button } from "@/components/Button/Button";
 
 export const RoomDetailModal = ({
-	room,
-	close,
+	room
 }: {
 	room: RoomEntity;
-	close: Dispatch<SetStateAction<boolean>>;
 }) => {
-	const states = [
-		{
-			bg: "bg-[#971313]",
-			title: "Sai hoje",
-		},
-		{
-			bg: "bg-[#D7881A]",
-			title: "Vencido",
-		},
-		{
-			bg: "bg-[#201397]",
-			title: "Ocupado",
-		},
-		{
-			bg: "bg-[#CC01FF]",
-			title: "Reservado",
-		},
-	];
+	if (!room.reserve) return
+
+	const { handleOpenModalRoomDetails, IsOpenedModalRoomDetails, setSelectedRoom, handleIsOpenedModalNoteReserve } = RoomStore()
 	const handleCopy = (e: React.SyntheticEvent<SVGElement>) => {
 		(async () => {
 			try {
-				await window.navigator.clipboard.writeText(room.reserve?.id.toString() || "");
+				await navigator.clipboard.writeText(room.reserve?._id?.toString() || "");
 			} catch (e) {
 				console.log(e);
 			}
 		})();
 	};
-	const handleClose = (e: React.SyntheticEvent<HTMLButtonElement>) => {
-		close(false);
+
+	const handleClose = () => {
+		handleOpenModalRoomDetails();
+		setSelectedRoom(null);
 	};
+	const handleOpenNote = ()=>{
+		handleOpenModalRoomDetails();
+		handleIsOpenedModalNoteReserve()
+	}
+
+	const roomStatus = getRoomStatus(room);
 	return (
-		<div className="pt-[65px] min-h-screen w-fit fixed top-0 right-0 bottom-0 flex justify-end z-[100]">
-			<div className="bg-white shadow-[0px_4px_4px_5px_rgba(0,0,0,0.4)] h-full w-[22rem] border overflow-auto no-scrollbar">
-				<div
-					className={`flex ${states[room.state].bg} text-white justify-between items-center p-8`}
+		<div className={`pt-[65px] min-h-screen w-fit fixed top-0 right-1 bottom-0 flex justify-end z-[100]  transition-transform duration-200  ${IsOpenedModalRoomDetails ? 'h-full scale-100' : 'h-0 overflow-hidden scale-0'}`}>
+			<div className="bg-white shadow-md h-full w-[22rem] border overflow-auto no-scrollbar">
+				<div className={`flex ${roomStatus.bg} text-white justify-between items-center p-8`}
 				>
 					<h1 className="font-bold text-2xl">
-						{states[room.state].title}
+						{roomStatus.text}
 					</h1>
 					<button
-						className=" w-8 h-8 rounded-[50%] flex items-center justify-center text-white cursor-pointer"
-						onClick={handleClose}
+						className="w-8 h-8 rounded-[50%] bg-white border flex items-center justify-center text-black cursor-pointer"
+						onClick={() => handleClose()}
 					>
-						<FaX />
+						<XIcon fill="black" />
 					</button>
 				</div>
 				<div className="border-b p-8 border-b-black gap-2 flex flex-col *:text-sm">
@@ -73,7 +66,7 @@ export const RoomDetailModal = ({
 					</div>
 					<div className="flex items-center gap-2">
 						<FaWhatsapp />
-						<h1>{room.reserve?.guest?.name}</h1>
+						<h1>{room.reserve?.guest?.phoneNumber}</h1>
 					</div>
 				</div>
 				<div className="border-b p-8 border-b-black gap-2 flex flex-col *:text-sm">
@@ -103,9 +96,9 @@ export const RoomDetailModal = ({
 				<div className="border-b p-8 border-b-black gap-2 flex flex-col *:text-sm">
 					<div className="flex flex-col justify-center gap-2">
 						<div className="flex items-center gap-2">
-							<h1 className="font-bold">#{room.reserve?.id}</h1>
+							<h1 className="font-bold">#{room.reserve?._id?.toString()}</h1>
 							<FaCopy
-								className="cursor-pointer"
+								className="cursor-pointer outline-none w-4 h-4 transition-all duration-300 transform hover:scale-110"
 								data-tooltip-id="copiar"
 								data-tooltip-content="Copiar ID da reserva"
 								onClick={handleCopy}
@@ -114,8 +107,8 @@ export const RoomDetailModal = ({
 						</div>
 						<div>
 							<p className="text-black">
-								{room.reserve?.createdAt.toLocaleDateString("pt-BR")} -{" "}
-								{room.reserve?.updatedAt.toLocaleDateString("pt-BR")}
+								{formatDateIsoToBr(room.reserve.checkIn)} -{" "}
+								{formatDateIsoToBr(room.reserve.checkOut)}
 							</p>
 						</div>
 					</div>
@@ -154,12 +147,13 @@ export const RoomDetailModal = ({
 					</div>
 				</div>
 				<div className="flex justify-end w-full">
-					<Link
+					<Button
 						className="flex bg-purple-800 text-white border-l rounded-l-3xl px-4 py-3 w-[80%] self-end"
-						href={"#"}
+						handleActive={()=> true}
+						handleClick={()=> handleOpenNote()}
 					>
 						Conferir todos os detalhes
-					</Link>
+					</Button>
 				</div>
 			</div>
 		</div>
