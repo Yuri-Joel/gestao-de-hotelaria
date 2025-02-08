@@ -99,13 +99,13 @@ function page() {
               )}
             </div>
             {isEditing ? (
-              <div className="bg-white  text-gray-900 p-4 max-w-96 shadow-md border border-gray-90">
+              <div className="bg-white text-gray-900 p-4 max-w-96 shadow-md border border-gray-90">
                 <div>
                   <label className="font-bold">Status</label>
                   <Input
-                    value={floor?.status || ""}
+                    value={editedFloor?.status || ""}
                     type="text"
-                    handleValue={()=> floor?.status || ""}
+                    handleValue={(e) => setEditedFloor({ ...editedFloor, status: e.target.value } as FloorEntity)}
                     onChange={(e) => setEditedFloor({ ...editedFloor, status: e.target.value } as FloorEntity)}
                     className="w-full p-2 border border-gray-300 rounded"
                   />
@@ -113,9 +113,9 @@ function page() {
                 <div>
                   <label className="font-bold">Nome</label>
                   <Input
-                    handleValue={()=> floor?.title || ""}
+                    handleValue={(e) => setEditedFloor({ ...editedFloor, title: e.target.value } as FloorEntity)}
                     type="text"
-                    value={floor?.title || ""}
+                    value={editedFloor?.title || ""}
                     onChange={(e) => setEditedFloor({ ...editedFloor, title: e.target.value } as FloorEntity)}
                     className="w-full p-2 border border-gray-300 rounded"
                   />
@@ -123,9 +123,9 @@ function page() {
                 <div>
                   <label className="font-bold">Acessibilidade</label>
                   <Input
-                    handleValue={()=> floor?.accessibility || ""}
+                    handleValue={(e) => setEditedFloor({ ...editedFloor, accessibility: e.target.value } as FloorEntity)}
                     type="text"
-                    value={floor?.accessibility || ""}
+                    value={editedFloor?.accessibility || ""}
                     onChange={(e) => setEditedFloor({ ...editedFloor, accessibility: e.target.value } as FloorEntity)}
                     className="w-full p-2 border border-gray-300 rounded"
                   />
@@ -133,22 +133,22 @@ function page() {
                 <div>
                   <label className="font-bold">Descrição</label>
                   <InputTextArea
-                    handleValue={()=> floor?.description || ""}
-                    value={floor?.description || ""}
+                    handleValue={(e) => setEditedFloor({ ...editedFloor, description: e.target.value } as FloorEntity)}
+                    value={editedFloor?.description || ""}
                     onChange={(e) => setEditedFloor({ ...editedFloor, description: e.target.value } as FloorEntity)}
                     className="w-full p-2 border border-gray-300 rounded"
                   />
                 </div>
                 <div className="flex justify-end gap-2 mt-4">
                   <Button
-                    handleActive={()=> true}
+                    handleActive={() => true}
                     handleClick={handleSaveClick}
                     className="px-4 py-2 bg-primary text-white rounded"
                   >
                     Salvar
                   </Button>
                   <Button
-                    handleActive={()=> true}
+                    handleActive={() => true}
                     handleClick={handleCancelClick}
                     className="px-4 py-2 bg-gray-500 text-white rounded"
                   >
@@ -157,7 +157,7 @@ function page() {
                 </div>
               </div>
             ) : (
-              <ul className="bg-white  text-gray-900 p-4 max-w-96 shadow-md border border-gray-90">
+              <ul className="bg-white text-gray-900 p-4 max-w-96 shadow-md border border-gray-90">
                 <li>
                   <h1 className="font-bold">Status</h1>
                   <div>{floor?.status}</div>
