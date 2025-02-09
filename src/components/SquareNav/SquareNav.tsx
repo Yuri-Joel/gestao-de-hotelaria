@@ -1,16 +1,17 @@
 import Link from "next/link"
 
 export default function SquareNav() {
+  const slug = "hotel-ao"
 
   const navigationItems = [
-    { title: "Andares", href: "http://localhost:3000/hotel-ao/cadastros/andares" },
-    { title: "Quartos", href: "http://localhost:3000/hotel-ao/cadastros/quartos" },
-    { title: "Empresas", href: "http://localhost:3000/hotel-ao/cadastros/empresas" },
-    { title: "Hóspedes", href: "http://localhost:3000/hotel-ao/cadastros/hospedes" },
-    { title: "Agências", href: "http://localhost:3000/hotel-ao/cadastros/agencias" },
-    { title: "Formas de pagamento", href: "http://localhost:3000/hotel-ao/cadastros/pagamentos" },
-    { title: "PDV", href: "/pdv" },
-    { title: "Produtos", href: "/produtos" },
+    { title: "Andares", href: `/${slug}/cadastro/andares` },
+    { title: "Quartos", href: `/${slug}/cadastro/quartos` },
+    { title: "Empresas", href: `/${slug}/cadastro/empresas` },
+    { title: "Hóspedes", href: `/${slug}/cadastro/hospedes` },
+    { title: "Agências", href: `/${slug}/cadastro/agencias` },
+    { title: "Formas de pagamento", href: `/${slug}/cadastro/pagamentos` },
+    { title: "PDV", href: `/${slug}/cadastro/pdv` },
+    { title: "Produtos", href: `/${slug}/cadastro/produtos` },
   ]
 
   return (

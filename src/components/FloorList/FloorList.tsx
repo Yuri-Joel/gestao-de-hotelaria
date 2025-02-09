@@ -94,7 +94,7 @@ export function FloorList() {
                     onClick={(e) => {
                       e.preventDefault();
                       setSelectedFloor(floor);
-                      router.push(`/hotel-ao/cadastros/andares/details/`);
+                      router.push(`/hotel-ao/cadastro/andares/details/`);
                     }}
                     className="p-2 w-full text-center text-primary "
                   >
@@ -138,7 +138,7 @@ export function FloorList() {
                         <Button
                           className="w-full text-left px-4 py-2 text-sm text-gray-700 bg-white  hover:bg-gray-100"
                           role="menuitem"
-                          handleClick={()=> true}
+                          handleClick={() => true}
                           handleActive={() => true}
                         >
                           Editar
@@ -146,7 +146,7 @@ export function FloorList() {
                         <Button
                           className="w-full text-left px-4 py-2 text-sm text-red-600 bg-white hover:bg-gray-100"
                           role="menuitem"
-                          handleClick={()=> true}
+                          handleClick={() => true}
                           handleActive={() => true}
                         >
                           Excluir
