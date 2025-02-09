@@ -4,19 +4,19 @@ import { TModelPagination } from "@/types/TModelPagination";
 import { Types } from "mongoose";
 
 export const reserveServices = () => {
-  
+
   const find = async (page: number) => {
     const response = await handleRequest<TModelPagination<ReserverEntity>>({
-      url: `/reservas?page=${page}`,
+      url: `/reserves?page=${page}`,
       method: 'GET'
     });
-  
+
     return response;
   };
 
   const findOne = async (reserveId: Types.ObjectId) => {
     const response = await handleRequest<ReserverEntity[]>({
-      url: `/reservas/${reserveId}`,
+      url: `/reserves/${reserveId}`,
       method: 'GET'
     });
 
