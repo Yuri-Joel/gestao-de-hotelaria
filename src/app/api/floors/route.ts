@@ -1,20 +1,24 @@
-import fs from 'fs/promises';
-import path from 'path';
 import { NextResponse } from 'next/server';
+import filePath from "@/utils/api/floor-api.json"
 
-export async function GET(): Promise<NextResponse> {
-    try {
-        const filePath = path.resolve(process.cwd(), 'src', 'utils', 'api', 'floor-api.json');
+export async function GET(request: Request): Promise<NextResponse> {
 
-        const jsonData = await fs.readFile(filePath, 'utf-8');
-
-        const data = JSON.parse(jsonData);
-
-        return NextResponse.json({ data, status: 200 });
-    } catch (error) {
-        return NextResponse.json({
-            error: 'Erro ao ler o arquivo.',
-            status: 500,
-        });
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get("page") || "1", 10);
+    const limit = parseInt(searchParams.get("limit") || "10", 10);
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+    const paginatedItems = filePath.slice(startIndex, endIndex);
+    const totalItems = filePath.length;
+    const totalPages = Math.ceil(totalItems / limit);
+        
+    return NextResponse.json({ data: {
+        page,
+        limit,
+        totalItems,
+        totalPages,
+        data: paginatedItems
     }
-}
+      
+    });
+  }

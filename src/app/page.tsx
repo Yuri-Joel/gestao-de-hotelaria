@@ -7,11 +7,12 @@ import Cookies from 'js-cookie'
 import { delay } from "@/helpers/delay";
 
 export default function page() {
+
   const router = useRouter()
   const [property] = useState("hotel-ao");
 
   useEffect(() => {
-    ; (async function () {
+      (async function () {
       const cookie = Cookies.get(`${process.env.NEXT_PUBLIC_TOKEN_COOKIE_NAME}`)
       await delay(2000);
       if (cookie && property) {
