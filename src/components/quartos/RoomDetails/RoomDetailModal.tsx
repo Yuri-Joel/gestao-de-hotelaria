@@ -40,12 +40,18 @@ export const RoomDetailModal = ({
 	};
 	const handleOpenNote = ()=>{
 		handleOpenModalRoomDetails();
-		handleIsOpenedModalNoteReserve()
+		handleIsOpenedModalNoteReserve();
 	}
 
 	const roomStatus = getRoomStatus(room);
 	return (
-		<div className={`pt-[65px] min-h-screen w-fit fixed top-0 right-1 bottom-0 flex justify-end z-[100]  transition-transform duration-200  ${IsOpenedModalRoomDetails ? 'h-full scale-100' : 'h-0 overflow-hidden scale-0'}`}>
+		<div
+  className={`min-h-full w-fit fixed top-16 pb-[65px] right-1 bottom-0 flex justify-end z-[30] transition-transform duration-200 ${
+    IsOpenedModalRoomDetails ? 'h-full scale-100 overflow-auto' : 'h-0 overflow-hidden scale-0'
+  }`}
+>
+
+	  
 			<div className="bg-white shadow-md h-full w-[22rem] border overflow-auto no-scrollbar">
 				<div className={`flex ${roomStatus.bg} text-white justify-between items-center p-8`}
 				>

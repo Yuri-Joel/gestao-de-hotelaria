@@ -9,11 +9,11 @@ export const  NoteModal= ({ room }: RoomCardProps)=> {
 
     const handleClose= ()=>{
         handleIsOpenedModalNoteReserve();
-        handleOpenModalRoomDetails()
+        handleOpenModalRoomDetails();
     }
 
   return (
-    <div className={`fixed inset-0 bg-black/20 flex items-center justify-center p-4`}>
+    <div className={`fixed inset-0 bg-black/20 flex items-center justify-center p-4 ${IsOpenedModalNoteReserve ? 'h-full':'h-0 overflow-hidden'}`}>
       <div className="w-full max-w-md bg-white rounded-lg shadow-lg">
         {/* Header */}
         <div className="p-4 border-b">
