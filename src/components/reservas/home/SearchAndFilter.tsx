@@ -3,14 +3,20 @@ import { reserveStore } from "@/store/reserveStore";
 import { Input } from "@/components/Input/Input";
 import { Button } from "@/components/Button/Button";
 import { Checkbox } from "@/components/Input/CheckBox";
+import DatePicker from "react-datepicker";
+import { datePickerStore } from "@/store/datePickerStore";
+import { ReserverEntity } from "@/interfaces/reserveEntity";
+import { CgChevronLeft, CgChevronRight } from "react-icons/cg";
+import { formatDate } from "@/helpers/formatDateReserve";
+import { useEffect } from "react";
 
 interface SearchProps {
-  data: Reservers[];
+  data: ReserverEntity[] | null;
 }
 
 
 export function SearchAndFilter({ data }: SearchProps) {
-
+  
   const itemsFilter = [
     {
       id: "1",
@@ -32,28 +38,60 @@ export function SearchAndFilter({ data }: SearchProps) {
 
   ]
 
-  const { searchInput, searchData, setSearchData, setSearchInput, dateFrom, dateTo, setDateFrom, setDateTo, setPage, setReservePerPage, setIschecked, isChecked } = reserveStore()
+  const { 
+    searchInput, 
+    searchData, 
+    setSearchData, 
+    setSearchInput, 
+    setCurrentPage,
+    currentDate, 
+    setCurrentDate,
+    setReservePerPage, 
+    setIschecked, 
+    isChecked,
+    reserveToSearch 
+  } = reserveStore()
+  
+  const { 
+    endDate, 
+    startDate, 
+    setEndDate, 
+    setStartDate, 
+    openedCalendarEnd, 
+    openedCalendarStart, 
+    setOpenedEndCalendar, 
+    setOpenedStartCalendar 
+  } = datePickerStore()
 
   const searchFilter = () => {
     
-    if (!searchInput) {
-      setSearchData(data);
-      setSearchInput(searchInput);
-      return;
-    }
-    let filteredData = searchData.filter((item) => item.name.toLowerCase().includes(searchInput.toLowerCase()));
-    
+    if(reserveToSearch) {
+      let filteredData = reserveToSearch.filter((item) => item.guest.name.toLowerCase().includes(searchInput.toLowerCase()));
       // Se não encontrar pelo nome, busca pelo ID
-    if (filteredData.length === 0) {
-      filteredData = [...data].filter((item) => 
-        String(item.id).includes(searchInput)
-      );
-    }
-    
-    setSearchData(filteredData);
-    setSearchInput(searchInput);
-    setReservePerPage(10);
-    setPage(1);
+      if (filteredData.length === 0) {
+        filteredData = [...reserveToSearch].filter((item) => 
+          String(item.id).includes(searchInput)
+        );
+      }
+      
+      setSearchData(filteredData);
+      setSearchInput(searchInput);
+      setReservePerPage(10);
+      setEndDate(null)
+      setStartDate(null)
+      setIschecked("")
+      setCurrentPage(1);
+      }
+  }
+  
+  function handleRedifine() {
+    setIschecked("")
+    setSearchInput("")
+    setEndDate(null)
+    setStartDate(null)
+    setCurrentDate(new Date())
+    setSearchData(data)
+
   }
 
   function handleChange(textInput: React.ChangeEvent<HTMLInputElement>) {
@@ -61,72 +99,64 @@ export function SearchAndFilter({ data }: SearchProps) {
     setSearchInput(text);
   }
 
-  function handleChangeDateFrom(textInput: React.ChangeEvent<HTMLInputElement>) {
-    const text = textInput.target.value
-    setDateFrom(text)
-  }
-
-  function handleChangeDateTo(textInput: React.ChangeEvent<HTMLInputElement>) {
-    const text = textInput.target.value
-    setDateTo(text)
-  }
-
-
   function handleChecked(id: string){
-    if(id === isChecked){
-      setIschecked("")
-    }else {
-      setIschecked(id)
-    }
+    setIschecked(isChecked === id ? "" : id);
   }
+
+  const normalizeDate = (date: Date) => {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  };
 
   function handleClickDate() {
-
     let filteredData = searchData
     
     const itemChecked = itemsFilter.filter((item) => item.id === isChecked)
 
     switch (itemChecked[0].title) {
       case "Check-in":
-        if (dateFrom && dateTo) {
-          const fromDate = new Date(dateFrom);
-          const toDate = new Date(dateTo);
+        if (startDate && endDate && data) {
           filteredData = data.filter((item) => {
-            const checkInDate = item.checkIn;
-            return checkInDate >= fromDate && checkInDate <= toDate;
+            const checkInDate = normalizeDate(new Date(item.checkIn));
+            const start = normalizeDate(new Date(startDate));
+            const end = normalizeDate(new Date(endDate));
+
+            return checkInDate >= start && checkInDate <= end;
           });
           setSearchData(filteredData);
-          setSearchInput(searchInput);
+          setSearchInput("");
           setReservePerPage(10);
-          setPage(1);
+          setCurrentPage(1);
         }
         break;
       case "Check-out":
-        if (dateFrom && dateTo) {
-          const fromDate = new Date(dateFrom);
-          const toDate = new Date(dateTo);
+        if (startDate && endDate && data) {
           filteredData = data.filter((item) => {
-            const checkOutDate = item.checkOut;
-            return checkOutDate >= fromDate && checkOutDate <= toDate;
+            const checkOutDate = normalizeDate(new Date(item.checkOut));
+            const start = normalizeDate(new Date(startDate));
+            const end = normalizeDate(new Date(endDate));
+
+            return checkOutDate >= start && checkOutDate <= end;
           });
+          
           setSearchData(filteredData);
-          setSearchInput(searchInput);
+          setSearchInput("");
           setReservePerPage(10);
-          setPage(1);
+          setCurrentPage(1);
         }
       break;
       case "Data de criação":
-        if (dateFrom && dateTo) {
-          const fromDate = new Date(dateFrom);
-          const toDate = new Date(dateTo);
+        if (startDate && endDate && data) {
           filteredData = data.filter((item) => {
-            const createdAt = item.createAt;
-            return createdAt >= fromDate && createdAt <= toDate;
+            const createdAt = normalizeDate(new Date(item.createdAt));
+            const start = normalizeDate(new Date(startDate));
+            const end = normalizeDate(new Date(endDate));
+
+            return createdAt >= start && createdAt <= end;
           });
           setSearchData(filteredData);
-          setSearchInput(searchInput);
+          setSearchInput("");
           setReservePerPage(10);
-          setPage(1);
+          setCurrentPage(1);
         }
       break;
       default:
@@ -134,6 +164,39 @@ export function SearchAndFilter({ data }: SearchProps) {
     }
 
   }
+
+  const nextDay = () => {
+    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 1));
+  };
+
+  const previousDay = () => {
+    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - 1));
+  };
+
+  useEffect(()=>{
+    if (!isChecked || !searchInput) {
+      setSearchData(data)
+    }
+  }, [isChecked])
+
+  useEffect(() => {
+    const today = new Date().toDateString();
+    if(data && currentDate.toDateString() !== today) {
+      let filteredData = data;
+
+    filteredData = data.filter((item) => {
+      const checkInDate = new Date(item.checkIn);
+      return checkInDate.toDateString() === currentDate.toDateString();
+    });
+  
+    setSearchData(filteredData);
+    setSearchInput("");
+    setReservePerPage(10);
+    setCurrentPage(1);
+    }
+
+  }, [currentDate]);
+
   return(
     <div className="flex flex-col items-start gap-7">
       <div className=" w-[51.3rem] gap-4 flex items-center justify-center ">
@@ -141,6 +204,7 @@ export function SearchAndFilter({ data }: SearchProps) {
           value={searchInput}
           placeholder="Nome ou ID da reserva"
           handleValue={handleChange}
+          className="rounded-lg"
         />          
         <Button 
           handleActive={() => searchInput?.length > 0 ? true : false}
@@ -160,7 +224,7 @@ export function SearchAndFilter({ data }: SearchProps) {
                   <Checkbox
                     index={index}
                     isChecked={ isChecked === item.id ? true : false}
-                    setIsChecked={()=> handleChecked(item.id)}
+                    onClick={()=> handleChecked(item.id)}
                     className="mb-3 border"
                   />
                   <span>{item.title}</span>
@@ -171,36 +235,81 @@ export function SearchAndFilter({ data }: SearchProps) {
         </div>
 
         <div className="flex items-center justify-start gap-4 ml-3">
-          <div className="border flex flex-col w-[20rem] rounded-lg">
-            <span className="font-semibold text-gray-500 px-2 py-[2px]">De</span>
-            <div className="px-[5rem]">
-              <Input 
-                type="date"
-                handleValue={handleChangeDateFrom}
-                value={dateFrom}
-                className="h-8 border-0"
-              />
-            </div>
+          <div className="relative">
+            <button
+              className="border flex flex-col w-[20rem] rounded-lg"
+              onClick={() => setOpenedStartCalendar(!openedCalendarStart)}
+            >
+              <span className="font-semibold text-gray-500 px-2 py-[2px]">De</span>
+              <div className="px-[5rem] text-center w-full text-gray-500 h-[2rem]">
+                <span>{startDate ? startDate.toLocaleDateString() : "DD/MM/AAAA"}</span>
+              </div>
+            </button>
+
+            {openedCalendarStart && (
+              <div className="absolute top-8 left-0 z-50 px-[2.6rem]">
+                <DatePicker
+                  onChange={(date) => setStartDate(date)}
+                  selected={startDate}
+                  inline
+                  onClickOutside={() => setOpenedStartCalendar(false)}
+                />
+              </div>
+            )}
           </div>
-          <div className="border flex flex-col w-[20rem] rounded-lg">
-            <span className="font-semibold text-gray-500 px-2 py-[2px]">A</span>
-            <div className="px-[5rem]">
-              <Input 
-                type="date"
-                handleValue={handleChangeDateTo}
-                value={dateTo}
-                className="h-8 border-0"
-              />
+          
+            <div className="relative">
+              <button
+                className="border flex flex-col w-[20rem] rounded-lg"
+                onClick={() => setOpenedEndCalendar(!openedCalendarEnd)}
+                disabled={!startDate}
+              >
+                <span className="font-semibold text-gray-500 px-2 py-[2px]">A</span>
+                <div className="px-[5rem] text-center w-full text-gray-500 h-[2rem]">
+                  <span>{endDate ? endDate.toLocaleDateString() : "DD/MM/AAAA"}</span>
+                </div>
+              </button>
+
+              {openedCalendarEnd && (
+                <div className="absolute top-8 left-0 z-50 px-[2.6rem]">
+                  <DatePicker
+                    onChange={(date) => setEndDate(date)}
+                    className="bg-red-200"
+                    selected={endDate}
+                    minDate={
+                      startDate ? new Date(startDate.getTime() + 86400000) : undefined
+                    }
+                    inline
+                    onClickOutside={() => setOpenedEndCalendar(false)}
+                  />
+                </div>
+              )}
             </div>
-          </div>
           <Button 
             children="Aplicar"
-            handleActive={() => dateFrom && dateTo && isChecked ? true : false}
+            handleActive={() => startDate && endDate && isChecked ? true : false}
             className="w-[135px] py-4 rounded-full"
             handleClick={handleClickDate}
           />
         </div>
-
+        <div className="flex flex-col mt-4 gap-4 mx-3 w-full">
+        <button className="font-bold text-primary-700 text-start w-[5rem]" onClick={handleRedifine}>Redefinir</button>
+        <div className="flex items-center gap-2">
+          <button className="bg-gray-90 size-6 rounded-full flex items-center justify-center">
+            <CgChevronLeft 
+              className="size-5" 
+              onClick={previousDay}
+            />
+          </button>
+          <span>{formatDate(currentDate)}</span>
+          <button className="bg-gray-90 size-6 rounded-full text-center flex items-center">
+            <CgChevronRight 
+              className="size-5" 
+              onClick={nextDay}
+            />
+          </button>
+        </div>
+      </div>
       </div>
     </div>
   )
