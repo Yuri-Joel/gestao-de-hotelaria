@@ -27,8 +27,8 @@ const transformToTabNavigation = (floors: any[]) => {
 };
 
 export const Body = () => {
-    const { getFloors, floors: floors_, setSelectedFloor: setFloor, selectedFloor: floorSelected } = floorStore();
-    const { handleOpenModalInfo, IsOpenedModalInfo, selectedRoom , IsOpenedModalNoteReserve} = RoomStore();
+    const { getFloors, floors, setSelectedFloor: setFloor, selectedFloor: floorSelected } = floorStore();
+    const { handleOpenModalInfo, IsOpenedModalInfo, selectedRoom, IsOpenedModalNoteReserve } = RoomStore();
     const [loading, setLoading] = useState(false);
     const [loadingRoom, setLoadingRoom] = useState(false)
     const [menuItems, setMenuItems] = useState<TTabNavigation[]>([]);
@@ -39,8 +39,8 @@ export const Body = () => {
         (async () => {
             try {
                 setLoading(true);
-                const floors = await getFloors();
-                const transformedFloors = transformToTabNavigation(floors?.data || []);
+                const response = await getFloors();
+                const transformedFloors = transformToTabNavigation(response?.data || []);
                 setMenuItems(transformedFloors);
             } catch (error) {
                 console.error("Erro ao buscar os andares:", error);
@@ -48,14 +48,14 @@ export const Body = () => {
                 setLoading(false);
             }
         })();
-    }, [!floors_]);
+    }, [!floors]);
 
     // Atualiza o andar selecionado no estado global
     useEffect(() => {
         (async () => {
             setLoadingRoom(true)
             await delay(2000);
-            const selected = selectedFloor === "Todos" ? null : floors_?.find((floor) => floor.title === selectedFloor);
+            const selected = selectedFloor === "Todos" ? null : floors?.find((floor) => floor.title === selectedFloor);
             setFloor(selected || null);
             setLoadingRoom(false)
         }
@@ -88,7 +88,7 @@ export const Body = () => {
                         ) : <div className={`p-8 ${selectedFloor === "Todos" ? 'grid grid-flow-row gap-8' : 'flex flex-wrap gap-4'}`}> {/* Definindo grid por linha */}
                             {selectedFloor === "Todos" ? (
                                 // Se "Todos" for selecionado, mapeia todos os quartos de todos os andares
-                                floors_?.map((floor, index) => (
+                                floors?.map((floor, index) => (
                                     <div key={index} className="flex flex-col">
                                         <h2 className="text-xl font-bold">{floor.title}</h2> {/* Título do andar */}
                                         <div className="flex flex-wrap gap-4 mt-4">
@@ -115,16 +115,17 @@ export const Body = () => {
                 {IsOpenedModalInfo && <InfoModal />}
 
                 {/* Modal de  */}
-                    {IsOpenedModalNoteReserve  && selectedRoom && <NoteModal room={selectedRoom} />}
+                {IsOpenedModalNoteReserve && selectedRoom && <NoteModal room={selectedRoom} />}
 
                 {/* Botão de Informações    */}
                 <Button
                     handleActive={() => true}
                     handleClick={handleOpenModalInfo}
-                    className="fixed bottom-4 right-4 bg-primary text-white rounded-full p-4 shadow-lg hover:bg-primary-700 focus:outline-none"
+                    className="fixed bottom-4 right-4 bg-primary text-white w-10 h-10 rounded-full shadow-lg flex items-center justify-center hover:bg-primary-700 focus:outline-none"
                 >
                     <FaInfo />
                 </Button>
+
             </div>
         </Wrapper>
     );

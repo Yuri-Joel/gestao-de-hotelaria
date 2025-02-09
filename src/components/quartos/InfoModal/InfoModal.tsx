@@ -13,7 +13,7 @@ export const InfoModal = () => {
 
     return (
         <div
-        className={`fixed inset-0 bg-black/20 flex items-center justify-center p-4 ${
+        className={`fixed inset-0 bg-black/20 flex items-center font-semibold justify-center p-4 ${
           IsOpenedModalInfo ? "h-full" : "h-0 overflow-hidden"
         }`}
       >
@@ -32,20 +32,20 @@ export const InfoModal = () => {
           {/* Itens da Legenda */}
           <div className="space-y-4">
             <div className="flex items-start gap-4">
-              <div className="w-6 h-6 rounded-full bg-[#13973F] flex-shrink-0" />
+              {/* <div className="w-6 h-6 rounded-full bg-[#13973F] flex-shrink-0" /> */}
               <div>
-                <span className="font-semibold">Disponível:</span>
-                <p className="text-sm text-gray-600">
+                <span className="font-semibold">🟢 Verde (#13973F) - Disponível</span>
+                <p className="ml-1">
                   O quarto está livre, porém está sendo uma nova reserva.
                 </p>
               </div>
             </div>
       
             <div className="flex items-start gap-4">
-              <div className="w-6 h-6 rounded-full bg-[#FF1F1F] flex-shrink-0" />
+              {/* <div className="w-6 h-6 rounded-full bg-[#FF1F1F] flex-shrink-0" /> */}
               <div>
-                <span className="font-semibold">Vermelho: Hóspede sai hoje</span>
-                <p className="text-sm text-gray-600">
+                <span className="font-semibold">🔴 Vermelho (#971313) - Hóspede sai hoje</span>
+                <p className="ml-1">
                   O hóspede tem check-out agendado para hoje e deverá deixar a
                   acomodação dentro do horário estipulado.
                 </p>
@@ -53,10 +53,10 @@ export const InfoModal = () => {
             </div>
       
             <div className="flex items-start gap-4">
-              <div className="w-6 h-6 rounded-full bg-[#D7881A] flex-shrink-0" />
+              {/* <div className="w-6 h-6 rounded-full bg-[#D7881A] flex-shrink-0" /> */}
               <div>
-                <span className="font-semibold">Laranja - Vencido:</span>
-                <p className="text-sm text-gray-600">
+                <span className="font-semibold">🟠 Laranja (#D7881A) - Vencido</span>
+                <p className="ml-1">
                   O hóspede deveria ter feito o check-out, mas ainda não deixou a
                   propriedade.
                 </p>
@@ -64,20 +64,20 @@ export const InfoModal = () => {
             </div>
       
             <div className="flex items-start gap-4">
-              <div className="w-6 h-6 rounded-full bg-[#201397] flex-shrink-0" />
+              {/* <div className="w-6 h-6 rounded-full bg-[#201397] flex-shrink-0" /> */}
               <div>
-                <span className="font-semibold">Azul - Hóspede na propriedade:</span>
-                <p className="text-sm text-gray-600">
+                <span className="font-semibold">🔵 Azul (#201397) - Hóspede na propriedade</span>
+                <p className="ml-1">
                   O quarto está atualmente ocupado, com um hóspede hospedado.
                 </p>
               </div>
             </div>
       
             <div className="flex items-start gap-4">
-              <div className="w-6 h-6 rounded-full bg-[#CC01FF] flex-shrink-0" />
+            {/*   <div className="w-6 h-6 rounded-full bg-[#CC01FF] flex-shrink-0" /> */}
               <div>
-                <span className="font-semibold">Roxo - Reservado:</span>
-                <p className="text-sm text-gray-600">
+                <span className="font-semibold">🟣 Roxo (#CC01FF) - Reservado</span>
+                <p className="ml-1">
                   O quarto está reservado para um próximo hóspede e não pode ser
                   ocupado por outra pessoa no momento.
                 </p>
