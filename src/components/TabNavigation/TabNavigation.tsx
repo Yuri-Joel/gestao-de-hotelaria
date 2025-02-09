@@ -1,16 +1,15 @@
 "use client"
 
 import { TTabNavigation } from "@/types/TTabNavigation";
-import StateReserveStore from "@/store/home/headerStore";
 
 interface TabNavigationProps {
   menuItems: TTabNavigation[]
   selectedTitle: string;
-  setSelectedTitle: (data: string) => void;
+  setSelectedTitle: (data: any) => void;
 }
 
 export const TabNavigation = ({ menuItems, selectedTitle, setSelectedTitle }: TabNavigationProps) => {
-
+  
   return (
     <div className="border-b">
       <div className="flex items-center gap-2 px-5 py-5 relative">

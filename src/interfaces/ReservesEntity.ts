@@ -16,4 +16,5 @@ export interface ReserveEntity extends TModel {
   taxValue: number;
   state: string
   payment: number;
+  note?: string | null
 }

@@ -2,6 +2,7 @@
 import { ArrowDown } from '@/assets/Icons/ArrowDown';
 import { BedIcon } from '@/assets/Icons/BedIcon';
 import { DirectionRightIcon } from '@/assets/Icons/DirectionRightIcon';
+import { IconRegister } from '@/assets/Icons/IconRegister';
 import { StartIcon } from '@/assets/Icons/StartIcon';
 import sideBarStateStore from '@/store/sideBarStateStore';
 import { TmenuSidebar } from '@/types/menuSidebar';
@@ -51,6 +52,47 @@ export function Sidebar() {
                 {
                     label: "Mapa",
                     path: "/reservas/mapa",
+                }
+            ]
+        },
+        {
+            label: "Cadastro",
+            path: "/inicio",
+            iconClass: "h-6 w-6",
+            IconLeft: IconRegister,
+            IconRight: ArrowDown,
+            subMenu: [
+                {
+                    label: "Inicio",
+                    path: "/cadastro",
+                },
+                {
+                    label: "Andares",
+                    path: "/cadastro/andares",
+                },
+                {
+                    label: "Hóspede",
+                    path: "/cadastro/hospede",
+                },
+                {
+                    label: "Empresas",
+                    path: "/cadastro/empresas",
+                },
+                {
+                    label: "Agências",
+                    path: "/cadastro/agencias",
+                },
+                {
+                    label: "Formas de pagamento",
+                    path: "/cadastro/formas_de_pagamento",
+                },
+                {
+                    label: "PDV",
+                    path: "/cadastro/pdv"
+                },
+                {
+                    label: "Produtos",
+                    path: "/cadastro/produtos"
                 }
             ]
         },
@@ -113,7 +155,7 @@ export function Sidebar() {
 
                             {/* Submenu no estado comprimido */}
                             {item.subMenu && openSubMenus[item.label] && !state && (
-                                <div ref={SubMenuRef} className="absolute left-[4.5rem] w-[8rem]  transform -translate-x-2 -translate-y-14 bg-white border border-gray-200 rounded-md items-center shadow-lg z-50 transition-all duration-300">
+                                <div ref={SubMenuRef} className="absolute left-[4.75rem] w-[8rem] transform -translate-x-2 -translate-y-14 bg-white border border-gray-200 rounded-md items-center shadow-lg z-50 transition-all duration-300">
                                     {item.subMenu.map((subItem) => (
                                         <Link
                                             key={subItem.label}
@@ -127,20 +169,21 @@ export function Sidebar() {
                             )}
 
                             {/* Submenu no estado expandido */}
-                            {item.subMenu && openSubMenus[item.label] && state && (
-                                <div className="bg-white-800">
-                                    {item.subMenu.map((subItem) => (
-                                        <Link
-                                            key={subItem.label}
-                                            href={`/${slug}${subItem.path}`}
-                                            className="flex items-center px-4 py-4 hover:bg-[#D5CEE5]"
-                                        >
-                                            {state && <span className='ml-8'>{subItem.label}</span>}
-                                        </Link>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
+                                {item.subMenu && openSubMenus[item.label] && state && (
+                                    <div className="bg-white-800 max-h-80 overflow-y-auto scrollbar-invisible">
+                                        {item.subMenu.map((subItem) => (
+                                            <Link
+                                                key={subItem.label}
+                                                href={`/${slug}${subItem.path}`}
+                                                className="flex items-center px-4 py-4 hover:bg-[#D5CEE5]"
+                                            >
+                                                {state && <span className='ml-8'>{subItem.label}</span>}
+                                            </Link>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
                     ))}
                 </div>
             </nav>

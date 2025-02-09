@@ -2,13 +2,14 @@
 import { ReserveList } from '@/components/Home/ReserveList';
 import { TabNavigation } from '@/components/TabNavigation/TabNavigation';
 import StateReserveStore from '@/store/home/headerStore';
+import { TTabNavigation } from '@/types/TTabNavigation';
 import React from 'react';
 
 const page: React.FC = () => {
 
   const { selectedStateReserve, setSelectStateStateReserve } = StateReserveStore();
 
-  const menuItems = [
+  const menuItems: TTabNavigation[] = [
     { id: 1, label: "Novas Reservas" },
     { id: 3, label: "Chegadas" },
     { id: 4, label: "Durante a estadia" },
