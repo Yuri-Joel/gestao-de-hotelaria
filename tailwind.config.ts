@@ -8,6 +8,10 @@ export default {
   ],
   theme: {
     extend: {
+      backdropBlur: {
+        xs: '1px',
+        'xss': '3px',
+      },
       backgroundImage: {
         "custom-gradient": "linear-gradient(35deg, #ffffff 0%, rgba(128, 128, 128, 0.37) 50%, #f5f5dc 100%)"
       },
