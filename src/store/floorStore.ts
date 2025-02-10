@@ -11,12 +11,14 @@ type State = {
   currentPage: number;
   totalPages: number;
   totalItems: number;
+  EditFloorModal: boolean;
 };
 
 type Action = {
   setSelectedFloor: (floor: FloorEntity) => void;
   find: (page: number) => Promise<IResponse<TModelPagination<FloorEntity>>>;
   setCurrentPage: (page: number) => void;
+  setEditFloorModal: (value: boolean) => void;
 };
 
 export const floorStore = create<State & Action>((set, get) => ({
@@ -25,10 +27,13 @@ export const floorStore = create<State & Action>((set, get) => ({
   currentPage: 1,
   totalPages: 0,
   totalItems: 0,
+  EditFloorModal: false,
 
   setSelectedFloor: (floor) => set({ selectedFloor: floor }),
 
   setCurrentPage: (page) => set({ currentPage: page }),
+
+  setEditFloorModal: (value) => set({ EditFloorModal: value }),
 
   find: async (page) => {
     const response = await floorServices().find(page);

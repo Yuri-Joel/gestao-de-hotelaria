@@ -70,7 +70,7 @@ async function handleRequest<T>({
     return {
       error: { value: false, msg: '' },
       status: response.status,
-      data: res.data as T,
+      data: res || res.data as T,
     }
   } catch (error: any) {
     console.log('Erro global: ', error)

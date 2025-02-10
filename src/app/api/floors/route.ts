@@ -12,13 +12,11 @@ export async function GET(request: Request): Promise<NextResponse> {
     const totalItems = filePath.length;
     const totalPages = Math.ceil(totalItems / limit);
         
-    return NextResponse.json({ data: {
+    return NextResponse.json({ 
         page,
         limit,
         totalItems,
         totalPages,
         data: paginatedItems
-    }
-      
     });
-  }
+}
