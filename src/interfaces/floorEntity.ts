@@ -1,8 +1,7 @@
+import { TModel } from "@/types/TModel"
 import { RoomEntity } from "./roomEntity"
 
-
-export interface FloorEntity  {
-  _id: string
+export interface FloorEntity extends TModel {
   title: string // titulo do andar
   accessibility: string,
   status: string ,

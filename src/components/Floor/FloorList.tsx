@@ -29,6 +29,7 @@ export function FloorList() {
     currentPage,
     setCurrentPage,
     totalPages,
+    setEditFloorModal,
   } = floorStore();
   const [openMenuId, setOpenMenuId] = useState<any | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -85,23 +86,23 @@ export function FloorList() {
                 </TableHeader>
               </tr>
             </thead>
-            <tbody >
+            <tbody>
               {floors?.map((floor: any, index: number) => (
                 <TableRow
                   className={index % 2 === 0 ? "bg-gray-90" : "bg-white "}
                   key={index}
                 >
                   <TableCell className="text-center min-w-28 ">
-                      <div
-                        onClick={(e?: any) => {
-                          e.stopPropagation();
-                          setSelectedFloor(floor);
-                          router.push(`/hotel-ao/cadastro/andares/details`);
-                        }}
-                        className="p-2 w-full text-center text-primary "
-                      >
-                        {floor.title}
-                      </div>
+                    <div
+                      onClick={(e?: any) => {
+                        e.stopPropagation();
+                        setSelectedFloor(floor);
+                        router.push(`/hotel-ao/cadastro/andares/details`);
+                      }}
+                      className="p-2 w-full text-center text-primary cursor-pointer"
+                    >
+                      {floor.title}
+                    </div>
                   </TableCell>
                   <TableCell className="text-center">
                     <div className="p-2 w-full text-center">
@@ -117,7 +118,7 @@ export function FloorList() {
                     </div>
                   </TableCell>
                   <TableCell className="text-center items-center flex justify-center">
-                    <div  className="flex justify-center relative" ref={menuRef}>
+                    <div className="flex justify-center relative" ref={menuRef}>
                       <div
                         onClick={(e?: any) => {
                           e.stopPropagation();
@@ -135,7 +136,7 @@ export function FloorList() {
                       {openMenuId === floor._id && (
                         <div className="absolute top-full mt-1  w-48 bg-white shadow-md border border-gray-90 rounded-lg shadow-mdring-1 ring-black ring-opacity-5 z-10">
                           <div
-                            className="py-1 bg-white"
+                            className=" bg-white"
                             role="menu"
                             aria-orientation="vertical"
                           >
@@ -143,12 +144,15 @@ export function FloorList() {
                               className="w-full text-left px-4 py-2 text-sm text-gray-700 bg-white  hover:bg-gray-100"
                               role="menuitem"
                               handleClick={() => {
-                              setSelectedFloor(floor);
-                              router.push(`/hotel-ao/cadastro/andares/details`);
+                                setSelectedFloor(floor);
+                                setEditFloorModal(true);
+                                router.push(
+                                  `/hotel-ao/cadastro/andares/details`
+                                );
                               }}
                               handleActive={() => true}
                             >
-                               Editar
+                              Editar
                             </Button>
                             <Button
                               className="w-full text-left px-4 py-2 text-sm text-red-600 bg-white hover:bg-gray-100"
