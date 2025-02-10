@@ -18,16 +18,16 @@ const ConfirmLoginPage = () => {
 	const handleSignInClick = async () => {
 		setIsLoading(true);
 		if (isInvalidPassword) setIsInvalidPassword(false);
-		try{
-			const res = await signIn(email, password)
-			if(!res.error.value && res.data?.status === 200) {
+		try {
+			const res = await signIn(email, password);
+			if (!res.error.value && res.data?.status === 200) {
 				router.push("/");
-		   } else if (!res.error.value && res.data?.status === 401) {
-				setIsInvalidPassword(true)
-				setIsLoading(false)
+			} else if (!res.error.value && res.data?.status === 401) {
+				setIsInvalidPassword(true);
+				setIsLoading(false);
 			}
-	} catch (e) {
-		setIsLoading(false)
+		} catch (e) {
+			setIsLoading(false);
 		}
 	};
 
@@ -67,7 +67,7 @@ const ConfirmLoginPage = () => {
 					value={password}
 					disabled={isLoading}
 					handleValue={(e) => {
-						setPassword(e.target.value)
+						setPassword(e.target.value);
 						if (isInvalidPassword) setIsInvalidPassword(false);
 					}}
 				/>
