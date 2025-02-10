@@ -1,6 +1,6 @@
 import { removeAuthCookie } from '@/helpers/cookies/authCookie';
 import { IResponse } from '@/helpers/handleRequest';
-import { ReserverEntity } from '@/interfaces/reserveEntity';
+import { ReserverEntity } from '@/interfaces/reserve';
 import { reserveServices } from '@/services/reserve/reserve';
 import { TModelPagination } from '@/types/TModelPagination';
 import { create } from 'zustand'

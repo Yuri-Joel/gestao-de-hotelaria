@@ -1,12 +1,12 @@
 import { TModel } from "@/types/TModel";
 import { FloorEntity } from "./FloorEntity";
-import { ReserverEntity } from "./reserveEntity";
 import { TypeState } from "@/types/TypeState";
+import { ReserveEntity } from "./ReserveEntity";
 
 export interface RoomEntity extends TModel {
 	name: string
 	state: TypeState
-	reserve: ReserverEntity | null
+	reserve: ReserveEntity | null
 	floor: FloorEntity
 	isClean: boolean // armazena se o quarto esta limpo ou nao
 	isMaintenance: boolean // armazena se o quarto esta em manutencao ou nao

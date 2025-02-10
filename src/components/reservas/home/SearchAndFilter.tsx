@@ -5,7 +5,7 @@ import { Button } from "@/components/Button/Button";
 import { Checkbox } from "@/components/Input/CheckBox";
 import DatePicker from "react-datepicker";
 import { datePickerStore } from "@/store/datePickerStore";
-import { ReserverEntity } from "@/interfaces/reserveEntity";
+import { ReserverEntity } from "@/interfaces/reserve";
 import { CgChevronLeft, CgChevronRight } from "react-icons/cg";
 import { formatDate } from "@/helpers/formatDateReserve";
 import { useEffect } from "react";
@@ -70,7 +70,7 @@ export function SearchAndFilter({ data }: SearchProps) {
       // Se não encontrar pelo nome, busca pelo ID
       if (filteredData.length === 0) {
         filteredData = [...reserveToSearch].filter((item) => 
-          String(item.id).includes(searchInput)
+          String(item._id).includes(searchInput)
         );
       }
       

@@ -1,5 +1,5 @@
 import handleRequest from "@/helpers/handleRequest"
-import { ReserverEntity } from "@/interfaces/reserveEntity"
+import { ReserverEntity } from "@/interfaces/reserve"
 import { TModelPagination } from "@/types/TModelPagination";
 import { Types } from "mongoose";
 

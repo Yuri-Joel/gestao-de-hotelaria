@@ -4,7 +4,7 @@ import { IconButton } from "@/components/Table/table-button-navigation";
 import { TableCell } from "@/components/Table/table-cell";
 import { TableHeader } from "@/components/Table/table-header";
 import { TableRow } from "@/components/Table/table-row";
-import { ReserverEntity } from "@/interfaces/reserveEntity";
+import { ReserverEntity } from "@/interfaces/reserve";
 import whatsAppApi from "@/services/whatsApp/whatsApp";
 import { reserveStore } from "@/store/reserveStore";
 import { useSearchParams, useRouter } from "next/navigation";

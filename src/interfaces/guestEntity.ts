@@ -1,5 +1,5 @@
 import { IRoomDetail } from "./IRoomDetail";
-import { ReserverEntity } from "./reserveEntity";
+import { ReserverEntity } from "./reserve";
 
 export interface GuestEntity {
     name: string;
