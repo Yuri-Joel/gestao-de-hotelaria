@@ -13,7 +13,7 @@ export const InfoModal = () => {
 
     return (
         <div
-        className={`fixed inset-0 bg-black/20 flex items-center font-semibold justify-center p-4 ${
+        className={`fixed inset-0 bg-black/20 backdrop-blur-sm  flex items-center font-semibold justify-center p-4 z-50 ${
           IsOpenedModalInfo ? "h-full" : "h-0 overflow-hidden"
         }`}
       >

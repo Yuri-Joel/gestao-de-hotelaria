@@ -13,7 +13,7 @@ export const  NoteModal= ({ room }: RoomCardProps)=> {
     }
 
   return (
-    <div className={`fixed inset-0 bg-black/20 flex items-center justify-center p-4 ${IsOpenedModalNoteReserve ? 'h-full':'h-0 overflow-hidden'}`}>
+    <div className={`fixed inset-0 bg-black/20 flex items-center justify-center z-50 p-4 ${IsOpenedModalNoteReserve ? 'h-full':'h-0 overflow-hidden'}`}>
       <div className="w-full max-w-md bg-white rounded-lg shadow-lg">
         {/* Header */}
         <div className="p-4 border-b">

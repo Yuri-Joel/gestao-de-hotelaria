@@ -11,7 +11,7 @@ export const MenuProfile = () => {
   const { handleOpenAlertDialogConfirmLogout } = modalManagementStore();
 
   const router = useRouter();
-
+  const slug = "hotel-ao"
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -26,7 +26,7 @@ export const MenuProfile = () => {
 
   const handleNavigate = (path: string) => {
     handleOpenDropdownProfile(false);
-    router.push(path);
+    router.push(`/${slug}${path}`);
   };
 
   return (

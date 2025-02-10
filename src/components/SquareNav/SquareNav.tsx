@@ -1,18 +1,16 @@
 import Link from "next/link"
 
-export default function SquareNav() {
-  const slug = "hotel-ao"
+export interface SquareNavItem {
+  title: string;
+  href: string;
+}
 
-  const navigationItems = [
-    { title: "Andares", href: `/${slug}/cadastro/andares` },
-    { title: "Quartos", href: `/${slug}/cadastro/quartos` },
-    { title: "Empresas", href: `/${slug}/cadastro/empresas` },
-    { title: "Hóspedes", href: `/${slug}/cadastro/hospedes` },
-    { title: "Agências", href: `/${slug}/cadastro/agencias` },
-    { title: "Formas de pagamento", href: `/${slug}/cadastro/pagamentos` },
-    { title: "PDV", href: `/${slug}/cadastro/pdv` },
-    { title: "Produtos", href: `/${slug}/cadastro/produtos` },
-  ]
+interface SquareNavProps {
+  navigationItems: SquareNavItem[];
+}
+
+export default function SquareNav({ navigationItems }: SquareNavProps) {
+  
 
   return (
     <div className="container">

@@ -12,7 +12,7 @@ import { formatPathName } from '@/helpers/formatPathString';
 export const Header = () => {
   const pathname = usePathname();
   const slug = "hotel-ao"
-  const { changeSideBarState, state , closeAllSubMenus} = sideBarStateStore();
+  const { changeSideBarState, state, closeAllSubMenus } = sideBarStateStore();
   const { handleOpenReserveSearch } = ReserveSearchStore()
   const { handleOpenDropdownProfile } = MenuProfileStore();
 
@@ -24,7 +24,7 @@ export const Header = () => {
     }
     changeSideBarState(!state); // Alterna o estado do sidebar
   };
-  
+
   const toggleMenuReserve = () => {
     setOpenReserve(!OpenReserve)
     setOpenProfile(false)
@@ -54,16 +54,18 @@ export const Header = () => {
         <Link href={`/${slug}/propriedades`} className='mr-1'>
           Selecionar Propriedade
         </Link>
-        {formatPathName(pathname) !== "propriedades" && (
-            <button onClick={() => toggleMenuReserve()} className='outline-none'>
+        {formatPathName(pathname) !== "propriedades" &&
+          formatPathName(pathname) !== "settings" && (
+            <button onClick={() => toggleMenuReserve()} className="outline-none">
               <MagnifieIcon width={50} height={30} stroke="black" />
             </button>
           )}
+
         <button className='outline-none' onClick={() => toggleMenuProfile()}>
           <UserCircleIcon width={50} height={30} />
         </button>
       </div>
 
     </header>
-  ); 
+  );
 };
