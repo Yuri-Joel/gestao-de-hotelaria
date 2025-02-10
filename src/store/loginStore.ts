@@ -1,45 +1,69 @@
+import { setAuthCookie } from "@/helpers/cookies/authCookie";
+import { IResponse } from "@/helpers/handleRequest";
+
+import { EmployeeEntity } from "@/interfaces/EmployeeEntity";
+
 import { loginService } from "@/services/login/login";
+
 import { create } from "zustand";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 
 type State = {
 	email: string;
 	password: string;
+	isValid: boolean | null;
 };
 
 type Action = {
 	setEmail: (email: string) => void;
 	setPassword: (password: string) => void;
-	accountExists: () => Promise<boolean>;
-	checkIntegrity: () => Promise<boolean>;
+	verifyUserByEmail: (
+		email: string,
+	) => Promise<IResponse<{ isValid: boolean; status: number }>>;
+	signIn: (
+		email: string,
+		password: string,
+	) => Promise<IResponse<{ token: string; status: number }>>;
 };
 
 export const useLoginStore = create<State & Action>((set, get) => ({
 	email: "",
 	password: "",
+	isValid: null,
+
 	setEmail: (email) => set({ email }),
 	setPassword: (password) => set({ password }),
-	accountExists: async () => {
-		const response = await loginService().getEmployees();
-		if (
-			!response.error.value &&
-			response.data?.find((employee) => employee.email === get().email)
-		) {
-			return true;
+
+	signIn: async (email, password) => {
+		const response = await loginService().signIn(email, password);
+		if (!response.error.value && response?.data?.status === 200) {
+			const decoded: any = jwtDecode(response?.data?.token as string);
+			setAuthCookie(JSON.stringify(decoded));
+
+			Cookies.set(
+				process.env.NEXT_PUBLIC_TOKEN_COOKIE_NAME as string,
+				response?.data?.token as string,
+				{
+					expires: 1,
+					sameSite: "None",
+					secure: true,
+				},
+			);
 		}
-		return false;
+
+		return response;
 	},
-	checkIntegrity: async () => {
-		const response = await loginService().getEmployees();
-		if (
-			!response.error.value &&
-			response.data?.find(
-				(employee) =>
-					employee.email === get().email &&
-					employee.password === get().password,
-			)
-		) {
-			return true;
+
+	verifyUserByEmail: async (email) => {
+		const response = await loginService().verifyUserByEmail(email);
+
+		if (!response.error.value){
+			set({ isValid: response?.data?.isValid, email });
+		} else {
+			set({ isValid: null, email });
 		}
-		return false;
+
+		return response;
 	},
 }));

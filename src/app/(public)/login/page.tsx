@@ -13,52 +13,57 @@ import { useState } from "react";
 const LoginPage = () => {
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(false);
-	const [isInvalidEmail, setIsInvalidEmail] = useState(false);
-	const { email, accountExists } = useLoginStore();
+	const { email, verifyUserByEmail, isValid, setEmail } = useLoginStore();
 
-	const handleNextClick = () => {
-		setIsLoading(true);
-		accountExists()
-			.then((value) => {
-				if (value) router.push("/login/confirm");
-				else {
-					setIsInvalidEmail(true);
-					setIsLoading(false);
-				}
-			})
-			.catch((e) => {
-				console.log(e);
-			});
-	};
 	const handleNextActive = () => {
 		if (isValidEmail(email)) return true;
 		return false;
 	};
+
+	const handleVerifyUserEmail = async () => {
+		setIsLoading(true);
+
+		try {
+			const res = await verifyUserByEmail(email);
+
+			if (res?.data?.isValid && res.data?.status === 200) {
+				router.push("/login/confirm");
+			} else if (res.data?.status !== 200) {
+				setIsLoading(false);
+			}
+		} catch (e) {
+			console.log(e);
+			setIsLoading(false);
+		}
+	};
+
 	return (
-		<section className="flex flex-col gap-4">
+		<div className="flex flex-col gap-4">
 			<h1 className="font-bold text-xl">Hoteli Apps</h1>
 			<div className="flex flex-col gap-2">
 				<div className="font-medium text-xl">
 					<h1>Iniciar sessão</h1>
 				</div>
+
 				<div className="h-24 mb-16">
 					<Input
 						type="email"
 						placeholder="Seu email"
-						className={`mb-1 ${isInvalidEmail ? "border-red-500" : "border-inherit"}`}
+						className={`mb-1 ${isValid === false ? "border-red-500" : "border-inherit"}`}
 						value={email}
+						disabled={isLoading}
 						handleValue={(e) => {
-							useLoginStore.setState({
-								email: e.target.value,
-							});
-							if (isInvalidEmail) setIsInvalidEmail(false);
+							setEmail(e.target.value);
+							useLoginStore.setState({ isValid: null });
 						}}
 					/>
-					{isInvalidEmail && (
+
+					{isValid === false && (
 						<span className="text-red-500 text-xs flex">
 							Conta não encontrada
 						</span>
 					)}
+
 					<Link
 						href="#"
 						className="text-primary hover:underline text-sm inline-flex"
@@ -70,16 +75,16 @@ const LoginPage = () => {
 			<div className="w-full h-10 flex justify-end">
 				<Button
 					width="120px"
-					handleClick={handleNextClick}
+					handleClick={handleVerifyUserEmail}
 					isLoading={isLoading}
 					border="solid"
 					className="rounded-none"
-					handleActive={handleNextActive}
+					handleActive={() => isLoading || handleNextActive()}
 				>
 					Avançar
 				</Button>
 			</div>
-		</section>
+		</div>
 	);
 };
 

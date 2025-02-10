@@ -32,7 +32,6 @@ export const floorStore = create<State & Action>((set, get) => ({
 
   find: async (page) => {
     const response = await floorServices().find(page);
-    console.log("analisre : "  + response.data?.data);
     
     if (response.status === 401) {
       removeAuthCookie();

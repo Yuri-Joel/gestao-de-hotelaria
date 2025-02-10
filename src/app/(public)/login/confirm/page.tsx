@@ -5,7 +5,6 @@ import { Button } from "@/components/Button/Button";
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
 import Link from "next/link";
 
 import { useLoginStore } from "@/store/loginStore";
@@ -14,26 +13,22 @@ const ConfirmLoginPage = () => {
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(false);
 	const [isInvalidPassword, setIsInvalidPassword] = useState(false);
-	const { password, email, checkIntegrity } = useLoginStore();
+	const { password, email, signIn, setPassword } = useLoginStore();
 
-	const handleSignInClick = () => {
+	const handleSignInClick = async () => {
 		setIsLoading(true);
-		checkIntegrity()
-			.then((value) => {
-				if (value) {
-					Cookies.set(
-						`${process.env.NEXT_PUBLIC_TOKEN_COOKIE_NAME}`,
-						JSON.stringify({ email, password }),
-					);
-					router.push("/");
-				} else {
-					setIsInvalidPassword(true);
-					setIsLoading(false);
-				}
-			})
-			.catch((e) => {
-				console.log(e);
-			});
+		if (isInvalidPassword) setIsInvalidPassword(false);
+		try{
+			const res = await signIn(email, password)
+			if(!res.error.value && res.data?.status === 200) {
+				router.push("/");
+		   } else if (!res.error.value && res.data?.status === 401) {
+				setIsInvalidPassword(true)
+				setIsLoading(false)
+			}
+	} catch (e) {
+		setIsLoading(false)
+		}
 	};
 
 	const handleSignInActive = () => {
@@ -70,10 +65,9 @@ const ConfirmLoginPage = () => {
 					type="password"
 					placeholder="Sua senha"
 					value={password}
+					disabled={isLoading}
 					handleValue={(e) => {
-						useLoginStore.setState({
-							password: e.target.value,
-						});
+						setPassword(e.target.value)
 						if (isInvalidPassword) setIsInvalidPassword(false);
 					}}
 				/>
@@ -96,7 +90,7 @@ const ConfirmLoginPage = () => {
 					isLoading={isLoading}
 					border="solid"
 					className="rounded-none"
-					handleActive={handleSignInActive}
+					handleActive={() => isLoading || handleSignInActive()}
 				>
 					Entrar
 				</Button>
