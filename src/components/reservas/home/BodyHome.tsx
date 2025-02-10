@@ -7,55 +7,59 @@ import { ReserveList } from "./ReserveList";
 import { useEffect, useState } from "react";
 import { delay } from "@/helpers/delay";
 
+const menuItems = [
+  {
+    id: 1,
+    label: "Chegadas"
+  },
+  {
+    id: 2,
+    label: "Na propriedade"
+  },
+  {
+    id: 3,
+    label: "Partidas"
+  }
+]
 
 export function BodyHome(){
-
   const [loading, setLoading] = useState<boolean>(false);
   const { 
     selectedTitleHeader,
     setSelectedTitleHeader,
-    getReserve, 
+    find, 
     reserves,
     currentPage,
-
+    detailStartDate,
   } = reserveStore()
 
-  const menuItems = [
-    {
-      id: 1,
-      label: "Chegadas"
-    },
-    {
-      id: 2,
-      label: "Na propriedade"
-    },
-    {
-      id: 3,
-      label: "Partidas"
-    }
-  ]
-
   useEffect(() => {
     (async () => {
-      try{
-        setLoading(true)
-        await getReserve(currentPage);
-        await delay(2000);
-        setLoading(false)
-      }catch(error){}
-    } 
-    )()
-  }, [!reserves, selectedTitleHeader])
-
-  useEffect(() => {
-    (async () => {
-      try{
-        await getReserve(currentPage);
-      }catch(error){}
-    } 
-    )()
+      try {
+        await find(currentPage);
+        await delay(1000)
+      } catch (error) {
+        console.error("Erro ao buscar reservas:", error);
+      } finally {
+      }
+    })();
   }, [currentPage])
 
+  useEffect(() => {
+    (async () => {
+      try {
+        setLoading(true);
+        await find(currentPage);
+        await delay(1000)
+      } catch (error) {
+        console.error("Erro ao buscar reservas:", error);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [find, selectedTitleHeader]);
+
+    
   return(
     <Wrapper title="RESERVA - INICIO">
       <SearchAndFilter

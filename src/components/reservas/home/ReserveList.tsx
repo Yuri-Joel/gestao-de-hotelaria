@@ -4,44 +4,49 @@ import { IconButton } from "@/components/Table/table-button-navigation";
 import { TableCell } from "@/components/Table/table-cell";
 import { TableHeader } from "@/components/Table/table-header";
 import { TableRow } from "@/components/Table/table-row";
-import { ReserverEntity } from "@/interfaces/reserveEntity";
+import { ReserveEntity } from "@/interfaces/ReservesEntity";
 import whatsAppApi from "@/services/whatsApp/whatsApp";
 import { reserveStore } from "@/store/reserveStore";
+import { tr } from "date-fns/locale";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { BiChevronLeft, BiChevronRight, BiChevronsLeft, BiChevronsRight } from "react-icons/bi";
 import { BsWhatsapp } from "react-icons/bs";
 
 interface ReserveListProps {
-  data: ReserverEntity[] | null;
+  data: ReserveEntity[] | null;
   loading: boolean;
 }
 
 export function ReserveList({data, loading}: ReserveListProps) {
 
-  const { searchData, setSearchData, setCurrentPage, reservePerPage, currentPage, totalPages} = reserveStore()
+  const { searchData, setSearchData, setCurrentPage, currentPage, totalPages } = reserveStore()
 
-  
   useEffect(() => {
-    setSearchData(data)
-  }, [data])
+    if (loading) {
+      setSearchData(data);
+    }
+  }, [data, loading])
   
+  if (loading || searchData === null) {
+    return (
+      <div className="space-y-2">
+        <Skeleton className="h-[48px] w-full rounded-none" />
+        {[...Array(10)].map((_, i) => (
+          <div key={i} className="bg-white">
+            <Skeleton className="h-[30px] w-full rounded-none" />
+          </div>
+        ))}
+        <div className="flex justify-end">
+          <Skeleton className="h-[29px] w-[12rem] rounded-none" />
+        </div>
+      </div>
+    );
+  }
+
   return(
     <>
-    {
-      loading ? (
-        <div className="space-y-2 py-5">
-          <Skeleton className="h-[48px] w-full" />
-          {[...Array(10)].map((_, i) => (
-            <div key={i}  className=" bg-white">
-              <Skeleton className="h-[30px] w-full" />
-            </div>
-          ))}
-          <div className="flex justify-end">
-            <Skeleton className="h-[29px] w-[12rem] " />
-          </div>
-        </div>
-      ) : (
+    
         <div className="flex flex-1 overflow-hidden">
           <Table className="w-full mb-5">
             <thead>
@@ -60,7 +65,7 @@ export function ReserveList({data, loading}: ReserveListProps) {
               {
                 searchData && searchData.length > 0 ? 
                   searchData.map((reserve, index) => (
-                    <TableRow className={index % 2 === 0 ? "bg-gray-90" : "bg-white"} key={reserve.id}>
+                    <TableRow className={index % 2 === 0 ? "bg-gray-90" : "bg-white"} key={String(reserve._id)}>
                       <TableCell className="flex gap-1 items-center">
                         {
                           reserve.guest.phoneNumber && (
@@ -72,7 +77,7 @@ export function ReserveList({data, loading}: ReserveListProps) {
                         {reserve.guest.name}
                       </TableCell>
                       <TableCell className="text-left">
-                        {reserve.id}
+                        {String(reserve._id)}
                       </TableCell>
                       <TableCell className="text-left">
                         {reserve.externReference}
@@ -87,49 +92,24 @@ export function ReserveList({data, loading}: ReserveListProps) {
                         {reserve.room.name}
                       </TableCell>
                       <TableCell className="text-left">
-                        {new Date(reserve.createdAt).toLocaleDateString()}
+                        {reserve.createdAt && new Date(reserve.createdAt).toLocaleDateString()}
                       </TableCell>
-                      <TableCell className="text-left">
-                        {reserve.payment}
-                      </TableCell>
-                    </TableRow>
-                  )) :
-                  data && data.slice(reservePerPage === 10 ? 0 : reservePerPage - 10, reservePerPage).map((reserve, index) => (
-                    <TableRow className={index % 2 === 0 ? "bg-gray-90" : "bg-white"} key={reserve.id}>
-                      <TableCell className="flex gap-1 items-center ">
-                        {
-                          reserve.guest.phoneNumber && (
-                            <button onClick={() => whatsAppApi()} >
-                              <BsWhatsapp className="text-green-600 cursor-pointer" />
-                            </button>
-                          )
-                        }
-                        {reserve.guest.name}
-                      </TableCell>
-                      <TableCell className="text-left">
-                        {reserve.id}
-                      </TableCell>
-                      <TableCell className="text-left">
-                        {reserve.externReference}
-                      </TableCell>
-                      <TableCell className="text-left">
-                        {new Date(reserve.checkIn).toLocaleDateString()}
-                      </TableCell>
-                      <TableCell className="text-left">
-                        {new Date(reserve.checkOut).toLocaleDateString()}
-                      </TableCell>
-                      <TableCell className="text-left">
-                        {reserve.room.name}
-                      </TableCell><TableCell className="text-left">
-                        {new Date(reserve.createdAt).toLocaleDateString()}
-                      </TableCell><TableCell className="text-left">
-                        {reserve.payment}
+                      <TableCell className="text-left font-bold">
+                        BRL {reserve.payment}
                       </TableCell>
                     </TableRow>
-                  ))
+                  )) : <TableRow>
+                  <TableCell colSpan={8} className="text-center text-gray-500">Nenhuma reserva encontrada</TableCell>
+                </TableRow>
+                  
+                  
               }
+              
             </tbody>
-            <tfoot>
+
+            {
+              searchData && searchData?.length > 0 && (
+                <tfoot>
               <tr>
                 <TableCell colSpan={9}>
                   <div className="flex items-center justify-end gap-8">
@@ -168,10 +148,11 @@ export function ReserveList({data, loading}: ReserveListProps) {
                 </TableCell>
               </tr>
             </tfoot>
+              )
+            }
           </Table>
         </div>
-      )
-    }
+     
     
     </>
     

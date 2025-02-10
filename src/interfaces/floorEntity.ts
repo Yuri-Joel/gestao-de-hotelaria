@@ -1,4 +1,4 @@
-import { RoomEntity } from "./roomEntity"
+import { RoomEntity } from "./RoomEntity"
 
 
 export interface FloorEntity  {

@@ -5,13 +5,13 @@ import { Button } from "@/components/Button/Button";
 import { Checkbox } from "@/components/Input/CheckBox";
 import DatePicker from "react-datepicker";
 import { datePickerStore } from "@/store/datePickerStore";
-import { ReserverEntity } from "@/interfaces/reserveEntity";
+import { ReserveEntity } from "@/interfaces/ReservesEntity";
 import { CgChevronLeft, CgChevronRight } from "react-icons/cg";
 import { formatDate } from "@/helpers/formatDateReserve";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface SearchProps {
-  data: ReserverEntity[] | null;
+  data: ReserveEntity[] | null;
 }
 
 
@@ -44,12 +44,15 @@ export function SearchAndFilter({ data }: SearchProps) {
     setSearchData, 
     setSearchInput, 
     setCurrentPage,
-    currentDate, 
-    setCurrentDate,
+    detailEndDate,
+    detailStartDate, 
+    setDetailEndDate,
+    setDetailStartDate,
     setReservePerPage, 
     setIschecked, 
     isChecked,
-    reserveToSearch 
+    reserveToSearch,
+    setTotalPage 
   } = reserveStore()
   
   const { 
@@ -63,20 +66,33 @@ export function SearchAndFilter({ data }: SearchProps) {
     setOpenedStartCalendar 
   } = datePickerStore()
 
+  const [changeDate, setChangeDate] = useState(false)
   const searchFilter = () => {
-    
+
     if(reserveToSearch) {
       let filteredData = reserveToSearch.filter((item) => item.guest.name.toLowerCase().includes(searchInput.toLowerCase()));
       // Se não encontrar pelo nome, busca pelo ID
       if (filteredData.length === 0) {
         filteredData = [...reserveToSearch].filter((item) => 
-          String(item.id).includes(searchInput)
+          String(item._id).includes(searchInput)
         );
       }
       
+      if(filteredData.length > 10) {
+        setTotalPage(Math.ceil(filteredData.length / 10))
+      }else{
+        setTotalPage(0)
+      } 
+      
+      const currentDate = new Date();
+      const nextMonth = new Date(currentDate);
+      nextMonth.setMonth(currentDate.getMonth() + 1);
+
+      setDetailStartDate(currentDate);
+      setDetailEndDate(nextMonth);
       setSearchData(filteredData);
       setSearchInput(searchInput);
-      setReservePerPage(10);
+      setReservePerPage(filteredData.length);
       setEndDate(null)
       setStartDate(null)
       setIschecked("")
@@ -89,9 +105,20 @@ export function SearchAndFilter({ data }: SearchProps) {
     setSearchInput("")
     setEndDate(null)
     setStartDate(null)
-    setCurrentDate(new Date())
     setSearchData(data)
+    const currentDate = new Date();
+    const nextMonth = new Date(currentDate);
+    nextMonth.setMonth(currentDate.getMonth() + 1);
 
+    setDetailStartDate(currentDate);
+    setDetailEndDate(nextMonth);
+    setChangeDate(false)
+
+    if(reserveToSearch && reserveToSearch.length > 10) {
+      setTotalPage(Math.ceil(reserveToSearch.length / 10))
+    }else{
+      setTotalPage(0)
+    } 
   }
 
   function handleChange(textInput: React.ChangeEvent<HTMLInputElement>) {
@@ -147,7 +174,7 @@ export function SearchAndFilter({ data }: SearchProps) {
       case "Data de criação":
         if (startDate && endDate && data) {
           filteredData = data.filter((item) => {
-            const createdAt = normalizeDate(new Date(item.createdAt));
+            const createdAt = normalizeDate(item.createdAt as Date);
             const start = normalizeDate(new Date(startDate));
             const end = normalizeDate(new Date(endDate));
 
@@ -163,14 +190,84 @@ export function SearchAndFilter({ data }: SearchProps) {
         break;
     }
 
+    const currentDate = new Date();
+    const nextMonth = new Date(currentDate);
+    nextMonth.setMonth(currentDate.getMonth() + 1);
+
+    setDetailStartDate(currentDate);
+    setDetailEndDate(nextMonth);
+
   }
 
-  const nextDay = () => {
-    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 1));
-  };
+  const handleDetailNextDate = () => {
+    const currentDate = new Date(detailStartDate);
 
-  const previousDay = () => {
-    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - 1));
+    const newCurrentDate = new Date(currentDate);
+    newCurrentDate.setMonth(currentDate.getMonth() + 1);
+
+    const nextMonth = new Date(newCurrentDate);
+    nextMonth.setMonth(newCurrentDate.getMonth() + 1);
+    if (reserveToSearch) {
+      const filteredData = reserveToSearch.filter((reserve) => {
+        const checkIn = normalizeDate(new Date(reserve.checkIn));
+        const start = normalizeDate(newCurrentDate);
+        const end = normalizeDate(nextMonth);
+        return checkIn >= start && checkIn <= end;
+      });
+      
+      setSearchData(filteredData);
+      if(filteredData.length > 10) {
+        setTotalPage(Math.ceil(filteredData.length / 10))
+      }else{
+        setTotalPage(0)
+      } 
+
+    }
+    setDetailStartDate(newCurrentDate);
+    setDetailEndDate(nextMonth);
+    setCurrentPage(1)
+    setTimeout(() => {
+      setChangeDate(
+        new Date().toISOString().split('T')[0] !== newCurrentDate.toISOString().split('T')[0]
+      );
+    }, 0);
+  };
+  
+  const handleDetailPreviousDate = () => {
+    const currentDate = new Date(detailStartDate);
+
+    const newCurrentDate = new Date(currentDate);
+    newCurrentDate.setMonth(currentDate.getMonth() - 1);
+
+    const nextMonth = new Date(newCurrentDate);
+    nextMonth.setMonth(newCurrentDate.getMonth() + 1);
+  
+    if (reserveToSearch) {
+      const filteredData = reserveToSearch.filter((reserve) => {
+        const checkIn = normalizeDate(new Date(reserve.checkIn));
+        const start = normalizeDate(newCurrentDate);
+        const end = normalizeDate(nextMonth);
+        return checkIn >= start && checkIn <= end;
+      });
+      
+      setSearchData(filteredData);
+      
+      //Vericação para dar valor a totalpage
+      if(filteredData.length > 10) {
+        setTotalPage(Math.ceil(filteredData.length / 10))
+      }else{
+        setTotalPage(0)
+      } 
+    }
+    
+    setCurrentPage(1)
+    setDetailStartDate(newCurrentDate);
+    setDetailEndDate(nextMonth);
+    setTimeout(() => {
+      setChangeDate(
+        new Date().toISOString().split('T')[0] !== newCurrentDate.toISOString().split('T')[0]
+      );
+    }, 0);
   };
 
   useEffect(()=>{
@@ -179,24 +276,29 @@ export function SearchAndFilter({ data }: SearchProps) {
     }
   }, [isChecked])
 
+  //Para iniciar com os hospedes que têm a data de checkin com o dia e o mês atual
   useEffect(() => {
-    const today = new Date().toDateString();
-    if(data && currentDate.toDateString() !== today) {
-      let filteredData = data;
-
-    filteredData = data.filter((item) => {
-      const checkInDate = new Date(item.checkIn);
-      return checkInDate.toDateString() === currentDate.toDateString();
-    });
+    const currentDate = new Date();
+    const nextMonth = new Date(currentDate);
+    nextMonth.setMonth(currentDate.getMonth() + 1);
   
-    setSearchData(filteredData);
-    setSearchInput("");
-    setReservePerPage(10);
-    setCurrentPage(1);
+    if (data) {
+      const filteredData = data.filter((reserve) => {
+        const checkIn = normalizeDate(new Date(reserve.checkIn));
+        const start = normalizeDate(currentDate);
+        const end = normalizeDate(nextMonth);
+        return checkIn >= start && checkIn <= end;
+      });
+      
+      setSearchData(filteredData);
+      
     }
+  
+    setDetailStartDate(currentDate);
+    setDetailEndDate(nextMonth);
+  }, []);
 
-  }, [currentDate]);
-
+  
   return(
     <div className="flex flex-col items-start gap-7">
       <div className=" w-[51.3rem] gap-4 flex items-center justify-center ">
@@ -247,7 +349,7 @@ export function SearchAndFilter({ data }: SearchProps) {
             </button>
 
             {openedCalendarStart && (
-              <div className="absolute top-8 left-0 z-50 px-[2.6rem]">
+              <div className="absolute top-15 left-0 z-50 px-[2.6rem]">
                 <DatePicker
                   onChange={(date) => setStartDate(date)}
                   selected={startDate}
@@ -271,7 +373,7 @@ export function SearchAndFilter({ data }: SearchProps) {
               </button>
 
               {openedCalendarEnd && (
-                <div className="absolute top-8 left-0 z-50 px-[2.6rem]">
+                <div className="absolute top-12 left-0 z-50 px-[2.6rem]">
                   <DatePicker
                     onChange={(date) => setEndDate(date)}
                     className="bg-red-200"
@@ -293,22 +395,31 @@ export function SearchAndFilter({ data }: SearchProps) {
           />
         </div>
         <div className="flex flex-col mt-4 gap-4 mx-3 w-full">
-        <button className="font-bold text-primary-700 text-start w-[5rem]" onClick={handleRedifine}>Redefinir</button>
+
+        {
+          (searchInput || isChecked || startDate || changeDate) && 
+          <button 
+            className="font-bold text-primary-700 text-start w-[5rem]" 
+            onClick={handleRedifine}
+          >Redefinir</button>
+        }
+
         <div className="flex items-center gap-2">
           <button className="bg-gray-90 size-6 rounded-full flex items-center justify-center">
             <CgChevronLeft 
               className="size-5" 
-              onClick={previousDay}
+              onClick={handleDetailPreviousDate}
             />
           </button>
-          <span>{formatDate(currentDate)}</span>
+          <span>{formatDate(detailStartDate)}</span>
           <button className="bg-gray-90 size-6 rounded-full text-center flex items-center">
             <CgChevronRight 
               className="size-5" 
-              onClick={nextDay}
+              onClick={handleDetailNextDate}
             />
           </button>
-        </div>
+        </div> 
+
       </div>
       </div>
     </div>
