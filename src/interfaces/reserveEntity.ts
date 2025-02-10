@@ -1,8 +1,8 @@
-import { GuestEntity } from "./guestEntity";
+import { GuestEntity } from "./GuestEntity";
 import { RoomEntity } from "./roomEntity";
 
 export interface ReserverEntity {
-  id: number;
+  _id: number;
   guest: GuestEntity
   room: RoomEntity
   checkIn: Date
@@ -15,6 +15,7 @@ export interface ReserverEntity {
 	taxValue: number;
   state: string
   payment: number;
+  note?: string | null
   createdAt: Date;
 	updatedAt: Date;
 }
