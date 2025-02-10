@@ -9,7 +9,7 @@ import { useEffect, useState } from "react"
 import { Table } from "../Table/table"
 import { Search } from "./Search"
 import { propertyStore } from "@/store/propertyStore"
-import { Properties } from "@/interfaces/properties"
+import { Properties } from "@/interfaces/Properties"
 import { useSearchParams, useRouter } from "next/navigation"
 
 interface PropertiesProps {

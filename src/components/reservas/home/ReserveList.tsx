@@ -60,7 +60,7 @@ export function ReserveList({data, loading}: ReserveListProps) {
               {
                 searchData && searchData.length > 0 ? 
                   searchData.map((reserve, index) => (
-                    <TableRow className={index % 2 === 0 ? "bg-gray-90" : "bg-white"} key={reserve.id}>
+                    <TableRow className={index % 2 === 0 ? "bg-gray-90" : "bg-white"} key={reserve._id}>
                       <TableCell className="flex gap-1 items-center">
                         {
                           reserve.guest.phoneNumber && (
@@ -72,7 +72,7 @@ export function ReserveList({data, loading}: ReserveListProps) {
                         {reserve.guest.name}
                       </TableCell>
                       <TableCell className="text-left">
-                        {reserve.id}
+                        {reserve._id}
                       </TableCell>
                       <TableCell className="text-left">
                         {reserve.externReference}
@@ -95,7 +95,7 @@ export function ReserveList({data, loading}: ReserveListProps) {
                     </TableRow>
                   )) :
                   data && data.slice(reservePerPage === 10 ? 0 : reservePerPage - 10, reservePerPage).map((reserve, index) => (
-                    <TableRow className={index % 2 === 0 ? "bg-gray-90" : "bg-white"} key={reserve.id}>
+                    <TableRow className={index % 2 === 0 ? "bg-gray-90" : "bg-white"} key={reserve._id}>
                       <TableCell className="flex gap-1 items-center ">
                         {
                           reserve.guest.phoneNumber && (
@@ -107,7 +107,7 @@ export function ReserveList({data, loading}: ReserveListProps) {
                         {reserve.guest.name}
                       </TableCell>
                       <TableCell className="text-left">
-                        {reserve.id}
+                        {reserve._id}
                       </TableCell>
                       <TableCell className="text-left">
                         {reserve.externReference}

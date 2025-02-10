@@ -1,5 +1,5 @@
 import { TModel } from "@/types/TModel";
-import { FloorEntity } from "./floorEntity";
+import { FloorEntity } from "./FloorEntity";
 import { ReserverEntity } from "./reserveEntity";
 import { TypeState } from "@/types/TypeState";
 

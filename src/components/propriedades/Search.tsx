@@ -1,7 +1,7 @@
 'use client'
 import { propertyStore } from "@/store/propertyStore";
 import { Input } from "../Input/Input";
-import { Properties } from "@/interfaces/properties";
+import { Properties } from "@/interfaces/Properties";
 
 interface SearchProps {
   data: Properties[];
