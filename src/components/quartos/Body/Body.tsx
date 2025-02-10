@@ -2,7 +2,6 @@
 
 import { Wrapper } from "@/components/Wrapper";
 import { useEffect, useState } from "react";
-import { floorStore } from "@/store/flooorStore";
 import { TabNavigation } from "@/components/TabNavigation/TabNavigation";
 import { TTabNavigation } from "@/types/TTabNavigation";
 import { Skeleton } from "@/components/Skeleton/Skeleton";
@@ -14,6 +13,7 @@ import { InfoModal } from "../InfoModal/InfoModal";
 import { delay } from "@/helpers/delay";
 import { RoomDetailModal } from "../RoomDetails/RoomDetailModal";
 import { NoteModal } from "../NoteModal/NoteModal";
+import { floorStore } from "@/store/floorStore";
 
 // Função para transformar floors em menuItems para TabNavigation
 const transformToTabNavigation = (floors: any[]) => {
@@ -27,7 +27,7 @@ const transformToTabNavigation = (floors: any[]) => {
 };
 
 export const Body = () => {
-    const { getFloors, floors, setSelectedFloor: setFloor, selectedFloor: floorSelected } = floorStore();
+    const { find, floors, setSelectedFloor: setFloor, selectedFloor: floorSelected, currentPage } = floorStore();
     const { handleOpenModalInfo, IsOpenedModalInfo, selectedRoom, IsOpenedModalNoteReserve } = RoomStore();
     const [loading, setLoading] = useState(false);
     const [loadingRoom, setLoadingRoom] = useState(false)
@@ -39,7 +39,7 @@ export const Body = () => {
         (async () => {
             try {
                 setLoading(true);
-                const response = await getFloors();
+                const response = await find(currentPage);
                 const transformedFloors = transformToTabNavigation(response?.data || []);
                 setMenuItems(transformedFloors);
             } catch (error) {

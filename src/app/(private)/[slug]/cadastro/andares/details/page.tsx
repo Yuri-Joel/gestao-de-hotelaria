@@ -2,11 +2,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Wrapper } from "@/components/Wrapper";
 import { floorStore } from "@/store/floorStore";
-import { FloorEntity } from "@/interfaces/FloorEntity";
 import { BiChevronDown } from "react-icons/bi";
 import { Button } from "@/components/Button/Button";
 import { Input } from "@/components/Input/Input";
 import InputTextArea from "@/components/Input/InputTextArea";
+import { FloorEntity } from "@/interfaces/floorEntity";
 
 function page() {
   const [openMenuId, setOpenMenuId] = useState<any | null>(null);

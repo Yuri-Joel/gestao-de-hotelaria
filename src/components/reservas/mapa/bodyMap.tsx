@@ -4,6 +4,7 @@ import { formatDateShort } from "@/helpers/formatDateExperimental";
 import { reserveStore } from "@/store/reserveStore";
 import { Wrapper } from "@/components/Wrapper";
 import React, { useState, useRef, useEffect } from "react";
+import { formatDate } from "@/helpers/formatDateReserve";
 
 const areaRoom = [
   {
@@ -168,45 +169,66 @@ const areaAvailable = [
 export function BodyMap() {
   const days = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"]
   const {
-    currentDate,
-    setCurrentDate
+    detailEndDate,
+    detailStartDate,
+    setDetailEndDate,
+    setDetailStartDate,
   } = reserveStore()
-  const indexDay = new Date().getDay()
-  const year = new Date().getFullYear()
-  const newDate = days[indexDay] + " , " + formatDateShort(currentDate) + " " + year
 
-  function prevMonth() {
-    const newDate = new Date(currentDate);
-    newDate.setMonth(newDate.getMonth() - 1);
-    setCurrentDate(newDate)
-  }
+  const handleDetailNextDate = () => {
+    const currentDate = new Date(detailStartDate);
 
-  function nextMonth() {
-    const newDate = new Date(currentDate);
-    newDate.setMonth(newDate.getMonth() + 1);
-    setCurrentDate(newDate)
-  }
+    const newCurrentDate = new Date(currentDate);
+    newCurrentDate.setMonth(currentDate.getMonth() + 1);
 
+    const nextMonth = new Date(newCurrentDate);
+    nextMonth.setMonth(newCurrentDate.getMonth() + 1);
+    
+    setDetailStartDate(newCurrentDate);
+    setDetailEndDate(nextMonth);
+    }
+    
+  
+  const handleDetailPreviousDate = () => {
+    const currentDate = new Date(detailStartDate);
+
+    const newCurrentDate = new Date(currentDate);
+    newCurrentDate.setMonth(currentDate.getMonth() - 1);
+
+    const nextMonth = new Date(newCurrentDate);
+    nextMonth.setMonth(newCurrentDate.getMonth() + 1);
+  
+    setDetailStartDate(newCurrentDate);
+    setDetailEndDate(nextMonth);
+  };
+
+  //Para iniciar com os hospedes que têm a data de checkin com o dia e o mês atual
+  useEffect(() => {
+    const currentDate = new Date();
+    const nextMonth = new Date(currentDate);
+    nextMonth.setMonth(currentDate.getMonth() + 1);
+  
+    setDetailStartDate(currentDate);
+    setDetailEndDate(nextMonth);
+  }, []);
   return (
     <Wrapper title="RESERVAS - MAPA">
       <div className="flex flex-col gap-5">
-        <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2">
           <button className="bg-gray-90 size-6 rounded-full flex items-center justify-center">
-            <CgChevronLeft
-              className="size-5"
-              onClick={prevMonth}
+            <CgChevronLeft 
+              className="size-5" 
+              onClick={handleDetailPreviousDate}
             />
           </button>
-
-          <span>{newDate}</span>
-
-          <button className="bg-gray-90 size-6 rounded-full text-center flex items-center ">
-            <CgChevronRight
-              className="size-5"
-              onClick={nextMonth}
+          <span>{formatDate(detailStartDate)}</span>
+          <button className="bg-gray-90 size-6 rounded-full text-center flex items-center">
+            <CgChevronRight 
+              className="size-5" 
+              onClick={handleDetailNextDate}
             />
           </button>
-        </div>
+        </div> 
 
         <div
           className="flex h-full w-full mb-5 bg-red-200 relative overflow-auto"
