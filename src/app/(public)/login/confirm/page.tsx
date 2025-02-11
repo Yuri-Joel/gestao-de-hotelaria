@@ -20,7 +20,6 @@ const ConfirmLoginPage = () => {
 		if (isInvalidPassword) setIsInvalidPassword(false);
 		try {
 			const res = await signIn(email, password);
-			console.log(res)
 			if (!res.error.value && res.data?.statusText === "ok") {
 				router.push("/");
 			} else if (res.error.value) {
