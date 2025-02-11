@@ -1,11 +1,11 @@
 import { Types } from "mongoose";
 import { IRoomDetail } from "./IRoomDetail";
-import { ReserveEntity } from "./ReservesEntity";
+import { ReserveEntity } from "./ReserveEntity";
 
 export interface GuestEntity {
     name: string;
     email: string;
     phoneNumber?: string
-    room?:IRoomDetail
+    room?: IRoomDetail
     reserve: Types.ObjectId | ReserveEntity | null
 }
