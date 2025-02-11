@@ -1,5 +1,5 @@
 import { delay } from "@/helpers/delay"
-import { RoomEntity } from "@/interfaces/RoomEntity"
+import { RoomEntity } from "@/interfaces/roomEntity"
 import RoomStore from "@/store/RoomStore"
 import { useState } from "react"
 import { LuBedDouble, LuBedSingle } from "react-icons/lu"

@@ -1,0 +1,203 @@
+[
+    {
+      "_id": 1,
+      "name": "Yuri Joel",
+      "property": ["Hotel A", "Hotel B"],
+      "action": "Create Reservation",
+      "role": "ReservationCreator",
+      "lastAccess": "2025-02-01T10:00:00Z",
+      "createdAt": "2024-12-01T10:00:00Z",
+      "updatedAt": "2025-01-31T09:45:00Z"
+    },
+    {
+      "_id": 2,
+      "name": "Suzana Mawonso",
+      "property": ["Hotel C"],
+      "action": "Manage Staff",
+      "role": "Manager",
+      "lastAccess": "2025-01-29T08:30:00Z",
+      "createdAt": "2024-11-25T09:15:00Z",
+      "updatedAt": "2025-01-28T07:30:00Z"
+    },
+    {
+      "_id": 3,
+      "name": "Yasmine da Luz",
+      "property": ["Hotel D", "Hotel E"],
+      "action": "Update Policy",
+      "role": "Admin",
+      "lastAccess": "2025-02-07T15:45:00Z",
+      "createdAt": "2024-11-20T13:10:00Z",
+      "updatedAt": "2025-02-06T15:00:00Z"
+    },
+    {
+      "_id": 4,
+      "name": "Jumper Silva",
+      "property": ["Hotel F"],
+      "action": "Create Reservation",
+      "role": "ReservationCreator",
+      "lastAccess": "2025-01-15T14:00:00Z",
+      "createdAt": "2024-10-30T14:20:00Z",
+      "updatedAt": "2025-01-10T13:50:00Z"
+    },
+    {
+      "_id": 5,
+      "name": "Abraão Mendes",
+      "property": ["Hotel G", "Hotel H"],
+      "action": "Review Reports",
+      "role": "Manager",
+      "lastAccess": "2025-01-10T09:15:00Z",
+      "createdAt": "2024-11-01T08:40:00Z",
+      "updatedAt": "2025-01-09T09:00:00Z"
+    },
+    {
+      "_id": 6,
+      "name": "Heliandro Costa",
+      "property": ["Hotel I"],
+      "action": "Manage System",
+      "role": "Admin",
+      "lastAccess": "2025-01-31T12:00:00Z",
+      "createdAt": "2024-12-15T11:30:00Z",
+      "updatedAt": "2025-01-30T11:50:00Z"
+    },
+    {
+      "_id": 7,
+      "name": "Nicolas Oliveira",
+      "property": ["Hotel J", "Hotel K"],
+      "action": "Create Reservation",
+      "role": "ReservationCreator",
+      "lastAccess": "2025-01-25T11:00:00Z",
+      "createdAt": "2024-12-05T10:20:00Z",
+      "updatedAt": "2025-01-20T10:10:00Z"
+    },
+    {
+      "_id": 8,
+      "name": "Emanuel Ferreira",
+      "property": ["Hotel L"],
+      "action": "Supervise",
+      "role": "Manager",
+      "lastAccess": "2025-02-05T16:30:00Z",
+      "createdAt": "2024-12-10T16:00:00Z",
+      "updatedAt": "2025-02-04T15:50:00Z"
+    },
+    {
+      "_id": 9,
+      "name": "Ana Clara",
+      "property": ["Hotel M", "Hotel N"],
+      "action": "Administer",
+      "role": "Admin",
+      "lastAccess": "2025-02-08T13:45:00Z",
+      "createdAt": "2024-11-28T13:00:00Z",
+      "updatedAt": "2025-02-07T12:55:00Z"
+    },
+    {
+      "_id": 10,
+      "name": "Pedro Gomes",
+      "property": ["Hotel O"],
+      "action": "Create Reservation",
+      "role": "ReservationCreator",
+      "lastAccess": "2025-02-09T17:20:00Z",
+      "createdAt": "2024-12-20T17:00:00Z",
+      "updatedAt": "2025-02-08T16:40:00Z"
+    },
+    {
+      "_id": 11,
+      "name": "Maria Eduarda",
+      "property": ["Hotel P", "Hotel Q"],
+      "action": "Manage Budget",
+      "role": "Manager",
+      "lastAccess": "2025-01-20T08:00:00Z",
+      "createdAt": "2024-11-18T08:30:00Z",
+      "updatedAt": "2025-01-18T07:50:00Z"
+    },
+    {
+      "_id": 12,
+      "name": "João Vitor",
+      "property": ["Hotel R"],
+      "action": "Create Reservation",
+      "role": "ReservationCreator",
+      "lastAccess": "2025-02-03T14:30:00Z",
+      "createdAt": "2024-12-18T14:10:00Z",
+      "updatedAt": "2025-02-02T14:00:00Z"
+    },
+    {
+      "_id": 13,
+      "name": "Karen Souza",
+      "property": ["Hotel S", "Hotel T"],
+      "action": "Inspect Rooms",
+      "role": "Manager",
+      "lastAccess": "2025-01-12T18:15:00Z",
+      "createdAt": "2024-11-12T18:00:00Z",
+      "updatedAt": "2025-01-11T17:55:00Z"
+    },
+    {
+      "_id": 14,
+      "name": "Lucas Santana",
+      "property": ["Hotel U"],
+      "action": "Create Reservation",
+      "role": "ReservationCreator",
+      "lastAccess": "2025-01-30T10:00:00Z",
+      "createdAt": "2024-12-30T09:45:00Z",
+      "updatedAt": "2025-01-28T09:30:00Z"
+    },
+    {
+      "_id": 15,
+      "name": "Marta Lima",
+      "property": ["Hotel V", "Hotel W"],
+      "action": "Setup System",
+      "role": "Admin",
+      "lastAccess": "2025-02-06T11:45:00Z",
+      "createdAt": "2024-12-01T11:30:00Z",
+      "updatedAt": "2025-02-05T11:10:00Z"
+    },
+    {
+      "_id": 16,
+      "name": "Noah Rodrigues",
+      "property": ["Hotel X"],
+      "action": "Create Reservation",
+      "role": "ReservationCreator",
+      "lastAccess": "2025-01-22T09:20:00Z",
+      "createdAt": "2024-11-10T09:10:00Z",
+      "updatedAt": "2025-01-20T08:55:00Z"
+    },
+    {
+      "_id": 17,
+      "name": "Olivia Pereira",
+      "property": ["Hotel Y", "Hotel Z"],
+      "action": "Manage Teams",
+      "role": "Manager",
+      "lastAccess": "2025-01-28T07:50:00Z",
+      "createdAt": "2024-11-05T07:30:00Z",
+      "updatedAt": "2025-01-27T07:15:00Z"
+    },
+    {
+      "_id": 18,
+      "name": "Paulo Henrique",
+      "property": ["Hotel A1"],
+      "action": "Create Reservation",
+      "role": "ReservationCreator",
+      "lastAccess": "2025-02-02T13:10:00Z",
+      "createdAt": "2024-12-02T12:40:00Z",
+      "updatedAt": "2025-01-30T12:30:00Z"
+    },
+    {
+      "_id": 19,
+      "name": "Quezia Almeida",
+      "property": ["Hotel B1", "Hotel C1"],
+      "action": "Approve Updates",
+      "role": "Admin",
+      "lastAccess": "2025-02-04T15:30:00Z",
+      "createdAt": "2024-11-07T15:00:00Z",
+      "updatedAt": "2025-02-03T14:50:00Z"
+    },
+    {
+      "_id": 20,
+      "name": "Rafaela Nunes",
+      "property": ["Hotel D1"],
+      "action": "Create Reservation",
+      "role": "ReservationCreator",
+      "lastAccess": "2025-02-09T10:25:00Z",
+      "createdAt": "2024-12-09T10:00:00Z",
+      "updatedAt": "2025-02-08T09:40:00Z"
+    }
+  ]
+  

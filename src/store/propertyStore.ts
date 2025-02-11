@@ -1,4 +1,4 @@
-import { Properties } from '@/interfaces/properties';
+import { Properties } from '@/interfaces/Properties';
 import { create } from 'zustand'
 
 

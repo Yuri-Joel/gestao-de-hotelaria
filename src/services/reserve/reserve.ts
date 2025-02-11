@@ -1,10 +1,9 @@
 import handleRequest from "@/helpers/handleRequest"
-import { ReserveEntity } from "@/interfaces/ReservesEntity";
+import { ReserveEntity } from "@/interfaces/ReserveEntity";
 import { TModelPagination } from "@/types/TModelPagination";
 import { Types } from "mongoose";
 
 export const reserveServices = () => {
-
   const find = async (page: number) => {
     const response = await handleRequest<TModelPagination<ReserveEntity>>({
       url: `/reserves?page=${page}`,

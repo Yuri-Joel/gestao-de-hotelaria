@@ -3,11 +3,11 @@ import { floorServices } from "@/services/floor/floor";
 import { removeAuthCookie } from "@/helpers/cookies/authCookie";
 import { IResponse } from "@/helpers/handleRequest";
 import { TModelPagination } from "@/types/TModelPagination";
-import { FloorEntity } from "@/interfaces/floorEntity";
+import { FloorEntity } from "@/interfaces/FloorEntity";
 
 type State = {
   floors: FloorEntity[] | null;
-  selectedFloor:  FloorEntity | null;
+  selectedFloor: FloorEntity | null;
   currentPage: number;
   totalPages: number;
   totalItems: number;
@@ -38,15 +38,15 @@ export const floorStore = create<State & Action>((set, get) => ({
 
   find: async (page) => {
     const response = await floorServices().find(page);
-    
-    
+
+
     if (response.status === 401) {
       removeAuthCookie();
       window.location.href = "/login";
     }
 
     if (!response.error.value) {
-      set({ 
+      set({
         floors: response.data?.data,
         totalPages: response.data?.totalPages || response.data?.data?.length,
         currentPage: response.data?.page,
@@ -58,16 +58,16 @@ export const floorStore = create<State & Action>((set, get) => ({
   },
   getFloorsTabNavigation: async () => {
     const response = await floorServices().findTabNavigation();
-  
-      if (response.status === 401) {
-        removeAuthCookie()
-        window.location.href = '/login'
-      }      
-      
-      if (!response.error.value) {
-        set({ floors: response.data?.data});
-      }
-  
-      return response;
+
+    if (response.status === 401) {
+      removeAuthCookie()
+      window.location.href = '/login'
+    }
+
+    if (!response.error.value) {
+      set({ floors: response.data?.data });
+    }
+
+    return response;
   },
 }));

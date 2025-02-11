@@ -16,10 +16,11 @@ import { NoteModal } from "../NoteModal/NoteModal";
 import { floorStore } from "@/store/floorStore";
 
 // Função para transformar floors em menuItems para TabNavigation
-const transformToTabNavigation = (floors: any[]) => {
+const transformToTabNavigation = (floors: any[]) => {    
+    
     return [
         { id: "", label: "Todos" }, // Adiciona a opção "Todos"
-        ...floors.map((floor) => ({
+        ...floors?.map((floor) => ({
             id: floor._id?.toString() || "",
             label: floor.title,
         })),
@@ -27,7 +28,7 @@ const transformToTabNavigation = (floors: any[]) => {
 };
 
 export const Body = () => {
-    const { find, floors, setSelectedFloor: setFloor, selectedFloor: floorSelected, currentPage } = floorStore();
+    const { getFloorsTabNavigation, floors, setSelectedFloor: setFloor, selectedFloor: floorSelected } = floorStore();
     const { handleOpenModalInfo, IsOpenedModalInfo, selectedRoom, IsOpenedModalNoteReserve } = RoomStore();
     const [loading, setLoading] = useState(false);
     const [loadingRoom, setLoadingRoom] = useState(false)
@@ -39,8 +40,8 @@ export const Body = () => {
         (async () => {
             try {
                 setLoading(true);
-                const response = await find(currentPage);
-                const transformedFloors = transformToTabNavigation(response?.data || []);
+                const response = await getFloorsTabNavigation();
+                const transformedFloors = transformToTabNavigation(response?.data?.data || []);
                 setMenuItems(transformedFloors);
             } catch (error) {
                 console.error("Erro ao buscar os andares:", error);
@@ -73,6 +74,7 @@ export const Body = () => {
                             menuItems={menuItems}
                             selectedTitle={selectedFloor}
                             setSelectedTitle={setSelectedFloor}
+                            isCarrousel
                         />
 
                         {/* Lista de Quartos */}

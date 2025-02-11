@@ -1,5 +1,5 @@
 import handleRequest from "@/helpers/handleRequest";
-import { FloorEntity } from "@/interfaces/floorEntity";
+import { FloorEntity } from "@/interfaces/FloorEntity";
 import { TModelPagination } from "@/types/TModelPagination";
 
 export const floorServices = () => {
@@ -10,6 +10,7 @@ export const floorServices = () => {
     });
     return response;
   };
+
   const findTabNavigation = async () => {
     const response = await handleRequest<TModelPagination<FloorEntity>>({
       url: `/floors`,
