@@ -18,7 +18,7 @@ import { TableCell } from "@/components/Table/table-cell";
 import { Button } from "@/components/Button/Button";
 import { IconButton } from "@/components/Table/table-button-navigation";
 import { formatDateIsoToBr } from "@/helpers/formatDateisoToBr";
-import { UsersEntity } from "@/interfaces/UsersEntity";
+import { UserEntity } from "@/interfaces/UserEntity";
 import { Input } from "@/components/Input/Input";
 import { userStore } from "@/store/userStore";
 
@@ -98,7 +98,7 @@ export function UserList() {
                     </tr>
                 </thead>
                 <tbody>
-                    {users?.map((user: UsersEntity, index: number) => (
+                    {users?.map((user: UserEntity, index: number) => (
                         <TableRow
                             className={index % 2 === 0 ? "bg-gray-90" : "bg-white "}
                             key={index}
