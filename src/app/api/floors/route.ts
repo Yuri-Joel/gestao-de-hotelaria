@@ -1,20 +1,15 @@
 import { NextResponse } from "next/server";
-import filePath from "@/utils/api/floor-api.json";
+import filePath from "@/utils/api/floor.json";
 
 export async function GET(request: Request): Promise<NextResponse> {
   const { searchParams } = new URL(request.url);
 
-  if (!searchParams.get("page")) {
-    return NextResponse.json({
-      totalItems: filePath.length,
-      data: filePath, // Retorna todos os dados sem paginação
-    });
-  }
-
   const page = parseInt(searchParams.get("page") || "1", 10);
   const limit = parseInt(searchParams.get("limit") || "10", 10);
+
   const startIndex = (page - 1) * limit;
   const endIndex = startIndex + limit;
+
   const paginatedItems = filePath.slice(startIndex, endIndex);
   const totalItems = filePath.length;
   const totalPages = Math.ceil(totalItems / limit);
