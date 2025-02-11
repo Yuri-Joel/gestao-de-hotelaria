@@ -1,8 +1,6 @@
 import { setAuthCookie } from "@/helpers/cookies/authCookie";
 import { IResponse } from "@/helpers/handleRequest";
 
-import { EmployeeEntity } from "@/interfaces/EmployeeEntity";
-
 import { loginService } from "@/services/login/login";
 
 import { create } from "zustand";
@@ -27,7 +25,7 @@ type Action = {
 	) => Promise<IResponse<{ token: string; status: number }>>;
 };
 
-export const useLoginStore = create<State & Action>((set, get) => ({
+export const loginStore = create<State & Action>((set, get) => ({
 	email: "",
 	password: "",
 	isValid: null,

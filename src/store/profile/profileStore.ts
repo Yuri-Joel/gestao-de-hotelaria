@@ -10,7 +10,7 @@ type Action = {
 	setSelectedModal: (value: string) => void;
 };
 
-export const useProfileStore = create<State & Action>((set) => ({
+export const profileStore = create<State & Action>((set) => ({
 	selectedMenu: "Informações Pessoais",
 	selectedModal: "modal",
 	setSelectedMenu: (value) => {

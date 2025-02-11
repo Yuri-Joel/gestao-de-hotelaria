@@ -4,7 +4,7 @@ import { Button } from "@/components/Button/Button";
 import { Input } from "@/components/Input/Input";
 import { isValidEmail } from "@/helpers/isValidEmail";
 
-import { useLoginStore } from "@/store/loginStore";
+import { loginStore } from "@/store/loginStore";
 import Link from "next/link";
 
 import { useRouter } from "next/navigation";
@@ -13,7 +13,7 @@ import { useState } from "react";
 const LoginPage = () => {
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(false);
-	const { email, verifyUserByEmail, isValid, setEmail } = useLoginStore();
+	const { email, verifyUserByEmail, isValid, setEmail } = loginStore();
 
 	const handleNextActive = () => {
 		if (isValidEmail(email)) return true;
@@ -29,6 +29,7 @@ const LoginPage = () => {
 			if (res?.data?.isValid && res.data?.status === 200) {
 				router.push("/login/confirm");
 			} else if (res.data?.status !== 200) {
+				loginStore.setState({ isValid: false });
 				setIsLoading(false);
 			}
 		} catch (e) {
@@ -54,7 +55,7 @@ const LoginPage = () => {
 						disabled={isLoading}
 						handleValue={(e) => {
 							setEmail(e.target.value);
-							useLoginStore.setState({ isValid: null });
+							loginStore.setState({ isValid: null });
 						}}
 					/>
 

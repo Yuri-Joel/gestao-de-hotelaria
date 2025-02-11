@@ -7,13 +7,13 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-import { useLoginStore } from "@/store/loginStore";
+import { loginStore } from "@/store/loginStore";
 
 const ConfirmLoginPage = () => {
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(false);
 	const [isInvalidPassword, setIsInvalidPassword] = useState(false);
-	const { password, email, signIn, setPassword } = useLoginStore();
+	const { password, email, signIn, setPassword } = loginStore();
 
 	const handleSignInClick = async () => {
 		setIsLoading(true);
