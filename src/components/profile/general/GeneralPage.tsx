@@ -1,21 +1,33 @@
 "use client";
 
-import { FaPhone, FaEnvelope, FaUser, FaPen } from "react-icons/fa";
+import {
+	FaPhone,
+	FaEnvelope,
+	FaUser,
+	FaPen,
+	FaDollarSign,
+	FaClock,
+} from "react-icons/fa";
 import { FaLocationPin } from "react-icons/fa6";
 
 import { ContactModal } from "../contactModal/ContactModal";
 import { AddressModal } from "../addressModal/AddressModal";
 import { ActiveUser } from "../activeUser/ActiveUser";
+import { WorkInfoModal } from "../workInfoModal/WorkInfoModal";
 
-import { useProfileStore } from "@/store/profile/profileStore";
+import { profileStore } from "@/store/profile/profileStore";
+import { formatCurrency } from "@/helpers/formatCurrency";
 
 export const GeneralPage = () => {
-	const { selectedModal, setSelectedModal } = useProfileStore();
+	const { selectedModal, setSelectedModal } = profileStore();
 	const openModal = (e: React.SyntheticEvent<HTMLButtonElement>) =>
 		setSelectedModal(e.currentTarget.ariaLabel as string);
 
 	return (
 		<>
+			{selectedModal === "workinfo" && (
+				<WorkInfoModal close={setSelectedModal} />
+			)}
 			{selectedModal === "contact" && (
 				<ContactModal close={setSelectedModal} />
 			)}
@@ -37,6 +49,44 @@ export const GeneralPage = () => {
 						<span className="text-black">
 							aderitocaxala.zeno@gmail.com
 						</span>
+					</p>
+				</div>
+				<div className="mt-4 border-b px-2 py-4 gap-2 flex flex-col group relative">
+					<button
+						className="border shadow-md h-8 w-8 rounded-[50%] items-center justify-center bg-white hover:bg-black/30 absolute top-0 right-2 hidden group-hover:flex"
+						aria-label="workinfo"
+						onClick={openModal}
+					>
+						<FaPen />
+					</button>
+					<h1 className="font-bold mb-2">Informações de Trabalho</h1>
+					<p className="flex gap-2 text-gray-500 items-center">
+						<FaDollarSign />
+						Meta salarial:{" "}
+						<span className="text-black">
+							{formatCurrency(100)}
+						</span>
+					</p>
+					<p className="flex gap-2 text-gray-500 items-center">
+						<FaDollarSign />
+						Comissão: <span className="text-black">0,0%</span>
+					</p>
+					<p className="flex gap-2 text-gray-500 items-center">
+						<FaDollarSign />
+						Salário:{" "}
+						<span className="text-black">
+							{formatCurrency(100)}
+						</span>
+					</p>
+					<p className="flex gap-2 text-gray-500 items-center">
+						<FaClock />
+						Horário do trabalho (Início):{" "}
+						<span className="text-black">00:00</span>
+					</p>
+					<p className="flex gap-2 text-gray-500 items-center">
+						<FaClock />
+						Horário do trabalho (Fim):{" "}
+						<span className="text-black">00:00</span>
 					</p>
 				</div>
 				<div className="mt-4 border-b px-2 py-4 gap-2 flex flex-col relative group">
