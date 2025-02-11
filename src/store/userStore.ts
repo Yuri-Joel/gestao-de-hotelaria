@@ -3,11 +3,11 @@ import { removeAuthCookie } from "@/helpers/cookies/authCookie";
 import { IResponse } from "@/helpers/handleRequest";
 import { TModelPagination } from "@/types/TModelPagination";
 import { usersServices } from "@/services/users/users";
-import { UsersEntity } from "@/interfaces/UsersEntity";
+import { UserEntity } from "@/interfaces/UserEntity";
 
 type State = {
-  users: UsersEntity[] | null;
-  selecteduser: UsersEntity | null;
+  users: UserEntity[] | null;
+  selecteduser: UserEntity | null;
   currentPage: number;
   totalPages: number;
   totalItems: number;
@@ -15,8 +15,8 @@ type State = {
 };
 
 type Action = {
-  setSelecteduser: (user: UsersEntity | null) => void;
-  find: (page: number) => Promise<IResponse<TModelPagination<UsersEntity>>>;
+  setSelecteduser: (user: UserEntity | null) => void;
+  find: (page: number) => Promise<IResponse<TModelPagination<UserEntity>>>;
   setCurrentPage: (page: number) => void;
   setEditUserModal: (value: boolean) => void;
 };
