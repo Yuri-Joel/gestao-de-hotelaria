@@ -11,6 +11,7 @@ type State = {
 type Action = {
   handleOpenModalInfo: () => void;
   handleOpenModalRoomDetails: () => void;
+  closeRoomDetails: () => void;
   setSelectedRoom: (arg: RoomEntity | null) => void
   handleIsOpenedModalNoteReserve: () => void
 };
@@ -28,6 +29,9 @@ const roomStore = create<State & Action>((set, get) => ({
   },
   handleOpenModalRoomDetails: () => {
     set({ IsOpenedModalRoomDetails: !get().IsOpenedModalRoomDetails });
+  },
+  closeRoomDetails: () => {
+    set({ IsOpenedModalRoomDetails: false })
   },
   handleIsOpenedModalNoteReserve: () => {
     set({ IsOpenedModalNoteReserve: !get().IsOpenedModalNoteReserve })

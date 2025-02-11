@@ -15,6 +15,7 @@ import { getRoomStatus } from "../Room/Room";
 import { formatDateIsoToBr } from "@/helpers/formatDateisoToBr";
 import { Button } from "@/components/Button/Button";
 import { RoomEntity } from "@/interfaces/RoomEntity";
+import { useEffect, useRef } from "react";
 
 export const RoomDetailModal = ({
 	room
@@ -23,7 +24,8 @@ export const RoomDetailModal = ({
 }) => {
 	if (!room.reserve) return
 
-	const { handleOpenModalRoomDetails, IsOpenedModalRoomDetails, setSelectedRoom, handleIsOpenedModalNoteReserve } = roomStore()
+	const { handleOpenModalRoomDetails, closeRoomDetails, IsOpenedModalRoomDetails, selectedRoom, setSelectedRoom, handleIsOpenedModalNoteReserve } = roomStore();
+	const dropdownRef = useRef<HTMLDivElement>(null);
 	const handleCopy = (e: React.SyntheticEvent<SVGElement>) => {
 		(async () => {
 			try {
@@ -43,9 +45,22 @@ export const RoomDetailModal = ({
 		handleIsOpenedModalNoteReserve();
 	}
 
+	useEffect(() => {
+		function handleClickOutside(event: MouseEvent) {
+			const target = event.target as HTMLElement;
+			if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node) &&
+				!target.closest("[data-room]")) {
+				closeRoomDetails();
+			}
+		}
+
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => document.removeEventListener("mousedown", handleClickOutside);
+	}, []);
 	const roomStatus = getRoomStatus(room);
 	return (
 		<div
+			ref={dropdownRef}
 			className={`min-h-full w-fit fixed top-16 pb-[65px] right-1 bottom-0 flex justify-end z-[30] transition-transform duration-200 ${IsOpenedModalRoomDetails ? 'h-full scale-100 overflow-auto' : 'h-0 overflow-hidden scale-0'
 				}`}
 		>
