@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from "react";
 import Cookies from 'js-cookie'
 import { delay } from "@/helpers/delay";
+import { jwtDecode } from "jwt-decode";
+import { removeAuthCookie } from "@/helpers/cookies/authCookie";
 
 export default function page() {
 
@@ -12,13 +14,35 @@ export default function page() {
   const [property] = useState("hotel-ao");
 
   useEffect(() => {
-      (async function () {
-      const cookie = Cookies.get(`${process.env.NEXT_PUBLIC_TOKEN_COOKIE_NAME}`)
-      await delay(2000);
-      if (cookie && property) {
-        router.push(`/${property}/home`);
-      } else {
-        router.push('/login')
+    (async function () {
+      try {
+        const cookie = Cookies.get(`${process.env.NEXT_PUBLIC_TOKEN_COOKIE_NAME}`)
+
+        const decoded: any = jwtDecode(cookie as string);
+
+        const expiresIn = decoded.exp;
+
+        if (!expiresIn) {
+          removeAuthCookie();
+          router.push('/login');
+          return
+        }
+
+        const dateExp = new Date(expiresIn * 1000);
+        const nowDate = new Date();
+
+        if (nowDate > dateExp) {
+          removeAuthCookie();
+          router.push('/login');
+        } else if (cookie && property) {
+          router.push(`/${property}/home`);
+        } else {
+          removeAuthCookie();
+          router.push('/login');
+        }
+      } catch (error) {
+        removeAuthCookie();
+        router.push('/login');
       }
     })()
   }, [property, router])
