@@ -15,7 +15,7 @@ import { getRoomStatus } from "../Room/Room";
 import { formatDateIsoToBr } from "@/helpers/formatDateisoToBr";
 import { Button } from "@/components/Button/Button";
 import { RoomEntity } from "@/interfaces/RoomEntity";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const RoomDetailModal = ({
 	room
@@ -26,10 +26,13 @@ export const RoomDetailModal = ({
 
 	const { handleOpenModalRoomDetails, closeRoomDetails, IsOpenedModalRoomDetails, selectedRoom, setSelectedRoom, handleIsOpenedModalNoteReserve } = roomStore();
 	const dropdownRef = useRef<HTMLDivElement>(null);
+	const [text, setText] = useState<string>("Copiar ID da reserva");
 	const handleCopy = (e: React.SyntheticEvent<SVGElement>) => {
 		(async () => {
 			try {
+				setText("ID copiado!");
 				await navigator.clipboard.writeText(room.reserve?._id?.toString() || "");
+				setTimeout(() => setText("Copiar ID da reserva"), 2000);
 			} catch (e) {
 				console.log(e);
 			}
@@ -120,7 +123,7 @@ export const RoomDetailModal = ({
 							<FaCopy
 								className="cursor-pointer outline-none w-4 h-4 transition-all duration-300 transform hover:scale-110"
 								data-tooltip-id="copiar"
-								data-tooltip-content="Copiar ID da reserva"
+								data-tooltip-content={text}
 								onClick={handleCopy}
 							/>
 							<Tooltip id="copiar" />

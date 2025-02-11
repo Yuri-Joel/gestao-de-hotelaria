@@ -1,8 +1,10 @@
 "use client";
 
+import { ArrowLeft } from "@/assets/Icons/ArrowLeft";
+import { ArrowRight } from "@/assets/Icons/ArrowRight";
 import { TTabNavigation } from "@/types/TTabNavigation";
 import { useEffect, useRef, useState } from "react";
-import {FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 interface TabNavigationProps {
   menuItems: TTabNavigation[];
@@ -11,7 +13,7 @@ interface TabNavigationProps {
   isCarrousel?: boolean
 }
 
-export const TabNavigation = ({ menuItems, selectedTitle, setSelectedTitle, isCarrousel=false }: TabNavigationProps) => {
+export const TabNavigation = ({ menuItems, selectedTitle, setSelectedTitle, isCarrousel = false }: TabNavigationProps) => {
   const TabNavigationRef = useRef<HTMLDivElement>(null);
   const [ScrollLeft, setScrollLeft] = useState(false);
   const [ScrollRight, setScrollRight] = useState(false);
@@ -20,7 +22,7 @@ export const TabNavigation = ({ menuItems, selectedTitle, setSelectedTitle, isCa
     if (TabNavigationRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = TabNavigationRef.current;
       setScrollLeft(scrollLeft > 0);
-      setScrollRight(scrollLeft + clientWidth < scrollWidth);
+      setScrollRight(scrollLeft + clientWidth+1< scrollWidth);
     }
   };
 
@@ -57,14 +59,19 @@ export const TabNavigation = ({ menuItems, selectedTitle, setSelectedTitle, isCa
 
 
   return (
-    <div className="relative border-b">
+    <div className="relative border-b bg-white">
       {/* Left Arrow */}
       {ScrollLeft && (
         <button
-          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white p-1 rounded-full shadow-md"
-          onClick={() => scroll("left")}
+        className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-transparent p-1"
+        onClick={() => scroll("left")}
         >
-          <FaArrowLeft size={25} />
+          <ArrowLeft
+            width="24"
+            height="24"
+            className="size-6"
+            style={{ cursor: 'default' }}
+          />
         </button>
       )}
 
@@ -81,9 +88,9 @@ export const TabNavigation = ({ menuItems, selectedTitle, setSelectedTitle, isCa
                 }`}
               onClick={() => setSelectedTitle(item.label)}
             >
-              {isCarrousel ?  item.label?.length >= 10
-                    ? item?.label.substring(0, 10) + '...'
-                    : item?.label : item?.label}
+              {isCarrousel ? item.label?.length >= 10
+                ? item?.label.substring(0, 10) + '...'
+                : item?.label : item?.label}
             </div>
             {selectedTitle === item.label && (
               <div className="absolute -bottom-5 left-0 w-full h-[5px] bg-primary rounded-sm transition-all duration-300 ease-in-out"></div>
@@ -95,10 +102,15 @@ export const TabNavigation = ({ menuItems, selectedTitle, setSelectedTitle, isCa
       {/* Right Arrow */}
       {ScrollRight && (
         <button
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white p-1 rounded-full shadow-md"
-          onClick={() => scroll("right")}
+        className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-transparent p-1"
+        onClick={() => scroll("right")}
         >
-          <FaArrowRight size={25} />
+          <ArrowRight
+            width="24"
+            height="24"
+            className="size-6"
+            style={{ cursor: 'default' }}
+          />
         </button>
       )}
     </div>
