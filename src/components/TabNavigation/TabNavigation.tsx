@@ -61,34 +61,37 @@ export const TabNavigation = ({ menuItems, selectedTitle, setSelectedTitle, isCa
 
   return (
     <div className="relative border-b bg-white">
-
       {/* Left Arrow */}
       {ScrollLeft && (
         <button
-          className="absolute left-1 top-1/2 transform -translate-y-1/2 z-10 bg-transparent p-2 hover:shadow-lg transition-all duration-300 ease-in-out hover:bg-gray-200 hover:rounded-full hover:scale-110"
+          className="absolute left-1 top-1/2 transform -translate-y-1/2 z-10 bg-transparent p-2 hover:shadow-lg  transition-all duration-300 ease-in-out hover:bg-gray-200 hover:rounded-full hover:scale-110"
           onClick={() => scroll("left")}
         >
-          <ArrowLeft width="24" height="24" stroke="black" />
+          <ArrowLeft
+            width="24"
+            height="24"
+           stroke={"black"}
+          />
         </button>
       )}
 
       {/* Tab Navigation Container */}
       <div
         ref={TabNavigationRef}
-        className="flex items-center gap-2 px-5 py-5 overflow-x-auto scrollbar-invisible"
+        className="flex items-center gap-2 px-5 py-5 overflow-x-auto scrollbar-invisible scroll-smooth"
         onScroll={checkScrollPosition}
       >
         {menuItems.map((item) => (
           <div key={item.id} className="relative whitespace-nowrap">
-            <div
+            <button
               className={`px-6 py-2 text-sm rounded-md flex items-center gap-2 cursor-pointer transition-colors duration-300 ease-in-out ${selectedTitle === item.label ? "text-black" : "text-gray-500"
                 }`}
               onClick={() => setSelectedTitle(item.label)}
             >
               {item.label.length > 10 ? `${item.label.substring(0, 10)}...` : item.label}
-            </div>
+            </button>
             {selectedTitle === item.label && (
-              <div className="absolute -bottom-5 left-0 w-full h-[3px] bg-primary rounded-sm transition-all duration-300 ease-in-out"></div>
+              <div className="absolute -bottom-5 left-0 w-full h-[5px] bg-primary rounded-sm transition-all duration-300 ease-in-out"></div>
             )}
           </div>
         ))}
@@ -97,13 +100,16 @@ export const TabNavigation = ({ menuItems, selectedTitle, setSelectedTitle, isCa
       {/* Right Arrow */}
       {ScrollRight && (
         <button
-          className="absolute right-1 top-1/2 transform -translate-y-1/2 z-20 bg-transparent p-2 hover:shadow-lg transition-all duration-300 ease-in-out hover:bg-gray-200 hover:rounded-full hover:scale-110"
+          className="absolute right-1 top-1/2 transform -translate-y-1/2 z-10 bg-white p-2  hover:shadow-lg  transition-all duration-300 ease-in-out hover:bg-gray-200 hover:rounded-full hover:scale-110"
           onClick={() => scroll("right")}
         >
-          <ArrowRight width="24" height="24" stroke="black" />
+          <ArrowRight 
+           width="24"
+           height="24"
+           stroke="black"
+            />
         </button>
       )}
     </div>
-
   );
 };
