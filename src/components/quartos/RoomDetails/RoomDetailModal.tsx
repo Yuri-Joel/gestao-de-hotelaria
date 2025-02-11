@@ -24,7 +24,7 @@ export const RoomDetailModal = ({
 }) => {
 	if (!room.reserve) return
 
-	const { handleOpenModalRoomDetails, closeRoomDetails, IsOpenedModalRoomDetails, selectedRoom, setSelectedRoom, handleIsOpenedModalNoteReserve } = roomStore();
+	const { handleOpenModalRoomDetails, closeRoomDetails, IsOpenedModalRoomDetails, setSelectedRoom, handleIsOpenedModalNoteReserve } = roomStore();
 	const dropdownRef = useRef<HTMLDivElement>(null);
 	const [text, setText] = useState<string>("Copiar ID da reserva");
 	const handleCopy = (e: React.SyntheticEvent<SVGElement>) => {
