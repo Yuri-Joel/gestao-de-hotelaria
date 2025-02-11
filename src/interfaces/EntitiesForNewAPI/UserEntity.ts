@@ -15,5 +15,6 @@ export interface UserEntity extends TModel {
 	alternatePhone?: string // telefone adicional
 	properties: (Types.ObjectId[] | PropertyEntity[]); // propriedades vinculadas
 	sector: (SectorEntity | Types.ObjectId); // setor
-	slug: string; account: (Types.ObjectId | AccountEntity) // conta vinculada
+	slug: string;
+	account: (Types.ObjectId | AccountEntity) // conta vinculada
 }
