@@ -30,20 +30,18 @@ export function BodyHome(){
     find, 
     reserves,
     currentPage,
-    detailStartDate,
   } = reserveStore()
 
   useEffect(() => {
     (async () => {
       try {
         await find(currentPage);
-        await delay(1000)
       } catch (error) {
         console.error("Erro ao buscar reservas:", error);
       } finally {
       }
     })();
-  }, [currentPage])
+  }, [currentPage, find])
 
   useEffect(() => {
     (async () => {
@@ -57,7 +55,7 @@ export function BodyHome(){
         setLoading(false);
       }
     })();
-  }, [find, selectedTitleHeader]);
+  }, [selectedTitleHeader]);
 
     
   return(
