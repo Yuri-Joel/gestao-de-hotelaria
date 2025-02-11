@@ -1,24 +1,14 @@
 import { Types } from "mongoose";
 import { AccountEntity } from "./AccountEntity";
 import { TModel } from "@/types/TModel";
+import { EnumPermissions } from "./PermissionEntity";
 
-enum EnumSector {
-    admin = "ADMINISTRATOR", // direito total em todas as PROPERTIES vinculados em ACCOUNT 
+// setores disponiveis para o usuario
+export enum EnumSector {
+    admin = "ADMINISTRATOR", // direito total em todas as PROPERTIES vinculados em ACCOUNT
     reserve = "RESERVE", // direito apenas na administracao de RESERVES
-    centralReserves = "CENTRAL_RESERVES", // direito apenas na administracao de RESERVES e na area de central de RESERVE
+    centralReserves = "CENTRAL_RESERVES", // direito apenas na administracao de RESERVES e na area de central de RESERVES
     governance = "GOVERNANCE" // direito apenas na administracao de UHs
-}
-
-enum EnumPermissions {
-    "CREATE_PROPERTY",
-    "EDIT_PROPERTY",
-    "DELETE_PROPERTY",
-    "VIEW_PROPERTY",
-    "MANAGE_USERS",
-    "FINANCIAL_MANAGEMENT",
-    "MANAGE_UHS",
-    "RESERVE_PROPERTY",
-    "RESERVATION_CENTER"
 }
 
 export interface SectorEntity extends TModel {
