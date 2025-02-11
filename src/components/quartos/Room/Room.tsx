@@ -1,6 +1,6 @@
 import { delay } from "@/helpers/delay"
 import { RoomEntity } from "@/interfaces/RoomEntity"
-import RoomStore from "@/store/RoomStore"
+import roomStore from "@/store/roomStore"
 import { useState } from "react"
 import { LuBedDouble, LuBedSingle } from "react-icons/lu"
 
@@ -72,7 +72,7 @@ export function getRoomStatus(room: RoomEntity) {
 }
 export function Room({ room }: RoomCardProps) {
 
-    const { handleOpenModalRoomDetails, setSelectedRoom, selectedRoom, handleIsOpenedModalNoteReserve } = RoomStore()
+    const { handleOpenModalRoomDetails, setSelectedRoom, selectedRoom, handleIsOpenedModalNoteReserve } = roomStore()
     const roomStatus = getRoomStatus(room);
 
     const handleOpenRoomDetails = async () => {

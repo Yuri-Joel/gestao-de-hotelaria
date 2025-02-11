@@ -1,19 +1,19 @@
 "use client"
 
-import RoomStore from "@/store/RoomStore"
+import roomStore from "@/store/roomStore"
 import { RoomCardProps } from "../Room/Room";
 
-export const  NoteModal= ({ room }: RoomCardProps)=> {
+export const NoteModal = ({ room }: RoomCardProps) => {
 
-    const {  handleIsOpenedModalNoteReserve, IsOpenedModalNoteReserve , handleOpenModalRoomDetails} = RoomStore();
+  const { handleIsOpenedModalNoteReserve, IsOpenedModalNoteReserve, handleOpenModalRoomDetails } = roomStore();
 
-    const handleClose= ()=>{
-        handleIsOpenedModalNoteReserve();
-        handleOpenModalRoomDetails();
-    }
+  const handleClose = () => {
+    handleIsOpenedModalNoteReserve();
+    handleOpenModalRoomDetails();
+  }
 
   return (
-    <div className={`fixed inset-0 bg-black/20 backdrop-blur-xs flex items-center justify-center z-50 p-4 ${IsOpenedModalNoteReserve ? 'h-full':'h-0 overflow-hidden'}`}>
+    <div className={`fixed inset-0 bg-black/20 backdrop-blur-xs flex items-center justify-center z-50 p-4 ${IsOpenedModalNoteReserve ? 'h-full' : 'h-0 overflow-hidden'}`}>
       <div className="w-full max-w-md bg-white rounded-lg shadow-lg">
         {/* Header */}
         <div className="p-4 border-b">
@@ -23,7 +23,7 @@ export const  NoteModal= ({ room }: RoomCardProps)=> {
         {/* Content */}
         <div className="p-6">
           <p className="text-gray-600 text-sm leading-relaxed">
-          {room?.reserve?.note}
+            {room?.reserve?.note}
           </p>
         </div>
 

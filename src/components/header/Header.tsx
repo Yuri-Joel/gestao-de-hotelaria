@@ -5,16 +5,16 @@ import { NavIcon } from '@/assets/Icons/Header/navIcon';
 import sideBarStateStore from '@/store/sideBarStateStore';
 import { UserCircleIcon } from '@/assets/Icons/UserIcon';
 import { MagnifieIcon } from '@/assets/Icons/MagnifierIcon';
-import ReserveSearchStore from '@/store/ReserveSearchStore';
-import MenuProfileStore from '@/store/MenuProfile';
 import { formatPathName } from '@/helpers/formatPathString';
+import reserveSearchStore from '@/store/reserveSearchStore';
+import menuProfileStore from '@/store/menuProfileStore';
 
 export const Header = () => {
   const pathname = usePathname();
   const slug = "hotel-ao"
   const { changeSideBarState, state, closeAllSubMenus } = sideBarStateStore();
-  const { handleOpenReserveSearch } = ReserveSearchStore()
-  const { handleOpenDropdownProfile } = MenuProfileStore();
+  const { handleOpenReserveSearch } = reserveSearchStore()
+  const { handleOpenDropdownProfile } = menuProfileStore();
 
   const [OpenReserve, setOpenReserve] = useState(false);
   const [OpenProfile, setOpenProfile] = useState(false)

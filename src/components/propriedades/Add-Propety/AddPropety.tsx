@@ -3,7 +3,7 @@ import AlertDialog from "@/components/AlertDialog/AlertDialog";
 import { Button } from "@/components/Button/Button";
 import { Input } from "@/components/Input/Input";
 import Select from "@/components/Input/Select";
-import { usePropertyStore } from "@/store/propetyAcordionStorage";
+import { propetyAcordionStore } from "@/store/propetyAcordionStore";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useState } from "react";
@@ -19,7 +19,7 @@ const AddPropety: React.FC = () => {
     nextStep,
     resetStore,
     firstStore,
-  } = usePropertyStore();
+  } = propetyAcordionStore();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalCancelOpen, setIsModalCancelOpen] = useState(false);

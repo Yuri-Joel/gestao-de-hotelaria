@@ -17,10 +17,10 @@ import { TableRow } from "@/components/Table/table-row";
 import { TableCell } from "@/components/Table/table-cell";
 import { Button } from "@/components/Button/Button";
 import { IconButton } from "@/components/Table/table-button-navigation";
-import { UsersStore } from "@/store/UsersStore";
 import { formatDateIsoToBr } from "@/helpers/formatDateisoToBr";
 import { UsersEntity } from "@/interfaces/UsersEntity";
 import { Input } from "@/components/Input/Input";
+import { userStore } from "@/store/userStore";
 
 export function UserList() {
     const router = useRouter();
@@ -32,7 +32,7 @@ export function UserList() {
         currentPage,
         setCurrentPage,
         totalPages,
-    } = UsersStore();
+    } = userStore();
     const [openMenuId, setOpenMenuId] = useState<any | null>(null);
     const [search, setSearch] = useState<string>("");
     const menuRef = useRef<HTMLDivElement>(null);

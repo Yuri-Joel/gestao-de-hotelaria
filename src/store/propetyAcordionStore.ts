@@ -6,7 +6,7 @@ type State = {
   step: "first" | "second" | "validation" | "";
 }
 
-type Actions ={
+type Actions = {
   setName: (name: string) => void;
   setCategory: (category: string) => void;
   nextStep: () => void;
@@ -16,7 +16,7 @@ type Actions ={
   firstStore: () => void | undefined;
 }
 
-export const usePropertyStore = create<State & Actions>((set) => ({
+export const propetyAcordionStore = create<State & Actions>((set) => ({
   name: "",
   category: "",
   step: "first",

@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect } from "react"
 import { guests } from "../../utils/api/test-api"
 import { formatDateShort } from "@/helpers/formatDateExperimental"
-import ReserveSearchStore from "@/store/ReserveSearchStore"
+import reserveSearchStore from "@/store/reserveSearchStore"
 import { delay } from "@/helpers/delay"
 import { MagnifieIcon } from "@/assets/Icons/MagnifierIcon"
 import { useRouter } from "next/navigation"
@@ -15,7 +15,7 @@ export function ReservationSearch() {
     const [loading, setLoading] = useState(false);
     const [hasSearched, setHasSearched] = useState(false); // Novo estado
     const dropdownRefReserveSearch = useRef<HTMLDivElement>(null);
-    const { handleOpenReserveSearch, state } = ReserveSearchStore();
+    const { handleOpenReserveSearch, state } = reserveSearchStore();
     const router = useRouter();
 
     useEffect(() => {
@@ -28,7 +28,7 @@ export function ReservationSearch() {
             ) {
                 handleOpenReserveSearch(false);
                 setReservations([]);
-                setHasSearched(false); 
+                setHasSearched(false);
                 setSearchTerm("")
             }
         }
@@ -71,7 +71,7 @@ export function ReservationSearch() {
     const handleExecute = () => {
         setSearchTerm("");
         setReservations([]);
-        setHasSearched(false); 
+        setHasSearched(false);
         handleOpenReserveSearch(false);
         router.push(`/hotel-ao/reservas`);
     };
@@ -123,7 +123,7 @@ export function ReservationSearch() {
                             <p className="text-sm text-gray-500 mb-4">
                                 Busque reservas pelo ID da reserva ou nome do hóspede
                             </p>
-                        ) : reservations.length === 0 ?  (
+                        ) : reservations.length === 0 ? (
                             // Mostra a mensagem de "nenhuma reserva encontrada" após a pesquisa
                             <div className="text-sm text-gray-500">
                                 Nenhuma reserva encontrada.

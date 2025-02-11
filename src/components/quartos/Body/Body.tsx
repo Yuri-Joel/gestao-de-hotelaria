@@ -8,16 +8,16 @@ import { Skeleton } from "@/components/Skeleton/Skeleton";
 import { Room } from "../Room/Room";
 import { Button } from "@/components/Button/Button";
 import { FaInfo } from "react-icons/fa";
-import RoomStore from "@/store/RoomStore";
 import { InfoModal } from "../InfoModal/InfoModal";
 import { delay } from "@/helpers/delay";
 import { RoomDetailModal } from "../RoomDetails/RoomDetailModal";
 import { NoteModal } from "../NoteModal/NoteModal";
 import { floorStore } from "@/store/floorStore";
+import roomStore from "@/store/roomStore";
 
 // Função para transformar floors em menuItems para TabNavigation
-const transformToTabNavigation = (floors: any[]) => {    
-    
+const transformToTabNavigation = (floors: any[]) => {
+
     return [
         { id: "", label: "Todos" }, // Adiciona a opção "Todos"
         ...floors?.map((floor) => ({
@@ -29,7 +29,7 @@ const transformToTabNavigation = (floors: any[]) => {
 
 export const Body = () => {
     const { getFloorsTabNavigation, floors, setSelectedFloor: setFloor, selectedFloor: floorSelected } = floorStore();
-    const { handleOpenModalInfo, IsOpenedModalInfo, selectedRoom, IsOpenedModalNoteReserve } = RoomStore();
+    const { handleOpenModalInfo, IsOpenedModalInfo, selectedRoom, IsOpenedModalNoteReserve } = roomStore();
     const [loading, setLoading] = useState(false);
     const [loadingRoom, setLoadingRoom] = useState(false)
     const [menuItems, setMenuItems] = useState<TTabNavigation[]>([]);

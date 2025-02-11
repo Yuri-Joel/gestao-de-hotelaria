@@ -8,12 +8,12 @@ type Action = {
   handleOpenDropdownProfile: (value: boolean) => void;
 };
 
-const MenuProfileStore = create<State & Action>((set,get) => ({
+const menuProfileStore = create<State & Action>((set, get) => ({
   state: false,
   handleOpenDropdownProfile: (value: boolean) => {
-    set({ state: value});
+    set({ state: value });
   },
 
 }));
 
-export default MenuProfileStore;
+export default menuProfileStore;

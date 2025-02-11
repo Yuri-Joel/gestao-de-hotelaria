@@ -12,15 +12,15 @@ type Action = {
   handleOpenModalInfo: () => void;
   handleOpenModalRoomDetails: () => void;
   setSelectedRoom: (arg: RoomEntity | null) => void
-  handleIsOpenedModalNoteReserve: ()=> void
+  handleIsOpenedModalNoteReserve: () => void
 };
 
-const RoomStore = create<State & Action>((set, get) => ({
+const roomStore = create<State & Action>((set, get) => ({
   IsOpenedModalInfo: false,
   IsOpenedModalRoomDetails: false,
   selectedRoom: null,
   IsOpenedModalNoteReserve: false,
-  setSelectedRoom: (arg: RoomEntity| null) => {
+  setSelectedRoom: (arg: RoomEntity | null) => {
     set({ selectedRoom: arg })
   },
   handleOpenModalInfo: () => {
@@ -28,10 +28,10 @@ const RoomStore = create<State & Action>((set, get) => ({
   },
   handleOpenModalRoomDetails: () => {
     set({ IsOpenedModalRoomDetails: !get().IsOpenedModalRoomDetails });
-  }, 
-  handleIsOpenedModalNoteReserve: ()=>{
-    set({IsOpenedModalNoteReserve: !get().IsOpenedModalNoteReserve})
+  },
+  handleIsOpenedModalNoteReserve: () => {
+    set({ IsOpenedModalNoteReserve: !get().IsOpenedModalNoteReserve })
   }
 }));
 
-export default RoomStore;
+export default roomStore;

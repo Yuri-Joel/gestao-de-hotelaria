@@ -8,12 +8,12 @@ type Action = {
   handleOpenReserveSearch: (value: boolean) => void;
 };
 
-const ReserveSearchStore = create<State & Action>((set, get) => ({
+const reserveSearchStore = create<State & Action>((set, get) => ({
   state: false,
-  handleOpenReserveSearch: (value) => {    
+  handleOpenReserveSearch: (value) => {
     set({ state: value });
   },
 
 }));
 
-export default ReserveSearchStore;
+export default reserveSearchStore;

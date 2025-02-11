@@ -10,7 +10,7 @@ import {
 import { formatCurrency } from "@/helpers/formatCurrency";
 import { Tooltip } from "react-tooltip";
 import { XIcon } from "@/assets/Icons/XIcon";
-import RoomStore from "@/store/RoomStore";
+import roomStore from "@/store/roomStore";
 import { getRoomStatus } from "../Room/Room";
 import { formatDateIsoToBr } from "@/helpers/formatDateisoToBr";
 import { Button } from "@/components/Button/Button";
@@ -23,7 +23,7 @@ export const RoomDetailModal = ({
 }) => {
 	if (!room.reserve) return
 
-	const { handleOpenModalRoomDetails, IsOpenedModalRoomDetails, setSelectedRoom, handleIsOpenedModalNoteReserve } = RoomStore()
+	const { handleOpenModalRoomDetails, IsOpenedModalRoomDetails, setSelectedRoom, handleIsOpenedModalNoteReserve } = roomStore()
 	const handleCopy = (e: React.SyntheticEvent<SVGElement>) => {
 		(async () => {
 			try {

@@ -7,7 +7,7 @@ import { UsersEntity } from "@/interfaces/UsersEntity";
 
 type State = {
   users: UsersEntity[] | null;
-  selecteduser:  UsersEntity | null;
+  selecteduser: UsersEntity | null;
   currentPage: number;
   totalPages: number;
   totalItems: number;
@@ -21,7 +21,7 @@ type Action = {
   setEditUserModal: (value: boolean) => void;
 };
 
-export const UsersStore = create<State & Action>((set, get) => ({
+export const userStore = create<State & Action>((set, get) => ({
   users: [],
   selecteduser: null,
   currentPage: 1,
@@ -37,15 +37,15 @@ export const UsersStore = create<State & Action>((set, get) => ({
 
   find: async (page) => {
     const response = await usersServices().find(page);
-    
-    
+
+
     if (response.status === 401) {
       removeAuthCookie();
       window.location.href = "/login";
     }
 
     if (!response.error.value) {
-      set({ 
+      set({
         users: response.data?.data,
         totalPages: response.data?.totalPages || response.data?.data?.length,
         currentPage: response.data?.page,
@@ -55,5 +55,5 @@ export const UsersStore = create<State & Action>((set, get) => ({
 
     return response;
   },
-  
+
 }));

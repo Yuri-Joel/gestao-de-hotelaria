@@ -2,12 +2,12 @@
 
 import { useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import MenuProfileStore from "@/store/MenuProfile";
 import { modalManagementStore } from "@/store/modalManagementStore";
+import menuProfileStore from "@/store/menuProfileStore";
 
 export const MenuProfile = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { handleOpenDropdownProfile, state } = MenuProfileStore();
+  const { handleOpenDropdownProfile, state } = menuProfileStore();
   const { handleOpenAlertDialogConfirmLogout } = modalManagementStore();
 
   const router = useRouter();
