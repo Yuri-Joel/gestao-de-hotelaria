@@ -22,18 +22,16 @@ const LoginPage = () => {
 
 	const handleVerifyUserEmail = async () => {
 		setIsLoading(true);
-
+		if (isValid === false) loginStore.setState({ isValid: null });
 		try {
-			const res = await verifyUserByEmail(email);
-
-			if (res?.data?.isValid && res.data?.status === 200) {
+			await verifyUserByEmail(email);
+			if (loginStore.getState().isValid) {
 				router.push("/login/confirm");
-			} else if (res.data?.status !== 200) {
+			} else {
 				loginStore.setState({ isValid: false });
 				setIsLoading(false);
 			}
 		} catch (e) {
-			console.log(e);
 			setIsLoading(false);
 		}
 	};
