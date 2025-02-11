@@ -14,7 +14,7 @@ import RoomStore from "@/store/RoomStore";
 import { getRoomStatus } from "../Room/Room";
 import { formatDateIsoToBr } from "@/helpers/formatDateisoToBr";
 import { Button } from "@/components/Button/Button";
-import { RoomEntity } from "@/interfaces/roomEntity";
+import { RoomEntity } from "@/interfaces/RoomEntity";
 
 export const RoomDetailModal = ({
 	room
@@ -38,7 +38,7 @@ export const RoomDetailModal = ({
 		handleOpenModalRoomDetails();
 		setSelectedRoom(null);
 	};
-	const handleOpenNote = ()=>{
+	const handleOpenNote = () => {
 		handleOpenModalRoomDetails();
 		handleIsOpenedModalNoteReserve();
 	}
@@ -46,12 +46,11 @@ export const RoomDetailModal = ({
 	const roomStatus = getRoomStatus(room);
 	return (
 		<div
-  className={`min-h-full w-fit fixed top-16 pb-[65px] right-1 bottom-0 flex justify-end z-[30] transition-transform duration-200 ${
-    IsOpenedModalRoomDetails ? 'h-full scale-100 overflow-auto' : 'h-0 overflow-hidden scale-0'
-  }`}
->
+			className={`min-h-full w-fit fixed top-16 pb-[65px] right-1 bottom-0 flex justify-end z-[30] transition-transform duration-200 ${IsOpenedModalRoomDetails ? 'h-full scale-100 overflow-auto' : 'h-0 overflow-hidden scale-0'
+				}`}
+		>
 
-	  
+
 			<div className="bg-white shadow-md h-full w-[22rem] border overflow-auto no-scrollbar">
 				<div className={`flex ${roomStatus.bg} text-white justify-between items-center p-8`}
 				>
@@ -155,8 +154,8 @@ export const RoomDetailModal = ({
 				<div className="flex justify-end w-full">
 					<Button
 						className="flex bg-purple-800 text-white border-l rounded-l-3xl px-4 py-3 w-[80%] self-end"
-						handleActive={()=> room.reserve?.note ? true: false}
-						handleClick={()=> handleOpenNote()}
+						handleActive={() => room.reserve?.note ? true : false}
+						handleClick={() => handleOpenNote()}
 					>
 						Conferir todos os detalhes
 					</Button>
