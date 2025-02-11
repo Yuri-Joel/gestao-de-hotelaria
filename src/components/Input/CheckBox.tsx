@@ -5,12 +5,12 @@ interface InputProps extends ComponentProps<'input'> {
   isChecked: boolean;
 }
 
-export const Checkbox: React.FC<InputProps> = ({ index, isChecked ,...props }) => {
+export const Checkbox: React.FC<InputProps> = ({ index, type, isChecked ,...props }) => {
   return (
       <div className={`  rounded-full flex items-center justify-center`}>
           <input
               {...props}
-              type="radio"
+              type={"radio"}
               id={`radio-${index}`}
               checked={isChecked}
               onChange={() => isChecked} // Aqui aplicamos corretamente

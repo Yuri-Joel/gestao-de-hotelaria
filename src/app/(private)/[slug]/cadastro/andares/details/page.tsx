@@ -1,16 +1,15 @@
 "use client";
 import React from "react";
 import { Wrapper } from "@/components/Wrapper";
-import FloorEditModal from "@/components/Floor/FloorEditModal";
+import FloorDetails from "@/components/Floor/FloorDetails";
 
 function page() {
-
   return (
     <Wrapper
       key={"3"}
       title="Andar - INFORMAÇÕES"
       description="Informacoes gerais do andar"
-      children={<FloorEditModal />}
+      children={<FloorDetails />}
     ></Wrapper>
   );
 }

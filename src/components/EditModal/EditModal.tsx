@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
-import { Button } from '@/components/Button/Button';
+import React, { ReactNode } from "react";
+import { Button } from "@/components/Button/Button";
 
 interface ModalProps {
   isOpen: boolean;
@@ -19,8 +19,8 @@ export function EditModal({
   children,
   onSave,
   showActions = true,
-  saveButtonText = 'Salvar',
-  cancelButtonText = 'Cancelar'
+  saveButtonText = "Salvar",
+  cancelButtonText = "Cancelar",
 }: ModalProps) {
   if (!isOpen) return null;
 
@@ -28,11 +28,11 @@ export function EditModal({
     <div className="bg-gray-600/25 shadow-lg fixed top-0 left-0 right-0 bottom-0 z-[1000] flex items-center justify-center">
       <div className="w-[600px] bg-white shadow-[0_0_10px_rgba(0,0,0,0.3)] flex flex-col gap-3 p-4">
         <h1 className="font-bold text-2xl w-full text-center">{title}</h1>
-        
+
         {children}
 
         {showActions && (
-          <div className="flex justify-end gap-2 mt-2">
+          <div className="flex justify-end gap-2 ">
             {onSave && (
               <Button
                 handleActive={() => true}

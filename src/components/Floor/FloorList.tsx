@@ -17,8 +17,11 @@ import { RightIcon } from "@/assets/Icons/RightIcon";
 import { useRouter } from "next/navigation";
 import { Button } from "../Button/Button";
 import { Skeleton } from "../Skeleton/Skeleton";
+import FloorEditModal from "./FloorEditModal";
 
 export function FloorList() {
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
   const router = useRouter();
   const [IsLoading, setLoading] = useState<boolean>(false);
 
@@ -30,6 +33,7 @@ export function FloorList() {
     setCurrentPage,
     totalPages,
     setEditFloorModal,
+    EditFloorModal,
   } = floorStore();
   const [openMenuId, setOpenMenuId] = useState<any | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -134,7 +138,7 @@ export function FloorList() {
                       </div>
 
                       {openMenuId === floor._id && (
-                        <div className="absolute top-full mt-1  w-48 bg-white shadow-md border border-gray-90 rounded-lg shadow-mdring-1 ring-black ring-opacity-5 z-10">
+                        <div className="absolute top-full w-24 bg-white shadow-md border border-gray-90 rounded-lg shadow-mdring-1 ring-black ring-opacity-5 z-10">
                           <div
                             className=" bg-white"
                             role="menu"
@@ -146,9 +150,6 @@ export function FloorList() {
                               handleClick={() => {
                                 setSelectedFloor(floor);
                                 setEditFloorModal(true);
-                                router.push(
-                                  `/hotel-ao/cadastro/andares/details`
-                                );
                               }}
                               handleActive={() => true}
                             >
@@ -212,6 +213,7 @@ export function FloorList() {
               </tr>
             </tfoot>
           </Table>
+          {EditFloorModal && <FloorEditModal />}
         </div>
       )}
     </>
