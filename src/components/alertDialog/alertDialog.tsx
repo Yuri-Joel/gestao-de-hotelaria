@@ -2,9 +2,6 @@ import type React from "react";
 import { Button } from "@/components/Button/Button";
 import { XIcon } from "@/assets/Icons/XIcon";
 import { RightIcon } from "@/assets/Icons/RightIcon";
-import { usePropertyStore } from "@/store/propetyAcordionStorage";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 interface IAlertDialog {
   title: string;
