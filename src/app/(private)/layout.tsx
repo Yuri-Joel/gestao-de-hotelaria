@@ -1,5 +1,5 @@
 "use client";
-import AlertDialog from "@/components/AlertDialog/AlertDialog";
+import AlertDialog from "@/components/AlertDialogd/AlertDialog";
 import { Header } from "@/components/Header/Header";
 import HeadTitle from "@/components/HeadTitle";
 import { MenuProfile } from "@/components/MenuProfileDrop/MenuProfile";
