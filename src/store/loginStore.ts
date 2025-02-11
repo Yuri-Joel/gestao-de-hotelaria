@@ -18,10 +18,8 @@ type Action = {
 	setPassword: (password: string) => void;
 	verifyUserByEmail: (email: string) => Promise<
 		IResponse<{
-			error?: string;
 			statusText?: string;
 			data?: string;
-			status: number;
 		}>
 	>;
 	signIn: (
@@ -31,8 +29,6 @@ type Action = {
 		IResponse<{
 			statusText?: string;
 			data?: string;
-			error?: string;
-			status: number;
 		}>
 	>;
 };

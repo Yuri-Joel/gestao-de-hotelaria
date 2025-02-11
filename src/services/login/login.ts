@@ -1,13 +1,10 @@
 import handleRequest from "@/helpers/handleRequest";
-import { EmployeeEntity } from "@/interfaces/EmployeeEntity";
 
 export const loginService = () => {
 	const signIn = async (email: string, password: string) => {
 		const response = await handleRequest<{
-			statusText?: string;
-			data?: string;
-			error?: string;
-			status: number;
+			statusText: string;
+			data: string;
 		}>({
 			url: `/auth`,
 			method: "POST",
@@ -18,10 +15,8 @@ export const loginService = () => {
 
 	const verifyUserByEmail = async (email: string) => {
 		const response = await handleRequest<{
-			error?: string;
-			statusText?: string;
-			data?: string;
-			status: number;
+			statusText: string;
+			data: string;
 		}>({
 			url: `/auth/verify-user-by-email`,
 			method: "POST",
