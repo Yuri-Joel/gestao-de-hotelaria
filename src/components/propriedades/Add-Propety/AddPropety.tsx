@@ -1,5 +1,5 @@
 "use client";
-import AlertDialog from "@/components/AlertDialogd/AlertDialog";
+import AlertDialog from "@/components/AlertDialog/AlertDialog";
 import { Button } from "@/components/Button/Button";
 import { Input } from "@/components/Input/Input";
 import Select from "@/components/Input/Select";
