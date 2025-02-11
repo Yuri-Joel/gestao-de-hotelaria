@@ -4,7 +4,7 @@ import { Button } from "../Button/Button";
 import { Input } from "../Input/Input";
 import InputTextArea from "../Input/InputTextArea";
 import { floorStore } from "@/store/floorStore";
-import { FloorEntity } from "@/interfaces/floorEntity";
+import { FloorEntity } from "@/interfaces/FloorEntity";
 import { EditModal } from "../EditModal/EditModal";
 import { useRouter } from "next/navigation";
 
@@ -13,12 +13,12 @@ function FloorEditModal() {
   const [editedFloor, setEditedFloor] = useState<FloorEntity | null>(null);
   const menuRef2 = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  
+
   const { setEditFloorModal, EditFloorModal, selectedFloor } = floorStore();
 
 
   useEffect(() => {
-  if(!selectedFloor) return router.push(`/hotel-ao/cadastro/andares`);
+    if (!selectedFloor) return router.push(`/hotel-ao/cadastro/andares`);
     function handleClickOutside(event: MouseEvent) {
       if (menuRef2.current && !menuRef2.current.contains(event.target as Node)) {
         setOpenMenuId(false);
@@ -30,9 +30,9 @@ function FloorEditModal() {
   }, []);
 
   const [floor, setF] = useState<FloorEntity>();
-  
+
   useEffect(() => {
-    if(!selectedFloor) return;
+    if (!selectedFloor) return;
     setF(selectedFloor);
     setEditedFloor(selectedFloor);
   }, [selectedFloor]);
