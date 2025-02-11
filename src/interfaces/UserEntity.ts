@@ -7,7 +7,7 @@ enum UserRole {
 }
 
 
-export interface UsersEntity extends TModel {
+export interface UserEntity extends TModel {
     name: string;
     property: string[];
     action: string;
