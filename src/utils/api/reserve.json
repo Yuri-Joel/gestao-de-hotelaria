@@ -19,7 +19,7 @@
         "double": 1
       }
     },
-    "checkIn": "2025-02-10T00:00:00.000Z",
+    "checkIn": "2025-02-11T00:00:00.000Z",
     "checkOut": "2025-02-15T00:00:00.000Z",
     "externReference": 1001,
     "dailyValue": 250,
@@ -246,7 +246,7 @@
       }
     },
     "checkIn": "2025-03-07T00:00:00.000Z",
-    "checkOut": "2025-02-10T00:00:00.000Z",
+    "checkOut": "2025-02-11T00:00:00.000Z",
     "externReference": 1005,
     "dailyValue": 175,
     "agency": "Decolar",
@@ -437,7 +437,7 @@
         "double": 1
       }
     },
-    "checkIn": "2025-02-10T00:00:00.000Z",
+    "checkIn": "2025-02-11T00:00:00.000Z",
     "checkOut": "2025-02-12T00:00:00.000Z",
     "externReference": 1005,
     "dailyValue": 175,
@@ -581,7 +581,7 @@
         "double": 1
       }
     },
-    "checkIn": "2025-02-09T00:00:00.000Z",
+    "checkIn": "2025-02-10T00:00:00.000Z",
     "checkOut": "2025-02-11T00:00:00.000Z",
     "externReference": 1005,
     "dailyValue": 175,
@@ -629,7 +629,7 @@
         "double": 1
       }
     },
-    "checkIn": "2025-02-09T00:00:00.000Z",
+    "checkIn": "2025-02-10T00:00:00.000Z",
     "checkOut": "2025-02-11T00:00:00.000Z",
     "externReference": 1005,
     "dailyValue": 175,

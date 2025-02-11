@@ -20,13 +20,8 @@ interface ReserveListProps {
 
 export function ReserveList({ data, loading }: ReserveListProps) {
 
-  const { searchData, setSearchData, setCurrentPage, currentPage, totalPages } = reserveStore()
+  const { searchData, setCurrentPage, currentPage, totalPages, } = reserveStore()
 
-  useEffect(() => {
-    if (loading) {
-      setSearchData(data);
-    }
-  }, [data, loading])
 
   if (loading || searchData === null) {
     return (
@@ -44,6 +39,7 @@ export function ReserveList({ data, loading }: ReserveListProps) {
     );
   }
 
+  
   return (
     <>
 
@@ -83,22 +79,23 @@ export function ReserveList({ data, loading }: ReserveListProps) {
                       {reserve.externReference}
                     </TableCell>
                     <TableCell className="text-left">
-                      {new Date(reserve.checkIn).toLocaleDateString()}
+                      {new Date(reserve.checkIn).toLocaleDateString("pt-BR")}
                     </TableCell>
                     <TableCell className="text-left">
-                      {new Date(reserve.checkOut).toLocaleDateString()}
+                      {new Date(reserve.checkOut).toLocaleDateString("pt-BR")}
                     </TableCell>
                     <TableCell className="text-left">
                       {reserve.room.name}
                     </TableCell>
                     <TableCell className="text-left">
-                      {reserve.createdAt && new Date(reserve.createdAt).toLocaleDateString()}
+                      {reserve.createdAt && new Date(reserve.createdAt).toLocaleDateString("pt-BR")}
                     </TableCell>
                     <TableCell className="text-left font-bold">
                       BRL {reserve.payment}
                     </TableCell>
                   </TableRow>
-                )) : <TableRow>
+                )) :
+                 <TableRow>
                   <TableCell colSpan={8} className="text-center text-gray-500">Nenhuma reserva encontrada</TableCell>
                 </TableRow>
 

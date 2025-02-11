@@ -52,7 +52,8 @@ export function SearchAndFilter({ data }: SearchProps) {
     setIschecked,
     isChecked,
     reserveToSearch,
-    setTotalPage
+    setTotalPage,
+    totalPages2
   } = reserveStore()
 
   const {
@@ -67,6 +68,8 @@ export function SearchAndFilter({ data }: SearchProps) {
   } = datePickerStore()
 
   const [changeDate, setChangeDate] = useState(false)
+  const [redifineWasClicked, setRedifineWasClicked] = useState(false)
+
   const searchFilter = () => {
 
     if (reserveToSearch) {
@@ -114,16 +117,23 @@ export function SearchAndFilter({ data }: SearchProps) {
     setDetailEndDate(nextMonth);
     setChangeDate(false)
 
-    if (reserveToSearch && reserveToSearch.length > 10) {
-      setTotalPage(Math.ceil(reserveToSearch.length / 10))
-    } else {
-      setTotalPage(0)
-    }
+    setTotalPage(totalPages2)
+    setRedifineWasClicked(true)
   }
 
   function handleChange(textInput: React.ChangeEvent<HTMLInputElement>) {
     const text = textInput.target.value.toString()
     setSearchInput(text);
+
+    const currentDate = new Date();
+      const nextMonth = new Date(currentDate);
+      nextMonth.setMonth(currentDate.getMonth() + 1);
+
+      setDetailStartDate(currentDate);
+      setDetailEndDate(nextMonth);
+      setEndDate(null)
+      setStartDate(null)
+      setIschecked("")
   }
 
   function handleChecked(id: string) {
@@ -139,8 +149,58 @@ export function SearchAndFilter({ data }: SearchProps) {
 
     const itemChecked = itemsFilter.filter((item) => item.id === isChecked)
 
-    switch (itemChecked[0].title) {
-      case "Check-in":
+    if(itemChecked.length < 0) {
+      switch (itemChecked[0].title) {
+        case "Check-in":
+          if (startDate && endDate && data) {
+            filteredData = data.filter((item) => {
+              const checkInDate = normalizeDate(new Date(item.checkIn));
+              const start = normalizeDate(new Date(startDate));
+              const end = normalizeDate(new Date(endDate));
+  
+              return checkInDate >= start && checkInDate <= end;
+            });
+            setSearchData(data);
+            setSearchInput("");
+            setReservePerPage(10);
+            setCurrentPage(1);
+          }
+          break;
+        case "Check-out":
+          if (startDate && endDate && data) {
+            filteredData = data.filter((item) => {
+              const checkOutDate = normalizeDate(new Date(item.checkOut));
+              const start = normalizeDate(new Date(startDate));
+              const end = normalizeDate(new Date(endDate));
+  
+              return checkOutDate >= start && checkOutDate <= end;
+            });
+  
+            setSearchData(filteredData);
+            setSearchInput("");
+            setReservePerPage(10);
+            setCurrentPage(1);
+          }
+          break;
+        case "Data de criação":
+          if (startDate && endDate && data) {
+            filteredData = data.filter((item) => {
+              const createdAt = normalizeDate(item.createdAt as Date);
+              const start = normalizeDate(new Date(startDate));
+              const end = normalizeDate(new Date(endDate));
+  
+              return createdAt >= start && createdAt <= end;
+            });
+            setSearchData(filteredData);
+            setSearchInput("");
+            setReservePerPage(10);
+            setCurrentPage(1);
+          }
+          break;
+        default:
+          break;
+      }
+    }else{
         if (startDate && endDate && data) {
           filteredData = data.filter((item) => {
             const checkInDate = normalizeDate(new Date(item.checkIn));
@@ -149,45 +209,17 @@ export function SearchAndFilter({ data }: SearchProps) {
 
             return checkInDate >= start && checkInDate <= end;
           });
+          
+          if (filteredData.length > 10) {
+            setTotalPage(Math.ceil(filteredData.length / 10))
+          } else {
+            setTotalPage(0)
+          }
           setSearchData(filteredData);
           setSearchInput("");
           setReservePerPage(10);
           setCurrentPage(1);
         }
-        break;
-      case "Check-out":
-        if (startDate && endDate && data) {
-          filteredData = data.filter((item) => {
-            const checkOutDate = normalizeDate(new Date(item.checkOut));
-            const start = normalizeDate(new Date(startDate));
-            const end = normalizeDate(new Date(endDate));
-
-            return checkOutDate >= start && checkOutDate <= end;
-          });
-
-          setSearchData(filteredData);
-          setSearchInput("");
-          setReservePerPage(10);
-          setCurrentPage(1);
-        }
-        break;
-      case "Data de criação":
-        if (startDate && endDate && data) {
-          filteredData = data.filter((item) => {
-            const createdAt = normalizeDate(item.createdAt as Date);
-            const start = normalizeDate(new Date(startDate));
-            const end = normalizeDate(new Date(endDate));
-
-            return createdAt >= start && createdAt <= end;
-          });
-          setSearchData(filteredData);
-          setSearchInput("");
-          setReservePerPage(10);
-          setCurrentPage(1);
-        }
-        break;
-      default:
-        break;
     }
 
     const currentDate = new Date();
@@ -207,6 +239,8 @@ export function SearchAndFilter({ data }: SearchProps) {
 
     const nextMonth = new Date(newCurrentDate);
     nextMonth.setMonth(newCurrentDate.getMonth() + 1);
+
+    
     if (reserveToSearch) {
       const filteredData = reserveToSearch.filter((reserve) => {
         const checkIn = normalizeDate(new Date(reserve.checkIn));
@@ -249,7 +283,7 @@ export function SearchAndFilter({ data }: SearchProps) {
         const end = normalizeDate(nextMonth);
         return checkIn >= start && checkIn <= end;
       });
-
+      
       setSearchData(filteredData);
 
       //Vericação para dar valor a totalpage
@@ -282,23 +316,26 @@ export function SearchAndFilter({ data }: SearchProps) {
     const nextMonth = new Date(currentDate);
     nextMonth.setMonth(currentDate.getMonth() + 1);
 
-    if (data) {
-      const filteredData = data.filter((reserve) => {
-        const checkIn = normalizeDate(new Date(reserve.checkIn));
-        const start = normalizeDate(currentDate);
-        const end = normalizeDate(nextMonth);
+    if (reserveToSearch) {
+      const filteredData = reserveToSearch.filter((reserve) => {
+      const checkIn = normalizeDate(new Date(reserve.checkIn));
+      const start = normalizeDate(currentDate);
+      const end = normalizeDate(nextMonth);
         return checkIn >= start && checkIn <= end;
       });
 
-      setSearchData(filteredData);
-
+      !redifineWasClicked ? setSearchData(filteredData) : setSearchData(data);
+      if (filteredData.length > 10) {
+        setTotalPage(Math.ceil(filteredData.length / 10))
+      } else {
+        !redifineWasClicked && setTotalPage(0)
+      }
     }
-
     setDetailStartDate(currentDate);
     setDetailEndDate(nextMonth);
-  }, []);
+  }, [data]);
 
-
+  
   return (
     <div className="flex flex-col items-start gap-7">
       <div className=" w-[51.3rem] gap-4 flex items-center justify-center ">
@@ -389,7 +426,7 @@ export function SearchAndFilter({ data }: SearchProps) {
           </div>
           <Button
             children="Aplicar"
-            handleActive={() => startDate && endDate && isChecked ? true : false}
+            handleActive={() => startDate && endDate ? true : false}
             className="w-[135px] py-4 rounded-full"
             handleClick={handleClickDate}
           />

@@ -18,6 +18,7 @@ type State = {
 
   currentPage: number,
   totalPages: number,
+  totalPages2: number,
   reservePerPage: number;
 
   selectedTitleHeader: string;
@@ -32,6 +33,7 @@ type Actions = {
   setDetailEndDate: (data: Date) => void;
   setSelectedTitleHeader: (data: string) => void;
   setCurrentPage: (page: number) => void;
+  setTotalPage2: (page: number) => void;
   setTotalPage: (page: number) => void;
   setReservePerPage: (page: number) => void;
   setIschecked: (isChecked: string) => void
@@ -48,6 +50,7 @@ export const reserveStore = create<State & Actions>((set) => ({
   searchInput: "",
   currentPage: 1,
   totalPages: 1,
+  totalPages2: 1,
   selectedTitleHeader: "Chegadas",
   isChecked: "",
   detailStartDate: new Date(),
@@ -56,6 +59,7 @@ export const reserveStore = create<State & Actions>((set) => ({
 
   setCurrentPage: (data) => set({ currentPage: data }),
 
+  setTotalPage2: (data) => set({ totalPages2: data }),
   setTotalPage: (data) => set({ totalPages: data }),
 
   setReservePerPage: (data) => set({ reservePerPage: data }),
@@ -86,6 +90,7 @@ export const reserveStore = create<State & Actions>((set) => ({
       set({
         reserves: response.data?.data,
         totalPages: response.data?.totalPages || response.data?.data?.length,
+        totalPages2: response.data?.totalPages || response.data?.data?.length,
         currentPage: response.data?.page,
         reservePerPage: response.data?.totalItems,
         reserveToSearch: response.data?.dataSearch,

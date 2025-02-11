@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import filePath from "@/utils/api/reserve.json"
-import { ReserveEntity } from '@/interfaces/ReserveEntity';
 
 
 export async function GET(request: Request): Promise<NextResponse> {
@@ -31,7 +30,8 @@ export async function GET(request: Request): Promise<NextResponse> {
 
         const totalItems = filePath.length;
         const totalPages = Math.ceil(totalItems / limit);
-
+        console.log(filePath);
+        
         return NextResponse.json({
             page,
             limit,
