@@ -1,5 +1,5 @@
 async function handleErrors(response: Response, error: { error: string }) {
-    if (response.status === 401) {
+    if (response.status === 401 || response.status === 404) {
         console.error('Response error:', response);
         return {
             error: { value: true, msg: error.error },
@@ -12,7 +12,6 @@ async function handleErrors(response: Response, error: { error: string }) {
         response.status === 400 ||
         response.status === 402 ||
         response.status === 403 ||
-        response.status === 404 ||
         response.status === 409 ||
         response.status === 412 ||
         response.status === 422 ||

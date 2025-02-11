@@ -18,9 +18,11 @@ const ConfirmLoginPage = () => {
 	const handleSignInClick = async () => {
 		setIsLoading(true);
 		if (isInvalidPassword) setIsInvalidPassword(false);
+
 		try {
 			const res = await signIn(email, password);
-			if (!res.error.value && res.data?.statusText === "ok") {
+
+			if (!res.error.value && res.data?.statusText?.toLocaleLowerCase() === "ok") {
 				router.push("/");
 			} else if (res.error.value) {
 				setIsInvalidPassword(true);
@@ -50,15 +52,18 @@ const ConfirmLoginPage = () => {
 	}, [email, router]);
 
 	return (
-		<section className="flex flex-col">
+		<div className="flex flex-col">
 			<div>
 				<h1 className="font-bold text-xl">Hoteli Apps</h1>
 				<p className="text-gray-300 text-sm">Entrar como:</p>
 			</div>
+
 			<div className="employees-center mb-2">
 				<h1>{email}</h1>
 			</div>
+
 			<h2 className="font-medium text-xl">Insira a sua senha</h2>
+
 			<div className="h-24 mb-14">
 				<Input
 					className={`mb-1 ${isInvalidPassword ? "border-red-500" : "border-inherit"}`}
@@ -71,11 +76,13 @@ const ConfirmLoginPage = () => {
 						if (isInvalidPassword) setIsInvalidPassword(false);
 					}}
 				/>
+
 				{isInvalidPassword && (
 					<span className="text-red-500 text-xs flex">
 						Senha inválida
 					</span>
 				)}
+
 				<Link
 					href="#"
 					className="text-primary hover:underline text-sm  inline-flex"
@@ -94,6 +101,7 @@ const ConfirmLoginPage = () => {
 				>
 					Entrar
 				</Button>
+
 				<Button
 					width="108px"
 					handleClick={handleReturnClick}
@@ -104,7 +112,7 @@ const ConfirmLoginPage = () => {
 					Voltar
 				</Button>
 			</div>
-		</section>
+		</div>
 	);
 };
 

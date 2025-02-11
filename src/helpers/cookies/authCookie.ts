@@ -1,3 +1,4 @@
+import { TDataUser } from '@/types/TDataUser'
 import Cookies from 'js-cookie'
 
 const auth_cookie_name = process.env.NEXT_PUBLIC_USERDATA_COOKIE_NAME as string
@@ -24,9 +25,9 @@ export const removeAuthCookie = () => {
   return
 }
 
-export const parseCookie = () => {
+export const parseCookie = (): TDataUser => {
   const cookie = getAuthCookie()
   const cookieParsed = cookie && JSON.parse(cookie as string)
 
-  return cookieParsed
+  return cookieParsed?.data;
 }

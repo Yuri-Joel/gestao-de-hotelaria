@@ -1,7 +1,7 @@
 import { setAuthCookie } from "@/helpers/cookies/authCookie";
 import { IResponse } from "@/helpers/handleRequest";
 
-import { loginService } from "@/services/login/login";
+import { TResponseLogin, TResponseLoginError, loginService } from "@/services/login/login";
 
 import { create } from "zustand";
 import Cookies from "js-cookie";
@@ -16,21 +16,8 @@ type State = {
 type Action = {
 	setEmail: (email: string) => void;
 	setPassword: (password: string) => void;
-	verifyUserByEmail: (email: string) => Promise<
-		IResponse<{
-			statusText?: string;
-			data?: string;
-		}>
-	>;
-	signIn: (
-		email: string,
-		password: string,
-	) => Promise<
-		IResponse<{
-			statusText?: string;
-			data?: string;
-		}>
-	>;
+	verifyUserByEmail: (email: string) => Promise<IResponse<TResponseLogin>>;
+	signIn: (email: string, password: string) => Promise<IResponse<TResponseLogin>>;
 };
 
 export const loginStore = create<State & Action>((set) => ({
@@ -43,7 +30,8 @@ export const loginStore = create<State & Action>((set) => ({
 
 	signIn: async (email, password) => {
 		const response = await loginService().signIn(email, password);
-		if (!response.error.value && response?.data?.statusText === "ok") {
+
+		if (!response.error.value && response?.data?.statusText?.toLocaleLowerCase() === "ok") {
 			const decoded: any = jwtDecode(response?.data?.data as string);
 			setAuthCookie(JSON.stringify(decoded));
 
@@ -64,10 +52,10 @@ export const loginStore = create<State & Action>((set) => ({
 	verifyUserByEmail: async (email) => {
 		const response = await loginService().verifyUserByEmail(email);
 
-		if (!response.error.value && response?.data?.statusText === "ok") {
+		if (!response.error.value && response?.data?.statusText?.toLocaleLowerCase() === "ok") {
 			set({ isValid: true, email });
 		} else {
-			set({ isValid: null, email });
+			set({ isValid: false, email });
 		}
 
 		return response;

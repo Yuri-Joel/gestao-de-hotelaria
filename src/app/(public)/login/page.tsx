@@ -25,6 +25,7 @@ const LoginPage = () => {
 		if (isValid === false) loginStore.setState({ isValid: null });
 		try {
 			await verifyUserByEmail(email);
+
 			if (loginStore.getState().isValid) {
 				router.push("/login/confirm");
 			} else {
@@ -39,6 +40,7 @@ const LoginPage = () => {
 	return (
 		<div className="flex flex-col gap-4">
 			<h1 className="font-bold text-xl">Hoteli Apps</h1>
+
 			<div className="flex flex-col gap-2">
 				<div className="font-medium text-xl">
 					<h1>Iniciar sessão</h1>
@@ -71,6 +73,7 @@ const LoginPage = () => {
 					</Link>
 				</div>
 			</div>
+
 			<div className="w-full h-10 flex justify-end">
 				<Button
 					width="120px"
