@@ -1,7 +1,7 @@
 import { TModel } from "@/types/TModel";
+import { FloorEntity } from "./FloorEntity";
 import { TypeState } from "@/types/TypeState";
 import { ReserveEntity } from "./ReserveEntity";
-import { FloorEntity } from "./FloorEntity";
 
 export interface RoomEntity extends TModel {
 	name: string
