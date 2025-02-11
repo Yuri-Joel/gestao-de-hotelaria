@@ -16,16 +16,24 @@ type State = {
 type Action = {
 	setEmail: (email: string) => void;
 	setPassword: (password: string) => void;
-	verifyUserByEmail: (
-		email: string,
-	) => Promise<IResponse<{ isValid: boolean; status: number }>>;
+	verifyUserByEmail: (email: string) => Promise<
+		IResponse<{
+			statusText?: string;
+			data?: string;
+		}>
+	>;
 	signIn: (
 		email: string,
 		password: string,
-	) => Promise<IResponse<{ token: string; status: number }>>;
+	) => Promise<
+		IResponse<{
+			statusText?: string;
+			data?: string;
+		}>
+	>;
 };
 
-export const loginStore = create<State & Action>((set, get) => ({
+export const loginStore = create<State & Action>((set) => ({
 	email: "",
 	password: "",
 	isValid: null,
@@ -35,13 +43,13 @@ export const loginStore = create<State & Action>((set, get) => ({
 
 	signIn: async (email, password) => {
 		const response = await loginService().signIn(email, password);
-		if (!response.error.value && response?.data?.status === 200) {
-			const decoded: any = jwtDecode(response?.data?.token as string);
+		if (!response.error.value && response?.data?.statusText === "ok") {
+			const decoded: any = jwtDecode(response?.data?.data as string);
 			setAuthCookie(JSON.stringify(decoded));
 
 			Cookies.set(
 				process.env.NEXT_PUBLIC_TOKEN_COOKIE_NAME as string,
-				response?.data?.token as string,
+				response?.data?.data as string,
 				{
 					expires: 1,
 					sameSite: "None",
@@ -56,8 +64,8 @@ export const loginStore = create<State & Action>((set, get) => ({
 	verifyUserByEmail: async (email) => {
 		const response = await loginService().verifyUserByEmail(email);
 
-		if (!response.error.value){
-			set({ isValid: response?.data?.isValid, email });
+		if (!response.error.value && response?.data?.statusText === "ok") {
+			set({ isValid: true, email });
 		} else {
 			set({ isValid: null, email });
 		}
