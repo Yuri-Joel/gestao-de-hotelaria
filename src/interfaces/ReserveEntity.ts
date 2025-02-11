@@ -1,6 +1,6 @@
 import { TModel } from "@/types/TModel";
 import { GuestEntity } from "./GuestEntity";
-import { RoomEntity } from "./roomEntity";
+import { RoomEntity } from "./RoomEntity";
 
 export type stateReserveTypes = 'pending' | 'confirmed' | 'opened' | 'closed' | 'expired' | 'no-show' | 'canceled'
 export interface ReserveEntity extends TModel {
