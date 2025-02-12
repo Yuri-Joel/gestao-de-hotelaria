@@ -15,6 +15,7 @@ import { getRoomStatus } from "../Room/Room";
 import { formatDateIsoToBr } from "@/helpers/formatDateisoToBr";
 import { Button } from "@/components/Button/Button";
 import { RoomEntity } from "@/interfaces/RoomEntity";
+import { useEffect, useRef, useState } from "react";
 
 export const RoomDetailModal = ({
 	room
@@ -23,11 +24,15 @@ export const RoomDetailModal = ({
 }) => {
 	if (!room.reserve) return
 
-	const { handleOpenModalRoomDetails, IsOpenedModalRoomDetails, setSelectedRoom, handleIsOpenedModalNoteReserve } = roomStore()
+	const { handleOpenModalRoomDetails, closeRoomDetails, IsOpenedModalRoomDetails, setSelectedRoom, handleIsOpenedModalNoteReserve } = roomStore();
+	const dropdownRef = useRef<HTMLDivElement>(null);
+	const [text, setText] = useState<string>("Copiar ID da reserva");
 	const handleCopy = (e: React.SyntheticEvent<SVGElement>) => {
 		(async () => {
 			try {
+				setText("ID copiado!");
 				await navigator.clipboard.writeText(room.reserve?._id?.toString() || "");
+				setTimeout(() => setText("Copiar ID da reserva"), 2000);
 			} catch (e) {
 				console.log(e);
 			}
@@ -43,9 +48,22 @@ export const RoomDetailModal = ({
 		handleIsOpenedModalNoteReserve();
 	}
 
+	useEffect(() => {
+		function handleClickOutside(event: MouseEvent) {
+			const target = event.target as HTMLElement;
+			if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node) &&
+				!target.closest("[data-room]")) {
+				closeRoomDetails();
+			}
+		}
+
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => document.removeEventListener("mousedown", handleClickOutside);
+	}, []);
 	const roomStatus = getRoomStatus(room);
 	return (
 		<div
+			ref={dropdownRef}
 			className={`min-h-full w-fit fixed top-16 pb-[65px] right-1 bottom-0 flex justify-end z-[30] transition-transform duration-200 ${IsOpenedModalRoomDetails ? 'h-full scale-100 overflow-auto' : 'h-0 overflow-hidden scale-0'
 				}`}
 		>
@@ -105,7 +123,7 @@ export const RoomDetailModal = ({
 							<FaCopy
 								className="cursor-pointer outline-none w-4 h-4 transition-all duration-300 transform hover:scale-110"
 								data-tooltip-id="copiar"
-								data-tooltip-content="Copiar ID da reserva"
+								data-tooltip-content={text}
 								onClick={handleCopy}
 							/>
 							<Tooltip id="copiar" />

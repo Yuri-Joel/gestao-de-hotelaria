@@ -56,7 +56,7 @@ export function Sidebar() {
             ]
         },
         {
-            label: "Cadastro",
+            label: "Cadastros",
             path: "/inicio",
             iconClass: "h-6 w-6",
             IconLeft: IconRegister,
@@ -124,13 +124,13 @@ export function Sidebar() {
         <aside
             className={`bg-white-700 text-gray-900 border-black-100 font-medium transition-all shadow-xl duration-300 ease-in-out ${state ? "w-64" : "w-16"} flex flex-col`}
         >
-            <nav className="flex-1 overflow-hidden">
+            <nav className="flex-1 max-h-full overflow-y-auto scrollbar-invisible">
                 <div className="mt-1">
                     {menuItems.map((item) => (
-                        <div key={item.label}>
+                        <div key={item.label} >	
                             <Link
                                 href={`/${slug}${item.path}`}
-                                className="flex items-center px-4 py-4 hover:bg-[#D5CEE5]"
+                                className={`flex items-center px-4 py-4 hover:bg-[#D5CEE5] ${openSubMenus[item.label] ? "bg-[#D5CEE5]" : ""}`}
                                 onClick={(e) => {
                                     if (item.subMenu) {
                                         e.preventDefault();
@@ -170,7 +170,7 @@ export function Sidebar() {
 
                             {/* Submenu no estado expandido */}
                                 {item.subMenu && openSubMenus[item.label] && state && (
-                                    <div className="bg-white-800 max-h-80 overflow-y-auto scrollbar-invisible">
+                                    <div className="bg-white-800">
                                         {item.subMenu.map((subItem) => (
                                             <Link
                                                 key={subItem.label}

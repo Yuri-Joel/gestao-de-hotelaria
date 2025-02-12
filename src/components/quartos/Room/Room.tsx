@@ -75,7 +75,8 @@ export function Room({ room }: RoomCardProps) {
     const { handleOpenModalRoomDetails, setSelectedRoom, selectedRoom, handleIsOpenedModalNoteReserve } = roomStore()
     const roomStatus = getRoomStatus(room);
 
-    const handleOpenRoomDetails = async () => {
+    const handleOpenRoomDetails = async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        e.stopPropagation();
         if (!room.reserve || room.isRestricted) return
         /* if (room.reserve?.note?.trim()) {
                 handleIsOpenedModalNoteReserve()
@@ -100,7 +101,7 @@ export function Room({ room }: RoomCardProps) {
 
 
     return (
-        <div className={`"w-[180px] h-[12rem] bg-white rounded-lg shadow-md  transition-transform duration-200  overflow-hidden ${!room.reserve || room.isRestricted ? '' : 'cursor-pointer'}`} onClick={() => handleOpenRoomDetails()} >
+        <div data-room={true} className={`"w-[180px] h-[12rem] bg-white rounded-lg shadow-md  transition-transform duration-200  overflow-hidden ${!room.reserve || room.isRestricted ? '' : 'cursor-pointer'}`} onClick={handleOpenRoomDetails} >
             {/* Status de ocupação do quarto */}
             <div className={`${roomStatus.bg} px-4 py-2 text-white font-medium text-center`}>
                 {roomStatus.text}
