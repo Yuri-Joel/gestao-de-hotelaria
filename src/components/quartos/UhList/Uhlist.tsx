@@ -39,7 +39,11 @@ export interface RoomCardProps {
 
 export function getRoomStatus(room: UHEntity) {
 
+<<<<<<< HEAD
   /*   if (room?.isRestricted) {
+=======
+    if (room?.isRestricted) {
+>>>>>>> fff38c549be453fa9dc1c5efd3426064bfa7868e
         return statusConfig.interdito
     } */
     if (!room?.reserve) {
@@ -100,7 +104,11 @@ export function Uhlist({ room }: RoomCardProps) {
 
 
     return (
+<<<<<<< HEAD
         <div data-room={true} className={`w-36 h-[12rem] bg-white rounded-lg shadow-md  transition-transform duration-200  overflow-hidden ${!room.reserve /* || room?.isRestricted */ ? '' : 'cursor-pointer'}`} onClick={handleOpenRoomDetails} >
+=======
+        <div data-room={true} className={`w-36 h-[12rem] bg-white rounded-lg shadow-md  transition-transform duration-200  overflow-hidden ${!room.reserve || room?.isRestricted ? '' : 'cursor-pointer'}`} onClick={handleOpenRoomDetails} >
+>>>>>>> fff38c549be453fa9dc1c5efd3426064bfa7868e
             {/* Status de ocupação do quarto */}
             <div className={`${roomStatus.bg} px-4 py-2 text-white font-medium text-center`}>
                 {roomStatus.text}
