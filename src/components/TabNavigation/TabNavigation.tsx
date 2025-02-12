@@ -2,7 +2,7 @@
 
 import { TTabNavigation } from "@/types/TTabNavigation";
 import { useEffect, useRef, useState } from "react";
-import {FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 interface TabNavigationProps {
   menuItems: TTabNavigation[];
@@ -11,7 +11,7 @@ interface TabNavigationProps {
   isCarrousel?: boolean
 }
 
-export const TabNavigation = ({ menuItems, selectedTitle, setSelectedTitle, isCarrousel=false }: TabNavigationProps) => {
+export const TabNavigation = ({ menuItems, selectedTitle, setSelectedTitle, isCarrousel = false }: TabNavigationProps) => {
   const TabNavigationRef = useRef<HTMLDivElement>(null);
   const [ScrollLeft, setScrollLeft] = useState(false);
   const [ScrollRight, setScrollRight] = useState(false);
@@ -81,9 +81,9 @@ export const TabNavigation = ({ menuItems, selectedTitle, setSelectedTitle, isCa
                 }`}
               onClick={() => setSelectedTitle(item.label)}
             >
-              {isCarrousel ?  item.label?.length >= 10
-                    ? item?.label.substring(0, 10) + '...'
-                    : item?.label : item?.label}
+              {isCarrousel ? item.label?.length >= 10
+                ? item?.label.substring(0, 10) + '...'
+                : item?.label : item?.label}
             </div>
             {selectedTitle === item.label && (
               <div className="absolute -bottom-5 left-0 w-full h-[5px] bg-primary rounded-sm transition-all duration-300 ease-in-out"></div>
