@@ -52,26 +52,5 @@ export const floorStore = create<State & Action>((set, get) => ({
     }
 
     return response;
-<<<<<<< HEAD
   }
-=======
-  },
-  getFloorsTabNavigation: async (page:number) => {
-    const response = await floorServices().findTabNavigation(page);
-
-    if (response.status === 401) {
-      removeAuthCookie()
-      window.location.href = '/login'
-    }
-    if (!response.error.value) {
-      set({ floors: response.data?.data ,
-        totalPages: response.data?.pagination?.totalPages || response.data?.data?.length,
-        currentPage: response.data?.pagination?.currentPage,
-       // pageSize: response.data?.pagination?.pageSize,
-       });
-    }
-
-    return response;
-  },
->>>>>>> fff38c549be453fa9dc1c5efd3426064bfa7868e
 }));
