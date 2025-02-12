@@ -70,13 +70,19 @@ export function UserList() {
     }
     return (
         <div className="mt-5">
-            <div className="mt-7">
-                <span className="font-bold mb-2">Usuarios</span>
+            <div className="flex justify-between items-center w-full">
+                <div className="mt-7 w-full">
+                <span className="font-bold mb-2">Usuários</span>
                 <Input handleValue={handleChange} value={search} placeholder="Buscar por nome"
-                    className="w-1/3 h-12"
-
-
+                className="w-1/3 h-12"
                 />
+                </div>
+                <Link
+                href="propriedades/add-user"
+                className="text-primary-700 font-bold text-md w-60 mt-7 "
+                >
+                Adicionar novo usuário
+                </Link>
             </div>
 
             <Table className="w-full">

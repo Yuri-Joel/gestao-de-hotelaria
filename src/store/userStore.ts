@@ -4,6 +4,7 @@ import { IResponse } from "@/helpers/handleRequest";
 import { TModelPagination } from "@/types/TModelPagination";
 import { usersServices } from "@/services/users/users";
 import { UserEntity } from "@/interfaces/UserEntity";
+import { Types } from "mongoose";
 
 type State = {
   users: UserEntity[] | null;
@@ -17,6 +18,7 @@ type State = {
 type Action = {
   setSelecteduser: (user: UserEntity | null) => void;
   find: (page: number) => Promise<IResponse<TModelPagination<UserEntity>>>;
+  deleteUser: (userID: Types.ObjectId) => Promise<any>;
   setCurrentPage: (page: number) => void;
   setEditUserModal: (value: boolean) => void;
 };
@@ -54,6 +56,38 @@ export const userStore = create<State & Action>((set, get) => ({
     }
 
     return response;
+  },
+
+  deleteUser: async (userID: Types.ObjectId) => {
+    const response = await usersServices().deleteUser(userID)
+
+    if (response.status === 401) {
+      removeAuthCookie()
+      window.location.href = '/login'
+    }
+
+    if (!response.error.value) {
+      // Recarrega a lista de funcionários após a exclusão
+      await get().find(1);
+    }
+
+    return response
+  },
+
+  create: async (user: UserEntity) => {
+    const response = await usersServices().create(user)
+
+    if (response.status === 401) {
+      removeAuthCookie()
+      window.location.href = '/login'
+    }
+
+    if (!response.error.value) {
+      // Recarrega a lista de funcionários após a exclusão
+      await get().find(1);
+    }
+
+    return response
   },
 
 }));
