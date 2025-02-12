@@ -3,7 +3,7 @@ import { removeAuthCookie } from "@/helpers/cookies/authCookie";
 import { IResponse } from "@/helpers/handleRequest";
 import { TModelPagination } from "@/types/TModelPagination";
 import { usersServices } from "@/services/users/users";
-import { UserEntity } from "@/interfaces/UserEntity";
+import { UserEntity } from "@/interfaces/EntitiesForNewAPI/UserEntity";
 import { Types } from "mongoose";
 
 type State = {
@@ -13,14 +13,17 @@ type State = {
   totalPages: number;
   totalItems: number;
   EditUserModal: boolean;
+  AddUserModal: boolean;
 };
 
 type Action = {
   setSelecteduser: (user: UserEntity | null) => void;
   find: (page: number) => Promise<IResponse<TModelPagination<UserEntity>>>;
-  deleteUser: (userID: Types.ObjectId) => Promise<any>;
+  create: (user: UserEntity) => Promise<IResponse<any>>;
+  remove: (userId: Types.ObjectId  , accountId: Types.ObjectId ) => Promise<IResponse<any>>;
   setCurrentPage: (page: number) => void;
   setEditUserModal: (value: boolean) => void;
+  setAddUserModal: (value: boolean) => void;
 };
 
 export const userStore = create<State & Action>((set, get) => ({
@@ -30,6 +33,7 @@ export const userStore = create<State & Action>((set, get) => ({
   totalPages: 0,
   totalItems: 0,
   EditUserModal: false,
+  AddUserModal: false,
 
   setSelecteduser: (user) => set({ selecteduser: user }),
 
@@ -37,10 +41,12 @@ export const userStore = create<State & Action>((set, get) => ({
 
   setEditUserModal: (value) => set({ EditUserModal: value }),
 
+  setAddUserModal: (value) => set({ AddUserModal: value }),
+
   find: async (page) => {
     const response = await usersServices().find(page);
 
-
+    console.log("isso 2", response)
     if (response.status === 401) {
       removeAuthCookie();
       window.location.href = "/login";
@@ -50,28 +56,11 @@ export const userStore = create<State & Action>((set, get) => ({
       set({
         users: response.data?.data,
         totalPages: response.data?.totalPages || response.data?.data?.length,
-        currentPage: response.data?.page,
+        // currentPage: response.data?.page,
         totalItems: response.data?.totalItems
       });
     }
-
     return response;
-  },
-
-  deleteUser: async (userID: Types.ObjectId) => {
-    const response = await usersServices().deleteUser(userID)
-
-    if (response.status === 401) {
-      removeAuthCookie()
-      window.location.href = '/login'
-    }
-
-    if (!response.error.value) {
-      // Recarrega a lista de funcionários após a exclusão
-      await get().find(1);
-    }
-
-    return response
   },
 
   create: async (user: UserEntity) => {
@@ -83,7 +72,21 @@ export const userStore = create<State & Action>((set, get) => ({
     }
 
     if (!response.error.value) {
-      // Recarrega a lista de funcionários após a exclusão
+      await get().find(1);
+    }
+
+    return response
+  },
+
+  remove: async (userId, accountId) => {
+    const response = await usersServices().remove(userId, accountId)
+
+    if (response.status === 401) {
+      removeAuthCookie()
+      window.location.href = '/login'
+    }
+
+    if (!response.error.value) {
       await get().find(1);
     }
 
