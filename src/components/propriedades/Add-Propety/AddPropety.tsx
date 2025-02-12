@@ -7,9 +7,15 @@ import { propetyAcordionStore } from "@/store/propetyAcordionStore";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useState } from "react";
+import { parseCookie } from '@/helpers/cookies/authCookie'
+import { propertyStore } from "@/store/propertyStore";
+import { EnumCategory } from "@/interfaces/EntitiesForNewAPI/PropertyEntity";
+import { Types } from "mongoose";
+import { AccountEntity } from "@/interfaces/EntitiesForNewAPI/AccountEntity";
 
 const AddPropety: React.FC = () => {
   const router = useRouter();
+  
   const {
     name,
     category,
@@ -21,19 +27,36 @@ const AddPropety: React.FC = () => {
     firstStore,
   } = propetyAcordionStore();
 
+  const {
+    newProperty
+  } = propertyStore()
+
+  let account: Types.ObjectId | AccountEntity;
+
+try {
+  const cookieData = parseCookie();
+  account = cookieData?.account;
+} catch (error) {
+  console.error("Erro ao obter o cookie:", error);
+}
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalCancelOpen, setIsModalCancelOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const categoryItems = ["Hotel", "Pousada", "Hostel", "Outro"];
 
+
   const handleConfirm = () => {
+     
     setIsLoading(true);
     try {
+      
       router.push("/hotel-ao/propriedades");
       resetStore();
       setIsModalOpen(false);
-    } finally {
+    } 
+    finally {
       setIsLoading(false);
     }
   };
@@ -48,15 +71,21 @@ const AddPropety: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  const handleStepSecond = () => {
-    nextStep();
-
+  const handleStepSecond = async () => {
+    await newProperty({
+      name: name,
+      category: category as EnumCategory,
+      account:account,
+    })
     if (Math.random() * (1 - 0) + 0 >= 0.5) {
       setIsModalOpen(true);
     } else {
       setIsModalCancelOpen(true);
     }
+    nextStep();
+
   }
+
 
   useEffect(() => {
     resetStore();
@@ -88,7 +117,7 @@ const AddPropety: React.FC = () => {
             placeholder="Insira o tipo"
             data={categoryItems}
             selectedItem={category}
-            setSelected={(e) => setCategory(e)}
+            setSelected={(e) => setCategory(e as EnumCategory)}
           />
 
           <Button

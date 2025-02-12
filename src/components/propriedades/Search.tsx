@@ -1,44 +1,44 @@
 'use client'
 import { propertyStore } from "@/store/propertyStore";
 import { Input } from "../Input/Input";
-import { Properties } from "@/interfaces/Properties";
+import { PropertyEntity } from "@/interfaces/EntitiesForNewAPI/PropertyEntity";
 
 interface SearchProps {
-  data: Properties[];
-  setSearchData: (value: Properties[]) => void;
+  data: PropertyEntity[] | null;
+  setSearchData: (value: PropertyEntity[]) => void;
   searchInput: string;
   setSearchInput: (value: string) => void;
-  setPage: (value: number) => void;
+  setCurrentPage: (value: number) => void;
 }
 
 
-export function Search({ data, setSearchData, searchInput, setSearchInput, setPage }: SearchProps) {
+export function Search({ data, setSearchData, searchInput, setSearchInput, setCurrentPage }: SearchProps) {
 
   const { setPropertyPerPage } = propertyStore()
   const searchFilter = (textInput: React.ChangeEvent<HTMLInputElement>) => {
     const text = textInput.target.value.toString()
     
-  if (!text) {
+  if (!text && data) {
     setSearchData(data);
     setSearchInput(text);
     return;
   }
 
-  let filteredData = [...data].filter((item) => 
+  let filteredData = [...(data || [])].filter((item) => 
     item.name.toLowerCase().includes(text)
   );
 
   // Se não encontrar pelo nome, busca pelo ID
   if (filteredData.length === 0) {
-    filteredData = [...data].filter((item) => 
-      String(item.id).includes(text)
+    filteredData = [...(data || [])].filter((item) => 
+      String(item._id).includes(text)
     );
   }
 
   setSearchData(filteredData);
   setSearchInput(text);
   setPropertyPerPage(10);
-  setPage(1);
+  setCurrentPage(1);
 }
 
   return(

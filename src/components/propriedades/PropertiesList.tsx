@@ -9,11 +9,13 @@ import { useEffect, useState } from "react"
 import { Table } from "../Table/table"
 import { Search } from "./Search"
 import { propertyStore } from "@/store/propertyStore"
-import { Properties } from "@/interfaces/Properties"
-import { useSearchParams, useRouter } from "next/navigation"
+import { PropertyEntity } from "@/interfaces/EntitiesForNewAPI/PropertyEntity"
+import { Skeleton } from "../Skeleton/Skeleton"
+import { delay } from "@/helpers/delay"
+import { usePathname } from "next/navigation"
 
 interface PropertiesProps {
-  data: Properties[]
+  data: PropertyEntity[] | null
 }
 
 export function PropertiesList({ data }: PropertiesProps) {
@@ -23,145 +25,128 @@ export function PropertiesList({ data }: PropertiesProps) {
     searchInput,
     setSearchData,
     setSearchInput,
-    setPage,
-    setPropertyPerPage,
+    setCurrentPage,
     propertyPerPage,
-    page
+    totalPages,
+    currentPage,
+    rejectSkeleton,
+    setRejectSkeleton
   } = propertyStore()
 
-  const searchParams = useSearchParams()
-  const router = useRouter();
-
-  const totalPages = Math.ceil(searchData.length / 10)
-
-
-  function goToPage(page: number) {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("page", String(page));
-    router.push(`?${params.toString()}`);
-    setPage(page)
-  }
-
-  function goToFirstPage() {
-    goToPage(1)
-    setPropertyPerPage(10)
-  }
-
-  function goToNextPage() {
-    goToPage(page + 1)
-    setPropertyPerPage(propertyPerPage + 10)
-  }
-
-  function goToPreviousPage() {
-    goToPage(page - 1)
-    if (propertyPerPage !== 10) {
-      setPropertyPerPage(propertyPerPage - 10)
-    }
-  }
-
-  function goToLastPage() {
-    goToPage(totalPages)
-    const lastPageItems = searchData.length % 10 || 10;
-    setPropertyPerPage(searchData.length - lastPageItems + 10);
-  }
-
-  //Para manter a pagina caso abrir em outro browser 
-  useEffect(() => {
-    const pageFromUrl = searchParams.get("page");
-    const initialPage = pageFromUrl ? Number(pageFromUrl) : 1;
-    setPage(initialPage);
-  }, []);
+  const [loading, setLoading] = useState(false)
+  const pathName = usePathname();
 
   useEffect(() => {
-    setSearchData(data)
-  }, [])
+      (
+        async () => {
+          setSearchData(data)
+          if(!rejectSkeleton) {
+            await delay(2000)
+            setLoading(true)
+          }
+        }
+      )()
+  }, [data, pathName])
 
   return (
     <div className="mt-5">
       <Search
         data={data}
-        setPage={setPage}
+        setCurrentPage={setCurrentPage}
         setSearchData={setSearchData}
         searchInput={searchInput}
         setSearchInput={setSearchInput}
       />
-
-      <Table className="w-full">
-        <thead>
-          <tr className="border-none">
-            <TableHeader className="px-8 font-bold">Propriedade</TableHeader>
-            <TableHeader className="text-right px-[5rem] font-bold">Status</TableHeader>
-          </tr>
-        </thead>
+      {
+        !loading || searchData === null ? (
+          <div className="space-y-2">
+        <Skeleton className="h-[48px] w-full rounded-none" />
+        {[...Array(10)].map((_, i) => (
+          <div key={i} className="bg-white">
+            <Skeleton className="h-[30px] w-full rounded-none" />
+          </div>
+        ))}
+        <div className="flex justify-between">
+          <Skeleton className="h-[15px] w-[10rem] mt-10 rounded-none" />
+          <Skeleton className="h-[29px] w-[12rem] rounded-none" />
+        </div>
+      </div>
+        ) : 
+        <Table className="w-full">
+        {
+          searchData && searchData.length > 0 &&
+          <thead>
+            <tr className="border-none">
+              <TableHeader className="px-8 font-bold">Propriedade</TableHeader>
+              <TableHeader className="text-right px-[5rem] font-bold">Status</TableHeader>
+            </tr>
+          </thead> 
+        }
         <tbody>
-          {
-            searchData.length > 0 ?
+          {            
+            searchData && searchData.length > 0  &&
               searchData.slice(propertyPerPage === 10 ? 0 : propertyPerPage - 10, propertyPerPage).map((property, index) => (
-                <TableRow className={index % 2 === 0 ? "bg-gray-90" : "bg-white"} key={property.id}>
+                <TableRow className={index % 2 === 0 ? "bg-gray-90" : "bg-white"} key={index}>
                   <TableCell className="flex flex-col gap-2">
                     <Link href="/hotel-ao/home" className="text-primary-700 font-medium">{property.name}</Link>
                     <span className="space-x-2">
-                      ID: {property.id}
+                      ID: {property._id?.toString()}
                     </span>
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="mb-6">
-                      {property.state === "active" ? "Disponivel para reserva" : "Indisponivel para reserva"}
-                    </div>
+                      { index % 2 === 0 ? "Disponivel para reserva" : "Indisponivel para reserva"}
+                    </div>  
                   </TableCell>
                 </TableRow>
-              )) :
-              data.slice(propertyPerPage === 10 ? 0 : propertyPerPage - 10, propertyPerPage).map((property, index) => (
-                <TableRow
-                  className={index % 2 === 0 ? "bg-gray-90" : "bg-white"}
-                  key={property.id}
-                >
-                  <TableCell className="flex flex-col gap-2">
-                    <Link href="/hotel-ao/home" className="text-primary-700 font-medium">{property.name}</Link>
-                    <span className="space-x-2">
-                      ID: {property.id}
-                    </span>
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <div className="mb-6">
-                      {property.state === "active" ? "Disponivel para reserva" : "Indisponivel para reserva"}
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))
+              )) 
           }
         </tbody>
-        <tfoot>
+        {
+          searchData && searchData.length > 0 && (
+            <tfoot>
           <tr>
             <TableCell colSpan={2}>
               <div className="flex items-center justify-end gap-8">
-                <span>Pagina {page} de {totalPages}</span>
+                <span>Pagina {currentPage} de {totalPages}</span>
                 <div className="flex gap-1.5">
                   <IconButton
-                    disabled={page === 1}
-                    transparent={page != 1 ? false : true}
-                    onClick={goToFirstPage}
+                    disabled={currentPage === 1}
+                    transparent={currentPage != 1 ? false : true}
+                    onClick={() => {
+                      setRejectSkeleton(true)
+                      setCurrentPage(1)
+                    }}
                   >
                     <BiChevronsLeft className="size-4" />
                   </IconButton>
                   <IconButton
-                    onClick={goToPreviousPage}
-                    disabled={page === 1}
-                    transparent={page === 1 ? true : false}
+                    onClick={() => {
+                      setRejectSkeleton(true)
+                      setCurrentPage(currentPage - 1)}
+                    }
+                    disabled={currentPage === 1}
+                    transparent={currentPage === 1 ? true : false}
                   >
                     <BiChevronLeft className="size-4" />
                   </IconButton>
                   <IconButton
-                    onClick={goToNextPage}
-                    disabled={page === totalPages || totalPages === 0}
-                    transparent={page === totalPages || totalPages === 0 ? true : false}
+                    onClick={() => {
+                      setRejectSkeleton(true)
+                      setCurrentPage(currentPage + 1)
+                    }}
+                    disabled={currentPage === totalPages || totalPages === 0}
+                    transparent={currentPage === totalPages || totalPages === 0 ? true : false}
                   >
                     <BiChevronRight className="size-4" />
                   </IconButton>
                   <IconButton
-                    onClick={goToLastPage}
-                    disabled={page === totalPages || totalPages === 0}
-                    transparent={page === totalPages || totalPages === 0 ? true : false}
+                    onClick={() => {
+                      setRejectSkeleton(true)
+                      setCurrentPage(totalPages)}
+                    }
+                    disabled={currentPage === totalPages || totalPages === 0}
+                    transparent={currentPage === totalPages || totalPages === 0 ? true : false}
                   >
                     <BiChevronsRight className="size-4" />
                   </IconButton>
@@ -170,10 +155,18 @@ export function PropertiesList({ data }: PropertiesProps) {
             </TableCell>
           </tr>
         </tfoot>
+          )
+        }
       </Table>
-      <div className="mt-7">
-        <Link href="propriedades/add-property" className="text-primary-700 font-bold text-md">Adicionar propriedade</Link>
-      </div>
+      }
+     
+      {
+        loading && (
+          <div className="mt-7">
+            <Link href="propriedades/add-property" className="text-primary-700 font-bold text-md">Adicionar propriedade</Link>
+          </div>
+        )
+      }
     </div>
   )
 

@@ -30,7 +30,6 @@ export async function GET(request: Request): Promise<NextResponse> {
 
         const totalItems = filePath.length;
         const totalPages = Math.ceil(totalItems / limit);
-        console.log(filePath);
         
         return NextResponse.json({
             page,
