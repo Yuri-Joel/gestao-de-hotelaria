@@ -1,17 +1,17 @@
 import { create } from "zustand";
 
 type State = {
-  selectedStateReserve: string
+  selectedStateReserve:{ id: number, label: string } ;
 };
 
 type Action = {
-  setSelectStateStateReserve: (value: string) => void;
+  setSelectStateStateReserve: (data:any) => void;
 };
 
 const StateReserveStore = create<State & Action>((set) => ({
-  selectedStateReserve: "Novas Reservas",
-  setSelectStateStateReserve: (value) => {
-    set({ selectedStateReserve: value });
+  selectedStateReserve: {id:1, label:"Novas Reservas"},
+  setSelectStateStateReserve: (data) => {
+    set({ selectedStateReserve:{id: data?.id, label: data.label} });
   },
 
 }));

@@ -1,7 +1,6 @@
 import { delay } from "@/helpers/delay"
-import { RoomEntity } from "@/interfaces/RoomEntity"
-import roomStore from "@/store/roomStore"
-import { useState } from "react"
+import { UHEntity } from "@/interfaces/EntitiesForNewAPI/UHEntity"
+import { UhStore } from "@/store/UhStore"
 import { LuBedDouble, LuBedSingle } from "react-icons/lu"
 
 // Definir as cores e textos dos status
@@ -33,14 +32,14 @@ export const statusConfig = {
 }
 
 export interface RoomCardProps {
-    room: RoomEntity
+    room: UHEntity
 
 }
 
 
-export function getRoomStatus(room: RoomEntity) {
+export function getRoomStatus(room: UHEntity) {
 
-    if (room.isRestricted) {
+    if (room?.isRestricted) {
         return statusConfig.interdito
     }
     if (!room?.reserve) {
@@ -70,14 +69,14 @@ export function getRoomStatus(room: RoomEntity) {
     // Verificar se está reservado para o futuro
     return statusConfig.roxo
 }
-export function Room({ room }: RoomCardProps) {
+export function Uhlist({ room }: RoomCardProps) {
 
-    const { handleOpenModalRoomDetails, setSelectedRoom, selectedRoom, handleIsOpenedModalNoteReserve } = roomStore()
+    const { handleOpenModalRoomDetails, setSelectedRoom, selectedRoom, handleIsOpenedModalNoteReserve } = UhStore()
     const roomStatus = getRoomStatus(room);
 
     const handleOpenRoomDetails = async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.stopPropagation();
-        if (!room.reserve || room.isRestricted) return
+        if (!room.reserve || room?.isRestricted) return
         /* if (room.reserve?.note?.trim()) {
                 handleIsOpenedModalNoteReserve()
                 return
@@ -101,7 +100,7 @@ export function Room({ room }: RoomCardProps) {
 
 
     return (
-        <div data-room={true} className={`"w-[180px] h-[12rem] bg-white rounded-lg shadow-md  transition-transform duration-200  overflow-hidden ${!room.reserve || room.isRestricted ? '' : 'cursor-pointer'}`} onClick={handleOpenRoomDetails} >
+        <div data-room={true} className={`w-36 h-[12rem] bg-white rounded-lg shadow-md  transition-transform duration-200  overflow-hidden ${!room.reserve || room?.isRestricted ? '' : 'cursor-pointer'}`} onClick={handleOpenRoomDetails} >
             {/* Status de ocupação do quarto */}
             <div className={`${roomStatus.bg} px-4 py-2 text-white font-medium text-center`}>
                 {roomStatus.text}
@@ -114,18 +113,23 @@ export function Room({ room }: RoomCardProps) {
                 <div className='flex justify-center items-center gap-1'>
                     <span className='flex flex-col items-center text-xs'>
                         <LuBedDouble />
-                        {room.quantityBeds.double}
+                        {room?.information?.beds?.double || 1 }
                     </span>
                     <span className='flex flex-col items-center text-xs'>
                         <LuBedSingle />
-                        {room.quantityBeds.single}
+                     {room?.information?.beds?.single || 2} 
                     </span>
                 </div>
-                <div
+              {/*   <div
                     className={`text-center py-1 rounded ${!room.isRestricted ? room.isClean ? "bg-blue-100 text-blue-600" : "bg-red-100 text-red-600" : "bg-black"}`}
                 >
                     {room.isClean ? "Limpo" : "Sujo"}
-                </div>
+                </div> */}
+                <div
+                    className={`text-center py-1 rounded bg-blue-100 text-blue-600`}
+                >
+                    {"Limpo"}
+                </div> 
             </div>
         </div>
     )

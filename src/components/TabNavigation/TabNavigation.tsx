@@ -2,28 +2,42 @@
 
 import { ArrowLeft } from "@/assets/Icons/ArrowLeft";
 import { ArrowRight } from "@/assets/Icons/ArrowRight";
+import { floorStore } from "@/store/floorStore";
 import { TTabNavigation } from "@/types/TTabNavigation";
-import { ta } from "date-fns/locale";
 import { useEffect, useRef, useState } from "react";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-
+interface TTabNavigationProps {
+id: number;
+label: string;
+}
 interface TabNavigationProps {
   menuItems: TTabNavigation[];
-  selectedTitle: string;
+  selectedTitle: TTabNavigationProps;
   setSelectedTitle: (data: any) => void;
   isCarrousel?: boolean
+  setCurrentPage?: (arg: number)=>void
 }
 
-export const TabNavigation = ({ menuItems, selectedTitle, setSelectedTitle, isCarrousel = false }: TabNavigationProps) => {
+export const TabNavigation = ({ menuItems, selectedTitle, setSelectedTitle, isCarrousel = false , setCurrentPage}: TabNavigationProps) => {
   const TabNavigationRef = useRef<HTMLDivElement>(null);
   const [ScrollLeft, setScrollLeft] = useState(false);
   const [ScrollRight, setScrollRight] = useState(false);
-
+  const [lastScrollLeft, setLastScrollLeft] = useState(0);
+const {currentPage}= floorStore()
   const checkScrollPosition = () => {
     if (TabNavigationRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = TabNavigationRef.current;
       setScrollLeft(scrollLeft > 0);
       setScrollRight(scrollLeft + clientWidth + 1 < scrollWidth);
+
+     /*  const isScrollingRight = scrollLeft > lastScrollLeft; // Verifica se o scroll está indo para a direita
+    setLastScrollLeft(scrollLeft); // Atualiza o valor do scroll anterior
+
+    // Atualiza currentPage baseado na direção do scroll
+    if (isScrollingRight && setCurrentPage) {
+      setCurrentPage(currentPage + 1);
+    } else if (!isScrollingRight && setCurrentPage) {
+      setCurrentPage(Math.max(currentPage - 1, 0));
+  } */
     }
   };
 
@@ -34,6 +48,10 @@ export const TabNavigation = ({ menuItems, selectedTitle, setSelectedTitle, isCa
         left: direction === "left" ? -scrollAmount : scrollAmount,
         behavior: "smooth",
       });
+
+      if (setCurrentPage) {
+        setCurrentPage(direction === "right" ? currentPage + 1 : Math.max(currentPage - 1, 0));
+      }
     }
   };
   // new ResizeObserver:
@@ -84,13 +102,13 @@ export const TabNavigation = ({ menuItems, selectedTitle, setSelectedTitle, isCa
         {menuItems.map((item) => (
           <div key={item.id} className="relative whitespace-nowrap">
             <button
-              className={`px-6 py-2 text-sm rounded-md flex items-center gap-2 cursor-pointer transition-colors duration-300 ease-in-out ${selectedTitle === item.label ? "text-black" : "text-gray-500"
+              className={`px-6 py-2 text-sm rounded-md flex items-center gap-2 cursor-pointer transition-colors duration-300 ease-in-out ${selectedTitle.id === item.id ? "text-black" : "text-gray-500"
                 }`}
-              onClick={() => setSelectedTitle(item.label)}
+              onClick={() => setSelectedTitle(item)}
             >
-              {item.label.length > 10 ? `${item.label.substring(0, 10)}...` : item.label}
+              {isCarrousel ? item.label.length > 10 ? `${item.label.substring(0, 10)}...` : item.label : item.label}
             </button>
-            {selectedTitle === item.label && (
+            {selectedTitle.id === item.id && (
               <div className="absolute -bottom-5 left-0 w-full h-[5px] bg-primary rounded-sm transition-all duration-300 ease-in-out"></div>
             )}
           </div>
