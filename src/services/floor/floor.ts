@@ -13,7 +13,6 @@ export const floorServices = () => {
 	};
 
 	const create = async (floor: TFloorEntityLike) => {
-		console.log(floor)
 		const response = await handleRequest<TFloorResponse<FloorEntity>>({
 			url: `/floors`,
 			method: "POST",

@@ -26,7 +26,8 @@ export const AddFloorModal = () => {
 		(async () => {
 			try {
 				const user = parseCookie();
-				const property: Types.ObjectId = new Types.ObjectId();
+				//alterar para o id real
+				const property = user.account;
 				const res = await create({
 					name: floorName,
 					account: user.account,
@@ -43,11 +44,11 @@ export const AddFloorModal = () => {
 				setSuccess(false);
 			} finally {
 				setIsLoading(false);
+				setTimeout(() => {
+					setSuccess(null);
+				}, 1500);
 			}
 		})();
-		setTimeout(() => {
-			setSuccess(null);
-		}, 1500);
 	};
 	const handleAddActive = () => {
 		if (floorName.length === 0) return false;
@@ -98,7 +99,7 @@ export const AddFloorModal = () => {
 					<div className="rounded-full bg-green-100 p-4 mb-4">
 						<RightIcon className="h-10 w-10 text-green-600" />
 					</div>
-					<p>Andar adicionado com sucesso</p>
+					<p className="font-bold">Andar adicionado com sucesso</p>
 				</div>
 			) : (
 				<div className="flex items-center justify-center h-54 w-full flex-col">
