@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 type State = {
-	selectedMenu: string;
+	selectedMenu:{ id: number, label: string } ;
 	selectedModal: string;
 };
 
@@ -11,10 +11,10 @@ type Action = {
 };
 
 export const profileStore = create<State & Action>((set) => ({
-	selectedMenu: "Informações Pessoais",
+	selectedMenu: {id: 1, label:"Informações Pessoais"},
 	selectedModal: "modal",
-	setSelectedMenu: (value) => {
-		set({ selectedMenu: value });
+	setSelectedMenu: (value: any) => {
+		set({ selectedMenu: {label:value?.label, id: value?.id} });
 	},
 	setSelectedModal: (value) => {
 		set({ selectedModal: value });

@@ -19,11 +19,14 @@ const page: React.FC = () => {
 
   return (
     <div className="flex flex-col h-screen">
+      <div className="mt-4 ml-4">
       <TabNavigation
         selectedTitle={selectedStateReserve}
         setSelectedTitle={setSelectStateStateReserve}
         menuItems={menuItems}
       />
+      
+      </div>
       <div className="flex flex-1 overflow-hidden">
         <div className="flex-1 border-r">
           <div className="divide-y">

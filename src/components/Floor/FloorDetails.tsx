@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import { floorStore } from "@/store/floorStore";
-import { FloorEntity } from "@/interfaces/FloorEntity";
 import { useRouter } from "next/navigation";
 import FloorEditModal from "./FloorEditModal";
 import { BiChevronDown } from "react-icons/bi";
 import { Button } from "../Button/Button";
+import { FloorEntity } from "@/interfaces/EntitiesForNewAPI/FloorEntity";
 
 function FloorDetails() {
   const [openMenuId, setOpenMenuId] = useState<boolean>(false);
@@ -75,22 +75,22 @@ function FloorDetails() {
       {EditFloorModal ? (
         <FloorEditModal />
       ) : (
-        <ul className="bg-white text-gray-900 p-4 max-w-96 shadow-md border border-gray-90">
+       floor &&  <ul className="bg-white text-gray-900 p-4 max-w-96 shadow-md border border-gray-90">
           <li>
             <h1 className="font-bold">Status</h1>
-            <div>{floor?.status}</div>
+            <div>{"-"}</div>
           </li>
           <li>
             <h1 className="font-bold">Nome</h1>
-            <div>{floor?.title}</div>
+            <div>{floor?.name}</div>
           </li>
           <li>
             <h1 className="font-bold">Acessibilidade</h1>
-            <div>{floor?.accessibility}</div>
+            <div>{floor?.isAccessible? "sim":"não"}</div>
           </li>
           <li>
             <h1 className="font-bold">Descrição</h1>
-            <div>{floor?.description}</div>
+            <div>{"-"}</div>
           </li>
         </ul>
       )}

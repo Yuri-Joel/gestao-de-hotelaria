@@ -1,8 +1,10 @@
 export type TModelPagination <T>={
-  page: number
-  limit: number
-  totalItems: number
-  totalPages: number
+  statusText: string
+  pagination: {
+    totalPages: number
+    currentPage:number
+    pageSize: number
+    total: number
+    }
   data: T[] | null
-  dataSearch?: T[] | null
 }

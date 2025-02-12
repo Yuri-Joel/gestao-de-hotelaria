@@ -1,10 +1,10 @@
-import { RoomEntity } from "@/interfaces/RoomEntity";
+import { UHEntity } from "@/interfaces/EntitiesForNewAPI/UHEntity";
 import { create } from "zustand";
 
 type State = {
   IsOpenedModalInfo: boolean;
   IsOpenedModalRoomDetails: boolean;
-  selectedRoom: RoomEntity | null;
+  selectedRoom: UHEntity | null;
   IsOpenedModalNoteReserve: boolean;
 }
 
@@ -12,16 +12,16 @@ type Action = {
   handleOpenModalInfo: () => void;
   handleOpenModalRoomDetails: () => void;
   closeRoomDetails: () => void;
-  setSelectedRoom: (arg: RoomEntity | null) => void
+  setSelectedRoom: (arg: UHEntity | null) => void
   handleIsOpenedModalNoteReserve: () => void
 };
 
-const roomStore = create<State & Action>((set, get) => ({
+export const UhStore = create<State & Action>((set, get) => ({
   IsOpenedModalInfo: false,
   IsOpenedModalRoomDetails: false,
   selectedRoom: null,
   IsOpenedModalNoteReserve: false,
-  setSelectedRoom: (arg: RoomEntity | null) => {
+  setSelectedRoom: (arg: UHEntity | null) => {
     set({ selectedRoom: arg })
   },
   handleOpenModalInfo: () => {
@@ -38,4 +38,3 @@ const roomStore = create<State & Action>((set, get) => ({
   }
 }));
 
-export default roomStore;

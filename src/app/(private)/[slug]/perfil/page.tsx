@@ -21,8 +21,8 @@ const ProfilePage = () => {
 				setSelectedTitle={setSelectedMenu}
 				menuItems={menuItems}
 			/>
-			{selectedMenu === "Informações Pessoais" && <GeneralPage />}
-			{selectedMenu === "Privacidade e Segurança" && <PrivacyPage />}
+			{selectedMenu?.label === "Informações Pessoais" && <GeneralPage />}
+			{selectedMenu?.label === "Privacidade e Segurança" && <PrivacyPage />}
 		</Wrapper>
 	);
 };
