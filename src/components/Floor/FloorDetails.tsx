@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import { floorStore } from "@/store/floorStore";
-import { FloorEntity } from "@/interfaces/FloorEntity";
 import { useRouter } from "next/navigation";
 import FloorEditModal from "./FloorEditModal";
 import { BiChevronDown } from "react-icons/bi";
 import { Button } from "../Button/Button";
+import { FloorEntity } from "@/interfaces/EntitiesForNewAPI/FloorEntity";
 
 function FloorDetails() {
   const [openMenuId, setOpenMenuId] = useState<boolean>(false);

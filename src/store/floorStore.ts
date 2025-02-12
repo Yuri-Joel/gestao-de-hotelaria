@@ -3,7 +3,8 @@ import { floorServices } from "@/services/floor/floor";
 import { removeAuthCookie } from "@/helpers/cookies/authCookie";
 import { IResponse } from "@/helpers/handleRequest";
 import { TModelPagination } from "@/types/TModelPagination";
-import { FloorEntity } from "@/interfaces/FloorEntity";
+import { FloorEntity } from "@/interfaces/EntitiesForNewAPI/FloorEntity";
+import { TFloorEntityLike, TFloorResponse } from "@/types/TFloorResponse";
 
 type State = {
   floors: FloorEntity[] | null;
@@ -16,10 +17,10 @@ type State = {
 
 type Action = {
   setSelectedFloor: (floor: FloorEntity | null) => void;
-  find: (page: number) => Promise<IResponse<TModelPagination<FloorEntity>>>;
+  find: (page: number, limit: number) => Promise<IResponse<TModelPagination<FloorEntity>>>;
   setCurrentPage: (page: number) => void;
-  getFloorsTabNavigation: () => Promise<IResponse<TModelPagination<FloorEntity>>>;
   setEditFloorModal: (value: boolean) => void;
+  create: (floor: TFloorEntityLike) => Promise<IResponse<TFloorResponse<FloorEntity>>>
 };
 
 export const floorStore = create<State & Action>((set, get) => ({
@@ -36,38 +37,33 @@ export const floorStore = create<State & Action>((set, get) => ({
 
   setEditFloorModal: (value) => set({ EditFloorModal: value }),
 
-  find: async (page) => {
-    const response = await floorServices().find(page);
+  find: async (page, limit) => {
+    const response = await floorServices().find(page, limit);
 
 
     if (response.status === 401) {
       removeAuthCookie();
       window.location.href = "/login";
     }
-
     if (!response.error.value) {
       set({
         floors: response.data?.data,
-        totalPages: response.data?.totalPages || response.data?.data?.length,
-        currentPage: response.data?.page,
-        totalItems: response.data?.totalItems
+        totalPages: response.data?.pagination.totalPages || response.data?.data?.length,
+        currentPage: response.data?.pagination.currentPage,
+        totalItems: response.data?.pagination.pageSize
       });
     }
 
     return response;
   },
-  getFloorsTabNavigation: async () => {
-    const response = await floorServices().findTabNavigation();
+  create: async (floor) => {
+	const response = await floorServices().create(floor);
 
     if (response.status === 401) {
-      removeAuthCookie()
-      window.location.href = '/login'
+      removeAuthCookie();
+      window.location.href = "/login";
     }
-
-    if (!response.error.value) {
-      set({ floors: response.data?.data });
-    }
-
-    return response;
+	
+	return response;
   },
 }));

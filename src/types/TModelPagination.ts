@@ -1,8 +1,10 @@
-export type TModelPagination <T>={
-  page: number
-  limit: number
-  totalItems: number
-  totalPages: number
-  data: T[] | null
-  dataSearch?: T[] | null
-}
+export type TModelPagination<T> = {
+	statusText: string;
+	pagination: {
+		total: number;
+		totalPages: number;
+		currentPage: number;
+		pageSize: number;
+	};
+	data: T[] | null;
+};

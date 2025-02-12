@@ -5,6 +5,7 @@ import { useEffect } from "react";
 interface ModalProps {
     title?: string;
     children: React.ReactNode;
+	description?: string;
 }
 
 export const Modal = ({ title, children }: ModalProps) => {
@@ -29,12 +30,10 @@ export const Modal = ({ title, children }: ModalProps) => {
     }
     return (
         <div
-            className={`fixed inset-0 bg-black/20 backdrop-blur-xs flex items-center justify-center z-50 p-4 ${showModal ? "backdrop-blur-xs" : "backdrop-blur-0"
-                } transition-all duration-300`}
+            className={`fixed inset-0 bg-black/20  flex items-center justify-center z-50 p-4  transition-all duration-300`}
         >
             <div
-                className={`relative w-11/12 max-w-lg p-6 bg-white rounded-2xl shadow-2xl transform transition-transform duration-300 ${showModal ? "scale-100 opacity-100" : "scale-95 opacity-0"
-                    }`}
+                className={`relative w-11/12 max-w-lg p-6 bg-white rounded-2xl shadow-2xl `}
             >
                 <div className="flex items-center justify-between mb-4">
                     {title && <h2 className="text-xl font-bold text-gray-800">{title}</h2>}
