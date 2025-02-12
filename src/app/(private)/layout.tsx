@@ -10,6 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "../../app/custom-datepicker.css";
 import { Header } from "@/components/Header/Header";
 import AlertDialog from "@/components/AlertDialog/AlertDialog";
+import { useEffect } from "react";
 
 const PrivateLayout = ({
   children,
@@ -26,6 +27,20 @@ const PrivateLayout = ({
   const pathname = usePathname();
 
   const route = pathname.split('/')[2].toUpperCase();
+
+  useEffect(() => {
+    const updateOnlineStatus = () => {
+      console.log(navigator.onLine ? "Conexão restabelecida" : "Sem conexão de internet");
+    };
+
+    window.addEventListener("online", updateOnlineStatus);
+    window.addEventListener("offline", updateOnlineStatus);
+
+    return () => {
+      window.removeEventListener("online", updateOnlineStatus);
+      window.removeEventListener("offline", updateOnlineStatus);
+    };
+  }, []);
 
   return (
     <>

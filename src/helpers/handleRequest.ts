@@ -25,62 +25,74 @@ async function handleRequest<T>({
 }: IUseRequest): Promise<IResponse<T>> {
   // Verifica conexão com a internet
   if (!navigator.onLine) {
-    console.error(
-      'Sem resposta do servidor. Verifique sua conexão de internet.',
-    )
+    console.error('Usuário offline. Verifique sua conexão de internet.')
+
     return {
       error: {
         value: true,
-        msg: 'Sem resposta do servidor. Verifique sua conexão de internet.',
+        msg: 'Usuário offline. Verifique sua conexão de internet.',
       },
       status: null,
       data: null,
     }
-  }
+  } else {
+    try {
+      // Define a URL base com ou sem apiBrasil
+      const instance = !apiBrasil ? `${baseURL}${url}` : `${apiBrasilURl}${url}`
 
-  try {
-    // Define a URL base com ou sem apiBrasil
-    const instance = !apiBrasil ? `${baseURL}${url}` : `${apiBrasilURl}${url}`
+      // Busca o token de autenticação, se necessário
+      const token = Cookies.get(
+        process.env.NEXT_PUBLIC_TOKEN_COOKIE_NAME as string,
+      )
 
-    // Busca o token de autenticação, se necessário
-    const token = Cookies.get(
-      process.env.NEXT_PUBLIC_TOKEN_COOKIE_NAME as string,
-    )
+      const headers = {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...props.headers, // Sobrescreve headers personalizados, se presentes
+      }
 
-    const headers = {
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...props.headers, // Sobrescreve headers personalizados, se presentes
-    }
+      // Faz a requisição
+      const response = await fetch(instance, {
+        ...props,
+        method,
+        headers,
+      })
+      // Lida com respostas não OK
+      if (!response.ok) {
+        const error = await response.json()
+        return handleErrors(response, error) // Função para tratar erros personalizados
+      }
 
-    // Faz a requisição
-    const response = await fetch(instance, {
-      ...props,
-      method,
-      headers,
-    })
-    // Lida com respostas não OK
-    if (!response.ok) {
-      const error = await response.json()
-      return handleErrors(response, error) // Função para tratar erros personalizados
-    }
+      // Resposta bem-sucedida
+      const res = await response.json()
+      return {
+        error: { value: false, msg: '' },
+        status: response.status,
+        data: res || res.data as T,
+      }
+    } catch (error: any) {
+      if (!navigator.onLine) {
+        console.error('Usuário offline. Verifique sua conexão de internet.')
 
-    // Resposta bem-sucedida
-    const res = await response.json()
-    return {
-      error: { value: false, msg: '' },
-      status: response.status,
-      data: res || res.data as T,
-    }
-  } catch (error: any) {
-    console.log('Erro global: ', error)
-    return {
-      error: {
-        value: true,
-        msg: 'Sem resposta do servidor. Verifique sua conexão de internet.',
-      },
-      status: null,
-      data: null,
+        return {
+          error: {
+            value: true,
+            msg: 'Usuário offline. Verifique sua conexão de internet.',
+          },
+          status: null,
+          data: null,
+        }
+      } else {
+        console.log('Erro global: ', error)
+        return {
+          error: {
+            value: true,
+            msg: 'Sem resposta do servidor. Por favor, tente novamente mais tarde.',
+          },
+          status: null,
+          data: null,
+        }
+      }
     }
   }
 }
