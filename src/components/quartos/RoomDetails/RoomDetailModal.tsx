@@ -10,21 +10,21 @@ import {
 import { formatCurrency } from "@/helpers/formatCurrency";
 import { Tooltip } from "react-tooltip";
 import { XIcon } from "@/assets/Icons/XIcon";
-import roomStore from "@/store/roomStore";
-import { getRoomStatus } from "../Room/Room";
+import { getRoomStatus } from "../UhList/Uhlist";
 import { formatDateIsoToBr } from "@/helpers/formatDateisoToBr";
 import { Button } from "@/components/Button/Button";
-import { RoomEntity } from "@/interfaces/RoomEntity";
 import { useEffect, useRef, useState } from "react";
+import { UHEntity } from "@/interfaces/EntitiesForNewAPI/UHEntity";
+import { UhStore } from "@/store/UhStore";
 
 export const RoomDetailModal = ({
 	room
 }: {
-	room: RoomEntity;
+	room: UHEntity;
 }) => {
 	if (!room.reserve) return
 
-	const { handleOpenModalRoomDetails, closeRoomDetails, IsOpenedModalRoomDetails, setSelectedRoom, handleIsOpenedModalNoteReserve } = roomStore();
+	const { handleOpenModalRoomDetails, closeRoomDetails, IsOpenedModalRoomDetails, setSelectedRoom, handleIsOpenedModalNoteReserve } = UhStore();
 	const dropdownRef = useRef<HTMLDivElement>(null);
 	const [text, setText] = useState<string>("Copiar ID da reserva");
 	const handleCopy = (e: React.SyntheticEvent<SVGElement>) => {

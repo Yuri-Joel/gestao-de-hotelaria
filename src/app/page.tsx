@@ -14,6 +14,20 @@ export default function page() {
   const [property] = useState("hotel-ao");
 
   useEffect(() => {
+    const updateOnlineStatus = () => {
+      console.log(navigator.onLine ? "Conexão restabelecida" : "Sem conexão de internet");
+    };
+
+    window.addEventListener("online", updateOnlineStatus);
+    window.addEventListener("offline", updateOnlineStatus);
+
+    return () => {
+      window.removeEventListener("online", updateOnlineStatus);
+      window.removeEventListener("offline", updateOnlineStatus);
+    };
+  }, []);
+
+  useEffect(() => {
     (async function () {
       try {
         const cookie = Cookies.get(`${process.env.NEXT_PUBLIC_TOKEN_COOKIE_NAME}`)

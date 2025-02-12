@@ -11,10 +11,9 @@ type State = {
   selectedFloor: FloorEntity | null;
   currentPage: number;
   totalPages: number;
-  totalItems: number;
+  pageSize: number;
   EditFloorModal: boolean;
 };
-
 type Action = {
   setSelectedFloor: (floor: FloorEntity | null) => void;
   find: (page: number, limit: number) => Promise<IResponse<TModelPagination<FloorEntity>>>;
@@ -28,7 +27,7 @@ export const floorStore = create<State & Action>((set, get) => ({
   selectedFloor: null,
   currentPage: 1,
   totalPages: 0,
-  totalItems: 0,
+  pageSize: 0,
   EditFloorModal: false,
 
   setSelectedFloor: (floor) => set({ selectedFloor: floor }),
@@ -50,7 +49,6 @@ export const floorStore = create<State & Action>((set, get) => ({
         floors: response.data?.data,
         totalPages: response.data?.pagination.totalPages || response.data?.data?.length,
         currentPage: response.data?.pagination.currentPage,
-        totalItems: response.data?.pagination.pageSize
       });
     }
 

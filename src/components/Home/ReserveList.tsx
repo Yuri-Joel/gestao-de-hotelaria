@@ -17,7 +17,7 @@ export const ReserveList = () => {
    (async()=> {  
     await delay(2000) //simula um atraso de 2 segundos
       const filteredGuests = guests.filter(
-        (guest) => guest.state.toLowerCase() === selectedStateReserve.toLowerCase()
+        (guest) => guest.state.toLowerCase() === selectedStateReserve.label.toLowerCase()
       );
       setGuestsFiltered(filteredGuests);
       setLoading(false)

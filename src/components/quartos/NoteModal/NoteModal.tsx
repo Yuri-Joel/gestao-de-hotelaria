@@ -1,11 +1,11 @@
 "use client"
 
-import roomStore from "@/store/roomStore"
-import { RoomCardProps } from "../Room/Room";
+import { UhStore } from "@/store/UhStore";
+import { RoomCardProps } from "../UhList/Uhlist";
 
 export const NoteModal = ({ room }: RoomCardProps) => {
 
-  const { handleIsOpenedModalNoteReserve, IsOpenedModalNoteReserve, handleOpenModalRoomDetails } = roomStore();
+  const { handleIsOpenedModalNoteReserve, IsOpenedModalNoteReserve, handleOpenModalRoomDetails } = UhStore();
 
   const handleClose = () => {
     handleIsOpenedModalNoteReserve();
