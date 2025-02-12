@@ -14,6 +14,8 @@ import { RoomDetailModal } from "../RoomDetails/RoomDetailModal";
 import { NoteModal } from "../NoteModal/NoteModal";
 import { floorStore } from "@/store/floorStore";
 import roomStore from "@/store/roomStore";
+import { modalManagementStore } from "@/store/modalManagementStore";
+import { Modal } from "@/components/Modal/Modal";
 
 // Função para transformar floors em menuItems para TabNavigation
 const transformToTabNavigation = (floors: any[]) => {
@@ -115,8 +117,7 @@ export const Body = () => {
 
                 {/* Modal de Informações */}
                 {IsOpenedModalInfo && <InfoModal />}
-
-                {/* Modal de  */}
+    
                 {IsOpenedModalNoteReserve && selectedRoom && <NoteModal room={selectedRoom} />}
 
                 {/* Botão de Informações    */}

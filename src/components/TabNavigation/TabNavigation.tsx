@@ -1,6 +1,9 @@
 "use client";
 
+import { ArrowLeft } from "@/assets/Icons/ArrowLeft";
+import { ArrowRight } from "@/assets/Icons/ArrowRight";
 import { TTabNavigation } from "@/types/TTabNavigation";
+import { ta } from "date-fns/locale";
 import { useEffect, useRef, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
@@ -20,7 +23,7 @@ export const TabNavigation = ({ menuItems, selectedTitle, setSelectedTitle, isCa
     if (TabNavigationRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = TabNavigationRef.current;
       setScrollLeft(scrollLeft > 0);
-      setScrollRight(scrollLeft + clientWidth < scrollWidth);
+      setScrollRight(scrollLeft + clientWidth + 1 < scrollWidth);
     }
   };
 
@@ -57,34 +60,36 @@ export const TabNavigation = ({ menuItems, selectedTitle, setSelectedTitle, isCa
 
 
   return (
-    <div className="relative border-b">
+    <div className="relative border-b bg-white">
       {/* Left Arrow */}
       {ScrollLeft && (
         <button
-          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white p-1 rounded-full shadow-md"
+          className="absolute left-1 top-1/2 transform -translate-y-1/2 z-10 bg-transparent p-2 hover:shadow-lg  transition-all duration-300 ease-in-out hover:bg-gray-200 hover:rounded-full hover:scale-110"
           onClick={() => scroll("left")}
         >
-          <FaArrowLeft size={25} />
+          <ArrowLeft
+            width="24"
+            height="24"
+           stroke={"black"}
+          />
         </button>
       )}
 
-      {/* Tab Navigation TabNavigation */}
+      {/* Tab Navigation Container */}
       <div
         ref={TabNavigationRef}
-        className="flex items-center gap-2 px-5 py-5 overflow-x-auto no-scrollbar"
+        className="flex items-center gap-2 px-5 py-5 overflow-x-auto scrollbar-invisible scroll-smooth"
         onScroll={checkScrollPosition}
       >
         {menuItems.map((item) => (
           <div key={item.id} className="relative whitespace-nowrap">
-            <div
-              className={`px-4 py-2 text-sm rounded-md flex items-center gap-2 cursor-pointer transition-colors ${selectedTitle === item.label ? "text-black" : "text-gray-500"
+            <button
+              className={`px-6 py-2 text-sm rounded-md flex items-center gap-2 cursor-pointer transition-colors duration-300 ease-in-out ${selectedTitle === item.label ? "text-black" : "text-gray-500"
                 }`}
               onClick={() => setSelectedTitle(item.label)}
             >
-              {isCarrousel ? item.label?.length >= 10
-                ? item?.label.substring(0, 10) + '...'
-                : item?.label : item?.label}
-            </div>
+              {item.label.length > 10 ? `${item.label.substring(0, 10)}...` : item.label}
+            </button>
             {selectedTitle === item.label && (
               <div className="absolute -bottom-5 left-0 w-full h-[5px] bg-primary rounded-sm transition-all duration-300 ease-in-out"></div>
             )}
@@ -95,10 +100,14 @@ export const TabNavigation = ({ menuItems, selectedTitle, setSelectedTitle, isCa
       {/* Right Arrow */}
       {ScrollRight && (
         <button
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white p-1 rounded-full shadow-md"
+          className="absolute right-1 top-1/2 transform -translate-y-1/2 z-10 bg-white p-2  hover:shadow-lg  transition-all duration-300 ease-in-out hover:bg-gray-200 hover:rounded-full hover:scale-110"
           onClick={() => scroll("right")}
         >
-          <FaArrowRight size={25} />
+          <ArrowRight 
+           width="24"
+           height="24"
+           stroke="black"
+            />
         </button>
       )}
     </div>
