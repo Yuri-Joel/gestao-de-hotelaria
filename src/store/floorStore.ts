@@ -21,7 +21,7 @@ type Action = {
   setEditFloorModal: (value: boolean) => void;
   find: (page: number) => Promise<IResponse<TModelPagination<FloorEntity>>>;
   getFloorsTabNavigation: () => Promise<IResponse<TModelPagination<FloorEntity>>>;
-  create: (floor: FloorEntity) => Promise<IResponse<FloorEntity>>;
+  create: (floor: Partial<FloorEntity>) => Promise<IResponse<FloorEntity>>;
   handleOpenModalNewFloor: () => void;
 };
 

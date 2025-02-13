@@ -33,6 +33,7 @@ export const AddFloorModal = () => {
 					account: user?.account as Types.ObjectId,
 					property,
 					isAccessible: isAccessible === 1 ? true : false,
+					
 				});
 				if (!res.error.value) {
 					setSuccess(true);
