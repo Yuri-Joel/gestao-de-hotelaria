@@ -1,5 +1,5 @@
 import handleRequest from "@/helpers/handleRequest";
-import { FloorEntity } from "@/interfaces/FloorEntity";
+import { FloorEntity } from "@/interfaces/EntitiesForNewAPI/FloorEntity";
 import { TModelPagination } from "@/types/TModelPagination";
 
 export const floorServices = () => {

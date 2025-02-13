@@ -38,14 +38,12 @@ export function FloorList() {
 	} = floorStore();
 	const [openMenuId, setOpenMenuId] = useState<any | null>(null);
 	const menuRef = useRef<HTMLDivElement>(null);
-	
-	let pageLimit = 10;
 
 	useEffect(() => {
 		setLoading(true);
 		(async () => {
 			try {
-				await find(currentPage, pageLimit);
+				await find(currentPage);
 			} catch (error) {
 				console.error("Erro ao buscar andares:", error);
 			} finally {
@@ -99,7 +97,7 @@ export function FloorList() {
 								))}
 							</>
 						) : (
-							floors?.map((floor, index) => (
+							Array.isArray(floors) && floors?.map((floor, index) => (
 								<TableRow
 									className={
 										index % 2 === 0

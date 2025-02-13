@@ -3,7 +3,7 @@ import { floorServices } from "@/services/floor/floor";
 import { removeAuthCookie } from "@/helpers/cookies/authCookie";
 import { IResponse } from "@/helpers/handleRequest";
 import { TModelPagination } from "@/types/TModelPagination";
-import { FloorEntity } from "@/interfaces/FloorEntity";
+import { FloorEntity } from "@/interfaces/EntitiesForNewAPI/FloorEntity";
 
 type State = {
   floors: FloorEntity[] | null;
@@ -16,10 +16,11 @@ type State = {
 
 type Action = {
   setSelectedFloor: (floor: FloorEntity | null) => void;
-  find: (page: number) => Promise<IResponse<TModelPagination<FloorEntity>>>;
   setCurrentPage: (page: number) => void;
-  getFloorsTabNavigation: () => Promise<IResponse<TModelPagination<FloorEntity>>>;
   setEditFloorModal: (value: boolean) => void;
+  find: (page: number) => Promise<IResponse<TModelPagination<FloorEntity>>>;
+  getFloorsTabNavigation: () => Promise<IResponse<TModelPagination<FloorEntity>>>;
+  create: (floor: FloorEntity) => Promise<IResponse<FloorEntity>>
 };
 
 export const floorStore = create<State & Action>((set, get) => ({
@@ -56,6 +57,7 @@ export const floorStore = create<State & Action>((set, get) => ({
 
     return response;
   },
+
   getFloorsTabNavigation: async () => {
     const response = await floorServices().findTabNavigation();
 
@@ -66,6 +68,21 @@ export const floorStore = create<State & Action>((set, get) => ({
 
     if (!response.error.value) {
       set({ floors: response.data?.data });
+    }
+
+    return response;
+  },
+
+  create: async (floor) => {
+    const response = await floorServices().create(floor);
+
+    if (response.status === 401) {
+      removeAuthCookie();
+      window.location.href = "/login";
+    }
+
+    if (!response.error.value) {
+      // set({ floors: response.data?.data });
     }
 
     return response;
