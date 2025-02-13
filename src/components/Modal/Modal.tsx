@@ -1,5 +1,4 @@
 import { XIcon } from "@/assets/Icons/XIcon";
-import { modalManagementStore } from "@/store/modalManagementStore";
 import { useEffect } from "react";
 
 interface ModalProps {
