@@ -3,12 +3,12 @@
 import React, { useEffect, useState } from "react";
 import { Input } from "../Input/Input";
 import InputTextArea from "../Input/InputTextArea";
-import { FloorEntity } from "@/interfaces/FloorEntity";
 import { EditModal } from "../EditModal/EditModal";
 import { useRouter } from "next/navigation";
 import Select from "../Input/Select";
 import { Checkbox } from "../Input/CheckBox";
 import { floorStore } from "@/store/floorStore";
+import { FloorEntity } from "@/interfaces/EntitiesForNewAPI/FloorEntity";
 
 function FloorEditModal() {
   const [editedFloor, setEditedFloor] = useState<FloorEntity | null>(null);
@@ -50,7 +50,7 @@ function FloorEditModal() {
             } as FloorEntity)
           }
           type="text"
-          value={editedFloor?.title || ""}
+          value={editedFloor?.name || ""}
           placeholder="Identificação, ex: 'Térreo' ou 'Primeiro andar'"
           className="w-full"
         />
@@ -63,7 +63,7 @@ function FloorEditModal() {
         <Select
           name="Status"
           className="w-full"
-          selectedItem={editedFloor?.status || ""}
+          selectedItem={editedFloor?.name || ""}
           data={["Disponível", "Indisponível"]}
           setSelected={(value) =>
             setEditedFloor({ ...editedFloor, status: value } as FloorEntity)
@@ -79,11 +79,11 @@ function FloorEditModal() {
           <div className="flex items-center gap-2">
             <Checkbox
               index={1}
-              isChecked={editedFloor?.accessibility === "sim"}
+              isChecked={editedFloor?.isAccessible || false}
               onChange={() => {
                 setEditedFloor({
                   ...editedFloor,
-                  accessibility: "sim",
+                  isAccessible: true,
                 } as FloorEntity);
               }}
             />
@@ -93,11 +93,11 @@ function FloorEditModal() {
           <div className="flex items-center gap-2">
             <Checkbox
               index={2}
-              isChecked={editedFloor?.accessibility === "não"}
+              isChecked={editedFloor?.isAccessible || false}
               onChange={() => {
                 setEditedFloor({
                   ...editedFloor,
-                  accessibility: "não",
+                  isAccessible: true,
                 } as FloorEntity);
               }}
             />
@@ -117,7 +117,7 @@ function FloorEditModal() {
               description: e.target.value,
             } as FloorEntity)
           }
-          value={editedFloor?.description || ""}
+          value={""}
           placeholder="Adicione uma descrição para o andar"
           className="w-full"
         />
