@@ -5,7 +5,7 @@ import {
   BiChevronsLeft,
   BiChevronsRight,
 } from "react-icons/bi";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { RightIcon } from "@/assets/Icons/RightIcon";
 import { useRouter } from "next/navigation";
 import { Table } from "@/components/Table/table";
@@ -162,7 +162,7 @@ export function UserList({ data }: UsersProps) {
                     <TableCell className="text-center min-w-28  ">
                       <div
                         onClick={(e) => verifyUserLogged(user, e)}
-                        className="py-2 w-full text-left text-primary max-w-full truncate  cursor-pointer  "
+                        className="py-2 w-full text- text-primary max-w-full truncate  cursor-pointer  "
                       >
                         {user.firstName + " " + user.lastName}
                       </div>

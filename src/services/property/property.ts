@@ -21,7 +21,7 @@ export const propertyServices = () => {
       method: "POST",
       body: JSON.stringify(property),
     })
-
+    
     return response;
   }
 

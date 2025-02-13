@@ -85,7 +85,7 @@ export const floorStore = create<State & Action>((set, get) => ({
     }
 
     if (!response.error.value) {
-      // set({ floors: response.data?.data });
+      get().find(get().currentPage);
     }
 
     return response;

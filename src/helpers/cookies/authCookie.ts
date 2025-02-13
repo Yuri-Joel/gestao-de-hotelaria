@@ -21,6 +21,8 @@ export const getAuthCookie = () => {
 export const removeAuthCookie = () => {
   Cookies.remove(auth_cookie_name);
   Cookies.remove(auth_cookie_name_T)
+  Cookies.remove(process.env.NEXT_PUBLIC_PROPERTY_ID as string)
+  Cookies.remove(process.env.NEXT_PUBLIC_PROPERTY_SLUG as string)
 
   return
 }
