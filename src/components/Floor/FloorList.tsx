@@ -21,10 +21,6 @@ import FloorEditModal from "./FloorEditModal";
 import { AddFloorModal } from "./AddFloorModal";
 
 export function FloorList() {
-<<<<<<< HEAD
-	const { isOpenedAlertDialogConfirmLogout } = modalManagementStore();
-=======
->>>>>>> f678b6968a04b0c2892cf948d9834ff452489530
 	const router = useRouter();
 	const [IsLoading, setLoading] = useState<boolean>(false);
 
