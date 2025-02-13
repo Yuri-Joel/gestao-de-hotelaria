@@ -15,7 +15,8 @@ type Tprops = React.ComponentProps<'button'> & {
   color?: string
   backgroundColor?: string
   border?: string
-  toolTipTitle?: string,
+  toolTipTitle?: string
+  label?: string
 }
 
 /**
@@ -41,6 +42,7 @@ export const Button: React.FC<Tprops> = ({
   backgroundColor,
   border,
   toolTipTitle,
+  label,
   ...props
 }) => {
   const [isActive, setIsActive] = useState<boolean>(false);
@@ -63,7 +65,6 @@ export const Button: React.FC<Tprops> = ({
     `bg-gray-400 duration-500 text-white h-[52px] font-semibold ${isActive ? 'bg-primary' : 'bg-gray-400'} disabled:bg-gray-300 select-none`,
     props.className,
   )
-
 
   const formatToolTipTitle = (text: string) => {
     return text
@@ -98,7 +99,9 @@ export const Button: React.FC<Tprops> = ({
         disabled={pending || isLoading || !isActive}
         onClick={handleBlurClick}
       >
-        {!isLoading && !pending && children}
+        {!label && !isLoading && !pending && children}
+
+        {!children && !isLoading && !pending && label}
 
         {handleActive() && isLoading && (
           <Loading

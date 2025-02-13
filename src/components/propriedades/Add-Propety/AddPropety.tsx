@@ -1,21 +1,24 @@
 "use client";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+
 import AlertDialog from "@/components/AlertDialog/AlertDialog";
 import { Button } from "@/components/Button/Button";
 import { Input } from "@/components/Input/Input";
 import Select from "@/components/Input/Select";
+
 import { propetyAcordionStore } from "@/store/propetyAcordionStore";
-import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
-import { useState } from "react";
-import { parseCookie } from '@/helpers/cookies/authCookie'
 import { propertyStore } from "@/store/propertyStore";
-import { EnumCategory } from "@/interfaces/EntitiesForNewAPI/PropertyEntity";
-import { Types } from "mongoose";
-import { AccountEntity } from "@/interfaces/EntitiesForNewAPI/AccountEntity";
+
+import { EnumCategory, PropertyEntity } from "@/interfaces/EntitiesForNewAPI/PropertyEntity";
+
+import { parseCookie } from '@/helpers/cookies/authCookie'
+
+const categoryItems = ["Hotel", "Pousada", "Hostel", "Outro"];
 
 const AddPropety: React.FC = () => {
   const router = useRouter();
-  
+
   const {
     name,
     category,
@@ -28,37 +31,16 @@ const AddPropety: React.FC = () => {
   } = propetyAcordionStore();
 
   const {
-    newProperty
+    create
   } = propertyStore()
 
-  let account: Types.ObjectId | AccountEntity;
-
-try {
-  const cookieData = parseCookie();
-  account = cookieData?.account;
-} catch (error) {
-  console.error("Erro ao obter o cookie:", error);
-}
-  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalCancelOpen, setIsModalCancelOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const categoryItems = ["Hotel", "Pousada", "Hostel", "Outro"];
-
-
-  const handleConfirm = () => {
-     
-    setIsLoading(true);
-    try {
-      
-      router.push("/hotel-ao/propriedades");
-      resetStore();
-      setIsModalOpen(false);
-    } 
-    finally {
-      setIsLoading(false);
-    }
+  const handleAddMoreProperty = () => {
+    resetStore();
+    setIsModalOpen(false);
   };
 
   const handleCancel = () => {
@@ -66,26 +48,44 @@ try {
     firstStore();
   };
 
-  const handleAddMoreProperty = () => {
-    resetStore();
-    setIsModalOpen(false);
+  const handleGoToProperties = () => {
+    setIsLoading(true);
+
+    try {
+      router.push("/hotel-ao/propriedades");
+      resetStore();
+      setIsModalOpen(false);
+    }
+    finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleStepSecond = async () => {
-    await newProperty({
-      name: name,
-      category: category as EnumCategory,
-      account:account,
-    })
-    if (Math.random() * (1 - 0) + 0 >= 0.5) {
-      setIsModalOpen(true);
-    } else {
+  const handleSubmit = async () => {
+    setIsLoading(true);
+
+    try {
+      const cookieData = parseCookie();
+
+      const payload: PropertyEntity = {
+        name: name,
+        category: category as EnumCategory,
+        account: cookieData?.account,
+      }
+
+      const { error } = await create(payload);
+
+      if (!error.value) {
+        setIsModalOpen(true);
+      }
+    } catch (error) {
       setIsModalCancelOpen(true);
+    } finally {
+      setIsLoading(false);
     }
+
     nextStep();
-
   }
-
 
   useEffect(() => {
     resetStore();
@@ -93,7 +93,7 @@ try {
   }, []);
 
   return (
-    <div className="flex items-center justify-center h-[calc(100vh-60px)] w-full ">
+    <div className="flex items-center justify-center h-[calc(100vh-60px)] w-full">
       {step === "first" && (
         <div className=" w-[600px]  bg-white shadow-[0_0_10px_rgba(0,0,0,0.3)] flex flex-col p-10">
           <h1 className="font-bold text-xl w-full text-center">
@@ -143,23 +143,22 @@ try {
           <span className="mt-3 w-full  outline-none  text-black">
             Tipo: {category}
           </span>
-          <div className="w-full flex gap-4">
+
+          <div className="w-full flex gap-4 mt-6">
             <Button
-              handleActive={() => true}
-              handleClick={() => {
-                firstStore();
-              }}
-              className="mt-6 w-full  text-white bg-gray-500"
-            >
-              Voltar
-            </Button>
+              label="Voltar"
+              handleActive={() => !isLoading}
+              handleClick={firstStore}
+              className="w-full bg-gray-500"
+            />
+
             <Button
+              label="Confirmar"
+              isLoading={isLoading}
               handleActive={() => true}
-              handleClick={handleStepSecond}
-              className="mt-6 w-full  text-white bg-primary"
-            >
-              Confirmar
-            </Button>
+              handleClick={handleSubmit}
+              className="w-full"
+            />
           </div>
         </div>
       )}
@@ -174,7 +173,7 @@ try {
           cancelTitleBtn="Adicionar mais propriedade"
 
           isOpenedModalManagement={isModalOpen}
-          handleConfirm={handleConfirm}
+          handleConfirm={handleGoToProperties}
           handleCancel={handleAddMoreProperty}
           hideCloseTopButton
         />
