@@ -22,10 +22,7 @@ type Action = {
   setSelecteduser: (user: UserEntity | null) => void;
   find: (page: number) => Promise<IResponse<TModelPagination<UserEntity>>>;
   create: (user: UserEntity) => Promise<IResponse<UserEntity>>;
-  remove: (
-    userId: Types.ObjectId,
-    accountId: Types.ObjectId
-  ) => Promise<IResponse<UserEntity>>;
+  remove: (userId: Types.ObjectId,accountId: Types.ObjectId) => Promise<IResponse<UserEntity>>;
   setCurrentPage: (page: number) => void;
   setEditUserModal: (value: boolean) => void;
   setAddUserModal: (value: boolean) => void;

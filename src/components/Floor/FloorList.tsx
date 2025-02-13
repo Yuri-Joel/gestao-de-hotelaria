@@ -22,7 +22,7 @@ import { modalManagementStore } from "@/store/modalManagementStore";
 import { AddFloorModal } from "./AddFloorModal";
 
 export function FloorList() {
-	const { setShowModal } = modalManagementStore();
+	const { isOpenedAlertDialogConfirmLogout } = modalManagementStore();
 	const router = useRouter();
 	const [IsLoading, setLoading] = useState<boolean>(false);
 

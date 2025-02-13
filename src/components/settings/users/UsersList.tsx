@@ -14,7 +14,7 @@ import { TableRow } from "@/components/Table/table-row";
 import { TableCell } from "@/components/Table/table-cell";
 import { Button } from "@/components/Button/Button";
 import { IconButton } from "@/components/Table/table-button-navigation";
-import { formatDateIsoToBr } from "@/helpers/formatDateisoToBr";
+// import { formatDateIsoToBr } from "@/helpers/formatDateisoToBr";
 import { UserEntity } from "@/interfaces/EntitiesForNewAPI/UserEntity";
 import { Input } from "@/components/Input/Input";
 import { userStore } from "@/store/userStore";
@@ -25,7 +25,7 @@ import { Types } from "mongoose";
 import { Skeleton } from "@/components/Skeleton/Skeleton";
 
 interface UsersProps {
-  data: UserEntity[] | null
+  data: UserEntity[] | null;
 }
 
 export function UserList({ data }: UsersProps) {
@@ -46,21 +46,18 @@ export function UserList({ data }: UsersProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [openMenuId, setOpenMenuId] = useState<any | null>(null);
   const [search, setSearch] = useState<string>("");
-  const [selectedUserId, setSelectedUserId] = useState<Types.ObjectId | null>(null);
+  const [selectedUserId, setSelectedUserId] = useState<Types.ObjectId | null>(
+    null
+  );
 
   const menuRef = useRef<HTMLDivElement>(null);
-
-  const roleTranslations: { [key: string]: string } = {
-    Admin: "Administrador",
-    Manager: "Gerente",
-    ReservationCreator: "Criador de Reservas",
-  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
 
   const handleConfirmCancel = async () => {
+    setOpenMenuId(null);
     if (!cookie) return;
 
     if (selectedUserId) {
@@ -86,9 +83,7 @@ export function UserList({ data }: UsersProps) {
     e: React.MouseEvent<HTMLDivElement>
   ) => {
     e.stopPropagation();
-    user._id == cookie?._id
-      ? router.push(`/settings/perfil`)
-      : "";
+    user._id == cookie?._id ? router.push(`/settings/perfil`) : "";
   };
 
   const handleSetSelectedUser = (user: UserEntity, e: React.MouseEvent) => {
@@ -99,14 +94,14 @@ export function UserList({ data }: UsersProps) {
       setOpenMenuId(user._id);
     }
     setSelecteduser(user);
-  }
+  };
 
   return (
-    <div className="transition-all duration-200 ease-in-out">
+    <div className="transition-all duration-300 ease-in-out">
       {isLoading ? (
-        <div className="p-2">
+        <div className="py-2">
           {[...Array(5)].map((_, i) => (
-            <div key={i} className="p-2 bg-white">
+            <div key={i} className="py-2 bg-white">
               <Skeleton className="h-12 w-FULL" />
             </div>
           ))}
@@ -139,101 +134,105 @@ export function UserList({ data }: UsersProps) {
               <tr className="border-none">
                 <TableHeader className="px-8 font-bold">Nome</TableHeader>
 
-                <TableHeader className="text-center px-[5rem] font-bold">
+                <TableHeader className="text-center font-bold">
                   Propriedade
                 </TableHeader>
 
-                <TableHeader className="text-center px-[5rem] font-bold">
+                <TableHeader className="text-center font-bold">
                   Email
                 </TableHeader>
 
-                <TableHeader className="text-center px-[5rem] font-bold">
+                <TableHeader className="text-center font-bold">
                   Ultimo acesso
                 </TableHeader>
 
-                <TableHeader className="text-center px-[5rem] font-bold">
+                <TableHeader className="text-center font-bold">
                   Sector
                 </TableHeader>
               </tr>
             </thead>
 
             <tbody>
-              {Array.isArray(data) && data?.map((user, index) => (
-                <TableRow
-                  className={index % 2 === 0 ? "bg-gray-90" : "bg-white "}
-                  key={index}
-                >
-                  <TableCell className="text-center min-w-28 ">
-                    <div
-                      onClick={(e) => verifyUserLogged(user, e)}
-                      className="p-2 w-full text-center text-primary  cursor-pointer"
-                    >
-                      {user.firstName + " " + user.lastName}
-                    </div>
-                  </TableCell>
-
-                  <TableCell className="text-center">
-                    <div className="p-2 w-full text-center">
-                      {user.properties.length + " propriedades"}
-                    </div>
-                  </TableCell>
-
-                  <TableCell className="text-center">
-                    <div className="p-2 w-full text-center">
-                      {user.email}
-                    </div>
-                  </TableCell>
-
-                  <TableCell className="text-center">
-                    <div className="p-2 w-full text-center">{" - "}</div>
-                  </TableCell>
-
-                  <TableCell className="text-center items-center flex justify-center">
-                    <div
-                      className="flex justify-center relative  "
-                      ref={menuRef}
-                    >
-                      <div onClick={(e) => handleSetSelectedUser(user, e)}
-                        className="w-6 h-6 bg-white border border-gray-300 rounded cursor-pointer flex items-center justify-center transition-colors"
+              {Array.isArray(data) &&
+                data?.map((user, index) => (
+                  <TableRow
+                    className={index % 2 === 0 ? "bg-gray-90" : "bg-white "}
+                    key={index}
+                  >
+                    <TableCell className="text-center min-w-28  ">
+                      <div
+                        onClick={(e) => verifyUserLogged(user, e)}
+                        className="py-2 w-full text-left text-primary max-w-full truncate  cursor-pointer  "
                       >
+                        {user.firstName + " " + user.lastName}
+                      </div>
+                    </TableCell>
+
+                    <TableCell className="text-center">
+                      <div className="py-2 w-full text-center max-w-full truncate ">
+                        {user.properties.length + " propriedades"}
+                      </div>
+                    </TableCell>
+
+                    <TableCell className="text-center">
+                      <div className="py-2 w-full text-center max-w-full truncate ">
+                        {user.email}
+                      </div>
+                    </TableCell>
+
+                    <TableCell className="text-center">
+                      <div className="py-2 w-full text-center max-w-full truncate ">{" - "}</div>
+                    </TableCell>
+
+                    <TableCell className="text-center items-center flex justify-center">
+                      <div
+                        className="flex justify-center relative  "
+                        ref={menuRef}
+                      >
+                        <div
+                          onClick={(e) => handleSetSelectedUser(user, e)}
+                          className="w-6 h-6 bg-white border border-gray-300 rounded cursor-pointer flex items-center justify-center transition-colors"
+                        >
+                          {openMenuId === user._id && (
+                            <RightIcon className="text-white h-14 w-14" />
+                          )}
+                        </div>
+
                         {openMenuId === user._id && (
-                          <RightIcon className="text-white h-14 w-14" />
+                          <div className="absolute top-full w-24 bg-white shadow-md border border-gray-90 rounded-lg shadow-mdring-1 ring-black ring-opacity-5 z-10">
+                            <div
+                              className=" bg-white"
+                              role="menu"
+                              aria-orientation="vertical"
+                            >
+                              <Button
+                                className="w-full text-left px-4 py-2 text-sm text-gray-700 bg-white hover:bg-gray-100"
+                                role="menuitem"
+                                handleClick={() => true}
+                                handleActive={() => true}
+                              >
+                                Editar
+                              </Button>
+
+                              <Button
+                                className="w-full text-left px-4 py-2 text-sm text-red-600 bg-white hover:bg-gray-100"
+                                role="menuitem"
+                                handleClick={() => {
+                                  openModelDeleteUser(
+                                    user._id as Types.ObjectId
+                                  );
+                                }}
+                                handleActive={() => true}
+                              >
+                                Excluir
+                              </Button>
+                            </div>
+                          </div>
                         )}
                       </div>
-
-                      {openMenuId === user._id && (
-                        <div className="absolute top-full w-24 bg-white shadow-md border border-gray-90 rounded-lg shadow-mdring-1 ring-black ring-opacity-5 z-10">
-                          <div
-                            className=" bg-white"
-                            role="menu"
-                            aria-orientation="vertical"
-                          >
-                            <Button
-                              className="w-full text-left px-4 py-2 text-sm text-gray-700 bg-white hover:bg-gray-100"
-                              role="menuitem"
-                              handleClick={() => true}
-                              handleActive={() => true}
-                            >
-                              Editar
-                            </Button>
-
-                            <Button
-                              className="w-full text-left px-4 py-2 text-sm text-red-600 bg-white hover:bg-gray-100"
-                              role="menuitem"
-                              handleClick={() => {
-                                openModelDeleteUser(user._id as Types.ObjectId);
-                              }}
-                              handleActive={() => true}
-                            >
-                              Excluir
-                            </Button>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
+                    </TableCell>
+                  </TableRow>
+                ))}
             </tbody>
 
             {data && data.length > 0 && (
@@ -290,7 +289,10 @@ export function UserList({ data }: UsersProps) {
             cancelTitleBtn="Não, quero cancelar"
             isOpenedModalManagement={isOpenedModalDeleteUser}
             handleConfirm={handleConfirmCancel}
-            handleCancel={handleOpenAlertDialogDeleteUser}
+            handleCancel={() => {
+              handleOpenAlertDialogDeleteUser();
+              setOpenMenuId(null);
+            }}
           />
         </div>
       )}

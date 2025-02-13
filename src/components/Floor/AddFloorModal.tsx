@@ -27,10 +27,10 @@ export const AddFloorModal = () => {
 			try {
 				const user = parseCookie();
 				//alterar para o id real
-				const property = user.account;
+				const property = user?.account as Types.ObjectId;
 				const res = await create({
 					name: floorName,
-					account: user.account,
+					account: user?.account as Types.ObjectId,
 					property,
 					isAccessible: isAccessible === 1 ? true : false,
 				});

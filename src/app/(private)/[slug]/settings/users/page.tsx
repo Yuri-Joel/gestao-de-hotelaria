@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import { Wrapper } from '@/components/Wrapper';
 import { UserList } from '@/components/settings/users/UsersList';
-import { parseCookie } from '@/helpers/cookies/authCookie';
+// import { parseCookie } from '@/helpers/cookies/authCookie';
 import { userStore } from '@/store/userStore';
 
 function page() {
