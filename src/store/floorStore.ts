@@ -48,9 +48,9 @@ export const floorStore = create<State & Action>((set, get) => ({
     if (!response.error.value) {
       set({
         floors: response.data?.data,
-        totalPages: response.data?.totalPages || response.data?.data?.length,
-        currentPage: response.data?.page,
-        totalItems: response.data?.totalItems
+        totalPages: response.data?.pagination.totalPages || response.data?.data?.length,
+        currentPage: response.data?.pagination.currentPage,
+        totalItems: response.data?.pagination.pageSize
       });
     }
 

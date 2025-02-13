@@ -1,0 +1,124 @@
+[
+  {
+    "_id": 111111111111,
+    "name": "Hotel Jumour",
+    "category": "Hotel",
+    "account": "1"
+  },
+  {
+    "_id": 222222222222,
+    "name": "Hospedaria Mesquita",
+    "category": "Pousadas",
+    "account": "2"
+  },
+  {
+    "_id": 333333333333,
+    "name": "Hotel Ivera Brasil",
+    "category": "Hostel",
+    "account": "3"
+  },
+  {
+    "_id": 444444444444,
+    "name": "Hotel Kolombo",
+    "category": "Pousada",
+    "account": "4"
+  },
+  {
+    "_id": 555555555555,
+    "name": "Hotel Endiama",
+    "category": "Hotel",
+    "account": "5"
+  },
+  {
+    "_id": 66666666666,
+    "name": "Yuri Hotel",
+    "category": "Hostel",
+    "account": "6"
+  },
+  {
+    "_id": 77777777777,
+    "name": "Hotel Alvalade",
+    "category": "Pousadas",
+    "account": "7"
+  },
+  {
+    "_id": 88888888888,
+    "name": "Hotel Emerson",
+    "category": "Pousadas",
+    "account": "8"
+  },
+  {
+    "_id": 99999999999,
+    "name": "Hotel Jumour",
+    "category": "Hostel",
+    "account": "9"
+  },
+  {
+    "_id": 1010101010,
+    "name": "Hotel Mesquita",
+    "category": "Hotel",
+    "account": "10"
+  },
+  {
+    "_id": 121212121212,
+    "name": "Hotel Ivera Brasil",
+    "category": "desactive",
+    "account": "11"
+  },
+  {
+    "_id": 13131313131313,
+    "name": "Hospedaria Erimelta",
+    "category": "Pousadas",
+    "account": "12"
+  },
+  {
+    "_id": 1414141414141414,
+    "name": "Hotel Endiama",
+    "category": "Pousadas",
+    "account": "13"
+  },
+  {
+    "_id": 1515115151151515,
+    "name": "Yuri Hotel",
+    "category": "Pousadas",
+    "account": "14"
+  },
+  {
+    "_id": 16161116161616160,
+    "name": "Hotel Alvalade",
+    "category": "Hostel",
+    "account": "15"
+  },
+  {
+    "_id": 171717117171717120,
+    "name": "Hotel Emerson",
+    "category": "Hostel",
+    "account": "16"
+  },
+  {
+    "_id": 222222222233,
+    "name": "Hotel Mwaiy",
+    "category": "Hotel",
+    "account": "4"
+  },
+  {
+    "_id": "67ab3678c585e371c99352c5",
+    "name": "Hospedaria Caxala",
+    "category": 2,
+    "slug": "hospedaria-caxala",
+    "id": 3,
+    "account": "67ab360ec585e371c99352c1",
+    "socialNetWork": {},
+    "createdAt": "2025-02-12T12:14:36.417Z"
+  },
+  {
+    "_id": "67ab3678c585e371c99352c5",
+    "name": "Hospedaria Mwaiy",
+    "category": 2,
+    "slug": "hospedaria-mwaiy",
+    "id": 3,
+    "account": "67ab360ec585e371c99352c1",
+    "socialNetWork": {},
+    "createdAt": "2025-02-12T12:20:19.505Z"
+  }
+]
