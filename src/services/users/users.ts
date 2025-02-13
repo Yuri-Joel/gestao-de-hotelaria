@@ -19,10 +19,9 @@ export const usersServices = () => {
 
   const find = async (page: number) => {
     const response = await handleRequest<TModelPagination<UserEntity>>({
-      url:`/users?page=${page || 1}&limit=10`,
+      url:`/users?page=${page}&limit=10`,
       method: "GET",
     });
-
     return response;
   };
 

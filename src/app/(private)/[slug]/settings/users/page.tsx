@@ -4,7 +4,7 @@ import { UserList } from '@/components/settings/users/UsersList';
 
 function page() {
     return (
-            <Wrapper title='CONFIGURAÇÕES - Usuarios' description=''>
+            <Wrapper title='CONFIGURAÇÕES - USUÁRIOS' description=''>
                 <UserList />
             </Wrapper>
     );

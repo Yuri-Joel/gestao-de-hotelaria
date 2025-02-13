@@ -14,16 +14,23 @@ type State = {
   totalItems: number;
   EditUserModal: boolean;
   AddUserModal: boolean;
+  isOpenedModalDeleteUser: boolean;
+  isOpenedModalEditUser: boolean;
 };
 
 type Action = {
   setSelecteduser: (user: UserEntity | null) => void;
   find: (page: number) => Promise<IResponse<TModelPagination<UserEntity>>>;
   create: (user: UserEntity) => Promise<IResponse<any>>;
-  remove: (userId: Types.ObjectId  , accountId: Types.ObjectId ) => Promise<IResponse<any>>;
+  remove: (
+    userId: Types.ObjectId,
+    accountId: Types.ObjectId
+  ) => Promise<IResponse<any>>;
   setCurrentPage: (page: number) => void;
   setEditUserModal: (value: boolean) => void;
   setAddUserModal: (value: boolean) => void;
+  handleOpenAlertDialogDeleteUser: () => void;
+  handleOpenModalEditUser: () => void;
 };
 
 export const userStore = create<State & Action>((set, get) => ({
@@ -34,7 +41,15 @@ export const userStore = create<State & Action>((set, get) => ({
   totalItems: 0,
   EditUserModal: false,
   AddUserModal: false,
+  isOpenedModalDeleteUser: false,
+  isOpenedModalEditUser: false,
 
+  handleOpenAlertDialogDeleteUser: () => {
+    set({ isOpenedModalDeleteUser: !get().isOpenedModalDeleteUser });
+  },
+  handleOpenModalEditUser: () => {
+    set({ isOpenedModalEditUser: !get().isOpenedModalEditUser });
+  },
   setSelecteduser: (user) => set({ selecteduser: user }),
 
   setCurrentPage: (page) => set({ currentPage: page }),
@@ -46,7 +61,6 @@ export const userStore = create<State & Action>((set, get) => ({
   find: async (page) => {
     const response = await usersServices().find(page);
 
-    console.log("isso 2", response)
     if (response.status === 401) {
       removeAuthCookie();
       window.location.href = "/login";
@@ -55,42 +69,41 @@ export const userStore = create<State & Action>((set, get) => ({
     if (!response.error.value) {
       set({
         users: response.data?.data,
-        totalPages: response.data?.totalPages || response.data?.data?.length,
-        // currentPage: response.data?.page,
-        totalItems: response.data?.totalItems
+        totalPages: response.data?.pagination.totalPages,
+        // currentPage: response.data?.pagination.currentPage,
+        totalItems: response.data?.pagination.total,
       });
     }
     return response;
   },
 
   create: async (user: UserEntity) => {
-    const response = await usersServices().create(user)
+    const response = await usersServices().create(user);
 
     if (response.status === 401) {
-      removeAuthCookie()
-      window.location.href = '/login'
+      removeAuthCookie();
+      window.location.href = "/login";
     }
 
     if (!response.error.value) {
       await get().find(1);
     }
 
-    return response
+    return response;
   },
 
   remove: async (userId, accountId) => {
-    const response = await usersServices().remove(userId, accountId)
+    const response = await usersServices().remove(userId, accountId);
 
     if (response.status === 401) {
-      removeAuthCookie()
-      window.location.href = '/login'
+      removeAuthCookie();
+      window.location.href = "/login";
     }
 
     if (!response.error.value) {
       await get().find(1);
     }
 
-    return response
+    return response;
   },
-
 }));
