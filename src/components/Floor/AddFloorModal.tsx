@@ -16,7 +16,7 @@ export const AddFloorModal = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isAccessible, setIsAccessible] = useState(1);
 	const [success, setSuccess] = useState<boolean | null>(null);
-	const { create } = floorStore();
+	const { create ,handleOpenModalNewFloor, isOpenModalNewFloor} = floorStore();
 	const handleSelectChange = (e: React.SyntheticEvent<HTMLSelectElement>) => {
 		setIsAccessible(Number(e.currentTarget.value));
 	};
@@ -55,7 +55,7 @@ export const AddFloorModal = () => {
 		return true;
 	};
 	return (
-		<Modal title="ADICIONAR ANDAR" description="Cadastrar um novo andar">
+		<Modal title="ADICIONAR ANDAR" description="Cadastrar um novo andar" onClose={handleOpenModalNewFloor} isOpen={isOpenModalNewFloor}>
 			{success === null ? (
 				<form
 					method="post"

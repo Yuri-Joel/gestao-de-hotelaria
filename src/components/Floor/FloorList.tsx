@@ -18,11 +18,13 @@ import { useRouter } from "next/navigation";
 import { Button } from "../Button/Button";
 import { Skeleton } from "../Skeleton/Skeleton";
 import FloorEditModal from "./FloorEditModal";
-import { modalManagementStore } from "@/store/modalManagementStore";
 import { AddFloorModal } from "./AddFloorModal";
 
 export function FloorList() {
+<<<<<<< HEAD
 	const { isOpenedAlertDialogConfirmLogout } = modalManagementStore();
+=======
+>>>>>>> f678b6968a04b0c2892cf948d9834ff452489530
 	const router = useRouter();
 	const [IsLoading, setLoading] = useState<boolean>(false);
 
@@ -35,6 +37,7 @@ export function FloorList() {
 		totalPages,
 		setEditFloorModal,
 		EditFloorModal,
+		handleOpenModalNewFloor
 	} = floorStore();
 	const [openMenuId, setOpenMenuId] = useState<any | null>(null);
 	const menuRef = useRef<HTMLDivElement>(null);
@@ -59,7 +62,7 @@ export function FloorList() {
 				<div className="mt-7">
 					<button
 						className="text-primary-700 font-bold text-md"
-						onClick={() => setShowModal(true)}
+						onClick={() => handleOpenModalNewFloor()}
 					>
 						Adicionar novo andar
 					</button>
