@@ -4,12 +4,9 @@ import { UserList } from '@/components/settings/users/UsersList';
 
 function page() {
     return (
-        <div className=" p-8">
-            <Wrapper title='CONFIGURAÇÕES - Usuarios' description=''>
+            <Wrapper title='CONFIGURAÇÕES - USUÁRIOS' description=''>
                 <UserList />
             </Wrapper>
-
-        </div>
     );
 }
 

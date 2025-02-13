@@ -5,7 +5,7 @@ const page: React.FC = () => {
 
     const slug = "hotel-ao"
     const navigationItems: SquareNavItem[] = [
-        { title: "Usuario", href: `/${slug}/settings/users` },
+        { title: "Usuários", href: `/${slug}/settings/users` },
     ]
 
     return (

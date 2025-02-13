@@ -3,7 +3,8 @@ import { removeAuthCookie } from "@/helpers/cookies/authCookie";
 import { IResponse } from "@/helpers/handleRequest";
 import { TModelPagination } from "@/types/TModelPagination";
 import { usersServices } from "@/services/users/users";
-import { UserEntity } from "@/interfaces/UserEntity";
+import { UserEntity } from "@/interfaces/EntitiesForNewAPI/UserEntity";
+import { Types } from "mongoose";
 
 type State = {
   users: UserEntity[] | null;
@@ -12,13 +13,24 @@ type State = {
   totalPages: number;
   totalItems: number;
   EditUserModal: boolean;
+  AddUserModal: boolean;
+  isOpenedModalDeleteUser: boolean;
+  isOpenedModalEditUser: boolean;
 };
 
 type Action = {
   setSelecteduser: (user: UserEntity | null) => void;
   find: (page: number) => Promise<IResponse<TModelPagination<UserEntity>>>;
+  create: (user: UserEntity) => Promise<IResponse<any>>;
+  remove: (
+    userId: Types.ObjectId,
+    accountId: Types.ObjectId
+  ) => Promise<IResponse<any>>;
   setCurrentPage: (page: number) => void;
   setEditUserModal: (value: boolean) => void;
+  setAddUserModal: (value: boolean) => void;
+  handleOpenAlertDialogDeleteUser: () => void;
+  handleOpenModalEditUser: () => void;
 };
 
 export const userStore = create<State & Action>((set, get) => ({
@@ -28,16 +40,26 @@ export const userStore = create<State & Action>((set, get) => ({
   totalPages: 0,
   totalItems: 0,
   EditUserModal: false,
+  AddUserModal: false,
+  isOpenedModalDeleteUser: false,
+  isOpenedModalEditUser: false,
 
+  handleOpenAlertDialogDeleteUser: () => {
+    set({ isOpenedModalDeleteUser: !get().isOpenedModalDeleteUser });
+  },
+  handleOpenModalEditUser: () => {
+    set({ isOpenedModalEditUser: !get().isOpenedModalEditUser });
+  },
   setSelecteduser: (user) => set({ selecteduser: user }),
 
   setCurrentPage: (page) => set({ currentPage: page }),
 
   setEditUserModal: (value) => set({ EditUserModal: value }),
 
+  setAddUserModal: (value) => set({ AddUserModal: value }),
+
   find: async (page) => {
     const response = await usersServices().find(page);
-
 
     if (response.status === 401) {
       removeAuthCookie();
@@ -47,13 +69,41 @@ export const userStore = create<State & Action>((set, get) => ({
     if (!response.error.value) {
       set({
         users: response.data?.data,
-        totalPages: response.data?.pagination.totalPages || response.data?.data?.length,
-        currentPage: response.data?.pagination.currentPage,
-        totalItems: response.data?.pagination.pageSize
+        totalPages: response.data?.pagination.totalPages,
+        // currentPage: response.data?.pagination.currentPage,
+        totalItems: response.data?.pagination.total,
       });
+    }
+    return response;
+  },
+
+  create: async (user: UserEntity) => {
+    const response = await usersServices().create(user);
+
+    if (response.status === 401) {
+      removeAuthCookie();
+      window.location.href = "/login";
+    }
+
+    if (!response.error.value) {
+      await get().find(1);
     }
 
     return response;
   },
 
+  remove: async (userId, accountId) => {
+    const response = await usersServices().remove(userId, accountId);
+
+    if (response.status === 401) {
+      removeAuthCookie();
+      window.location.href = "/login";
+    }
+
+    if (!response.error.value) {
+      await get().find(1);
+    }
+
+    return response;
+  },
 }));

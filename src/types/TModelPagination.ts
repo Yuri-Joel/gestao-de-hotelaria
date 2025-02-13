@@ -1,6 +1,6 @@
 export type TModelPagination <T>={
   data: T[] | null
-  pagination: {
+  pagination:{
     currentPage: number
     totalPages: number
     total: number

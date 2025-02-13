@@ -1,17 +1,42 @@
 import handleRequest from "@/helpers/handleRequest";
-import { UserEntity } from "@/interfaces/UserEntity";
+import { UserEntity } from "@/interfaces/EntitiesForNewAPI/UserEntity";
 import { TModelPagination } from "@/types/TModelPagination";
+import { Types } from "mongoose";
+
 
 export const usersServices = () => {
+
+
+  const create = async (user: UserEntity)=> {
+    const response = await handleRequest({
+      url: '/users',
+      method: 'POST',
+      body: JSON.stringify(user)
+    });
+
+    return response;
+  };
+
   const find = async (page: number) => {
     const response = await handleRequest<TModelPagination<UserEntity>>({
-      url: `/users?page=${page}`,
+      url:`/users?page=${page}&limit=10`,
       method: "GET",
     });
     return response;
   };
 
+  const remove = async (userId: Types.ObjectId  , accountId: Types.ObjectId ) => {
+    const response = await handleRequest<TModelPagination<UserEntity>>({
+      url:`/users`,
+      method: "DELETE",
+      body: JSON.stringify({user: userId, account: accountId})
+    });
+
+    return response;
+  };
   return {
-    find
+    find,
+    create,
+    remove
   };
 };

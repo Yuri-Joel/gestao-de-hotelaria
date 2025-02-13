@@ -89,11 +89,11 @@ export const reserveStore = create<State & Actions>((set) => ({
     if (!response.error.value) {
       set({
         reserves: response.data?.data,
-        totalPages: response.data?.pagination.totalPages || response.data?.data?.length,
-        totalPages2: response.data?.pagination.totalPages || response.data?.data?.length,
+        totalPages: response.data?.pagination.totalPages,
+        totalPages2: response.data?.pagination.totalPages,
         currentPage: response.data?.pagination.currentPage,
         reservePerPage: response.data?.pagination.pageSize,
-        reserveToSearch: response.data?.data,
+        reserveToSearch: response.data?.data ,
       })
     }
 
