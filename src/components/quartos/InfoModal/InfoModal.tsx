@@ -1,11 +1,11 @@
 "use client"
 
 import { XIcon } from "@/assets/Icons/XIcon"
-import roomStore from "@/store/roomStore"
+import { UhStore } from "@/store/UhStore";
 
 export const InfoModal = () => {
 
-  const { IsOpenedModalInfo, handleOpenModalInfo } = roomStore();
+  const { IsOpenedModalInfo, handleOpenModalInfo } = UhStore();
 
   const handleClose = () => {
     handleOpenModalInfo();
