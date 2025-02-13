@@ -8,10 +8,10 @@ import Select from "@/components/Input/Select";
 import AlertDialog from "@/components/AlertDialog/AlertDialog";
 import { userStore } from "@/store/userStore";
 import { parseCookie } from "@/helpers/cookies/authCookie";
+import { UserEntity } from "@/interfaces/EntitiesForNewAPI/UserEntity";
+import { Types } from "mongoose";
 
 const AddUser: React.FC = () => {
-  const cookie = parseCookie();
-
   const { AddUserModal, setAddUserModal, create } = userStore();
 
   const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
@@ -24,6 +24,7 @@ const AddUser: React.FC = () => {
     properties: [] as string[],
     account: "",
   });
+
   const resetFormData = () => {
     setFormData({
       firstName: "",
@@ -34,6 +35,7 @@ const AddUser: React.FC = () => {
       account: "",
     });
   };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -54,18 +56,23 @@ const AddUser: React.FC = () => {
     setAddUserModal(false);
     resetFormData();
   };
-  const handleNewUser = async () => {
+
+  const handleAddNewUser = async () => {
     setIsLoading(true);
     try {
-      const newUser = {
+      const cookie = parseCookie();
+
+      const setData: UserEntity = {
         firstName: formData.firstName,
         lastName: formData.lastName,
         email: formData.email,
         password: formData.password,
         properties: [],
-        account: cookie.account,
+        account: cookie?.account as Types.ObjectId,
       };
-      await create(newUser as any);
+
+      await create(setData);
+
       setAddUserModal(false);
       resetFormData();
     } catch (error) {
@@ -223,7 +230,7 @@ const AddUser: React.FC = () => {
                     type="submit"
                     isLoading={isLoading}
                     handleActive={() => true}
-                    handleClick={handleNewUser}
+                    handleClick={handleAddNewUser}
                     width="100%"
                     height="45px"
                     className="mt-4"

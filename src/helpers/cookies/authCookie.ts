@@ -25,7 +25,7 @@ export const removeAuthCookie = () => {
   return
 }
 
-export const parseCookie = (): TDataUser => {
+export const parseCookie = (): TDataUser | null => {
   const cookie = getAuthCookie()
   const cookieParsed = cookie && JSON.parse(cookie as string)
 

@@ -2,7 +2,6 @@ import SquareNav, { SquareNavItem } from "@/components/SquareNav/SquareNav";
 import { Wrapper } from "@/components/Wrapper";
 
 const page: React.FC = () => {
-
     const slug = "hotel-ao"
     const navigationItems: SquareNavItem[] = [
         { title: "Usuários", href: `/${slug}/settings/users` },
@@ -10,7 +9,7 @@ const page: React.FC = () => {
 
     return (
         <Wrapper title="CONFIGURAÇÕES" >
-                <SquareNav navigationItems={navigationItems} />
+            <SquareNav navigationItems={navigationItems} />
         </Wrapper>
     )
 }

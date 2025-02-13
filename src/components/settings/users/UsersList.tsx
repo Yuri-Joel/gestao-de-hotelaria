@@ -24,13 +24,15 @@ import { parseCookie } from "@/helpers/cookies/authCookie";
 import { Types } from "mongoose";
 import { Skeleton } from "@/components/Skeleton/Skeleton";
 
-export function UserList() {
-  const cookie = parseCookie();
+interface UsersProps {
+  data: UserEntity[] | null
+}
+
+export function UserList({ data }: UsersProps) {
   const router = useRouter();
+  const cookie = parseCookie();
 
   const {
-    find,
-    users,
     setAddUserModal,
     setSelecteduser,
     currentPage,
@@ -41,27 +43,12 @@ export function UserList() {
     remove,
   } = userStore();
 
-  const [IsLoading, setLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [openMenuId, setOpenMenuId] = useState<any | null>(null);
   const [search, setSearch] = useState<string>("");
-  const [selectedUserId, setSelectedUserId] = useState<Types.ObjectId | null>(
-    null
-  );
-  const menuRef = useRef<HTMLDivElement>(null);
+  const [selectedUserId, setSelectedUserId] = useState<Types.ObjectId | null>(null);
 
-  useEffect(() => {
-    setLoading(true);
-    if (!users || !currentPage || !find) return;
-    (async () => {
-      try {
-        await find(currentPage);
-      } catch (error) {
-        console.error("Erro ao buscar usuarios:", error);
-      } finally {
-        setLoading(false);
-      }
-    })();
-  }, [currentPage , find]);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const roleTranslations: { [key: string]: string } = {
     Admin: "Administrador",
@@ -74,15 +61,17 @@ export function UserList() {
   };
 
   const handleConfirmCancel = async () => {
+    if (!cookie) return;
+
     if (selectedUserId) {
       handleOpenAlertDialogDeleteUser();
       try {
-        await remove(selectedUserId, cookie.account);
+        await remove(selectedUserId, cookie?.account);
         console.log("Usuario deletado com sucesso");
       } catch (error) {
         console.error("Erro ao deletar usuario:", error);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     }
   };
@@ -97,7 +86,7 @@ export function UserList() {
     e: React.MouseEvent<HTMLDivElement>
   ) => {
     e.stopPropagation();
-    user._id == cookie._id
+    user._id == cookie?._id
       ? router.push(`/settings/perfil`)
       : "";
   };
@@ -114,7 +103,7 @@ export function UserList() {
 
   return (
     <div className="transition-all duration-200 ease-in-out">
-      {IsLoading ? (
+      {isLoading ? (
         <div className="p-2">
           {[...Array(5)].map((_, i) => (
             <div key={i} className="p-2 bg-white">
@@ -125,6 +114,7 @@ export function UserList() {
       ) : (
         <div className="mt-5">
           <AddUser />
+
           <div className="flex justify-between items-center w-full">
             <div className="mt-7 w-full">
               <span className="font-bold mb-2">Usuários</span>
@@ -148,22 +138,27 @@ export function UserList() {
             <thead>
               <tr className="border-none">
                 <TableHeader className="px-8 font-bold">Nome</TableHeader>
+
                 <TableHeader className="text-center px-[5rem] font-bold">
                   Propriedade
                 </TableHeader>
+
                 <TableHeader className="text-center px-[5rem] font-bold">
                   Email
                 </TableHeader>
+
                 <TableHeader className="text-center px-[5rem] font-bold">
                   Ultimo acesso
                 </TableHeader>
+
                 <TableHeader className="text-center px-[5rem] font-bold">
                   Sector
                 </TableHeader>
               </tr>
             </thead>
+
             <tbody>
-              {users?.map((user: UserEntity, index: number) => (
+              {Array.isArray(data) && data?.map((user, index) => (
                 <TableRow
                   className={index % 2 === 0 ? "bg-gray-90" : "bg-white "}
                   key={index}
@@ -176,19 +171,23 @@ export function UserList() {
                       {user.firstName + " " + user.lastName}
                     </div>
                   </TableCell>
+
                   <TableCell className="text-center">
                     <div className="p-2 w-full text-center">
                       {user.properties.length + " propriedades"}
                     </div>
                   </TableCell>
+
                   <TableCell className="text-center">
                     <div className="p-2 w-full text-center">
                       {user.email}
                     </div>
                   </TableCell>
+
                   <TableCell className="text-center">
-                    <div className="p-2 w-full text-center">{ " - "}</div>
+                    <div className="p-2 w-full text-center">{" - "}</div>
                   </TableCell>
+
                   <TableCell className="text-center items-center flex justify-center">
                     <div
                       className="flex justify-center relative  "
@@ -217,6 +216,7 @@ export function UserList() {
                             >
                               Editar
                             </Button>
+
                             <Button
                               className="w-full text-left px-4 py-2 text-sm text-red-600 bg-white hover:bg-gray-100"
                               role="menuitem"
@@ -235,49 +235,53 @@ export function UserList() {
                 </TableRow>
               ))}
             </tbody>
-            <tfoot>
-              <tr>
-                <TableCell colSpan={5}>
-                  <div className="flex items-center justify-end gap-8">
-                    <span>
-                      Página {currentPage} de {totalPages}
-                    </span>
-                    <div className="flex gap-1.5">
-                      <IconButton
-                        disabled={currentPage === 1}
-                        onClick={() => setCurrentPage(1)}
-                      >
-                        <BiChevronsLeft className="size-4" />
-                      </IconButton>
-                      <IconButton
-                        disabled={currentPage === 1}
-                        onClick={() => setCurrentPage(currentPage - 1)}
-                      >
-                        <BiChevronLeft className="size-4" />
-                      </IconButton>
-                      <IconButton
-                        disabled={
-                          currentPage === totalPages || totalPages === 1
-                        }
-                        onClick={() => setCurrentPage(currentPage + 1)}
-                      >
-                        <BiChevronRight className="size-4" />
-                      </IconButton>
-                      <IconButton
-                        disabled={
-                          currentPage === totalPages ||
-                          totalPages === currentPage - 1
-                        }
-                        onClick={() => setCurrentPage(totalPages)}
-                      >
-                        <BiChevronsRight className="size-4" />
-                      </IconButton>
+
+            {data && data.length > 0 && (
+              <tfoot>
+                <tr>
+                  <TableCell colSpan={5}>
+                    <div className="flex items-center justify-end gap-8">
+                      <span>
+                        Página {currentPage} de {totalPages}
+                      </span>
+                      <div className="flex gap-1.5">
+                        <IconButton
+                          disabled={currentPage === 1}
+                          onClick={() => setCurrentPage(1)}
+                        >
+                          <BiChevronsLeft className="size-4" />
+                        </IconButton>
+                        <IconButton
+                          disabled={currentPage === 1}
+                          onClick={() => setCurrentPage(currentPage - 1)}
+                        >
+                          <BiChevronLeft className="size-4" />
+                        </IconButton>
+                        <IconButton
+                          disabled={
+                            currentPage === totalPages || totalPages === 1
+                          }
+                          onClick={() => setCurrentPage(currentPage + 1)}
+                        >
+                          <BiChevronRight className="size-4" />
+                        </IconButton>
+                        <IconButton
+                          disabled={
+                            currentPage === totalPages ||
+                            totalPages === currentPage - 1
+                          }
+                          onClick={() => setCurrentPage(totalPages)}
+                        >
+                          <BiChevronsRight className="size-4" />
+                        </IconButton>
+                      </div>
                     </div>
-                  </div>
-                </TableCell>
-              </tr>
-            </tfoot>
+                  </TableCell>
+                </tr>
+              </tfoot>
+            )}
           </Table>
+
           <AlertDialog
             typeAlert="cancel"
             title="Tem certeza que deseja cancelar?"

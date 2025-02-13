@@ -5,10 +5,8 @@ import { Types } from "mongoose";
 
 
 export const usersServices = () => {
-
-
-  const create = async (user: UserEntity)=> {
-    const response = await handleRequest({
+  const create = async (user: UserEntity) => {
+    const response = await handleRequest<UserEntity>({
       url: '/users',
       method: 'POST',
       body: JSON.stringify(user)
@@ -19,17 +17,17 @@ export const usersServices = () => {
 
   const find = async (page: number) => {
     const response = await handleRequest<TModelPagination<UserEntity>>({
-      url:`/users?page=${page}&limit=10`,
+      url: `/users?page=${page}&limit=10`,
       method: "GET",
     });
     return response;
   };
 
-  const remove = async (userId: Types.ObjectId  , accountId: Types.ObjectId ) => {
-    const response = await handleRequest<TModelPagination<UserEntity>>({
-      url:`/users`,
+  const remove = async (userId: Types.ObjectId, accountId: Types.ObjectId) => {
+    const response = await handleRequest<UserEntity>({
+      url: `/users`,
       method: "DELETE",
-      body: JSON.stringify({user: userId, account: accountId})
+      body: JSON.stringify({ user: userId, account: accountId })
     });
 
     return response;
