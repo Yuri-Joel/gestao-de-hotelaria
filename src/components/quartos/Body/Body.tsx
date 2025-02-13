@@ -60,8 +60,7 @@ export const Body = () => {
         (async () => {
             try {
                 setLoading(true);
-                const limit = 10
-                const response = await find(currentPage, limit);
+                const response = await find(currentPage);
                 //   console.log("isso 1", response)
                 const transformedFloors = transformToTabNavigation(response?.data?.data || []);
                 setMenuItems(transformedFloors);

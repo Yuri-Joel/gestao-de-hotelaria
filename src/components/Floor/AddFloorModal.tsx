@@ -7,9 +7,10 @@ import { Button } from "../Button/Button";
 import { floorStore } from "@/store/floorStore";
 
 import { parseCookie } from "@/helpers/cookies/authCookie";
-import { Types } from "mongoose";
+
 import { XIcon } from "@/assets/Icons/XIcon";
 import { RightIcon } from "@/assets/Icons/RightIcon";
+import { FloorEntity } from "@/interfaces/EntitiesForNewAPI/FloorEntity";
 
 export const AddFloorModal = () => {
 	const [floorName, setFloorName] = useState("");
@@ -27,13 +28,13 @@ export const AddFloorModal = () => {
 			try {
 				const user = parseCookie();
 				//alterar para o id real
-				const property = user.account;
+				const property = user?.account;
 				const res = await create({
 					name: floorName,
-					account: user.account,
+					account: user?.account,
 					property,
 					isAccessible: isAccessible === 1 ? true : false,
-				} as );
+				} as FloorEntity)
 				if (!res.error.value) {
 					setSuccess(true);
 					setFloorName("");

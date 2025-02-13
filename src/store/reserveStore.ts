@@ -21,7 +21,7 @@ type State = {
   totalPages2: number,
   reservePerPage: number;
 
-  selectedTitleHeader: string;
+  selectedTitleHeader: { id: number; label: string };
 
   isChecked: string,
 }
@@ -51,7 +51,7 @@ export const reserveStore = create<State & Actions>((set) => ({
   currentPage: 1,
   totalPages: 1,
   totalPages2: 1,
-  selectedTitleHeader: "Chegadas",
+  selectedTitleHeader: { id: 1, label: "Chegadas" },
   isChecked: "",
   detailStartDate: new Date(),
   detailEndDate: new Date(),
@@ -72,7 +72,7 @@ export const reserveStore = create<State & Actions>((set) => ({
 
   setDetailEndDate: (data) => set({ detailEndDate: data }),
 
-  setSelectedTitleHeader: (data) => set({ selectedTitleHeader: data }),
+  setSelectedTitleHeader: (data: any) =>set({ selectedTitleHeader: { label: data?.label, id: data?.id } }),
 
   setIschecked(isChecked) {
     set({ isChecked: isChecked })
