@@ -25,7 +25,7 @@ export const WorkInfoModal = ({
 						<FaX />
 					</button>
 				</div>
-				<form method="post" className="flex flex-col p-4 gap-2">
+				<div className="flex flex-col p-4 gap-2">
 					<div>
 						<label htmlFor="meta">Meta Salarial</label>
 						<Input
@@ -84,7 +84,7 @@ export const WorkInfoModal = ({
 							Salvar
 						</Button>
 					</div>
-				</form>
+				</div>
 			</div>
 		</div>
 	);

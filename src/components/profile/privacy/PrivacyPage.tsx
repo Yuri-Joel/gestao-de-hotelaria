@@ -1,5 +1,3 @@
-import { formatCurrency } from "@/helpers/formatCurrency";
-
 import { profileStore } from "@/store/profile/profileStore";
 
 import { FaEnvelope, FaPen } from "react-icons/fa";
@@ -7,8 +5,8 @@ import { FaEnvelope, FaPen } from "react-icons/fa";
 import { ActiveUser } from "../activeUser/ActiveUser";
 import { PasswordModal } from "../passwordModal/PasswordModal";
 
-const PrivacyPage = () => {
-	const { selectedModal, setSelectedModal } = profileStore();
+export const PrivacyPage = () => {
+	const { selectedModal, setSelectedModal, user } = profileStore();
 	const openModal = (e: React.SyntheticEvent<HTMLButtonElement>) =>
 		setSelectedModal(e.currentTarget.ariaLabel as string);
 	return (
@@ -17,7 +15,12 @@ const PrivacyPage = () => {
 				<PasswordModal close={setSelectedModal} />
 			)}
 			<div className="w-full py-2 px-4">
-				<ActiveUser cpf="1234567890" fullName="John Doe" />
+				<ActiveUser
+					cpf="-"
+					fullName={
+						(user?.firstName || "-") + " " + (user?.lastName || "-")
+					}
+				/>
 
 				<div className="mt-4 px-2 py-4 gap-2 flex flex-col group relative">
 					<button
@@ -31,14 +34,10 @@ const PrivacyPage = () => {
 					<p className="flex gap-2 text-gray-500 items-center">
 						<FaEnvelope />
 						Email:{" "}
-						<span className="text-black">
-							aderitocaxala.zeno@gmail.com
-						</span>
+						<span className="text-black">{user?.email || "-"}</span>
 					</p>
 				</div>
 			</div>
 		</>
 	);
 };
-
-export default PrivacyPage;

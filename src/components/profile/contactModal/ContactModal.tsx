@@ -21,7 +21,7 @@ export const ContactModal = ({
 						<FaX />
 					</button>
 				</div>
-				<form method="post" className="flex flex-col p-4 gap-2">
+				<div className="flex flex-col p-4 gap-2">
 					<div>
 						<label htmlFor="cell">Celular</label>
 						<Input
@@ -51,7 +51,7 @@ export const ContactModal = ({
 							Salvar
 						</Button>
 					</div>
-				</form>
+				</div>
 			</div>
 		</div>
 	);

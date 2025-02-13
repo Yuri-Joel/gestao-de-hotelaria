@@ -21,7 +21,7 @@ export const PasswordModal = ({
 						<FaX />
 					</button>
 				</div>
-				<form method="post" className="flex flex-col p-4 gap-2">
+				<div className="flex flex-col p-4 gap-2">
 					<div>
 						<label htmlFor="senha_atual">*Senha Atual</label>
 						<Input
@@ -33,20 +33,20 @@ export const PasswordModal = ({
 						/>
 					</div>
 					<div>
-						<label htmlFor="senha_atual">*Nova Senha</label>
+						<label htmlFor="new_senha">*Nova Senha</label>
 						<Input
 							type="password"
-							id="senha_atual"
+							id="new_senha"
 							isCellPhone
 							value={""}
 							handleValue={(e) => {}}
 						/>
 					</div>
 					<div>
-						<label htmlFor="senha_atual">*Confirmar Nova Senha</label>
+						<label htmlFor="confirm_new_senha">*Confirmar Nova Senha</label>
 						<Input
 							type="password"
-							id="senha_atual"
+							id="confirm_new_senha"
 							isCellPhone
 							value={""}
 							handleValue={(e) => {}}
@@ -61,7 +61,7 @@ export const PasswordModal = ({
 							Salvar
 						</Button>
 					</div>
-				</form>
+				</div>
 			</div>
 		</div>
 	);

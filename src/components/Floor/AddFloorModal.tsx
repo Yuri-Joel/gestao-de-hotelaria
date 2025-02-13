@@ -33,7 +33,7 @@ export const AddFloorModal = () => {
 					account: user.account,
 					property,
 					isAccessible: isAccessible === 1 ? true : false,
-				});
+				} as );
 				if (!res.error.value) {
 					setSuccess(true);
 					setFloorName("");

@@ -19,10 +19,10 @@ export const AddressModal = ({
 						<FaX />
 					</button>
 				</div>
-				<form method="post" className="flex flex-col p-4 gap-2">
-					<div className="flex gap-2">
+				<div className="flex flex-col p-4 gap-2 w-full ">
+					<div className="flex gap-2 *:w-full">
 						<div>
-							<label htmlFor="cell">Rua</label>
+							<label htmlFor="rua">Rua</label>
 							<Input
 								type="text"
 								id="rua"
@@ -42,21 +42,21 @@ export const AddressModal = ({
 							/>
 						</div>
 					</div>
-					<div className="flex gap-2">
+					<div className="flex gap-2 *:w-full">
 						<div>
-							<label htmlFor="cell">Bairro</label>
+							<label htmlFor="hood">Bairro</label>
 							<Input
 								type="text"
-								id="rua"
+								id="hood"
 								value={"Águas de Lindóia"}
 								handleValue={(e) => {}}
 							/>
 						</div>
 
 						<div>
-							<label htmlFor="cell_ad">País</label>
+							<label htmlFor="country">País</label>
 							<Input
-								id="cell_add"
+								id="country"
 								type="text"
 								isCellPhone
 								value={"(99) 9999-9999"}
@@ -64,21 +64,21 @@ export const AddressModal = ({
 							/>
 						</div>
 					</div>
-					<div className="flex gap-2">
+					<div className="flex gap-2 *:w-full">
 						<div>
-							<label htmlFor="cell">CEP</label>
+							<label htmlFor="cep">CEP</label>
 							<Input
 								type="text"
-								id="rua"
+								id="cep"
 								value={"00000-00"}
 								handleValue={(e) => {}}
 							/>
 						</div>
 
 						<div>
-							<label htmlFor="cell_ad">Número</label>
+							<label htmlFor="number">Número</label>
 							<Input
-								id="cell_add"
+								id="number"
 								type="text"
 								isCellPhone
 								value={"(99) 9999-9999"}
@@ -86,21 +86,21 @@ export const AddressModal = ({
 							/>
 						</div>
 					</div>
-					<div className="flex gap-2">
+					<div className="flex gap-2 *:w-full">
 						<div>
-							<label htmlFor="cell">Cidade</label>
+							<label htmlFor="city">Cidade</label>
 							<Input
 								type="text"
-								id="rua"
+								id="city"
 								value={"Belo Horizonte, Rio de Janeiro 290"}
 								handleValue={(e) => {}}
 							/>
 						</div>
 
 						<div>
-							<label htmlFor="cell_ad">Complemento</label>
+							<label htmlFor="comp">Complemento</label>
 							<Input
-								id="cell_add"
+								id="comp"
 								type="text"
 								isCellPhone
 								value={"(99) 9999-9999"}
@@ -117,7 +117,7 @@ export const AddressModal = ({
 							Salvar
 						</Button>
 					</div>
-				</form>
+				</div>
 			</div>
 		</div>
 	);

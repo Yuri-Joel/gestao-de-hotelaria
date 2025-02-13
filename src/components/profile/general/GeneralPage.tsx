@@ -16,12 +16,22 @@ import { ActiveUser } from "../activeUser/ActiveUser";
 import { WorkInfoModal } from "../workInfoModal/WorkInfoModal";
 
 import { profileStore } from "@/store/profile/profileStore";
-import { formatCurrency } from "@/helpers/formatCurrency";
+import { parseCookie } from "@/helpers/cookies/authCookie";
+
+import { useEffect } from "react";
+import { Types } from "mongoose";
 
 export const GeneralPage = () => {
-	const { selectedModal, setSelectedModal } = profileStore();
+	const { selectedModal, setSelectedModal, findOne, user } = profileStore();
+
 	const openModal = (e: React.SyntheticEvent<HTMLButtonElement>) =>
 		setSelectedModal(e.currentTarget.ariaLabel as string);
+	useEffect(() => {
+		(async () => {
+			const userId = parseCookie()?._id as Types.ObjectId;
+			await findOne(userId);
+		})();
+	}, []);
 
 	return (
 		<>
@@ -35,20 +45,27 @@ export const GeneralPage = () => {
 				<AddressModal close={setSelectedModal} />
 			)}
 			<div className="w-full py-2 px-4">
-				<ActiveUser cpf="1234567890" fullName="John Doe" />
+				<ActiveUser
+					cpf="-"
+					fullName={
+						(user?.firstName || "-") + " " + (user?.lastName || "-")
+					}
+				/>
 				<div className="mt-4 border-b px-2 py-4 gap-2 flex flex-col group relative">
 					<h1 className="font-bold mb-2">Informações Básicas</h1>
 					<p className="flex gap-2 text-gray-500 items-center">
 						<FaUser />
 						Nome Completo:{" "}
-						<span className="text-black">Paulo Patrao</span>
+						<span className="text-black">
+							{(user?.firstName || "-") +
+								" " +
+								(user?.lastName || "-")}
+						</span>
 					</p>
 					<p className="flex gap-2 text-gray-500 items-center">
 						<FaEnvelope />
 						Email:{" "}
-						<span className="text-black">
-							aderitocaxala.zeno@gmail.com
-						</span>
+						<span className="text-black">{user?.email || "-"}</span>
 					</p>
 				</div>
 				<div className="mt-4 border-b px-2 py-4 gap-2 flex flex-col group relative">
@@ -62,31 +79,25 @@ export const GeneralPage = () => {
 					<h1 className="font-bold mb-2">Informações de Trabalho</h1>
 					<p className="flex gap-2 text-gray-500 items-center">
 						<FaDollarSign />
-						Meta salarial:{" "}
-						<span className="text-black">
-							{formatCurrency(100)}
-						</span>
+						Meta salarial: <span className="text-black">{"-"}</span>
 					</p>
 					<p className="flex gap-2 text-gray-500 items-center">
 						<FaDollarSign />
-						Comissão: <span className="text-black">0,0%</span>
+						Comissão: <span className="text-black">-</span>
 					</p>
 					<p className="flex gap-2 text-gray-500 items-center">
 						<FaDollarSign />
-						Salário:{" "}
-						<span className="text-black">
-							{formatCurrency(100)}
-						</span>
+						Salário: <span className="text-black">{"-"}</span>
 					</p>
 					<p className="flex gap-2 text-gray-500 items-center">
 						<FaClock />
 						Horário do trabalho (Início):{" "}
-						<span className="text-black">00:00</span>
+						<span className="text-black">-:-</span>
 					</p>
 					<p className="flex gap-2 text-gray-500 items-center">
 						<FaClock />
 						Horário do trabalho (Fim):{" "}
-						<span className="text-black">00:00</span>
+						<span className="text-black">-:-</span>
 					</p>
 				</div>
 				<div className="mt-4 border-b px-2 py-4 gap-2 flex flex-col relative group">
@@ -94,19 +105,19 @@ export const GeneralPage = () => {
 					<p className="flex gap-2 text-gray-500 items-center">
 						<FaPhone />
 						Celular:{" "}
-						<span className="text-black">(+55) 9999-9999</span>
+						<span className="text-black">{user?.phone || "-"}</span>
 					</p>
 					<p className="flex gap-2 text-gray-500 items-center">
 						<FaPhone />
 						Celular Adicional:{" "}
-						<span className="text-black">(+55) 9999-9999</span>
+						<span className="text-black">
+							{user?.alternatePhone || "-"}
+						</span>
 					</p>
 					<p className="flex gap-2 text-gray-500 items-center">
 						<FaEnvelope />
 						Email:{" "}
-						<span className="text-black">
-							aderitocaxala.zeno@gmail.com
-						</span>
+						<span className="text-black">{user?.email || "-"}</span>
 					</p>
 					<button
 						className="border shadow-md h-8 w-8 rounded-[50%] items-center justify-center bg-white hover:bg-black/30 absolute top-0 right-2 hidden group-hover:flex"
@@ -129,52 +140,38 @@ export const GeneralPage = () => {
 						<div className="flex gap-2 flex-col">
 							<p className="flex gap-2 text-gray-500 items-center">
 								<FaLocationPin />
-								Rua:{" "}
-								<span className="text-black">
-									Belo Horizonte, Rio de Janeiro 290
-								</span>
+								Rua: <span className="text-black">-</span>
 							</p>
 							<p className="flex gap-2 text-gray-500 items-center">
 								<FaEnvelope />
-								Bairro:{" "}
-								<span className="text-black">
-									Águas de Lindóia
-								</span>
+								Bairro: <span className="text-black">-</span>
 							</p>
 							<p className="flex gap-2 text-gray-500 items-center">
 								<FaEnvelope />
-								CEP:{" "}
-								<span className="text-black">00000-00</span>
+								CEP: <span className="text-black">-</span>
 							</p>
 							<p className="flex gap-2 text-gray-500 items-center">
 								<FaEnvelope />
-								Cidade:{" "}
-								<span className="text-black">
-									Rio de Janeiro
-								</span>
+								Cidade: <span className="text-black">-</span>
 							</p>
 						</div>
 						<div className="flex gap-2 flex-col">
 							<p className="flex gap-2 text-gray-500 items-center">
 								<FaEnvelope />
-								Estado:{" "}
-								<span className="text-black">
-									Belo Horizonte
-								</span>
+								Estado: <span className="text-black">-</span>
 							</p>
 							<p className="flex gap-2 text-gray-500 items-center">
 								<FaEnvelope />
-								País: <span className="text-black">Brasil</span>
+								País: <span className="text-black">-</span>
 							</p>
 							<p className="flex gap-2 text-gray-500 items-center">
 								<FaEnvelope />
-								Número:{" "}
-								<span className="text-black">1939293</span>
+								Número: <span className="text-black">-</span>
 							</p>
 							<p className="flex gap-2 text-gray-500 items-center">
 								<FaEnvelope />
 								Complemento:{" "}
-								<span className="text-black">102938323</span>
+								<span className="text-black">-</span>
 							</p>
 						</div>
 					</div>
