@@ -16,23 +16,12 @@ import { ActiveUser } from "../activeUser/ActiveUser";
 import { WorkInfoModal } from "../workInfoModal/WorkInfoModal";
 
 import { profileStore } from "@/store/profile/profileStore";
-import { parseCookie } from "@/helpers/cookies/authCookie";
-
-import { useEffect } from "react";
-import { Types } from "mongoose";
 
 export const GeneralPage = () => {
-	const { selectedModal, setSelectedModal, findOne, user } = profileStore();
+	const { selectedModal, setSelectedModal, user } = profileStore();
 
 	const openModal = (e: React.SyntheticEvent<HTMLButtonElement>) =>
 		setSelectedModal(e.currentTarget.ariaLabel as string);
-	useEffect(() => {
-		(async () => {
-			const userId = parseCookie()?._id as Types.ObjectId;
-			await findOne(userId);
-		})();
-	}, []);
-
 	return (
 		<>
 			{selectedModal === "workinfo" && (
