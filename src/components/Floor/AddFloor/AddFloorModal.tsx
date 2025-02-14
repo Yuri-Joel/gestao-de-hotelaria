@@ -67,7 +67,6 @@ export const AddFloorModal = () => {
             <label htmlFor="floor_name">Nome do Andar</label>
             <Input
               type="text"
-              id="floor_name"
               value={floorName}
               handleValue={(e) => setFloorName(e.target.value)}
               disabled={isLoading}

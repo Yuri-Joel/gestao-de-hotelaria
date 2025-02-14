@@ -21,7 +21,7 @@ import AlertDialog from "@/components/AlertDialog/AlertDialog";
 import { parseCookie } from "@/helpers/cookies/authCookie";
 import { Types } from "mongoose";
 import { Skeleton } from "@/components/Skeleton/Skeleton";
-import { ActionMenu } from "@/components/ActionMenu/ActionMenu";
+import { ActionMenu } from "@/components/UserMenu/ActionMenu";
 
 interface UsersProps {
   data: UserEntity[] | null;
