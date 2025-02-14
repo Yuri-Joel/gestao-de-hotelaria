@@ -7,11 +7,14 @@ import { StartIcon } from '@/assets/Icons/StartIcon';
 import sideBarStateStore from '@/store/sideBarStateStore';
 import { TmenuSidebar } from '@/types/menuSidebar';
 import Link from 'next/link';
+import { usePathname} from 'next/navigation'
+
 import { useEffect, useRef, useState } from 'react';
 
 export function Sidebar() {
 
     const { state, closeAllSubMenus, openSubMenus, setOpenSubMenus } = sideBarStateStore();
+    const pathname = usePathname()
     const slug = "hotel-ao"
     const menuItems: TmenuSidebar = [
         {
@@ -119,7 +122,16 @@ export function Sidebar() {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [!state]);
-
+    const pathArray = pathname.split('/')
+    let newPath: string = ''
+  
+    pathArray.forEach((item, index) => {
+      if (index > 1) {
+        newPath += '/' + item as string
+      }
+  
+    })
+  
     return (
         <aside
             className={`bg-white-700 text-gray-900 border-black-100 font-medium transition-all shadow-xl duration-300 ease-in-out ${state ? "w-64" : "w-16"} flex flex-col`}
@@ -130,7 +142,7 @@ export function Sidebar() {
                         <div key={item.label} >	
                             <Link
                                 href={`/${slug}${item.path}`}
-                                className={`flex items-center px-4 py-4 hover:bg-[#D5CEE5] ${openSubMenus[item.label] ? "bg-[#D5CEE5]" : ""}`}
+                                className={`flex items-center px-4 py-4 hover:bg-[#dfdee0] hover:rounded-md ${!item.subMenu ? pathname === `/${slug}${item.path}`  ? "bg-[#D5CEE5] rounded-md" : "": ""}`}
                                 onClick={(e) => {
                                     if (item.subMenu) {
                                         e.preventDefault();
@@ -175,7 +187,7 @@ export function Sidebar() {
                                             <Link
                                                 key={subItem.label}
                                                 href={`/${slug}${subItem.path}`}
-                                                className="flex items-center px-4 py-4 hover:bg-[#D5CEE5]"
+                                                className={`flex items-center px-4 py-4 hover:rounded-md hover:bg-[#dfdee0] ${newPath === subItem.path ? 'bg-primary-300 text-violet-600 rounded-md' : ""}`}
                                             >
                                                 {state && <span className='ml-8'>{subItem.label}</span>}
                                             </Link>
