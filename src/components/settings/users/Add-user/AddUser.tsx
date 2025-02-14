@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { Button } from "@/components/Button/Button";
 import { Input } from "@/components/Input/Input";
-import { XIcon } from "@/assets/Icons/XIcon";
 import { twMerge } from "tailwind-merge";
 import AlertDialog from "@/components/AlertDialog/AlertDialog";
 import { userStore } from "@/store/userStore";
@@ -96,7 +95,7 @@ const AddUser: React.FC = () => {
       {AddUserModal && (
         <div>
         <Modal
-         title="CADASTRAR NOVO USUÁRIO"
+         title="Cadastrar novo usuário"
          description="Preencha os dados abaixo para cadastrar um novo usuário"
          isOpen={AddUserModal}
          onClose={ clorseAddUserModal}

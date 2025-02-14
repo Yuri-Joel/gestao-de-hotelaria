@@ -3,20 +3,29 @@ import { Modal } from "../../Modal/Modal";
 import { Input } from "../../Input/Input";
 import { Button } from "../../Button/Button";
 import { floorStore } from "@/store/floorStore";
+import { floorAcordionStore } from "@/store/floorAcordionStore";
+import AlertDialog from "@/components/AlertDialog/AlertDialog";
+import { Checkbox } from "@/components/Input/CheckBox";
+import Cookies from "js-cookie";
 import { parseCookie } from "@/helpers/cookies/authCookie";
 import { Types } from "mongoose";
-import { XIcon } from "@/assets/Icons/XIcon";
-import { RightIcon } from "@/assets/Icons/RightIcon";
-import Select from "../../Input/Select";
-import Cookies from "js-cookie";
 
 export const AddFloorModal = () => {
-  const [floorName, setFloorName] = useState("");
-  const [isAccessible, setIsAccessible] = useState(true);
+  const [AlertTrue, setAlertTrue] = useState(false);
+  const [AlertFalse, setAlertFalse] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [success, setSuccess] = useState<boolean | null>(null);
 
   const { create, handleOpenModalNewFloor, isOpenModalNewFloor } = floorStore();
+  const {
+    acessible,
+    firstStore,
+    name,
+    step,
+    nextStep,
+    resetStore,
+    setAcessible,
+    setName,
+  } = floorAcordionStore();
 
   const handleNewFloor = async () => {
     setIsLoading(true);
@@ -27,91 +36,141 @@ export const AddFloorModal = () => {
       );
 
       const account = user?.account;
-      if (!propetyId && !floorName && !account) {
-        setSuccess(false);
-      }
 
       const res = await create({
-        name: floorName,
+        name: name,
         account: account,
         property: new Types.ObjectId(propetyId as string),
-        isAccessible: isAccessible,
+        isAccessible: acessible,
       });
 
       if (!res.error.value) {
-        setSuccess(true);
-        setFloorName("");
-      } else {
-        setSuccess(false);
-      }
+        nextStep();
+      } 
+        setAlertFalse(false);
+        setAlertTrue(true);
+      
     } catch {
-      setSuccess(false);
+      setAlertFalse(true);
+      setAlertTrue(false);
+    } finally{
       setIsLoading(false);
-    } // finally {
-    //    setTimeout(() => setSuccess(null), 1000);
-    //    setIsLoading(false);
-    //    handleOpenModalNewFloor();
-    // }
+    }
   };
+
+    const handleAddMoreFloor = () => {
+      resetStore();
+      setAlertTrue(false);
+    };
+  
+    const handleCancel = () => {
+      firstStore();
+      setAlertFalse(false);
+    };
+  
+    const handleGoToFloor = () => {
+  
+        resetStore();
+        setAlertTrue(false);
+        setIsLoading(false);
+        handleOpenModalNewFloor();
+      }
+  
 
   return (
     <Modal
-      title="CADASTRAR ANDAR"
+      title="Cadastrar andar"
       description="Cadastrar um novo andar"
       onClose={handleOpenModalNewFloor}
       isOpen={isOpenModalNewFloor}
     >
-      {success === null ? (
+      {step === "first" && (
         <div className="flex flex-col gap-5">
           <div>
             <label htmlFor="floor_name">Nome</label>
             <Input
               type="text"
-              value={floorName}
-              handleValue={(e) => setFloorName(e.target.value)}
-              disabled={isLoading}
+              placeholder="Insira o nome"
+              value={name}
+              handleValue={(e) => setName(e.target.value)}
+              className="mt-6 w-full  outline-none border  text-black"
             />
           </div>
           <div>
-            <label className="font-medium text-sm text-black">Acessível</label>
-            <Select
-              setSelected={(value) => setIsAccessible(value === "Sim")}
-              name="isAccessible"
-              data={["Sim", "Não"]}
-              selectedItem={isAccessible ? "Sim" : "Não"}
-            />
+            <label className="block text-sm font-medium text-gray-700 mb-3 w-full">
+              Acessível
+            </label>
+            <div className="flex justify-start gap-2 w-full items-center ">
+              <Checkbox
+                index={1}
+                isChecked={acessible ? true : false}
+                onClick={() => setAcessible(true)}
+              />
+              <label>Sim</label>
+              <Checkbox
+                index={1}
+                isChecked={acessible ? false : true}
+                onClick={() => setAcessible(false)}
+              />
+              <label>Não</label>
+            </div>
           </div>
-          <div className="w-full *:w-full">
+          <Button handleActive={() => name.length > 0} handleClick={nextStep}>
+            Cadastrar
+          </Button>
+        </div>
+      )}
+      {step === "second" && (
+        <div className="bg-white flex flex-col p-10">
+          <h1 className="font-bold text-xl w-full text-center">
+            Dados do Andar
+          </h1>
+          <span className="mt-6 w-full outline-none text-black">
+            Nome: {name}
+          </span>
+          <span className="mt-3 w-full outline-none text-black">
+            Acessibilidade: {acessible ? "Acessível" : "Não acessível"}
+          </span>
+          <div className="w-full flex gap-4 mt-6">
             <Button
-              handleActive={() => floorName.length > 0}
-              handleClick={handleNewFloor}
+              label="Voltar"
+              handleActive={() => !isLoading}
+              handleClick={firstStore}
+              className="w-full bg-gray-500"
+            />
+            <Button
+              label="Confirmar"
               isLoading={isLoading}
-            >
-              Adicionar
-            </Button>
-          </div>
-        </div>
-      ) : success ? (
-        <div className="flex items-center justify-center h-54 w-full flex-col">
-          <div className="rounded-full bg-green-100 p-4 mb-4">
-            <RightIcon className="h-10 w-10 text-green-600" />
-          </div>
-          <p className="font-bold">Andar adicionado com sucesso</p>
-        </div>
-      ) : (
-        <div className="flex items-center justify-center h-54 w-full flex-col">
-          <div className="rounded-full bg-red-100 p-2 mb-4">
-            <XIcon
-              fill="red"
-              width="42"
-              height="42"
-              className="text-2xl h-1 w-10 text-red-600"
+              handleActive={() => true}
+              handleClick={handleNewFloor}
+              className="w-full"
             />
           </div>
-          <p className="font-bold">
-            Desculpa, mas não conseguimos adicionar o seu andar
-          </p>
         </div>
+      )}
+      {AlertTrue && (
+        <AlertDialog
+          typeAlert={"confirm"}
+          title="Sucesso"
+          description="Sua andar foi cadastrado com sucesso"
+          confirmTitleBtn="Confirmar"
+          cancelTitleBtn="Adicionar mais andares"
+          isOpenedModalManagement={true}
+          handleConfirm={handleGoToFloor}
+          handleCancel={handleAddMoreFloor}
+          hideCloseTopButton
+        />
+      )}
+      {AlertFalse && (
+        <AlertDialog
+          typeAlert={"cancel"}
+          title="Erro"
+          description="Erro ao cadastrar uma nova propriedade"
+          cancelTitleBtn="Voltar"
+          isOpenedModalManagement={isOpenModalNewFloor}
+          handleCancel={handleCancel}
+          hideCloseTopButton
+        />
       )}
     </Modal>
   );

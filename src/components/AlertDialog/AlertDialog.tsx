@@ -12,7 +12,7 @@ interface IAlertDialog {
   isBtnLoading?: any | boolean;
   handleConfirm?: () => void;
   handleCancel?: () => void;
-  typeAlert: "confirm" | "cancel";
+  typeAlert: string;
   hideTypeAlertIcon?: boolean;
   hideCloseTopButton?: boolean;
   modeLogout?: boolean

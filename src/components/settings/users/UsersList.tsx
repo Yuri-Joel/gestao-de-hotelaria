@@ -71,8 +71,8 @@ export function UserList({ data }: UsersProps) {
     }
   };
 
-  const openModelDeleteUser = (userId: Types.ObjectId) => {
-    setSelectedUserId(userId || null);
+  const openModelDeleteUser = (userId: string | Types.ObjectId) => {
+    setSelectedUserId(typeof userId === 'string' ? new Types.ObjectId(userId) : userId);
     handleOpenAlertDialogDeleteUser();
   };
 
@@ -183,8 +183,7 @@ export function UserList({ data }: UsersProps) {
                         itemId={user._id!}
                         openMenuId={openMenuId}
                         onSelect={handleSetSelectedUser}
-                        onDelete={openModelDeleteUser}
-                      />
+                        onDelete={openModelDeleteUser} details={false}                      />
                     </TableCell>
                   </TableRow>
                 ))}

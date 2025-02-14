@@ -89,7 +89,7 @@ export function FloorList() {
               <>
                 {[...Array(5)].map((_, i) => (
                   <TableRow key={i} className="p-2 bg-white">
-                    <TableCell colSpan={4}>
+                    <TableCell colSpan={5}>
                       <Skeleton className="h-12 w-FULL" />
                     </TableCell>
                   </TableRow>
@@ -131,7 +131,7 @@ export function FloorList() {
 									</TableCell>
                   <TableCell className="text-center flex items-center  justify-center">
                     <div
-                      className="flex justify-center items-center mt-2  relative"
+                      className="flex justify-center items-center mt-2  relative w-6 h-6"
                       ref={menuRef}
                     >
                       <div
@@ -185,39 +185,51 @@ export function FloorList() {
           </tbody>
           <tfoot>
             <tr>
-              <TableCell colSpan={5}>
-                <div className="flex  items-center justify-end gap-8">
-                  <span>
-                    Página {currentPage} de {totalPages}
-                  </span>
-                  <div className="flex gap-1.5">
-                    <IconButton
-                      disabled={currentPage === 1}
-                      onClick={() => setCurrentPage(1)}
-                    >
-                      <BiChevronsLeft className="size-4" />
-                    </IconButton>
-                    <IconButton
-                      disabled={currentPage === 1}
-                      onClick={() => setCurrentPage(currentPage - 1)}
-                    >
-                      <BiChevronLeft className="size-4" />
-                    </IconButton>
-                    <IconButton
-                      disabled={currentPage === totalPages || totalPages === 1}
-                      onClick={() => setCurrentPage(currentPage + 1)}
-                    >
-                      <BiChevronRight className="size-4" />
-                    </IconButton>
-                    <IconButton
-                      disabled={currentPage === totalPages || totalPages === 1}
-                      onClick={() => setCurrentPage(totalPages)}
-                    >
-                      <BiChevronsRight className="size-4" />
-                    </IconButton>
-                  </div>
-                </div>
-              </TableCell>
+            <TableCell colSpan={5}>
+                    <div className="flex items-center justify-end gap-8">
+                      <span>Pagina {currentPage} de {totalPages}</span>
+                      <div className="flex gap-1.5">
+                        <IconButton
+                          disabled={currentPage === 1}
+                          transparent={currentPage != 1 ? false : true}
+                          onClick={() => {
+                            setCurrentPage(1)
+                          }}
+                        >
+                          <BiChevronsLeft className="size-4" />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => {
+                            setCurrentPage(currentPage - 1)
+                          }
+                          }
+                          disabled={currentPage === 1}
+                          transparent={currentPage === 1 ? true : false}
+                        >
+                          <BiChevronLeft className="size-4" />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => {
+                            setCurrentPage(currentPage + 1)
+                          }}
+                          disabled={currentPage === totalPages || totalPages === 0}
+                          transparent={currentPage === totalPages || totalPages === 0 ? true : false}
+                        >
+                          <BiChevronRight className="size-4" />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => {
+                            setCurrentPage(totalPages)
+                          }
+                          }
+                          disabled={currentPage === totalPages || totalPages === 0}
+                          transparent={currentPage === totalPages || totalPages === 0 ? true : false}
+                        >
+                          <BiChevronsRight className="size-4" />
+                        </IconButton>
+                      </div>
+                    </div>
+                  </TableCell>
             </tr>
           </tfoot>
         </Table>
