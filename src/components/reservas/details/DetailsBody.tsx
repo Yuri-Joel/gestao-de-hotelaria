@@ -1,5 +1,4 @@
 "use client"
-
 import { ArrowDown } from "@/assets/Icons/ArrowDown";
 import { DetailsList } from "./DetailsList";
 import { reserveStore } from "@/store/reserveStore";
@@ -8,22 +7,15 @@ import { fakeGuestAndCompanion } from "@/utils/api/guest"
 import { FaHotel } from "react-icons/fa";
 import Link from "next/link";
 import { FormRefund } from "./FormRefund";
+import { delay } from "@/helpers/delay";
+import { Skeleton } from "@/components/Skeleton/Skeleton";
 
 export function DetailsBody() {
 
-  const {isOpenedModalGuest, setIsOpenedModalGuest, isOpenedModalRefund} = reserveStore()
-  const [selectedGuest, setSelectedGuest] = useState(() => {
-    if (typeof window !== "undefined") { // Verifica se está no navegador
-      const guest = localStorage.getItem('guesteSelected');
-      if (guest && guest !== "undefined") {
-        return JSON.parse(guest);
-      }
-    }
-    return fakeGuestAndCompanion.guest.name;
-  })
+  const {isOpenedModalGuest, setIsOpenedModalGuest, isOpenedModalRefund, selectedGuest, setSelectedGuest} = reserveStore()
 
   const verifyIfIsCompanion = fakeGuestAndCompanion.guest.companion.filter((companion,index) => companion.name === selectedGuest )
-  
+  const [loading, setLoading] = useState(false)
   
   function handleCompanion(name:string) {
     localStorage.setItem("guesteSelected", JSON.stringify(name))
@@ -31,13 +23,31 @@ export function DetailsBody() {
     window.location.href = "/hotel-ao/reservas/details"
   }
 
+  useEffect(() => {
+    (
+      async () => {
+        const guest = localStorage.getItem("guesteSelected");
+        setLoading(true)
+        await delay(1000);
+        if (guest && guest !== "undefined") {
+          setSelectedGuest(JSON.parse(guest));
+        }
+        setLoading(false)
+      }
+    )()
+  }, [setSelectedGuest]);
+
   return(
     <div>
       <div className="flex flex-col items-start gap-y-4 mx-5 mt-10">
         <div className="flex flex-col items-start justify-center gap-2 relative">
           <div className="flex items-center justify-center gap-6">
             <div className="flex items-center justify-center gap-5">
-              <h1 className="font-bold text-xl">{ selectedGuest }</h1>
+              {
+                selectedGuest 
+                ? <h1 className="font-bold text-xl">{ selectedGuest ? selectedGuest : fakeGuestAndCompanion.guest.name }</h1>
+                : <Skeleton className="w-[12rem] h-7"/>
+              }
               <button 
                 className="cursor-pointer"
                 onClick={() => setIsOpenedModalGuest(!isOpenedModalGuest)}

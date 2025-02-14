@@ -1,12 +1,13 @@
 import { Button } from "@/components/Button/Button";
 import { Input } from "@/components/Input/Input";
+import { Modal } from "@/components/Modal/Modal";
 import { delay } from "@/helpers/delay";
 import { reserveStore } from "@/store/reserveStore";
 import { useState } from "react";
 
 export function FormRefund() {
 
-  const { handleOpenModalRefund } = reserveStore()
+  const { handleOpenModalRefund, isOpenedModalRefund } = reserveStore()
   const [inputReason, setInputReason] = useState("")
   const [inputPassword, setInputPassWord] = useState("")
 	const [isLoading, setIsLoading] = useState(false);
@@ -30,33 +31,33 @@ export function FormRefund() {
   }
 
   return(
-    <div className="inset-0 fixed bg-gray/20 z-50 visible opacity-100 flex items-center justify-center">
-      <div className="bg-white w-[678px] py-5 rounded-md">
-        <div className="flex flex-col px-5 gap-2">
-          <h1 className="font-bold text-2xl">Autorização de Estorno</h1>
-          <p className="w-[80%] text-gray-500 ml-2 text-sm">Para realizar o estorno, é necessário inserir a senha de um administrador e o motivo. Após confirmar, a ação será irreversível.</p>
-        </div>
-
-        <div className="flex flex-col justify-center w-full px-20 py-4 gap-3">
-          <div className="flex flex-col border rounded-md px-2 py-1">
-            <label htmlFor="" className="text-sm font-semibold text-gray-500">Motivo</label>
-            <Input
-              handleValue={handleChangeReason}
-              value={inputReason}
-              className="border-none"
-            />
+      <Modal
+        title="Autorização de Estorno"
+        description="Para realizar o estorno, é necessário inserir a senha de um administrador e o motivo. Após confirmar, a ação será irreversível."
+        isOpen={isOpenedModalRefund}
+        onClose={handleOpenModalRefund}
+      >
+        <div className="flex flex-col">
+          <div className="flex flex-col justify-center w-full  py-4 gap-3">
+            <div className="flex flex-col border rounded-md px-2 py-1">
+              <label htmlFor="" className="text-sm font-semibold text-gray-500">Motivo</label>
+              <Input
+                handleValue={handleChangeReason}
+                value={inputReason}
+                className="border-none"
+              />
+            </div>
+            <div className="flex flex-col border rounded-md overflow-hidden px-2 py-1">
+              <label htmlFor="" className="text-sm font-bold text-gray-500">Senha</label>
+              <Input
+                handleValue={handleChangePassword}
+                value={inputPassword}
+                className="border-none h-[2rem]"
+                type="password"
+              />
+            </div>
           </div>
-          <div className="flex flex-col border rounded-md overflow-hidden px-2 py-1">
-            <label htmlFor="" className="text-sm font-bold text-gray-500">Senha</label>
-            <Input
-              handleValue={handleChangePassword}
-              value={inputPassword}
-              className="border-none h-[2rem]"
-              type="password"
-            />
-          </div>
-        </div>
-        <div className="flex items-center justify-center gap-20">
+          <div className="flex items-center justify-center gap-20">
           <Button
             handleActive={() => true}
             handleClick={handleOpenModalRefund}
@@ -72,8 +73,8 @@ export function FormRefund() {
           >
             Avançar
           </Button>
+          </div>
         </div>
-      </div>
-    </div>
+      </Modal>
   )
 }
