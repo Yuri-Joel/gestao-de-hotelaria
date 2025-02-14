@@ -134,9 +134,9 @@ export function FloorList() {
 											-
 										</div>
 									</TableCell>
-									<TableCell className="text-center items-center flex justify-center">
+									<TableCell className="text-center flex items-center  justify-center">
 										<div
-											className="flex justify-center relative"
+											className="flex justify-center items-center mt-2  relative"
 											ref={menuRef}
 										>
 											<div

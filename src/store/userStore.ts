@@ -14,6 +14,7 @@ type State = {
   totalItems: number;
   EditUserModal: boolean;
   AddUserModal: boolean;
+  isDataLoading: boolean;
   isOpenedModalDeleteUser: boolean;
   isOpenedModalEditUser: boolean;
 };
@@ -27,6 +28,7 @@ type Action = {
   setEditUserModal: (value: boolean) => void;
   setAddUserModal: (value: boolean) => void;
   handleOpenAlertDialogDeleteUser: () => void;
+  handleIsDataLoading: (value: boolean) => void;
   handleOpenModalEditUser: () => void;
 };
 
@@ -39,6 +41,7 @@ export const userStore = create<State & Action>((set, get) => ({
   EditUserModal: false,
   AddUserModal: false,
   isOpenedModalDeleteUser: false,
+  isDataLoading: false,
   isOpenedModalEditUser: false,
 
   handleOpenAlertDialogDeleteUser: () => {
@@ -46,6 +49,9 @@ export const userStore = create<State & Action>((set, get) => ({
   },
   handleOpenModalEditUser: () => {
     set({ isOpenedModalEditUser: !get().isOpenedModalEditUser });
+  },
+  handleIsDataLoading: (value) => {
+    set({ isDataLoading: value });
   },
   setSelecteduser: (user) => set({ selecteduser: user }),
 

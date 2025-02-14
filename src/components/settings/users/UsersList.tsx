@@ -41,6 +41,7 @@ export function UserList({ data }: UsersProps) {
     handleOpenAlertDialogDeleteUser,
     isOpenedModalDeleteUser,
     remove,
+    isDataLoading,
   } = userStore();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -98,7 +99,8 @@ export function UserList({ data }: UsersProps) {
 
   return (
     <div className="transition-all duration-300 ease-in-out">
-      {isLoading ? (
+      
+      {isDataLoading ? (
         <div className="py-2">
           {[...Array(5)].map((_, i) => (
             <div key={i} className="py-2 bg-white">
@@ -112,7 +114,6 @@ export function UserList({ data }: UsersProps) {
 
           <div className="flex justify-between items-center w-full">
             <div className="mt-7 w-full">
-              <span className="font-bold mb-2">Usuários</span>
               <Input
                 handleValue={handleChange}
                 value={search}
@@ -186,7 +187,7 @@ export function UserList({ data }: UsersProps) {
 
                     <TableCell className="text-center items-center flex justify-center">
                       <div
-                        className="flex justify-center relative  "
+                        className="flex justify-center relative mt-2  "
                         ref={menuRef}
                       >
                         <div

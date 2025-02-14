@@ -2,6 +2,7 @@
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
+import Cookies from "js-cookie";
 
 import {
   BiChevronLeft,
@@ -23,6 +24,7 @@ import { propertyStore } from "@/store/propertyStore"
 import { PropertyEntity } from "@/interfaces/EntitiesForNewAPI/PropertyEntity"
 
 import { delay } from "@/helpers/delay"
+import { Types } from "mongoose";
 
 interface PropertiesProps {
   data: PropertyEntity[] | null
@@ -44,7 +46,31 @@ export function PropertiesList({ data }: PropertiesProps) {
     setRejectSkeleton
   } = propertyStore()
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+
+  const handleConfigProperty = (propertyId: Types.ObjectId, propertySlug: string) => {
+    if (!data) return;
+
+    Cookies.set(
+      process.env.NEXT_PUBLIC_PROPERTY_ID as string,
+      String(propertyId),
+      { 
+        expires: 2,
+        sameSite: "None",
+        secure: true,
+      },
+    );
+
+    Cookies.set(
+      process.env.NEXT_PUBLIC_PROPERTY_SLUG as string,
+      propertySlug,
+      { 
+        expires: 2,
+        sameSite: "None",
+        secure: true,
+      },
+    );
+  }
 
   useEffect(() => {
     (async () => {
@@ -96,13 +122,14 @@ export function PropertiesList({ data }: PropertiesProps) {
           )}
 
           <tbody>
-            {searchData && searchData.length > 0 &&
+            {Array.isArray(searchData) && (searchData && searchData.length > 0) &&
               searchData.slice(propertyPerPage === 10 ? 0 : propertyPerPage - 10, propertyPerPage).map((property, index) => (
                 <TableRow className={index % 2 === 0 ? "bg-gray-90" : "bg-white"} key={index}>
                   <TableCell className="flex flex-col gap-2">
                     <Link
                       href="/hotel-ao/home"
                       className="text-primary-700 font-medium"
+                      onClick={() => handleConfigProperty(property?._id as Types.ObjectId, property?.slug as string)}
                     >{property.name}</Link>
 
                     <span className="space-x-2">
