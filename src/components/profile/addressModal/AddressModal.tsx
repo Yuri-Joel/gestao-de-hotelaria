@@ -1,13 +1,22 @@
 import { Button } from "@/components/Button/Button";
 import { Input } from "@/components/Input/Input";
 
+import { useState } from "react";
+
 import { FaX } from "react-icons/fa6";
 
-export const AddressModal = ({
-	close,
-}: {
-	close: (value: string) => void;
-}) => {
+export const AddressModal = ({ close }: { close: (value: string) => void }) => {
+	const [isLoading, setIsLoading] = useState(false);
+	const [active, setActive] = useState(false);
+	const [street, setStreet] = useState("");
+	const [state, setState] = useState("");
+	const [nhood, setNHood] = useState("");
+	const [country, setCountry] = useState("");
+	const [cep, setCEP] = useState("");
+	const [num, setNum] = useState("");
+	const [city, setCity] = useState("");
+	const [comp, setComp] = useState("");
+
 	const dispatchCloseAction = (_e: React.SyntheticEvent<HTMLButtonElement>) =>
 		close("");
 	return (
@@ -15,7 +24,10 @@ export const AddressModal = ({
 			<div className="bg-white w-[30rem] h-fit rounded-sm">
 				<div className="border-b p-4 flex items-center justify-between h-full">
 					<h1 className="font-bold text-xl">Endereço</h1>
-					<button onClick={dispatchCloseAction} className="w-10 flex items-center justify-center">
+					<button
+						onClick={dispatchCloseAction}
+						className="w-10 flex items-center justify-center"
+					>
 						<FaX />
 					</button>
 				</div>
@@ -25,9 +37,10 @@ export const AddressModal = ({
 							<label htmlFor="rua">Rua</label>
 							<Input
 								type="text"
+								disabled={isLoading}
 								id="rua"
-								value={"Belo Horizonte, Rio de Janeiro 290"}
-								handleValue={(e) => {}}
+								value={street}
+								handleValue={(e) => setStreet(e.target.value)}
 							/>
 						</div>
 
@@ -35,10 +48,10 @@ export const AddressModal = ({
 							<label htmlFor="cell_ad">Estado</label>
 							<Input
 								id="cell_add"
+								disabled={isLoading}
 								type="text"
-								isCellPhone
-								value={"(99) 9999-9999"}
-								handleValue={(e) => {}}
+								value={state}
+								handleValue={(e) => setState(e.target.value)}
 							/>
 						</div>
 					</div>
@@ -47,9 +60,10 @@ export const AddressModal = ({
 							<label htmlFor="hood">Bairro</label>
 							<Input
 								type="text"
+								disabled={isLoading}
 								id="hood"
-								value={"Águas de Lindóia"}
-								handleValue={(e) => {}}
+								value={nhood}
+								handleValue={(e) => setNHood(e.target.value)}
 							/>
 						</div>
 
@@ -57,10 +71,10 @@ export const AddressModal = ({
 							<label htmlFor="country">País</label>
 							<Input
 								id="country"
+								disabled={isLoading}
 								type="text"
-								isCellPhone
-								value={"(99) 9999-9999"}
-								handleValue={(e) => {}}
+								value={country}
+								handleValue={(e) => setCountry(e.target.value)}
 							/>
 						</div>
 					</div>
@@ -69,9 +83,11 @@ export const AddressModal = ({
 							<label htmlFor="cep">CEP</label>
 							<Input
 								type="text"
+								isCEP
+								disabled={isLoading}
 								id="cep"
-								value={"00000-00"}
-								handleValue={(e) => {}}
+								value={cep}
+								handleValue={(e) => setCEP(e.target.value)}
 							/>
 						</div>
 
@@ -79,10 +95,10 @@ export const AddressModal = ({
 							<label htmlFor="number">Número</label>
 							<Input
 								id="number"
+								isNumber
 								type="text"
-								isCellPhone
-								value={"(99) 9999-9999"}
-								handleValue={(e) => {}}
+								value={num}
+								handleValue={(e) => setNum(e.target.value)}
 							/>
 						</div>
 					</div>
@@ -92,8 +108,8 @@ export const AddressModal = ({
 							<Input
 								type="text"
 								id="city"
-								value={"Belo Horizonte, Rio de Janeiro 290"}
-								handleValue={(e) => {}}
+								value={city}
+								handleValue={(e) => setCity(e.target.value)}
 							/>
 						</div>
 
@@ -102,9 +118,9 @@ export const AddressModal = ({
 							<Input
 								id="comp"
 								type="text"
-								isCellPhone
-								value={"(99) 9999-9999"}
-								handleValue={(e) => {}}
+								isNumber
+								value={comp}
+								handleValue={(e) => setComp(e.target.value)}
 							/>
 						</div>
 					</div>

@@ -1,7 +1,7 @@
 import { Button } from "@/components/Button/Button";
 import { Input } from "@/components/Input/Input";
 
-import { Dispatch, SetStateAction } from "react";
+import { useRef, useState } from "react";
 import { FaX } from "react-icons/fa6";
 
 export const WorkInfoModal = ({
@@ -9,6 +9,14 @@ export const WorkInfoModal = ({
 }: {
 	close: (value: string) => void;
 }) => {
+	// estado para ser utilizado quando for implementado um rota para o update dos dados
+	const [isLoading, setIsLoading] = useState(false);
+	const [meta, setMeta] = useState("");
+	const [comission, setComission] = useState("");
+	const [salary, setSalary] = useState("");
+	const [initialTime, setInitialTime] = useState("");
+	const [endTime, setEndTime] = useState("");
+
 	const dispatchCloseAction = (_e: React.SyntheticEvent<HTMLButtonElement>) =>
 		close("");
 	return (
@@ -31,8 +39,12 @@ export const WorkInfoModal = ({
 						<Input
 							type="text"
 							id="meta"
-							value={"100"}
-							handleValue={(e) => {}}
+							isNumber
+							value={meta}
+							disabled={isLoading}
+							handleValue={(e) => {
+								setMeta(e.target.value);
+							}}
 						/>
 					</div>
 					<div>
@@ -40,8 +52,12 @@ export const WorkInfoModal = ({
 						<Input
 							type="text"
 							id="comissao"
-							value={"100"}
-							handleValue={(e) => {}}
+							disabled={isLoading}
+							isNumber
+							value={comission}
+							handleValue={(e) => {
+								setComission(e.target.value);
+							}}
 						/>
 					</div>
 					<div>
@@ -49,29 +65,44 @@ export const WorkInfoModal = ({
 						<Input
 							type="text"
 							id="salario"
-							value={"100"}
-							handleValue={(e) => {}}
+							value={salary}
+							disabled={isLoading}
+							isNumber
+							handleValue={(e) => {
+								setSalary(e.target.value);
+							}}
 						/>
 					</div>
 					<div className="flex gap-2 *:w-full">
 						<div>
-							<label htmlFor="horario_i">Horário do trabalho (Início)</label>
+							<label htmlFor="horario_i">
+								Horário do trabalho (Início)
+							</label>
 							<Input
-								type="date"
+								type="text"
 								id="horario_i"
-								value={"Belo Horizonte, Rio de Janeiro 290"}
-								handleValue={(e) => {}}
+								disabled={isLoading}
+								isTime
+								value={initialTime}
+								handleValue={(e) => {
+									setInitialTime(e.target.value);
+								}}
 							/>
 						</div>
 
 						<div>
-							<label htmlFor="horario_f">Horário do trabalho (Fim)</label>
+							<label htmlFor="horario_f">
+								Horário do trabalho (Fim)
+							</label>
 							<Input
 								id="horario_f"
-								type="date"
-								isCellPhone
-								value={"(99) 9999-9999"}
-								handleValue={(e) => {}}
+								type="text"
+								disabled={isLoading}
+								isTime
+								value={endTime}
+								handleValue={(e) => {
+									setEndTime(e.target.value);
+								}}
 							/>
 						</div>
 					</div>
