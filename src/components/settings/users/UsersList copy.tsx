@@ -6,6 +6,7 @@ import {
   BiChevronsRight,
 } from "react-icons/bi";
 import { useRef, useState } from "react";
+import { RightIcon } from "@/assets/Icons/RightIcon";
 import { useRouter } from "next/navigation";
 import { Table } from "@/components/Table/table";
 import { TableHeader } from "@/components/Table/table-header";
@@ -13,6 +14,7 @@ import { TableRow } from "@/components/Table/table-row";
 import { TableCell } from "@/components/Table/table-cell";
 import { Button } from "@/components/Button/Button";
 import { IconButton } from "@/components/Table/table-button-navigation";
+// import { formatDateIsoToBr } from "@/helpers/formatDateisoToBr";
 import { UserEntity } from "@/interfaces/EntitiesForNewAPI/UserEntity";
 import { Input } from "@/components/Input/Input";
 import { userStore } from "@/store/userStore";
@@ -21,7 +23,6 @@ import AlertDialog from "@/components/AlertDialog/AlertDialog";
 import { parseCookie } from "@/helpers/cookies/authCookie";
 import { Types } from "mongoose";
 import { Skeleton } from "@/components/Skeleton/Skeleton";
-import { ActionMenu } from "@/components/ActionMenu/ActionMenu";
 
 interface UsersProps {
   data: UserEntity[] | null;
@@ -44,9 +45,11 @@ export function UserList({ data }: UsersProps) {
   } = userStore();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [openMenuId, setOpenMenuId] = useState<any | null>(null);
   const [search, setSearch] = useState<string>("");
-  const [selectedUserId, setSelectedUserId] = useState<Types.ObjectId | null>(null);
+  const [selectedUserId, setSelectedUserId] = useState<Types.ObjectId | null>(
+    null
+  );
 
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -71,8 +74,8 @@ export function UserList({ data }: UsersProps) {
     }
   };
 
-  const openModelDeleteUser = (userId: Types.ObjectId) => {
-    setSelectedUserId(userId || null);
+  const openModelDeleteUser = (user: Types.ObjectId) => {
+    setSelectedUserId(user ? user : null);
     handleOpenAlertDialogDeleteUser();
   };
 
@@ -84,19 +87,19 @@ export function UserList({ data }: UsersProps) {
     user._id == cookie?._id ? router.push(`/settings/perfil`) : "";
   };
 
-  const handleSetSelectedUser = (user: { _id: string | Types.ObjectId }, e: React.MouseEvent) => {
+  const handleSetSelectedUser = (user: UserEntity, e: React.MouseEvent) => {
     e.stopPropagation();
-    const id = user._id.toString();
-    if (openMenuId === id) {
+    if (openMenuId === user._id) {
       setOpenMenuId(null);
     } else {
-      setOpenMenuId(id);
+      setOpenMenuId(user._id);
     }
-    setSelecteduser(user as UserEntity);
+    setSelecteduser(user);
   };
 
   return (
     <div className="transition-all duration-300 ease-in-out">
+      
       {isDataLoading ? (
         <div className="py-2">
           {[...Array(5)].map((_, i) => (
@@ -131,15 +134,19 @@ export function UserList({ data }: UsersProps) {
             <thead>
               <tr className="border-none">
                 <TableHeader className="px-8 font-bold">Nome</TableHeader>
+
                 <TableHeader className="text-center font-bold">
                   Propriedade
                 </TableHeader>
+
                 <TableHeader className="text-center font-bold">
                   Email
                 </TableHeader>
+
                 <TableHeader className="text-center font-bold">
                   Ultimo acesso
                 </TableHeader>
+
                 <TableHeader className="text-center font-bold">
                   Sector
                 </TableHeader>
@@ -150,41 +157,81 @@ export function UserList({ data }: UsersProps) {
               {Array.isArray(data) &&
                 data?.map((user, index) => (
                   <TableRow
-                    className={index % 2 === 0 ? "bg-gray-90" : "bg-white"}
+                    className={index % 2 === 0 ? "bg-gray-90" : "bg-white "}
                     key={index}
                   >
-                    <TableCell className="text-center min-w-28">
+                    <TableCell className="text-center min-w-28  ">
                       <div
                         onClick={(e) => verifyUserLogged(user, e)}
-                        className="py-2 w-full text-primary max-w-full truncate cursor-pointer"
+                        className="py-2 w-full text- text-primary max-w-full truncate  cursor-pointer  "
                       >
                         {user.firstName + " " + user.lastName}
                       </div>
                     </TableCell>
 
                     <TableCell className="text-center">
-                      <div className="py-2 w-full text-center max-w-full truncate">
+                      <div className="py-2 w-full text-center max-w-full truncate ">
                         {user.properties.length + " propriedades"}
                       </div>
                     </TableCell>
 
                     <TableCell className="text-center">
-                      <div className="py-2 w-full text-center max-w-full truncate">
+                      <div className="py-2 w-full text-center max-w-full truncate ">
                         {user.email}
                       </div>
                     </TableCell>
 
                     <TableCell className="text-center">
-                      <div className="py-2 w-full text-center max-w-full truncate">{" - "}</div>
+                      <div className="py-2 w-full text-center max-w-full truncate ">{" - "}</div>
                     </TableCell>
 
                     <TableCell className="text-center items-center flex justify-center">
-                      <ActionMenu
-                        itemId={user._id!}
-                        openMenuId={openMenuId}
-                        onSelect={handleSetSelectedUser}
-                        onDelete={openModelDeleteUser}
-                      />
+                      
+                      <div
+                        className="flex justify-center relative mt-2  "
+                        ref={menuRef}
+                      >
+                        <div
+                          onClick={(e) => handleSetSelectedUser(user, e)}
+                          className="w-6 h-6 bg-white border border-gray-300 rounded cursor-pointer flex items-center justify-center transition-colors"
+                        >
+                          {openMenuId === user._id && (
+                            <RightIcon className="text-white h-14 w-14" />
+                          )}
+                        </div>
+
+                        {openMenuId === user._id && (
+                          <div className="absolute top-full w-24 bg-white shadow-md border border-gray-90 rounded-lg shadow-mdring-1 ring-black ring-opacity-5 z-10">
+                            <div
+                              className=" bg-white"
+                              role="menu"
+                              aria-orientation="vertical"
+                            >
+                              <Button
+                                className="w-full text-left px-4 py-2 text-sm text-gray-700 bg-white hover:bg-gray-100"
+                                role="menuitem"
+                                handleClick={() => true}
+                                handleActive={() => true}
+                              >
+                                Editar
+                              </Button>
+
+                              <Button
+                                className="w-full text-left px-4 py-2 text-sm text-red-600 bg-white hover:bg-gray-100"
+                                role="menuitem"
+                                handleClick={() => {
+                                  openModelDeleteUser(
+                                    user._id as Types.ObjectId
+                                  );
+                                }}
+                                handleActive={() => true}
+                              >
+                                Excluir
+                              </Button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -212,7 +259,9 @@ export function UserList({ data }: UsersProps) {
                           <BiChevronLeft className="size-4" />
                         </IconButton>
                         <IconButton
-                          disabled={currentPage === totalPages || totalPages === 1}
+                          disabled={
+                            currentPage === totalPages || totalPages === 1
+                          }
                           onClick={() => setCurrentPage(currentPage + 1)}
                         >
                           <BiChevronRight className="size-4" />
