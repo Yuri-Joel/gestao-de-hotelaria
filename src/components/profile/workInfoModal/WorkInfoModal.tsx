@@ -1,5 +1,6 @@
 import { Button } from "@/components/Button/Button";
 import { Input } from "@/components/Input/Input";
+import { InputCurrency } from "@/components/Input/InputCurrency";
 
 import { useRef, useState } from "react";
 import { FaX } from "react-icons/fa6";
@@ -36,15 +37,18 @@ export const WorkInfoModal = ({
 				<div className="flex flex-col p-4 gap-2">
 					<div>
 						<label htmlFor="meta">Meta Salarial</label>
-						<Input
+						<InputCurrency
 							type="text"
 							id="meta"
-							isNumber
 							value={meta}
 							disabled={isLoading}
 							handleValue={(e) => {
 								setMeta(e.target.value);
 							}}
+							handleCurrency={(e) => {
+								setMeta(e);
+							}}
+							className="rounded-none"
 						/>
 					</div>
 					<div>
@@ -62,15 +66,18 @@ export const WorkInfoModal = ({
 					</div>
 					<div>
 						<label htmlFor="salario">Salário</label>
-						<Input
+						<InputCurrency
 							type="text"
 							id="salario"
 							value={salary}
 							disabled={isLoading}
-							isNumber
 							handleValue={(e) => {
 								setSalary(e.target.value);
 							}}
+							handleCurrency={(e) => {
+								setSalary(e);
+							}}
+							className="rounded-none"
 						/>
 					</div>
 					<div className="flex gap-2 *:w-full">
