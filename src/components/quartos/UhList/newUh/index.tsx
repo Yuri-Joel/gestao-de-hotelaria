@@ -116,8 +116,6 @@ export const NewUhModal = () => {
         handleOpenModalNewUh()
         Reset();
         setIsModalOpen(false);
-        router.push("/hotel-ao/quartos");
-
     };
     const handleCancel = () => {
         setIsModalCancelOpen(false)
