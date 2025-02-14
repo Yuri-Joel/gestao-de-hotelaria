@@ -7,9 +7,6 @@ import { TableRow } from "@/components/Table/table-row";
 import { ReserveEntity } from "@/interfaces/ReserveEntity";
 import whatsAppApi from "@/services/whatsApp/whatsApp";
 import { reserveStore } from "@/store/reserveStore";
-import { tr } from "date-fns/locale";
-import { useSearchParams, useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { BiChevronLeft, BiChevronRight, BiChevronsLeft, BiChevronsRight } from "react-icons/bi";
 import { BsWhatsapp } from "react-icons/bs";
 

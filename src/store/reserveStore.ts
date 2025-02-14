@@ -3,7 +3,13 @@ import { IResponse } from '@/helpers/handleRequest';
 import { ReserveEntity } from '@/interfaces/ReserveEntity';
 import { reserveServices } from '@/services/reserve/reserve';
 import { TModelPagination } from '@/types/TModelPagination';
+import { TTabNavigation } from '@/types/TTabNavigation';
 import { create } from 'zustand'
+
+export interface DetailsSubtotal {
+  subtotal: number;
+  id: number
+}
 
 type State = {
   reserves: ReserveEntity[] | null
@@ -21,29 +27,41 @@ type State = {
   totalPages2: number,
   reservePerPage: number;
 
-  selectedTitleHeader: { id: number; label: string };
+  selectedTitleHeader: TTabNavigation;
+
+  isOpenedModalGuest: boolean;
+  
+  isOpenedModalRefund: boolean;
 
   isChecked: string,
+
+  detailsSubTotal: DetailsSubtotal[]
+
 }
+
 
 type Actions = {
   setSearchData: (searchData: ReserveEntity[] | null) => void;
   setSearchInput: (searchInput: string) => void;
   setDetailStartDate: (data: Date) => void;
   setDetailEndDate: (data: Date) => void;
-  setSelectedTitleHeader: (data: string) => void;
+  setSelectedTitleHeader: (data: TTabNavigation) => void;
   setCurrentPage: (page: number) => void;
   setTotalPage2: (page: number) => void;
   setTotalPage: (page: number) => void;
   setReservePerPage: (page: number) => void;
+  handleOpenModalRefund: () => void;
+  setIsOpenedModalGuest: (data: boolean) => void;
   setIschecked: (isChecked: string) => void
+  setDetailsSubTotal: (detailsSubTotal: DetailsSubtotal[] | ((prev: DetailsSubtotal[]) => DetailsSubtotal[])) => void;
   find: (page: number) => Promise<IResponse<TModelPagination<ReserveEntity>>>
 }
 
 
-export const reserveStore = create<State & Actions>((set) => ({
+export const reserveStore = create<State & Actions>((set, get) => ({
   searchData: [],
   reserves: [],
+  detailsSubTotal:[],
   reserve: null,
   searchOneReserve: null,
   reserveToSearch: [],
@@ -51,15 +69,18 @@ export const reserveStore = create<State & Actions>((set) => ({
   currentPage: 1,
   totalPages: 1,
   totalPages2: 1,
-  selectedTitleHeader: { id: 1, label: "Chegadas" },
+  selectedTitleHeader: {id:1, label:"Chegadas"},
   isChecked: "",
   detailStartDate: new Date(),
   detailEndDate: new Date(),
   reservePerPage: 0,
+  isOpenedModalGuest: false,
+  isOpenedModalRefund: false,
 
   setCurrentPage: (data) => set({ currentPage: data }),
 
   setTotalPage2: (data) => set({ totalPages2: data }),
+
   setTotalPage: (data) => set({ totalPages: data }),
 
   setReservePerPage: (data) => set({ reservePerPage: data }),
@@ -72,7 +93,40 @@ export const reserveStore = create<State & Actions>((set) => ({
 
   setDetailEndDate: (data) => set({ detailEndDate: data }),
 
-  setSelectedTitleHeader: (data: any) =>set({ selectedTitleHeader: { label: data?.label, id: data?.id } }),
+  setDetailsSubTotal: (detailsSubTotal) => set((state) => {
+    // Se for uma função (atualização com base no estado anterior)
+    if (typeof detailsSubTotal === 'function') {
+      return {
+        detailsSubTotal: detailsSubTotal(state.detailsSubTotal)
+      }
+    }
+  
+    // Se for um array novo, verifica antes de adicionar
+    const exists = state.detailsSubTotal.some(item => 
+      detailsSubTotal.some(newItem => newItem.id === item.id)
+    );
+  
+    if (exists) {
+      return {}; // Não altera o estado se o ID já existir
+    }
+  
+    // Caso contrário, adiciona os novos itens
+    return {
+      detailsSubTotal: [...state.detailsSubTotal, ...detailsSubTotal]
+    }
+  }),
+
+  setIsOpenedModalGuest: (data) => set({ isOpenedModalGuest: data }),
+  
+  handleOpenModalRefund: () => {
+    const isOpened = get().isOpenedModalRefund
+
+    set({ isOpenedModalRefund: !isOpened})
+  },
+
+  setSelectedTitleHeader: (data) => {
+    set({ selectedTitleHeader:{id: data?.id, label: data.label} });
+  },
 
   setIschecked(isChecked) {
     set({ isChecked: isChecked })

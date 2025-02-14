@@ -94,14 +94,7 @@ export const propertyStore = create<State & Actions>((set) => ({
     }
 
     if (!response.error.value) {
-      // const allProperties = await propertyServices().find(1);
-
-      // set({
-      //   properties: allProperties.data?.data,
-      //   currentPage: allProperties.data?.pagination.currentPage,
-      //   totalPages: allProperties.data?.pagination.totalPages,
-      //   propertyPerPage: allProperties.data?.pagination.pageSize,
-      // })
+      set({ rejectSkeleton: false });
     }
     return response;
   },

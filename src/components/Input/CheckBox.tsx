@@ -7,7 +7,7 @@ interface InputProps extends ComponentProps<'input'> {
 
 export const Checkbox: React.FC<InputProps> = ({ index, type, isChecked ,...props }) => {
   return (
-      <div className={`  rounded-full flex items-center justify-center`}>
+      <div className={`rounded-full flex items-center justify-center`}>
           <input
               {...props}
               type={"radio"}
