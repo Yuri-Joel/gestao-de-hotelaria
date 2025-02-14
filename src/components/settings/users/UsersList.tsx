@@ -21,7 +21,7 @@ import AlertDialog from "@/components/AlertDialog/AlertDialog";
 import { parseCookie } from "@/helpers/cookies/authCookie";
 import { Types } from "mongoose";
 import { Skeleton } from "@/components/Skeleton/Skeleton";
-import { ActionMenu } from "@/components/ActionMenu/ActionMenu";
+import { ActionMenu } from "@/components/UserMenu/ActionMenu";
 
 interface UsersProps {
   data: UserEntity[] | null;
@@ -71,8 +71,8 @@ export function UserList({ data }: UsersProps) {
     }
   };
 
-  const openModelDeleteUser = (userId: Types.ObjectId) => {
-    setSelectedUserId(userId || null);
+  const openModelDeleteUser = (userId: string | Types.ObjectId) => {
+    setSelectedUserId(typeof userId === 'string' ? new Types.ObjectId(userId) : userId);
     handleOpenAlertDialogDeleteUser();
   };
 
@@ -130,7 +130,7 @@ export function UserList({ data }: UsersProps) {
           <Table className="w-full">
             <thead>
               <tr className="border-none">
-                <TableHeader className="px-8 font-bold">Nome</TableHeader>
+                <TableHeader className="text-center font-bold">Nome</TableHeader>
                 <TableHeader className="text-center font-bold">
                   Propriedade
                 </TableHeader>
@@ -183,8 +183,7 @@ export function UserList({ data }: UsersProps) {
                         itemId={user._id!}
                         openMenuId={openMenuId}
                         onSelect={handleSetSelectedUser}
-                        onDelete={openModelDeleteUser}
-                      />
+                        onDelete={openModelDeleteUser} details={false}                      />
                     </TableCell>
                   </TableRow>
                 ))}

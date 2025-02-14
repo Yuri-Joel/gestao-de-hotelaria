@@ -7,8 +7,8 @@ function page() {
   return (
     <Wrapper
       key={"3"}
-      title="Andar - INFORMAÇÕES"
-      description="Informacoes gerais do andar"
+      title="ANDAR - INFORMAÇÕES"
+      description="Informacões gerais do andar"
       children={<FloorDetails />}
     ></Wrapper>
   );

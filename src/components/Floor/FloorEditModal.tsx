@@ -2,19 +2,20 @@
 
 import React, { useEffect, useState } from "react";
 import { Input } from "../Input/Input";
-import InputTextArea from "../Input/InputTextArea";
-import { EditModal } from "../EditModal/EditModal";
 import { useRouter } from "next/navigation";
-import Select from "../Input/Select";
 import { Checkbox } from "../Input/CheckBox";
 import { floorStore } from "@/store/floorStore";
 import { FloorEntity } from "@/interfaces/EntitiesForNewAPI/FloorEntity";
+import { Modal } from "../Modal/Modal";
+import { Button } from "../Button/Button";
+import Select from "../Input/Select";
 
 function FloorEditModal() {
-  const [editedFloor, setEditedFloor] = useState<FloorEntity | null>(null);
   const router = useRouter();
 
-  const { setEditFloorModal, EditFloorModal, selectedFloor } = floorStore();
+  const { setEditFloorModal, EditFloorModal, selectedFloor, setSelectedFloor } =
+    floorStore();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!selectedFloor) return router.push(`/hotel-ao/cadastro/andares`);
@@ -22,52 +23,42 @@ function FloorEditModal() {
 
   useEffect(() => {
     if (!selectedFloor) return;
-    setEditedFloor(selectedFloor);
+    setSelectedFloor(selectedFloor);
   }, [selectedFloor]);
 
   const handleSaveClick = () => {
-    setEditFloorModal(false);
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      setEditFloorModal(false);
+    }, 1000);
   };
 
   const handleCancelClick = () => {
     setEditFloorModal(false);
     if (selectedFloor) {
-      setEditedFloor(selectedFloor);
+      setSelectedFloor(selectedFloor);
     }
   };
 
   const renderModalContent = () => (
-    <div className="space-y-2 max-h-screen ">
+    <div className="space-y-6 max-h-screen">
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Título
         </label>
         <Input
-          handleValue={(e) =>
-            setEditedFloor({
-              ...editedFloor,
-              title: e.target.value,
+          handleValue={() => selectedFloor?.name}
+          onChange={(e) =>
+            setSelectedFloor({
+              ...selectedFloor,
+              name: e.target.value,
             } as FloorEntity)
           }
           type="text"
-          value={editedFloor?.name || ""}
+          value={selectedFloor?.name || ""}
           placeholder="Identificação, ex: 'Térreo' ou 'Primeiro andar'"
           className="w-full"
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Condição do andar
-        </label>
-        <Select
-          name="Status"
-          className="w-full"
-          selectedItem={editedFloor?.name || ""}
-          data={["Disponível", "Indisponível"]}
-          setSelected={(value) =>
-            setEditedFloor({ ...editedFloor, status: value } as FloorEntity)
-          }
         />
       </div>
 
@@ -75,52 +66,40 @@ function FloorEditModal() {
         <label className="block text-sm font-medium text-gray-700 mb-3 w-full">
           Acessível
         </label>
-        <div className="flex justify-start gap-8 w-full">
-          <div className="flex items-center gap-2">
-            <Checkbox
-              index={1}
-              isChecked={editedFloor?.isAccessible || false}
-              onChange={() => {
-                setEditedFloor({
-                  ...editedFloor,
-                  isAccessible: true,
-                } as FloorEntity);
-              }}
-            />
-            <span className="text-sm text-gray-600">Sim</span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <Checkbox
-              index={2}
-              isChecked={editedFloor?.isAccessible || false}
-              onChange={() => {
-                setEditedFloor({
-                  ...editedFloor,
-                  isAccessible: true,
-                } as FloorEntity);
-              }}
-            />
-            <span className="text-sm text-gray-600">Não</span>
-          </div>
-        </div>
+        <div className="flex justify-start gap-2 w-full items-center ">
+          <Checkbox
+            index={1}
+            isChecked={selectedFloor?.isAccessible === true}
+            onClick={() =>
+              setSelectedFloor({
+                ...selectedFloor,
+                isAccessible: true,
+              } as FloorEntity)
+            }
+          />
+          <label>Sim</label>
+          <Checkbox
+            index={1}
+            isChecked={selectedFloor?.isAccessible === false}
+            onClick={() =>
+              setSelectedFloor({
+                ...selectedFloor,
+                isAccessible: false,
+              } as FloorEntity)
+            }
+          />
+          <label className="">Não</label>
+        </div> 
       </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Descrição
-        </label>
-        <InputTextArea
-          handleValue={(e) =>
-            setEditedFloor({
-              ...editedFloor,
-              description: e.target.value,
-            } as FloorEntity)
-          }
-          value={""}
-          placeholder="Adicione uma descrição para o andar"
-          className="w-full"
-        />
+      <div className="w-full *:w-full">
+        <Button
+          handleActive={() => true}
+          handleClick={handleSaveClick}
+          isLoading={isLoading}
+        >
+          Editar
+        </Button>
       </div>
     </div>
   );
@@ -128,14 +107,13 @@ function FloorEditModal() {
   return (
     <>
       {EditFloorModal && (
-        <EditModal
+        <Modal
           isOpen={EditFloorModal}
+          description={"Editar o andar selecionado"}
           onClose={handleCancelClick}
-          onSave={handleSaveClick}
-          title="Editar Andar"
-        >
-          {renderModalContent()}
-        </EditModal>
+          title={"Editar andar"}
+          children={renderModalContent()}
+        />
       )}
     </>
   );
