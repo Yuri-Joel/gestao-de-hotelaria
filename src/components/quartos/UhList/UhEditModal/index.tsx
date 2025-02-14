@@ -191,9 +191,7 @@ export const EditUhModal = ({ dataTranported }: EditUH) => {
                 typeAlert={"cancel"}
                 title="Erro"
                 description="Falha ao cadastrar uma nova propriedade"
-
                 cancelTitleBtn="Voltar"
-
                 isOpenedModalManagement={isModalCancelOpen}
                 handleCancel={handleCancel}
                 hideCloseTopButton
