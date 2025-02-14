@@ -14,6 +14,7 @@ type State = {
   totalItems: number;
   EditUserModal: boolean;
   AddUserModal: boolean;
+  isDataLoading: boolean;
   isOpenedModalDeleteUser: boolean;
   isOpenedModalEditUser: boolean;
 };
@@ -22,14 +23,12 @@ type Action = {
   setSelecteduser: (user: UserEntity | null) => void;
   find: (page: number) => Promise<IResponse<TModelPagination<UserEntity>>>;
   create: (user: UserEntity) => Promise<IResponse<UserEntity>>;
-  remove: (
-    userId: Types.ObjectId,
-    accountId: Types.ObjectId
-  ) => Promise<IResponse<UserEntity>>;
+  remove: (userId: Types.ObjectId,accountId: Types.ObjectId) => Promise<IResponse<UserEntity>>;
   setCurrentPage: (page: number) => void;
   setEditUserModal: (value: boolean) => void;
   setAddUserModal: (value: boolean) => void;
   handleOpenAlertDialogDeleteUser: () => void;
+  handleIsDataLoading: (value: boolean) => void;
   handleOpenModalEditUser: () => void;
 };
 
@@ -42,6 +41,7 @@ export const userStore = create<State & Action>((set, get) => ({
   EditUserModal: false,
   AddUserModal: false,
   isOpenedModalDeleteUser: false,
+  isDataLoading: false,
   isOpenedModalEditUser: false,
 
   handleOpenAlertDialogDeleteUser: () => {
@@ -49,6 +49,9 @@ export const userStore = create<State & Action>((set, get) => ({
   },
   handleOpenModalEditUser: () => {
     set({ isOpenedModalEditUser: !get().isOpenedModalEditUser });
+  },
+  handleIsDataLoading: (value) => {
+    set({ isDataLoading: value });
   },
   setSelecteduser: (user) => set({ selecteduser: user }),
 

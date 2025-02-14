@@ -13,14 +13,14 @@ export const floorServices = () => {
 
   const findTabNavigation = async () => {
     const response = await handleRequest<TModelPagination<FloorEntity>>({
-      // url: `/floors`,
+      // url: /floors,
       url: `/floors?page=1&limit=10`,
       method: "GET",
     });
     return response;
   };
 
-  const create = async (floor: FloorEntity) => {
+  const create = async (floor: Partial<FloorEntity>) => {
     const response = await handleRequest<FloorEntity>({
       url: `/floors`,
       method: "POST",

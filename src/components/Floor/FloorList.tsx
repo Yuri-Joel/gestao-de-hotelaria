@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "../Button/Button";
 import { Skeleton } from "../Skeleton/Skeleton";
 import FloorEditModal from "./FloorEditModal";
-import { AddFloorModal } from "./AddFloorModal";
+import { AddFloorModal } from "./AddFloor/AddFloorModal";
 
 export function FloorList() {
 	const router = useRouter();
@@ -114,7 +114,7 @@ export function FloorList() {
 													`/hotel-ao/cadastro/andares/details`,
 												);
 											}}
-											className="p-2 w-full text-center text-primary cursor-pointer"
+											className="p-2 w-full text-left text-primary cursor-pointer"
 										>
 											{floor.name}
 										</div>
@@ -134,9 +134,9 @@ export function FloorList() {
 											-
 										</div>
 									</TableCell>
-									<TableCell className="text-center items-center flex justify-center">
+									<TableCell className="text-center flex items-center  justify-center">
 										<div
-											className="flex justify-center relative"
+											className="flex justify-center items-center mt-2  relative"
 											ref={menuRef}
 										>
 											<div

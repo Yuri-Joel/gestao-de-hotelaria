@@ -54,7 +54,8 @@ export function PropertiesList({ data }: PropertiesProps) {
     Cookies.set(
       process.env.NEXT_PUBLIC_PROPERTY_ID as string,
       String(propertyId),
-      {
+      { 
+        expires: 2,
         sameSite: "None",
         secure: true,
       },
@@ -63,7 +64,8 @@ export function PropertiesList({ data }: PropertiesProps) {
     Cookies.set(
       process.env.NEXT_PUBLIC_PROPERTY_SLUG as string,
       propertySlug,
-      {
+      { 
+        expires: 2,
         sameSite: "None",
         secure: true,
       },
