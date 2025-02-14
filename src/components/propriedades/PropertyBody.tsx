@@ -8,7 +8,8 @@ export function PropertyBody() {
   const {
     properties,
     find,
-    currentPage
+    currentPage,
+    create
   } = propertyStore()
 
   useEffect(() => {
@@ -20,7 +21,7 @@ export function PropertyBody() {
       } finally {
       }
     })()
-  }, [currentPage, find])
+  }, [currentPage, find, create])
 
   return (
     <div className="mt-5">

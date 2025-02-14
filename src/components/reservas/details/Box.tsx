@@ -1,18 +1,20 @@
+import { ComponentProps } from "react";
+import { twMerge } from "tailwind-merge";
 
-interface BoxProps{
+interface BoxProps extends ComponentProps<"div">{
   children: React.ReactNode;
   title: string
 }
 
-export function Box({children, title}: BoxProps) {
+export function Box(props: BoxProps) {
 
   return(
-    <div className="shadow-md shadow-gray-450  border border-gray-90 h-[225px]">
+    <div className={twMerge("shadow-lg shadow-gray-350", props.className)}>
       <div className="flex flex-col py-7 px-6 gap-y-3">
         <h1 className="font-bold text-md">
-          {title}
+          {props.title}
         </h1>
-        {children}
+        {props.children}
       </div>
     </div>
   )

@@ -13,6 +13,7 @@ import { propertyStore } from "@/store/propertyStore";
 import { EnumCategory, PropertyEntity } from "@/interfaces/EntitiesForNewAPI/PropertyEntity";
 
 import { parseCookie } from '@/helpers/cookies/authCookie'
+import { Types } from "mongoose";
 
 const categoryItems = ["Hotel", "Pousada", "Hostel", "Outro"];
 
@@ -31,7 +32,7 @@ const AddPropety: React.FC = () => {
   } = propetyAcordionStore();
 
   const {
-    create
+    create,
   } = propertyStore()
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -70,7 +71,7 @@ const AddPropety: React.FC = () => {
       const payload: PropertyEntity = {
         name: name,
         category: category as EnumCategory,
-        account: cookieData?.account,
+        account: cookieData?.account as Types.ObjectId,
       }
 
       const { error } = await create(payload);

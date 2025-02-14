@@ -5,6 +5,7 @@ import { ArrowRight } from "@/assets/Icons/ArrowRight";
 import { floorStore } from "@/store/floorStore";
 import { TTabNavigation } from "@/types/TTabNavigation";
 import { useEffect, useRef, useState } from "react";
+
 interface TTabNavigationProps {
 id: number;
 label: string;

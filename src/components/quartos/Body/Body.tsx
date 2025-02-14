@@ -23,8 +23,10 @@ const transformToTabNavigation = (floors: FloorEntity[]) => {
     return [
         { id: 0, label: "Todos" }, // Adiciona a opção "Todos"
         ...floors?.map((floor) =>
-            floor.isAccessible ? { id: floor.id + 1, label: floor.name } : null
-        ).filter(Boolean) as TTabNavigation[],
+            floor.isAccessible && floor.id !== undefined 
+      ? { id: floor.id + 1, label: floor.name } 
+      : null
+  ).filter(Boolean) as TTabNavigation[],
     ];
 };
 
@@ -60,8 +62,7 @@ export const Body = () => {
         (async () => {
             try {
                 setLoading(true);
-                const limit = 10
-                const response = await find(currentPage, limit);
+                const response = await find(currentPage);
                 //   console.log("isso 1", response)
                 const transformedFloors = transformToTabNavigation(response?.data?.data || []);
                 setMenuItems(transformedFloors);
