@@ -23,7 +23,7 @@ type Action = {
   setSelecteduser: (user: UserEntity | null) => void;
   find: (page: number) => Promise<IResponse<TModelPagination<UserEntity>>>;
   create: (user: UserEntity) => Promise<IResponse<UserEntity>>;
-  remove: (userId: Types.ObjectId,accountId: Types.ObjectId) => Promise<IResponse<UserEntity>>;
+  remove: (userId: Types.ObjectId, accountId: Types.ObjectId) => Promise<IResponse<UserEntity>>;
   setCurrentPage: (page: number) => void;
   setEditUserModal: (value: boolean) => void;
   setAddUserModal: (value: boolean) => void;
@@ -72,11 +72,11 @@ export const userStore = create<State & Action>((set, get) => ({
     if (!response.error.value) {
       // tipando como any até a correção da api estar concluida
       set({
-        users: (response.data?.data as any)?.data,
+        users: response.data?.data,
         // currentPage: (response.data?.data as any)?.data?.pagination?.currentPage,
-        totalPages: (response.data?.data as any)?.data?.pagination?.totalPages,
+        totalPages: response.data?.pagination?.totalPages,
         // currentPage: response.data?.pagination.currentPage,
-        totalItems: (response.data?.data as any)?.data?.pagination?.total,
+        totalItems: response.data?.pagination?.total,
       });
     }
     return response;
@@ -91,7 +91,7 @@ export const userStore = create<State & Action>((set, get) => ({
     }
 
     if (!response.error.value) {
-      // await get().find(1);
+      await get().find(get().currentPage);
     }
 
     return response;
@@ -106,7 +106,7 @@ export const userStore = create<State & Action>((set, get) => ({
     }
 
     if (!response.error.value) {
-      await get().find(1);
+      await get().find(get().currentPage);
     }
 
     return response;
