@@ -96,7 +96,7 @@ const AddUser: React.FC = () => {
       {AddUserModal && (
         <div>
         <Modal
-         title="Cadastrar Novo Usuário"
+         title="CADASTRAR NOVO USUÁRIO"
          description="Preencha os dados abaixo para cadastrar um novo usuário"
          isOpen={AddUserModal}
          onClose={ clorseAddUserModal}
@@ -118,7 +118,7 @@ const AddUser: React.FC = () => {
                       name="firstName"
                       value={formData.firstName}
                       handleValue={handleInputChange}
-                      className="bg-transparent px-3 py-3 appearance-none h-14 w-full text-black text-sm rounded-lg border focus:border-primary"
+                      className="bg-transparent px-3 py-3 appearance-none h-14 w-full text-black text-sm border focus:border-primary"
                       placeholder="Insira o primeiro nome"
                     />
                   </div>
@@ -132,7 +132,7 @@ const AddUser: React.FC = () => {
                       name="lastName"
                       value={formData.lastName}
                       handleValue={handleInputChange}
-                      className="bg-transparent px-3 py-3 appearance-none h-14 w-full text-black text-sm rounded-lg border focus:border-primary"
+                      className="bg-transparent px-3 py-3 appearance-none h-14 w-full text-black text-sm border focus:border-primary"
                       placeholder="Insira o sobrenome"
                     />
                   </div>
@@ -146,7 +146,7 @@ const AddUser: React.FC = () => {
                       name="email"
                       value={formData.email}
                       handleValue={handleInputChange}
-                      className="bg-transparent px-3 py-3 appearance-none h-14 w-full text-black text-sm rounded-lg border focus:border-primary"
+                      className="bg-transparent px-3 py-3 appearance-none h-14 w-full text-black text-sm border focus:border-primary"
                       placeholder="Insira o email"
                     />
                   </div>
@@ -160,7 +160,7 @@ const AddUser: React.FC = () => {
                       name="password"
                       value={formData.password}
                       handleValue={handleInputChange}
-                      className="bg-transparent px-3 py-3 appearance-none h-14 w-full text-black text-sm rounded-lg border focus:border-primary"
+                      className="bg-transparent px-3 py-3 appearance-none h-14 w-full text-black text-sm border focus:border-primary"
                       placeholder="Insira a senha"
                     />
                   </div>

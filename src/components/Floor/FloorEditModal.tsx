@@ -3,11 +3,11 @@
 import React, { useEffect, useState } from "react";
 import { Input } from "../Input/Input";
 import { useRouter } from "next/navigation";
-import { Checkbox } from "../Input/CheckBox";
 import { floorStore } from "@/store/floorStore";
 import { FloorEntity } from "@/interfaces/EntitiesForNewAPI/FloorEntity";
 import { Modal } from "../Modal/Modal";
 import { Button } from "../Button/Button";
+import Select from "../Input/Select";
 
 function FloorEditModal() {
   const router = useRouter();
@@ -62,32 +62,18 @@ function FloorEditModal() {
       </div>
 
       <div className="flex flex-col items-center">
-        <label className="block text-sm font-medium text-gray-700 mb-3 w-full">
-          Acessível
-        </label>
-        <div className="flex justify-start gap-2 w-full items-center ">
-          <Checkbox
-            index={1}
-            isChecked={selectedFloor?.isAccessible === true}
-            onClick={() =>
-              setSelectedFloor({
+       
+        <div className="w-full">
+            <label className="font-medium text-sm text-black">Acessível</label>
+            <Select
+              setSelected={(value) => setSelectedFloor({
                 ...selectedFloor,
-                isAccessible: true,
-              } as FloorEntity)
-            }
-          />
-          <label>sim</label>
-          <Checkbox
-            index={1}
-            isChecked={selectedFloor?.isAccessible === false}
-            onClick={() =>
-              setSelectedFloor({
-                ...selectedFloor,
-                isAccessible: false,
-              } as FloorEntity)
-            }
-          />
-          <label className="">não</label>
+                isAccessible: value === "Sim"
+              } as FloorEntity)}
+              name="isAccessible"
+              data={["Sim", "Não"]}
+              selectedItem={selectedFloor?.isAccessible ? "Sim" : "Não"}
+            />
         </div>
       </div>
 
@@ -110,7 +96,7 @@ function FloorEditModal() {
           isOpen={EditFloorModal}
           description={"Editar o andar selecionado"}
           onClose={handleCancelClick}
-          title={"Editar Andar"}
+          title={"EDITAR ANDAR"}
           children={renderModalContent()}
         />
       )}

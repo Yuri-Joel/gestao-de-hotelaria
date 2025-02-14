@@ -130,7 +130,7 @@ export function UserList({ data }: UsersProps) {
           <Table className="w-full">
             <thead>
               <tr className="border-none">
-                <TableHeader className="px-8 font-bold">Nome</TableHeader>
+                <TableHeader className="text-center font-bold">Nome</TableHeader>
                 <TableHeader className="text-center font-bold">
                   Propriedade
                 </TableHeader>

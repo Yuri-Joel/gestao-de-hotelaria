@@ -82,8 +82,16 @@ function FloorDetails() {
               <div>{floor?.name}</div>
             </li>
             <li>
+              <h1 className="font-bold">Status</h1>
+              <div>{"-"}</div>
+            </li>
+            <li>
               <h1 className="font-bold">Acessibilidade</h1>
               <div>{floor?.isAccessible ? "Acessivel" : "Não acessível"}</div>
+            </li>
+            <li>
+              <h1 className="font-bold">Descrição</h1>
+              <div>{"-"}</div>
             </li>
           </ul>
         )

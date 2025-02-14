@@ -73,9 +73,12 @@ export function FloorList() {
               <TableHeader className="text-center px-[5rem] font-bold">
                 Acessibilidade
               </TableHeader>
-              {/* <TableHeader className="text-center px-[5rem] font-bold">
+              <TableHeader className="text-center px-[5rem] font-bold">
 								Status
-							</TableHeader> */}
+							</TableHeader> 
+              <TableHeader className="text-center px-[5rem] font-bold">
+								Descrição
+							</TableHeader> 
               <TableHeader className="text-center px-[5rem] font-bold">
                 Ações
               </TableHeader>
@@ -116,11 +119,16 @@ export function FloorList() {
                       {floor.isAccessible ? "Acessivel" : "Não acessível"}
                     </div>
                   </TableCell>
-                  {/* <TableCell className="text-center">
+                   <TableCell className="text-center">
 										<div className="p-2 w-full text-center">
 											-
 										</div>
-									</TableCell> */}
+									</TableCell> 
+                  <TableCell className="text-center">
+										<div className="p-2 w-full text-center">
+											-
+										</div>
+									</TableCell>
                   <TableCell className="text-center flex items-center  justify-center">
                     <div
                       className="flex justify-center items-center mt-2  relative"
@@ -177,7 +185,7 @@ export function FloorList() {
           </tbody>
           <tfoot>
             <tr>
-              <TableCell colSpan={4}>
+              <TableCell colSpan={5}>
                 <div className="flex  items-center justify-end gap-8">
                   <span>
                     Página {currentPage} de {totalPages}

@@ -56,7 +56,7 @@ export const AddFloorModal = () => {
 
   return (
     <Modal
-      title="ADICIONAR ANDAR"
+      title="CADASTRAR ANDAR"
       description="Cadastrar um novo andar"
       onClose={handleOpenModalNewFloor}
       isOpen={isOpenModalNewFloor}
@@ -64,7 +64,7 @@ export const AddFloorModal = () => {
       {success === null ? (
         <div className="flex flex-col gap-5">
           <div>
-            <label htmlFor="floor_name">Nome do Andar</label>
+            <label htmlFor="floor_name">Nome</label>
             <Input
               type="text"
               value={floorName}
