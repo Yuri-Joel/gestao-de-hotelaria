@@ -1,13 +1,23 @@
 import { Button } from "@/components/Button/Button";
 import { Input } from "@/components/Input/Input";
+import { profileStore } from "@/store/profile/profileStore";
+import { useState } from "react";
 
 import { FaX } from "react-icons/fa6";
 
-export const ContactModal = ({
-	close,
-}: {
-	close: (value: string) => void;
-}) => {
+export const ContactModal = ({ close }: { close: (value: string) => void }) => {
+	const { user } = profileStore();
+	const [currentCell, setCurrentCell] = useState(user?.phone || "");
+	const [alternateCell, setAlternateCell] = useState(
+		user?.alternatePhone || "",
+	);
+	// estado para ser utilizado quando for implementado um rota para o update dos dados
+	const [isLoading, setIsLoading] = useState(false);
+
+	const handleSaveActive = () => {
+		if (currentCell.length !== 0) return true;
+		return false;
+	};
 	const dispatchCloseAction = (_e: React.SyntheticEvent<HTMLButtonElement>) =>
 		close("");
 	return (
@@ -17,19 +27,23 @@ export const ContactModal = ({
 					<h1 className="font-bold text-xl">
 						Informações de Contacto
 					</h1>
-					<button onClick={dispatchCloseAction} className="w-10 flex items-center justify-center">
+					<button
+						onClick={dispatchCloseAction}
+						className="w-10 flex items-center justify-center"
+					>
 						<FaX />
 					</button>
 				</div>
-				<form method="post" className="flex flex-col p-4 gap-2">
+				<div className="flex flex-col p-4 gap-2">
 					<div>
 						<label htmlFor="cell">Celular</label>
 						<Input
 							type="text"
 							id="cell"
 							isCellPhone
-							value={"(99) 9999-9999"}
-							handleValue={(e) => {}}
+							value={currentCell}
+							disabled={isLoading}
+							handleValue={(e) => setCurrentCell(e.target.value)}
 						/>
 					</div>
 					<div>
@@ -38,20 +52,21 @@ export const ContactModal = ({
 							id="cell_add"
 							type="text"
 							isCellPhone
-							value={"(99) 9999-9999"}
-							handleValue={(e) => {}}
+							value={alternateCell}
+							disabled={isLoading}
+							handleValue={(e) =>
+								setAlternateCell(e.target.value)
+							}
 						/>
 					</div>
 					<div className="*:w-full">
 						<Button
-							handleActive={() => {
-								return true;
-							}}
+							handleActive={() => isLoading || handleSaveActive()}
 						>
 							Salvar
 						</Button>
 					</div>
-				</form>
+				</div>
 			</div>
 		</div>
 	);
