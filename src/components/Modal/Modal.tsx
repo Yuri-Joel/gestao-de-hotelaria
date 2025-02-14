@@ -11,15 +11,6 @@ interface ModalProps {
 
 export const Modal = ({ title, children, isOpen, onClose, description }: ModalProps) => {
 
-    useEffect(() => {
-        let timeout: NodeJS.Timeout;
-
-        if (!isOpen) {
-            timeout = setTimeout(() => onClose, 300); // Tempo para animar saída
-        }
-
-        return () => clearTimeout(timeout);
-    }, [isOpen]);
 
     if (!isOpen) return null;
 
@@ -31,7 +22,7 @@ export const Modal = ({ title, children, isOpen, onClose, description }: ModalPr
             className={`fixed inset-0 bg-black/20  flex items-center justify-center z-50 p-4  transition-all duration-300 ${isOpen ? 'h-full' : 'h-0'}`}
         >
             <div
-                className={`relative w-11/12 max-w-lg p-6 bg-white rounded-2xl shadow-2xl `}
+                className={`relative w-11/12 max-w-lg p-6 bg-white overflow-y-auto rounded-2xl shadow-2xl `}
             >
                 <div className="flex items-center justify-between mb-4">
                     <div>
@@ -46,7 +37,10 @@ export const Modal = ({ title, children, isOpen, onClose, description }: ModalPr
                     </button>
 
                 </div>
+                <div className="max-h-[70vh]">
                 <div className="">{children}</div>
+                </div>
+                
             </div>
         </div>
     );

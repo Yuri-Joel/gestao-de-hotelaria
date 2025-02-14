@@ -10,7 +10,7 @@ import {
 import { formatCurrency } from "@/helpers/formatCurrency";
 import { Tooltip } from "react-tooltip";
 import { XIcon } from "@/assets/Icons/XIcon";
-import { getRoomStatus } from "../UhList/Uhlist";
+import { getRoomStatus } from "../Room/room";
 import { formatDateIsoToBr } from "@/helpers/formatDateisoToBr";
 import { Button } from "@/components/Button/Button";
 import { useEffect, useRef, useState } from "react";

@@ -4,12 +4,13 @@ import { BedIcon } from '@/assets/Icons/BedIcon';
 import { DirectionRightIcon } from '@/assets/Icons/DirectionRightIcon';
 import { IconRegister } from '@/assets/Icons/IconRegister';
 import { StartIcon } from '@/assets/Icons/StartIcon';
+import { formatPathName } from '@/helpers/formatPathString';
 import sideBarStateStore from '@/store/sideBarStateStore';
 import { TmenuSidebar } from '@/types/menuSidebar';
 import Link from 'next/link';
-import { usePathname} from 'next/navigation'
+import { usePathname } from 'next/navigation'
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 export function Sidebar() {
 
@@ -74,6 +75,10 @@ export function Sidebar() {
                     path: "/cadastro/andares",
                 },
                 {
+                    label: "Quartos",
+                    path: "/cadastro/quartos"
+                },
+                {
                     label: "Hóspede",
                     path: "/cadastro/hospede",
                 },
@@ -87,7 +92,7 @@ export function Sidebar() {
                 },
                 {
                     label: "Formas de pagamento",
-                    path: "/cadastro/formas_de_pagamento",
+                    path: "/cadastro/formas-de-pagamento",
                 },
                 {
                     label: "PDV",
@@ -124,25 +129,28 @@ export function Sidebar() {
     }, [!state]);
     const pathArray = pathname.split('/')
     let newPath: string = ''
-  
+
     pathArray.forEach((item, index) => {
-      if (index > 1) {
-        newPath += '/' + item as string
-      }
-  
+        if (index > 1) {
+            newPath += '/' + item as string
+        }
+
     })
-  
-    return (
-        <aside
-            className={`bg-white-700 text-gray-900 border-black-100 font-medium transition-all shadow-xl duration-300 ease-in-out ${state ? "w-64" : "w-16"} flex flex-col`}
-        >
-            <nav className="flex-1 max-h-full overflow-y-auto scrollbar-invisible">
-                <div className="mt-1">
-                    {menuItems.map((item) => (
-                        <div key={item.label} >	
+
+    const shouldShowOnlyHome = pathname.includes("settings") || pathname.includes("propriedades");
+
+    return (<aside
+        className={`bg-white-700 text-gray-900 border-black-100 font-medium transition-all shadow-xl duration-300 ease-in-out ${state ? "w-64" : "w-16"} flex flex-col`}
+    >
+        <nav className="flex-1 max-h-full overflow-y-auto scrollbar-invisible">
+            <div className="mt-1">
+                {menuItems.filter((item) => !shouldShowOnlyHome || item.label === "Inicio") // Mostra apenas "Início")
+
+                    .map((item) => (
+                        <div key={item.label} >
                             <Link
                                 href={`/${slug}${item.path}`}
-                                className={`flex items-center px-4 py-4 hover:bg-[#dfdee0] hover:rounded-md ${!item.subMenu ? pathname === `/${slug}${item.path}`  ? "bg-[#D5CEE5] rounded-md" : "": ""}`}
+                                className={`flex items-center px-4 py-4 hover:bg-[#D5CEE5] ${!item.subMenu ? pathname === `/${slug}${item.path}` ? "bg-[#D5CEE5] " : "" : ""}`}
                                 onClick={(e) => {
                                     if (item.subMenu) {
                                         e.preventDefault();
@@ -167,12 +175,12 @@ export function Sidebar() {
 
                             {/* Submenu no estado comprimido */}
                             {item.subMenu && openSubMenus[item.label] && !state && (
-                                <div ref={SubMenuRef} className="absolute left-[4.75rem] w-[8rem] transform -translate-x-2 -translate-y-14 bg-white border border-gray-200 rounded-md items-center shadow-lg z-50 transition-all duration-300">
+                                <div ref={SubMenuRef} className="absolute left-[4.75rem] w-[8rem] transform -translate-x-2 -translate-y-14 bg-white border border-gray-200  items-center shadow-lg z-50 transition-all duration-300">
                                     {item.subMenu.map((subItem) => (
                                         <Link
                                             key={subItem.label}
                                             href={`/${slug}${subItem.path}`}
-                                            className="flex items-center px-4 py-2 hover:bg-[#D5CEE5]"
+                                            className={`flex items-center px-4 py-2 hover:bg-[#D5CEE5] ${newPath === subItem.path ? 'bg-primary-300 text-violet-600 ' : ""}`}
                                         >
                                             <span>{subItem.label}</span>
                                         </Link>
@@ -181,24 +189,24 @@ export function Sidebar() {
                             )}
 
                             {/* Submenu no estado expandido */}
-                                {item.subMenu && openSubMenus[item.label] && state && (
-                                    <div className="bg-white-800">
-                                        {item.subMenu.map((subItem) => (
-                                            <Link
-                                                key={subItem.label}
-                                                href={`/${slug}${subItem.path}`}
-                                                className={`flex items-center px-4 py-4 hover:rounded-md hover:bg-[#dfdee0] ${newPath === subItem.path ? 'bg-primary-300 text-violet-600 rounded-md' : ""}`}
-                                            >
-                                                {state && <span className='ml-8'>{subItem.label}</span>}
-                                            </Link>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
+                            {item.subMenu && openSubMenus[item.label] && state && (
+                                <div className="bg-white-800">
+                                    {item.subMenu.map((subItem) => (
+                                        <Link
+                                            key={subItem.label}
+                                            href={`/${slug}${subItem.path}`}
+                                            className={`flex items-center px-4 py-4  hover:bg-[#D5CEE5] ${newPath === subItem.path ? 'bg-primary-300 text-violet-600 ' : ""}`}
+                                        >
+                                            {state && <span className='ml-8'>{subItem.label}</span>}
+                                        </Link>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
 
                     ))}
-                </div>
-            </nav>
-        </aside>
+            </div>
+        </nav>
+    </aside>
     )
 }

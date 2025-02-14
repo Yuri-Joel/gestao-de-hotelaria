@@ -41,7 +41,7 @@ const Select: React.FC<SelectProps> = ({
 
   const addTag = (item: string) => {
     if (isObjectId && typeof selectedItem === "object" && selectedItem._id === item) {
-      setSelected(selectedItem._id)
+      setSelected(selectedItem?._id)
       setIsOpen(false)
     } else if (selectedItem === item) {
       setSelected(item)
@@ -53,11 +53,11 @@ const Select: React.FC<SelectProps> = ({
   }
 
   const renderSelectedItem = (): string => {
-    if (isObjectId && typeof selectedItem === "object" && selectedItem._id) {
-      return selectedItem._id
+    if (isObjectId && typeof selectedItem === "object" && selectedItem?._id) {
+      return selectedItem?._id
     }
-    if (typeof selectedItem === "object" && selectedItem.name) {
-      return selectedItem.name
+    if (typeof selectedItem === "object" && selectedItem?.name) {
+      return selectedItem?.name
     }
     return (typeof selectedItem === "string" ? selectedItem : "") || placeholder || ""
   }
@@ -83,7 +83,7 @@ const Select: React.FC<SelectProps> = ({
               name={name}
               defaultValue={
                 isObjectId && typeof selectedItem === "object"
-                  ? String(selectedItem._id || "")
+                  ? String(selectedItem?._id || "")
                   : String(selectedItem || "")
               }
               disabled={disabled}

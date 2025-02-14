@@ -13,9 +13,10 @@ import { RoomDetailModal } from "../RoomDetails/RoomDetailModal";
 import { NoteModal } from "../NoteModal/NoteModal";
 import { floorStore } from "@/store/floorStore";
 import { UHEntity } from "@/interfaces/EntitiesForNewAPI/UHEntity";
-import { Uhlist } from "../UhList/Uhlist";
 import { UhStore } from "@/store/UhStore";
 import { FloorEntity } from "@/interfaces/EntitiesForNewAPI/FloorEntity";
+import { ModalGuest } from "../ModalGuest";
+import { Room } from "../Room/room";
 
 // Função para transformar floors em menuItems para TabNavigation
 const transformToTabNavigation = (floors: FloorEntity[]) => {
@@ -60,9 +61,8 @@ export const Body = () => {
         (async () => {
             try {
                 setLoading(true);
-                const limit = 10
-                const response = await find(currentPage, limit);
-                //   console.log("isso 1", response)
+                const response = await find(currentPage);
+                  console.log("isso 1", response)
                 const transformedFloors = transformToTabNavigation(response?.data?.data || []);
                 setMenuItems(transformedFloors);
             } catch (error) {
@@ -119,7 +119,7 @@ export const Body = () => {
                                         <div className="flex flex-wrap gap-4 mt-4">
                                             {floor.UHs && floor.UHs.length > 0 ? (
                                                 floor.UHs.map((uh, roomIndex) => (
-                                                    <Uhlist key={roomIndex} room={uh as UHEntity} />
+                                                    <Room key={roomIndex} room={uh as UHEntity} />
                                                 ))
                                             ) : (
                                                 <p className="text-gray-500">Nenhuma unidade habitacional disponível.</p>
@@ -131,7 +131,7 @@ export const Body = () => {
                             ) : (
                                 floorSelected?.UHs && floorSelected.UHs.length > 0 ? (
                                     floorSelected.UHs.map((uh, roomIndex) => (
-                                        <Uhlist key={roomIndex} room={uh as UHEntity} />
+                                        <Room key={roomIndex} room={uh as UHEntity} />
                                     ))
                                 ) : (
                                     <p className="text-gray-500">Nenhuma unidade habitacional disponível neste andar.</p>
@@ -150,6 +150,7 @@ export const Body = () => {
 
                 {IsOpenedModalNoteReserve && selectedRoom && <NoteModal room={selectedRoom} />}
 
+                <ModalGuest />
                 {/* Botão de Informações    */}
                 <Button
                     handleActive={() => true}

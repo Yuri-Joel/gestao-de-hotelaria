@@ -1,7 +1,7 @@
 "use client"
 
 import { UhStore } from "@/store/UhStore";
-import { RoomCardProps } from "../UhList/Uhlist";
+import { RoomCardProps } from "../Room/room";
 
 export const NoteModal = ({ room }: RoomCardProps) => {
 

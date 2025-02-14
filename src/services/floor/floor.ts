@@ -20,7 +20,7 @@ export const floorServices = () => {
     return response;
   };
 
-  const create = async (floor: FloorEntity) => {
+  const create = async (floor: Partial<FloorEntity>) => {
     const response = await handleRequest<FloorEntity>({
       url: `/floors`,
       method: "POST",

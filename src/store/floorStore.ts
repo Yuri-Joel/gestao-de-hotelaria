@@ -12,6 +12,7 @@ type State = {
   totalPages: number;
   totalItems: number;
   EditFloorModal: boolean;
+  isOpenModalNewFloor: boolean;
 };
 
 type Action = {
@@ -20,7 +21,8 @@ type Action = {
   setEditFloorModal: (value: boolean) => void;
   find: (page: number) => Promise<IResponse<TModelPagination<FloorEntity>>>;
   getFloorsTabNavigation: () => Promise<IResponse<TModelPagination<FloorEntity>>>;
-  create: (floor: FloorEntity) => Promise<IResponse<FloorEntity>>
+  create: (floor: Partial<FloorEntity>) => Promise<IResponse<FloorEntity>>;
+  handleOpenModalNewFloor: () => void;
 };
 
 export const floorStore = create<State & Action>((set, get) => ({
@@ -30,6 +32,7 @@ export const floorStore = create<State & Action>((set, get) => ({
   totalPages: 0,
   totalItems: 0,
   EditFloorModal: false,
+  isOpenModalNewFloor: false,
 
   setSelectedFloor: (floor) => set({ selectedFloor: floor }),
 
@@ -86,5 +89,8 @@ export const floorStore = create<State & Action>((set, get) => ({
     }
 
     return response;
+  },
+  handleOpenModalNewFloor: () => {
+    set({ isOpenModalNewFloor: !get().isOpenModalNewFloor });
   },
 }));
