@@ -1,136 +1,294 @@
-import { delay } from "@/helpers/delay"
-import { UHEntity } from "@/interfaces/EntitiesForNewAPI/UHEntity"
-import { UhStore } from "@/store/UhStore"
-import { LuBedDouble, LuBedSingle } from "react-icons/lu"
+"use client";
 
-// Definir as cores e textos dos status
-export const statusConfig = {
-    disponivel: {
-        bg: "bg-[#13973F]",
-        text: "Disponível",
-    },
-    "sai-hoje": {
-        bg: "bg-[#971313]",
-        text: "Sai hoje",
-    },
-    vencido: {
-        bg: "bg-[#D7881A]",
-        text: "Vencido",
-    },
-    ocupado: {
-        bg: "bg-[#201397]",
-        text: "Ocupado",
-    },
-    roxo: {
-        bg: "bg-[#CC01FF]",
-        text: "Reservado",
-    },
-    interdito: {
-        bg: "bg-black",
-        text: "Interdito",
-    }
-}
+import {
+    BiChevronLeft,
+    BiChevronRight,
+    BiChevronsLeft,
+    BiChevronsRight,
+} from "react-icons/bi";
 
-export interface RoomCardProps {
-    room: UHEntity
-
-}
+import { useEffect, useRef, useState } from "react";
+import { RightIcon } from "@/assets/Icons/RightIcon";
+import { useRouter } from "next/navigation";
+import { Table } from "@/components/Table/table";
+import { Skeleton } from "@/components/Skeleton/Skeleton";
+import { Button } from "@/components/Button/Button";
+import { UhStore } from "@/store/UhStore";
+import { modalManagementStore } from "@/store/modalManagementStore";
+import { TableHeader } from "@/components/Table/table-header";
+import { TableRow } from "@/components/Table/table-row";
+import { TableCell } from "@/components/Table/table-cell";
+import { IconButton } from "@/components/Table/table-button-navigation";
+import { FloorEntity } from "@/interfaces/EntitiesForNewAPI/FloorEntity";
+import { UHEntity } from "@/interfaces/EntitiesForNewAPI/UHEntity";
+import { EditUhModal } from "./UhEditModal";
+import AlertDialog from "@/components/AlertDialog/AlertDialog";
+import { Types } from "mongoose";
+import { NewUhModal } from "./newUh";
 
 
-export function getRoomStatus(room: UHEntity) {
+export const UhList = () => {
+    const [IsLoading, setLoading] = useState<boolean>(false);
 
-  /*   if (room?.isRestricted) {
-        return statusConfig.interdito
-    } */
-    if (!room?.reserve) {
-        return statusConfig.disponivel
-    }
+    const {
+        find,
+        UH,
+        currentPage,
+        totalPages,
+        setCurrentPage,
+        setSelectedUh,
+        selectedUh,
+        DeleteUH
+    } = UhStore();
 
-    const today = new Date()
-    const checkOutDate = new Date(room?.reserve.checkOut)
-    const checkInDate = new Date(room?.reserve.checkIn)
+    const { handleOpenModalNewUh, handleOpenModalEditUh, isOpenedModalEditUh, isOpenedModalNewUh, handleOpenModalDeleteUh, isOpenedModalDeleteUh} = modalManagementStore()
+    const [openMenuId, setOpenMenuId] = useState<any | null>(null);
+    const [loadingRoom, setLoadingRoom] = useState(false)
+    const menuRef = useRef<HTMLDivElement>(null);
 
+    useEffect(() => {
+        setLoading(true);
+        (async () => {
+            try {
+                await find(currentPage);
+            } catch (error) {
+                console.error("Erro ao buscar andares:", error);
+            } finally {
+                setLoading(false);
+            }
+        })();
+    }, [currentPage, find]);
 
-    // Verificar se o check-out é hoje
-    if (checkOutDate.toDateString() === today.toDateString()) {
-        return statusConfig["sai-hoje"]
-    }
-
-    // Verificar se o hóspede deveria ter saído (check-out vencido)
-    if (checkOutDate < today) {
-        return statusConfig.vencido
-    }
-
-    // Verificar se o hóspede está na propriedade
-    if (checkInDate <= today && checkOutDate >= today) {
-        return statusConfig.ocupado
-    }
-
-    // Verificar se está reservado para o futuro
-    return statusConfig.roxo
-}
-export function Uhlist({ room }: RoomCardProps) {
-
-    const { handleOpenModalRoomDetails, setSelectedRoom, selectedRoom, handleIsOpenedModalNoteReserve } = UhStore()
-    const roomStatus = getRoomStatus(room);
-
-    const handleOpenRoomDetails = async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const handleClickAction = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, uh:UHEntity) => {
         e.stopPropagation();
-        if (!room.reserve /* || room?.isRestricted */) return
-        /* if (room.reserve?.note?.trim()) {
-                handleIsOpenedModalNoteReserve()
-                return
-        }
- */
+        setSelectedUh(uh);
+    }
 
-        if (selectedRoom === room) {
-            // Caso o quarto já esteja selecionado, apenas abre o modal.
-            handleOpenModalRoomDetails();
-            return;
-        }
-        // Fecha o modal atual, se estiver aberto.
-        if (selectedRoom) {
-            handleOpenModalRoomDetails();
-            await delay(100); // Espera um pouco para evitar sobreposição de modais.
-        }
-        // Atualiza o quarto selecionado e reabre o modal para o novo quarto.
-        setSelectedRoom(room);
-        handleOpenModalRoomDetails();
-    };
+    const handleDeleteSubmit = async()=>{
 
+        setLoadingRoom(true);
+        try {
+            
+            await DeleteUH(selectedUh?._id as Types.ObjectId);
+            handleOpenModalDeleteUh();
 
+        } catch (error) {
+            
+        }finally{
+            setLoadingRoom(false)
+
+        }
+
+            }
     return (
-        <div data-room={true} className={`w-36 h-[12rem] bg-white rounded-lg shadow-md  transition-transform duration-200  overflow-hidden ${!room.reserve /* || room?.isRestricted */ ? '' : 'cursor-pointer'}`} onClick={handleOpenRoomDetails} >
-            {/* Status de ocupação do quarto */}
-            <div className={`${roomStatus.bg} px-4 py-2 text-white font-medium text-center`}>
-                {roomStatus.text}
-            </div>
-            {/* Conteúdo do quarto */}
-            <div className="p-4">
+        <>
 
-                <div className="text-center text-xl font-bold mb-4">{room.name}</div>
-
-                <div className='flex justify-center items-center gap-1'>
-                    <span className='flex flex-col items-center text-xs'>
-                        <LuBedDouble />
-                        {room?.information?.beds?.double || 1 }
-                    </span>
-                    <span className='flex flex-col items-center text-xs'>
-                        <LuBedSingle />
-                     {room?.information?.beds?.single || 2} 
-                    </span>
+            <div className="mt-5">
+                <div className="mt-7">
+                    <button
+                        className="text-primary-700 font-bold text-md"
+                        onClick={handleOpenModalNewUh}
+                    >
+                        Adicionar novo quarto
+                    </button>
                 </div>
-              {/*   <div
-                    className={`text-center py-1 rounded ${!room.isRestricted ? room.isClean ? "bg-blue-100 text-blue-600" : "bg-red-100 text-red-600" : "bg-black"}`}
-                >
-                    {room.isClean ? "Limpo" : "Sujo"}
-                </div> */}
-                <div
-                    className={`text-center py-1 rounded bg-blue-100 text-blue-600`}
-                >
-                    {"Limpo"}
-                </div> 
+
+                <Table className="w-full" onClick={() => setOpenMenuId(null)}>
+                    <thead>
+                        <tr className="border-none">
+                            <TableHeader className="px-8 font-bold">
+                                Nome
+                            </TableHeader>
+                            <TableHeader className="text-center px-[5rem] font-bold">
+                                Localização
+                            </TableHeader>
+                            <TableHeader className="text-center px-[5rem] font-bold">
+                                Acessibilidade
+                            </TableHeader>
+                            <TableHeader className="text-center px-[5rem] font-bold">
+                                Descrição
+                            </TableHeader>
+                            <TableHeader className="text-center px-[5rem] font-bold">
+                                Ações
+                            </TableHeader>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {IsLoading ? (
+                            <>
+                                {[...Array(5)].map((_, i) => (
+                                    <TableRow key={i} className="p-2 bg-white">
+                                        <TableCell colSpan={5}>
+                                            <Skeleton className="h-12 w-FULL" />
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </>
+                        ) : (
+                            Array.isArray(UH) && UH?.map((uh, index) => (
+                                <TableRow
+                                    className={
+                                        index % 2 === 0
+                                            ? "bg-gray-90"
+                                            : "bg-white "
+                                    }
+                                    key={index}
+                                >
+                                    <TableCell className="text-center min-w-28 ">
+                                        <div
+                                            onClick={(e)=>handleClickAction(e,uh)}
+                                            className="p-2 w-full text-center text-primary cursor-pointer"
+                                        >
+                                            {uh.name}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell className="text-center">
+                                        <div className="p-2 w-full text-center">
+                                            {(uh.floor as FloorEntity).name}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell className="text-center">
+                                        <div className="p-2 w-full text-center">
+                                            {(uh.floor as FloorEntity).isAccessible ? "sim" : "não"}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell className="text-center">
+                                        <div className="p-2 w-full text-center">
+                                            -
+                                        </div>
+                                    </TableCell>
+                                    <TableCell className="text-center items-center flex justify-center">
+                                        <div
+                                            className="flex justify-center relative"
+                                            ref={menuRef}
+                                        >
+                                            <div
+                                                onClick={(e?: any) => {
+                                                    e.stopPropagation();
+                                                    setOpenMenuId(
+                                                        openMenuId == uh._id
+                                                            ? null
+                                                            : uh._id,
+                                                    );
+                                                }}
+                                                className=" w-6 h-6 bg-white border border-gray-300 rounded cursor-pointer flex items-center justify-center transition-colors"
+                                            >
+                                                {openMenuId === uh._id && (
+                                                    <RightIcon className="text-white h-14 w-14" />
+                                                )}
+                                            </div>
+
+                                            {openMenuId === uh._id && (
+                                                <div className="absolute top-full w-24 bg-white shadow-md border border-gray-90 rounded-lg shadow-mdring-1 ring-black ring-opacity-5 z-10">
+                                                    <div
+                                                        className=" bg-white"
+                                                        role="menu"
+                                                        aria-orientation="vertical"
+                                                    >
+                                                        <Button
+                                                            className="w-full text-left px-4 py-2 text-sm text-gray-700 bg-white  hover:bg-gray-100"
+                                                            role="menuitem"
+                                                            handleClick={() => {
+                                                                setSelectedUh(
+                                                                    uh,
+                                                                );
+                                                                handleOpenModalEditUh()
+                                                            }}
+                                                            handleActive={() =>
+                                                                true
+                                                            }
+                                                        >
+                                                            Editar
+                                                        </Button>
+                                                        <Button
+                                                            className="w-full text-left px-4 py-2 text-sm text-red-600 bg-white hover:bg-gray-100"
+                                                            role="menuitem"
+                                                            handleClick={()=>{ setSelectedUh(
+                                                                uh,
+                                                            );handleOpenModalDeleteUh()}    
+                                                            }
+                                                            handleActive={() =>
+                                                                true
+                                                            }
+                                                        >
+                                                            Excluir
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        )}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <TableCell colSpan={5}>
+                                <div className="flex  items-center justify-end gap-8">
+                                    <span>
+                                        Página {currentPage} de {totalPages}
+                                    </span>
+                                    <div className="flex gap-1.5">
+                                        <IconButton
+                                            disabled={currentPage === 1}
+                                            onClick={() => setCurrentPage(1)}
+                                        >
+                                            <BiChevronsLeft className="size-4" />
+                                        </IconButton>
+                                        <IconButton
+                                            disabled={currentPage === 1}
+                                            onClick={() =>
+                                                setCurrentPage(currentPage - 1)
+                                            }
+                                        >
+                                            <BiChevronLeft className="size-4" />
+                                        </IconButton>
+                                        <IconButton
+                                            disabled={
+                                                currentPage === totalPages ||
+                                                totalPages === 1
+                                            }
+                                            onClick={() =>
+                                                setCurrentPage(currentPage + 1)
+                                            }
+                                        >
+                                            <BiChevronRight className="size-4" />
+                                        </IconButton>
+                                        <IconButton
+                                            disabled={
+                                                currentPage === totalPages ||
+                                                totalPages === 1
+                                            }
+                                            onClick={() =>
+                                                setCurrentPage(totalPages)
+                                            }
+                                        >
+                                            <BiChevronsRight className="size-4" />
+                                        </IconButton>
+                                    </div>
+                                </div>
+                            </TableCell>
+                        </tr>
+                    </tfoot>
+                </Table>
+                {isOpenedModalEditUh && selectedUh && <EditUhModal  dataTranported={selectedUh}/>}
+                {isOpenedModalNewUh && <NewUhModal />}
+                
+        <AlertDialog
+          typeAlert="cancel"
+          title="Tem certeza que deseja eliminar este quarto?"
+          description="Ao confirmar, este quarto será eliminado."
+          confirmTitleBtn="Sim, tenho certeza"
+          cancelTitleBtn="Cancelar"
+          hideTypeAlertIcon
+          isOpenedModalManagement={isOpenedModalDeleteUh}
+          handleConfirm={handleDeleteSubmit}
+          handleCancel={handleOpenModalDeleteUh}
+          isBtnLoading={loadingRoom}
+          />
+
             </div>
-        </div>
-    )
+        </>
+    );
 }

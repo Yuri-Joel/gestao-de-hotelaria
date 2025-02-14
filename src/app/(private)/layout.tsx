@@ -41,7 +41,9 @@ const PrivateLayout = ({
       window.removeEventListener("offline", updateOnlineStatus);
     };
   }, []);
-
+  const pathArray = pathname.split('/').filter(Boolean); // Remove strings vazias
+  const newPath = pathArray.pop(); // Pega e remove o último item
+  
   return (
     <>
       <HeadTitle title={route && `${route} - Hoteli Apps - PMS`} />
@@ -52,7 +54,7 @@ const PrivateLayout = ({
           <MenuProfile />
           <ReservationSearch />
           <div className="pt-[60px] flex flex-1 overflow-hidden">
-            {formatPathName(pathname) !== "propriedades" && <Sidebar />}
+            { newPath !== ("add-property") &&  <Sidebar />}
 
             <main className="flex-1 overflow-auto bg-white-100">
               <div className="">{children}</div>
