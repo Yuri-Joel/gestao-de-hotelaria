@@ -9,7 +9,7 @@ interface ModalProps {
     isOpen: boolean;
 }
 
-export const Modal = ({ title, children, isOpen, onClose, description }: ModalProps) => {
+export const Modal: React.FC<ModalProps> = ({ title, children, isOpen, onClose, description }) => {
 
     useEffect(() => {
         let timeout: NodeJS.Timeout;
