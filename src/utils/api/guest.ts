@@ -36,3 +36,19 @@ export const fakeAndar: any[] = [
   { id: 15, name: "15 Andar", Accessibility: "Sim", Status: "Disponível", Description: "Lorem Ipsum Chablau", },
   { id: 16, name: "16 Andar", Accessibility: "Sim", Status: "Disponível", Description: "Lorem Ipsum Chablau", },
 ]
+
+export const fakeGuestAndCompanion = {
+  id: 1,
+  guest: {
+    name: "Nicolas Silva Bispo",
+    companion: [
+      {
+        name: "Aderito Caxala"
+      },
+      {
+        name: "Divaldo Helder"
+      }
+    ]
+  }
+}
+

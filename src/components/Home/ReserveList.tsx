@@ -12,25 +12,25 @@ export const ReserveList = () => {
 
   // Simula a requisição
   useEffect(() => {
-    setLoading(true); 
-    
-   (async()=> {  
-    await delay(2000) //simula um atraso de 2 segundos
+    setLoading(true);
+
+    (async () => {
+      await delay(2000) //simula um atraso de 2 segundos
       const filteredGuests = guests.filter(
-        (guest) => guest.state.toLowerCase() === selectedStateReserve.label.toLowerCase()
+        (guest) => guest?.state?.toLowerCase() === selectedStateReserve.label.toLowerCase()
       );
       setGuestsFiltered(filteredGuests);
       setLoading(false)
     })();
-   
-  }, [selectedStateReserve]); 
+
+  }, [selectedStateReserve]);
 
   return (
     <>
       {loading ? (
         <div className="p-4  space-y-4">
           {[...Array(3)].map((_, i) => (
-            <div key={i}  className="p-4 bg-white">
+            <div key={i} className="p-4 bg-white">
               <Skeleton className="h-6 w-3/4 mb-4" />
               <Skeleton className="h-4 w-1/2" />
             </div>

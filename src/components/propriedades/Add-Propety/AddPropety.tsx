@@ -32,7 +32,7 @@ const AddPropety: React.FC = () => {
   } = propetyAcordionStore();
 
   const {
-    create
+    create,
   } = propertyStore()
 
   const [isModalOpen, setIsModalOpen] = useState(false);
