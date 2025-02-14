@@ -1,18 +1,22 @@
 import handleRequest from "@/helpers/handleRequest";
 import { UserEntity } from "@/interfaces/EntitiesForNewAPI/UserEntity";
-import { TModelPagination } from "@/types/TModelPagination";
+import { Types } from "mongoose";
+
+export type TUserDataResponse = {
+	statusText: string;
+	data: UserEntity;
+};
 
 export const profileServices = () => {
-	const find = async () => {
-		const response = await handleRequest<
-			TModelPagination<UserEntity> & { data: { data: UserEntity[] } }
-		>({
-			url: `/users`,
-			method: "GET",
+	const findOne = async (user: Types.ObjectId) => {
+		const response = await handleRequest<TUserDataResponse>({
+			url: `/users/authenticated`,
+			method: "POST",
+			body: JSON.stringify({ user }),
 		});
 		return response;
 	};
 	return {
-		find,
+		findOne,
 	};
 };

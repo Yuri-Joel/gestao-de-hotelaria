@@ -15,12 +15,7 @@ export const PrivacyPage = () => {
 				<PasswordModal close={setSelectedModal} />
 			)}
 			<div className="w-full py-2 px-4">
-				<ActiveUser
-					cpf="-"
-					fullName={
-						(user?.firstName || "-") + " " + (user?.lastName || "-")
-					}
-				/>
+				<ActiveUser cpf="-" fullName={user?.fullName || "- -"} />
 
 				<div className="mt-4 px-2 py-4 gap-2 flex flex-col group relative">
 					<button

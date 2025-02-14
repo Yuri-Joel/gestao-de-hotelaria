@@ -34,21 +34,14 @@ export const GeneralPage = () => {
 				<AddressModal close={setSelectedModal} />
 			)}
 			<div className="w-full py-2 px-4">
-				<ActiveUser
-					cpf="-"
-					fullName={
-						(user?.firstName || "-") + " " + (user?.lastName || "-")
-					}
-				/>
+				<ActiveUser cpf="-" fullName={user?.fullName || "- -"} />
 				<div className="mt-4 border-b px-2 py-4 gap-2 flex flex-col group relative">
 					<h1 className="font-bold mb-2">Informações Básicas</h1>
 					<p className="flex gap-2 text-gray-500 items-center">
 						<FaUser />
 						Nome Completo:{" "}
 						<span className="text-black">
-							{(user?.firstName || "-") +
-								" " +
-								(user?.lastName || "-")}
+							{user?.fullName || "- -"}
 						</span>
 					</p>
 					<p className="flex gap-2 text-gray-500 items-center">

@@ -1,10 +1,9 @@
-import { parseCookie, removeAuthCookie } from "@/helpers/cookies/authCookie";
+import { removeAuthCookie } from "@/helpers/cookies/authCookie";
 import { IResponse } from "@/helpers/handleRequest";
 
 import { UserEntity } from "@/interfaces/EntitiesForNewAPI/UserEntity";
-import { profileServices } from "@/services/profile/profile";
+import { profileServices, TUserDataResponse } from "@/services/profile/profile";
 
-import { TModelPagination } from "@/types/TModelPagination";
 import { Types } from "mongoose";
 
 import { create } from "zustand";
@@ -18,13 +17,7 @@ type State = {
 type Action = {
 	setSelectedMenu: (value: string) => void;
 	setSelectedModal: (value: string) => void;
-	findOne: (
-		_id: Types.ObjectId,
-	) => Promise<
-		IResponse<
-			TModelPagination<UserEntity> & { data: { data: UserEntity[] } }
-		>
-	>;
+	findOne: (_id: Types.ObjectId) => Promise<IResponse<TUserDataResponse>>;
 };
 
 export const profileStore = create<State & Action>((set) => ({
@@ -37,17 +30,16 @@ export const profileStore = create<State & Action>((set) => ({
 	setSelectedModal: (value) => {
 		set({ selectedModal: value });
 	},
-	// Esta função simula a existencia de um endpoint para a busca de um usuário
+	// Esta função faz a busca dos dados do usuário com id informado
 	findOne: async (_id: Types.ObjectId) => {
-		const response = await profileServices().find();
+		const response = await profileServices().findOne(_id);
 		if (response.status === 401) {
 			removeAuthCookie();
 			window.location.href = "/login";
 		}
-		// filtrar o array para encontrar um usuário com o mesmo id fornecido pelo parametro _id
-		const user = response.data?.data.data.find((user) => user._id === _id);
-		if (!response.error.value && user) {
-			set({ user });
+		// Em caso de sucesso seta o usuário obtido na resposta
+		if (!response.error.value && response.data?.data) {
+			set({ user: response.data.data });
 		}
 
 		return response;
