@@ -75,8 +75,8 @@ function FloorDetails() {
         )}
       </div>
 
-      {EditFloorModal ? (
-        <FloorEditModal />
+      {EditFloorModal ? selectedFloor && (
+        <FloorEditModal dataTranported={selectedFloor} />
       ) : (
         floor && (
           <ul className="bg-white gap-5 flex flex-col text-gray-900 p-4 max-w-96 shadow-md border border-gray-90">
