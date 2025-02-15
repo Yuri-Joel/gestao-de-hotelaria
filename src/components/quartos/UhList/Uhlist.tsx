@@ -25,6 +25,10 @@ import AlertDialog from "@/components/AlertDialog/AlertDialog";
 import { Types } from "mongoose";
 import { EditUhModal } from "./UhEditModal";
 import { NewUhModal } from "./newUh";
+import { ChevronsLeftIcon } from "@/assets/Icons/ChevronsLeftIcon";
+import { ChevronLeftIcon } from "@/assets/Icons/ChevronLeftIcon";
+import { ChevronRightIcon } from "@/assets/Icons/ChevronRightIncon";
+import { ChevronsRightIcon } from "@/assets/Icons/ChevronsRightIcon";
 
 
 
@@ -233,39 +237,44 @@ export const UhList = () => {
                                     <div className="flex gap-1.5">
                                         <IconButton
                                             disabled={currentPage === 1}
+                                            transparent={currentPage != 1 ? false : true}
                                             onClick={() => setCurrentPage(1)}
                                         >
-                                            <BiChevronsLeft className="size-4" />
+                                            <ChevronsLeftIcon className="size-4" />
                                         </IconButton>
                                         <IconButton
                                             disabled={currentPage === 1}
+                                            transparent={currentPage === 1 ? true : false}
                                             onClick={() =>
                                                 setCurrentPage(currentPage - 1)
                                             }
                                         >
-                                            <BiChevronLeft className="size-4" />
+                                            <ChevronLeftIcon className="size-4" />
                                         </IconButton>
                                         <IconButton
                                             disabled={
                                                 currentPage === totalPages ||
                                                 totalPages === 1
                                             }
+                                            transparent={currentPage === totalPages || totalPages === 1 ? true : false}
                                             onClick={() =>
                                                 setCurrentPage(currentPage + 1)
                                             }
                                         >
-                                            <BiChevronRight className="size-4" />
+                                            <ChevronRightIcon className="size-4" />
                                         </IconButton>
                                         <IconButton
                                             disabled={
                                                 currentPage === totalPages ||
                                                 totalPages === 1
                                             }
+                                            transparent={currentPage === totalPages || totalPages === 1 ? true : false}
+
                                             onClick={() =>
                                                 setCurrentPage(totalPages)
                                             }
                                         >
-                                            <BiChevronsRight className="size-4" />
+                                            <ChevronsRightIcon className="size-4" />
                                         </IconButton>
                                     </div>
                                 </div>

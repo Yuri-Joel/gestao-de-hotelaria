@@ -7,6 +7,7 @@ type State = {
     isOpenedModalNewUh: boolean
     isOpenedModalEditUh: boolean
     isOpenedModalDeleteUh: boolean
+    isOpenedModalRefund: boolean;
 
     isOpenedModalNewfloor: boolean
     isOpenedModalEditfloor: boolean
@@ -18,6 +19,7 @@ type Action = {
     handleOpenModalNewUh: () => void
     handleOpenModalEditUh: () => void
     handleOpenModalDeleteUh: () => void
+    handleOpenModalRefund: () => void;
 
     handleOpenModalNewfloor: () => void
     handleOpenModalEditfloor: () => void
@@ -29,6 +31,7 @@ export const modalManagementStore = create<State & Action>((set, get) => ({
         isOpenedModalNewUh: false,
         isOpenedModalDeleteUh: false,
         isOpenedModalEditUh: false,
+        isOpenedModalRefund:false,
 
         isOpenedModalNewfloor: false,
         isOpenedModalDeletefloor: false,
@@ -51,6 +54,11 @@ export const modalManagementStore = create<State & Action>((set, get) => ({
             const isOpened = get().isOpenedModalEditUh
             set({ isOpenedModalEditUh: !isOpened })
         },
+        handleOpenModalRefund: () => {
+            const isOpened = get().isOpenedModalRefund
+        
+            set({ isOpenedModalRefund: !isOpened})
+          },
         handleOpenModalNewfloor: () => {
             const isOpened = get().isOpenedModalNewfloor
             set({ isOpenedModalNewfloor: !isOpened })

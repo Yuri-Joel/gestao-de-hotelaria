@@ -11,12 +11,21 @@ import { delay } from "@/helpers/delay";
 import { Skeleton } from "@/components/Skeleton/Skeleton";
 
 import Cookies from "js-cookie";
+import { modalManagementStore } from "@/store/modalManagementStore";
 
 export function DetailsBody() {
   const slug = Cookies.get(`${process.env.NEXT_PUBLIC_PROPERTY_SLUG}`)
 
-  const { isOpenedModalGuest, setIsOpenedModalGuest, isOpenedModalRefund, selectedGuest, setSelectedGuest } = reserveStore()
-
+  const { 
+    isOpenedModalGuest, 
+    setIsOpenedModalGuest, 
+    setSelectedGuest,
+    selectedGuest 
+  } = reserveStore()
+  const {
+    isOpenedModalRefund, 
+  } = modalManagementStore()
+  
   const verifyIfIsCompanion = fakeGuestAndCompanion.guest.companion.filter((companion, index) => companion.name === selectedGuest)
   const [loading, setLoading] = useState(false)
 
@@ -34,6 +43,8 @@ export function DetailsBody() {
         await delay(1000);
         if (guest && guest !== "undefined") {
           setSelectedGuest(JSON.parse(guest));
+        }else{
+          setSelectedGuest(fakeGuestAndCompanion.guest.name)
         }
         setLoading(false)
       }
@@ -48,7 +59,7 @@ export function DetailsBody() {
             <div className="flex items-center justify-center gap-5">
               {
                 selectedGuest
-                  ? <h1 className="font-bold text-xl">{selectedGuest ? selectedGuest : fakeGuestAndCompanion.guest.name}</h1>
+                  ? <h1 className="font-bold text-xl">{selectedGuest}</h1>
                   : <Skeleton className="w-[12rem] h-7" />
               }
               <button

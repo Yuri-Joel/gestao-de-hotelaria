@@ -5,6 +5,7 @@ import { TableCell } from "@/components/Table/table-cell";
 import { TableHeader } from "@/components/Table/table-header";
 import { TableRow } from "@/components/Table/table-row";
 import { ActionMenu } from "@/components/UserMenu/ActionMenu";
+import { modalManagementStore } from "@/store/modalManagementStore";
 import { DetailsSubtotal, reserveStore } from "@/store/reserveStore";
 import { Types } from "mongoose";
 import { useEffect, useState } from "react";
@@ -21,11 +22,13 @@ export function TableDetails<T>({ rows, title, columns, id }: TableDetailsProps<
   const {
     isChecked,
     setIschecked,
-    isOpenedModalRefund,
-    handleOpenModalRefund,
     setDetailsSubTotal,
     detailsSubTotal
   } = reserveStore()
+
+  const {
+    handleOpenModalRefund,
+  } = modalManagementStore()
 
   const [showLastColumn, setShowLastColumn] = useState(false)
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);

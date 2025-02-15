@@ -4,7 +4,7 @@ export const EditIcon: React.FC<Ticon> = ({ width, height, fill, stroke }) => {
   return (
     <>
       <svg 
-        stroke={stroke || "#6dd232" }
+        stroke={stroke || "#6dd232"}
         fill="none" 
         strokeWidth="2" 
         viewBox="0 0 24 24" 
