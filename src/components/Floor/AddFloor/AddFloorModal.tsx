@@ -9,13 +9,15 @@ import { Checkbox } from "@/components/Input/CheckBox";
 import Cookies from "js-cookie";
 import { parseCookie } from "@/helpers/cookies/authCookie";
 import { Types } from "mongoose";
+import { modalManagementStore } from "@/store/modalManagementStore";
 
 export const AddFloorModal = () => {
-  const [AlertTrue, setAlertTrue] = useState(false);
-  const [AlertFalse, setAlertFalse] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalCancelOpen, setIsModalCancelOpen] = useState(false);
+  const {handleOpenModalNewfloor, isOpenedModalNewfloor}= modalManagementStore()
 
-  const { create, handleOpenModalNewFloor, isOpenModalNewFloor } = floorStore();
+  const { create } = floorStore();
   const {
     acessible,
     name,
@@ -34,42 +36,40 @@ export const AddFloorModal = () => {
 
       const account = user?.account;
 
-      const res = await create({
+      const {error} = await create({
         name: name,
         account: account,
         property: new Types.ObjectId(propetyId as string),
         isAccessible: acessible,
       });
 
-      if (!res.error.value) {
+      
+      if (!error.value) {
+        setIsModalOpen(true);
       }
-      setAlertFalse(false);
-      setAlertTrue(true);
+
     } catch {
-      setAlertFalse(true);
-      setAlertTrue(false);
+      setIsModalCancelOpen(true);
     } finally {
       setIsLoading(false);
-      handleOpenModalNewFloor();
     }
   };
 
   const handleAddMoreFloor = () => {
+    setIsModalOpen(false);
     resetStore();
-    handleOpenModalNewFloor();
-    setAlertFalse(false);
-    setAlertTrue(false);
+    //handleOpenModalNewfloor();
+    
   };
 
   const handleCancel = () => {
-    handleOpenModalNewFloor();
-    setAlertFalse(false);
+    setIsModalCancelOpen(false)    
   };
 
   const handleGoToFloor = () => {
+    handleOpenModalNewfloor();
     resetStore();
-    setAlertTrue(false);
-    setIsLoading(false);
+    setIsModalOpen(false);
   };
 
   return (
@@ -77,69 +77,69 @@ export const AddFloorModal = () => {
       <Modal
         title="Cadastrar andar"
         description="Cadastrar um novo andar"
-        onClose={handleOpenModalNewFloor}
-        isOpen={isOpenModalNewFloor}
+        onClose={handleOpenModalNewfloor}
+        isOpen={isOpenedModalNewfloor}
       >
-          <div className="flex flex-col gap-5">
-            <div>
-              <label htmlFor="floor_name">Nome</label>
-              <Input
-                type="text"
-                placeholder="Insira o nome"
-                value={name}
-                handleValue={(e) => setName(e.target.value)}
-                className="mt-6 w-full  outline-none border  text-black"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3 w-full">
-                Acessível
-              </label>
-              <div className="flex justify-start gap-2 w-full items-center ">
-                <Checkbox
-                  index={1}
-                  isChecked={acessible ? true : false}
-                  onClick={() => setAcessible(true)}
-                />
-                <label>Sim</label>
-                <Checkbox
-                  index={1}
-                  isChecked={acessible ? false : true}
-                  onClick={() => setAcessible(false)}
-                />
-                <label>Não</label>
-              </div>
-            </div>
-            <Button
-              isLoading={isLoading}
-              handleActive={() => name.length > 0}
-              handleClick={handleNewFloor}
-            >
-              Cadastrar
-            </Button>
+        <div className="flex flex-col gap-5">
+          <div>
+            <label htmlFor="floor_name">Nome</label>
+            <Input
+              type="text"
+              placeholder="Insira o nome"
+              value={name}
+              handleValue={(e) => setName(e.target.value)}
+              className="mt-6 w-full  outline-none border  text-black"
+            />
           </div>
-       
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-3 w-full">
+              Acessível
+            </label>
+            <div className="flex justify-start gap-2 w-full items-center ">
+              <Checkbox
+                index={1}
+                isChecked={acessible ? true : false}
+                onClick={() => setAcessible(true)}
+              />
+              <label htmlFor="radio-1">Sim</label>
+              <Checkbox
+                index={2}
+                isChecked={acessible ? false : true}
+                onClick={() => setAcessible(false)}
+              />
+              <label htmlFor="radio-2">Não</label>
+            </div>
+          </div>
+          <Button
+            isLoading={isLoading}
+            handleActive={() => name.length > 0}
+            handleClick={handleNewFloor}
+          >
+            Cadastrar
+          </Button>
+        </div>
+
       </Modal>
-        <AlertDialog
-          typeAlert={"confirm"}
-          title="Sucesso"
-          description="Sua andar foi cadastrado com sucesso"
-          confirmTitleBtn="Ir para andares"
-          cancelTitleBtn="Adicionar mais andares"
-          isOpenedModalManagement={AlertTrue}
-          handleConfirm={handleGoToFloor}
-          handleCancel={handleAddMoreFloor}
-          hideCloseTopButton
-        />
-        <AlertDialog
-          typeAlert={"cancel"}
-          title="Erro"
-          description="Erro ao cadastrar um novo andar"
-          cancelTitleBtn="Voltar"
-          isOpenedModalManagement={AlertFalse}
-          handleCancel={handleCancel}
-          hideCloseTopButton
-        />
+      <AlertDialog
+        typeAlert={"confirm"}
+        title="Sucesso"
+        description="Sua andar foi cadastrado com sucesso"
+        confirmTitleBtn="Ir para andares"
+        cancelTitleBtn="Adicionar mais andares"
+        isOpenedModalManagement={isModalOpen}
+        handleConfirm={handleGoToFloor}
+        handleCancel={handleAddMoreFloor}
+        hideCloseTopButton
+      />
+      <AlertDialog
+        typeAlert={"cancel"}
+        title="Erro"
+        description="Erro ao cadastrar um novo andar"
+        cancelTitleBtn="Voltar"
+        isOpenedModalManagement={isModalCancelOpen}
+        handleCancel={handleCancel}
+        hideCloseTopButton
+      />
     </>
   );
 };

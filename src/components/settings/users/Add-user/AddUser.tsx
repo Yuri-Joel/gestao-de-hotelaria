@@ -21,7 +21,7 @@ const AddUser: React.FC = () => {
     lastName: "",
     email: "",
     password: "",
-    properties: [] as string[],
+    properties: [],
     account: "",
   });
 
@@ -46,31 +46,21 @@ const AddUser: React.FC = () => {
 
   const handleBack = () => {
     setAddUserModal(true);
-    setAlertFalse(false)
+    setAlertFalse(false);
   };
   const handleGoToUsers = () => {
     setAddUserModal(false);
-    setAlertTrue(false)
+    setAlertTrue(false);
   };
 
   const handleAddMoreUser = () => {
     resetFormData();
     setAddUserModal(true);
-    setAlertTrue(false)
-  }
+    setAlertTrue(false);
+  };
 
   const handleAddNewUser = async () => {
-    if (
-      !formData.firstName ||
-      !formData.lastName ||
-      !formData.email ||
-      !formData.password ||
-      !formData.properties
-    ) {
-      setAddUserModal(false);
-      setAlertFalse(true)
-      return setIsLoading(false)
-    }
+    
     setIsLoading(true);
 
     try {
@@ -88,20 +78,18 @@ const AddUser: React.FC = () => {
       await create(setData);
 
       setAddUserModal(false);
-      setAlertTrue(true)
+      setAlertTrue(true);
       resetFormData();
-
     } catch (error) {
       console.error(error);
-      setAlertFalse(true)
+      setAlertFalse(true);
     } finally {
       setIsLoading(false);
     }
   };
 
-
-
   const clorseAddUserModal = () => {
+    resetFormData();
     setAddUserModal(false);
   };
 
@@ -116,7 +104,6 @@ const AddUser: React.FC = () => {
             onClose={clorseAddUserModal}
           >
             <div>
-
               <div className="flex flex-col gap-1 mb-2">
                 <span className="font-medium text-sm text-black">
                   Primeiro Nome
@@ -146,9 +133,7 @@ const AddUser: React.FC = () => {
               </div>
 
               <div className="flex flex-col gap-1 mb-2">
-                <span className="font-medium text-sm text-black">
-                  Email
-                </span>
+                <span className="font-medium text-sm text-black">Email</span>
                 <Input
                   type="email"
                   name="email"
@@ -160,9 +145,7 @@ const AddUser: React.FC = () => {
               </div>
 
               <div className="flex flex-col gap-1 mb-2">
-                <span className="font-medium text-sm text-black">
-                  Senha
-                </span>
+                <span className="font-medium text-sm text-black">Senha</span>
                 <Input
                   type="password"
                   name="password"
@@ -174,17 +157,22 @@ const AddUser: React.FC = () => {
               </div>
 
               <Button
-                type="submit"
+                type="button"
                 isLoading={isLoading}
-                handleActive={() => true}
+                handleActive={() =>
+                  formData.firstName &&
+                  formData.lastName &&
+                  formData.email &&
+                  formData.password
+                    ? true
+                    : false
+                }
                 handleClick={handleAddNewUser}
                 className="mt-4 w-full"
               >
-                Adicionar Usuário
+                Cadasttrar Usuário
               </Button>
-
             </div>
-
           </Modal>
         </div>
       )}

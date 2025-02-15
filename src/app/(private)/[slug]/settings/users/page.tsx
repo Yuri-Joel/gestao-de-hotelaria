@@ -4,7 +4,7 @@ import { Wrapper } from '@/components/Wrapper';
 import { UserList } from '@/components/settings/users/UsersList';
 // import { parseCookie } from '@/helpers/cookies/authCookie';
 import { userStore } from '@/store/userStore';
-
+import Cookies from 'js-cookie'
 function page() {
 
     const {

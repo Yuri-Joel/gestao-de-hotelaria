@@ -4,6 +4,7 @@ import { removeAuthCookie } from "@/helpers/cookies/authCookie";
 import { IResponse } from "@/helpers/handleRequest";
 import { TModelPagination } from "@/types/TModelPagination";
 import { FloorEntity } from "@/interfaces/EntitiesForNewAPI/FloorEntity";
+import { Types } from "mongoose";
 
 type State = {
   floors: FloorEntity[] | null;
@@ -22,6 +23,8 @@ type Action = {
   find: (page: number) => Promise<IResponse<TModelPagination<FloorEntity>>>;
   getFloorsTabNavigation: () => Promise<IResponse<TModelPagination<FloorEntity>>>;
   create: (floor: Partial<FloorEntity>) => Promise<IResponse<FloorEntity>>;
+  Deletefloor: (id: Types.ObjectId) => Promise<IResponse<FloorEntity>>;
+  Editfloor:(id: Types.ObjectId, floor: Partial<FloorEntity>) => Promise<IResponse<FloorEntity>>;
   handleOpenModalNewFloor: () => void;
 };
 
@@ -90,6 +93,39 @@ export const floorStore = create<State & Action>((set, get) => ({
 
     return response;
   },
+  
+  Editfloor: async (id: Types.ObjectId, floor) => {
+    const response = await floorServices().editfloor(id,floor);
+  
+      if (response.status === 401) {
+        removeAuthCookie();
+        window.location.href = "/login";
+      }
+  
+      if (!response.error.value) {
+        await get().find(1);
+        // set({ floors: response.data?.data });
+      }
+  
+      return response;
+  },
+  Deletefloor: async (id: Types.ObjectId) => {
+  
+    const response = await  floorServices().deletefloor({uh: id});
+    if (response.status === 401) {
+      removeAuthCookie();
+      window.location.href = "/login";
+    }
+  
+    if (!response.error.value) {
+  
+      await get().find(1);
+      // set({ floors: response.data?.data });
+    }
+  
+    return response;
+  },
+  
   handleOpenModalNewFloor: () => {
     set({ isOpenModalNewFloor: !get().isOpenModalNewFloor });
   },

@@ -21,10 +21,11 @@ import { TableCell } from "@/components/Table/table-cell";
 import { IconButton } from "@/components/Table/table-button-navigation";
 import { FloorEntity } from "@/interfaces/EntitiesForNewAPI/FloorEntity";
 import { UHEntity } from "@/interfaces/EntitiesForNewAPI/UHEntity";
-import { EditUhModal } from "./UhEditModal";
 import AlertDialog from "@/components/AlertDialog/AlertDialog";
 import { Types } from "mongoose";
+import { EditUhModal } from "./UhEditModal";
 import { NewUhModal } from "./newUh";
+
 
 
 export const UhList = () => {

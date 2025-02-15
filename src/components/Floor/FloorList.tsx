@@ -21,23 +21,29 @@ import FloorEditModal from "./FloorEditModal";
 import { AddFloorModal } from "./AddFloor/AddFloorModal";
 
 import Cookies from "js-cookie";
+import { modalManagementStore } from "@/store/modalManagementStore";
+import { FloorEntity } from "@/interfaces/EntitiesForNewAPI/FloorEntity";
+import AlertDialog from "../AlertDialog/AlertDialog";
+import { Types } from "mongoose";
 
 export function FloorList() {
   const router = useRouter();
   const [IsLoading, setLoading] = useState<boolean>(false);
-
+  const [loadingfloor, setloadingfloor] = useState(false)
+    
+const {handleOpenModalDeletefloor, handleOpenModalNewfloor, handleOpenModalEditfloor, isOpenedModalDeletefloor, isOpenedModalNewfloor, isOpenedModalEditfloor} = modalManagementStore()
   const slug = Cookies.get(`${process.env.NEXT_PUBLIC_PROPERTY_SLUG}`)
 
   const {
     find,
     floors,
     setSelectedFloor,
+    selectedFloor,
     currentPage,
     setCurrentPage,
     totalPages,
-    setEditFloorModal,
-    EditFloorModal,
-    handleOpenModalNewFloor,
+    Deletefloor
+    
   } = floorStore();
   const [openMenuId, setOpenMenuId] = useState<any | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -54,15 +60,36 @@ export function FloorList() {
       }
     })();
   }, [currentPage, find]);
+      const handleDeleteSubmit = async()=>{
+  
+        setloadingfloor(true);
+          try {
+              
+              await Deletefloor(selectedFloor?._id as Types.ObjectId);
+              handleOpenModalDeletefloor();
+  
+          } catch (error){
+              
+          }finally{
+         setloadingfloor(false)
+  
+          }
+        }
+  
+  
+      const handleClickAction = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, floor: FloorEntity) => {
+          e.stopPropagation();
+          setSelectedFloor(floor);
+      }
 
   return (
     <>
-      <AddFloorModal />
+     
       <div className="mt-5">
         <div className="mt-7">
           <button
             className="text-primary-700 font-bold text-md"
-            onClick={() => handleOpenModalNewFloor()}
+            onClick={handleOpenModalNewfloor}
           >
             Adicionar novo andar
           </button>
@@ -108,11 +135,7 @@ export function FloorList() {
                 >
                   <TableCell className="text-center min-w-28 ">
                     <div
-                      onClick={(e?: any) => {
-                        e.stopPropagation();
-                        setSelectedFloor(floor);
-                        router.push(`/${slug}/cadastro/andares/details`);
-                      }}
+                      onClick={(e)=>handleClickAction(e, floor)}
                       className=" w-full text-center text-primary cursor-pointer"
                     >
                       {floor.name}
@@ -160,20 +183,24 @@ export function FloorList() {
                             aria-orientation="vertical"
                           >
                             <Button
-                              className="w-full text-left px-4 py-2 text-sm text-gray-700 bg-white  hover:bg-gray-100"
-                              role="menuitem"
-                              handleClick={() => {
-                                setSelectedFloor(floor);
-                                setEditFloorModal(true);
-                              }}
-                              handleActive={() => true}
-                            >
+                  className="w-full text-left px-4 py-2 text-sm text-gray-700 bg-white  hover:bg-gray-100"
+                  role="menuitem"
+                  handleClick={() => {
+                    setSelectedFloor(floor);
+                    handleOpenModalEditfloor();
+                  }}
+                  handleActive={() => true}
+                >
                               Editar
                             </Button>
                             <Button
                               className="w-full text-left px-4 py-2 text-sm text-red-600 bg-white hover:bg-gray-100"
                               role="menuitem"
-                              handleClick={() => true}
+                              handleClick={() =>{
+                                    setSelectedFloor(floor);
+                                    handleOpenModalDeletefloor();
+
+                              }}
                               handleActive={() => true}
                             >
                               Excluir
@@ -237,8 +264,23 @@ export function FloorList() {
             </tr>
           </tfoot>
         </Table>
-        {EditFloorModal && <FloorEditModal />}
+        {isOpenedModalNewfloor &&  <AddFloorModal />}
+        {isOpenedModalEditfloor && selectedFloor && <FloorEditModal  dataTranported={selectedFloor} />}
+        <AlertDialog
+          typeAlert="cancel"
+          title="Tem certeza que deseja eliminar este andar?"
+          description="Ao confirmar, este andar será eliminado."
+          confirmTitleBtn="Sim, tenho certeza"
+          cancelTitleBtn="Cancelar"
+          hideTypeAlertIcon
+          isOpenedModalManagement={isOpenedModalDeletefloor}
+          handleConfirm={handleDeleteSubmit}
+          handleCancel={handleOpenModalDeletefloor}
+          isBtnLoading={loadingfloor}
+          />
+
       </div>
     </>
   );
-}
+      
+    }
