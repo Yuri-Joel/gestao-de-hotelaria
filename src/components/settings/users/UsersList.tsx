@@ -180,6 +180,7 @@ export function UserList({ data }: UsersProps) {
 
                     <TableCell className="text-center items-center flex justify-center">
                       <ActionMenu
+                        details={false}
                         itemId={user._id!}
                         openMenuId={openMenuId}
                         onSelect={handleSetSelectedUser}

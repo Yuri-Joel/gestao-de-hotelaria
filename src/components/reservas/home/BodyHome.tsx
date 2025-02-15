@@ -66,7 +66,8 @@ export function BodyHome(){
       <div className="w-full mt-5 shadow-md shadow-gray-200 mb-5">
         <TabNavigation
           menuItems={menuItems}
-          selectedTitle={selectedTitleHeader}
+          selectedTitle={menuItems.find(item => item.label === String(selectedTitleHeader.label)) || { id: 0, label: String(selectedTitleHeader.label) }}
+          // selectedTitle={selectedTitleHeader}
           setSelectedTitle={setSelectedTitleHeader}
         />
         <ReserveList

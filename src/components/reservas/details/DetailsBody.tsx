@@ -1,5 +1,4 @@
 "use client"
-
 import { ArrowDown } from "@/assets/Icons/ArrowDown";
 import { DetailsList } from "./DetailsList";
 import { reserveStore } from "@/store/reserveStore";
@@ -8,53 +7,61 @@ import { fakeGuestAndCompanion } from "@/utils/api/guest"
 import { FaHotel } from "react-icons/fa";
 import Link from "next/link";
 import { FormRefund } from "./FormRefund";
-
-import Cookies from "js-cookie";
+import { delay } from "@/helpers/delay";
+import { Skeleton } from "@/components/Skeleton/Skeleton";
 
 export function DetailsBody() {
-  const slug = Cookies.get(`${process.env.NEXT_PUBLIC_PROPERTY_SLUG}`)
 
-  const { isOpenedModalGuest, setIsOpenedModalGuest, isOpenedModalRefund } = reserveStore()
-  const [selectedGuest, setSelectedGuest] = useState(() => {
-    if (typeof window !== "undefined") { // Verifica se está no navegador
-      const guest = localStorage.getItem('guesteSelected');
-      if (guest && guest !== "undefined") {
-        return JSON.parse(guest);
-      }
-    }
-    return fakeGuestAndCompanion.guest.name;
-  })
+  const {isOpenedModalGuest, setIsOpenedModalGuest, isOpenedModalRefund, selectedGuest, setSelectedGuest} = reserveStore()
 
-  const verifyIfIsCompanion = fakeGuestAndCompanion.guest.companion.filter((companion, index) => companion.name === selectedGuest)
-
-
-  function handleCompanion(name: string) {
+  const verifyIfIsCompanion = fakeGuestAndCompanion.guest.companion.filter((companion,index) => companion.name === selectedGuest )
+  const [loading, setLoading] = useState(false)
+  
+  function handleCompanion(name:string) {
     localStorage.setItem("guesteSelected", JSON.stringify(name))
     setIsOpenedModalGuest(false)
-    window.location.href = `/${slug}/reservas/details`
+    window.location.href = "/hotel-ao/reservas/details"
   }
 
-  return (
+  useEffect(() => {
+    (
+      async () => {
+        const guest = localStorage.getItem("guesteSelected");
+        setLoading(true)
+        await delay(1000);
+        if (guest && guest !== "undefined") {
+          setSelectedGuest(JSON.parse(guest));
+        }
+        setLoading(false)
+      }
+    )()
+  }, [setSelectedGuest]);
+
+  return(
     <div>
       <div className="flex flex-col items-start gap-y-4 mx-5 mt-10">
         <div className="flex flex-col items-start justify-center gap-2 relative">
           <div className="flex items-center justify-center gap-6">
             <div className="flex items-center justify-center gap-5">
-              <h1 className="font-bold text-xl">{selectedGuest}</h1>
-              <button
+              {
+                selectedGuest 
+                ? <h1 className="font-bold text-xl">{ selectedGuest ? selectedGuest : fakeGuestAndCompanion.guest.name }</h1>
+                : <Skeleton className="w-[12rem] h-7"/>
+              }
+              <button 
                 className="cursor-pointer"
                 onClick={() => setIsOpenedModalGuest(!isOpenedModalGuest)}
               >
-                <ArrowDown />
+                <ArrowDown/>
               </button>
             </div>
             <div className="flex items-center justify-center gap-4">
               <div className="flex items-center justify-center gap-2">
-                <FaHotel className="fill-gray-200" />
+                <FaHotel className="fill-gray-200"/>
                 <Link href="" className="text-primary-700">Booking.com</Link>
               </div>
               <div className="flex items-center justify-center gap-2">
-                <FaHotel className="fill-gray-200" />
+                <FaHotel className="fill-gray-200"/>
                 <Link href="" className="text-primary-700">SONAR CONEXOES & EQUIPAMENTOS</Link>
               </div>
             </div>
@@ -77,8 +84,8 @@ export function DetailsBody() {
                   <ul className="text-center">
                     {
                       fakeGuestAndCompanion.guest.companion.map((companion, index) => (
-                        <li
-                          key={index}
+                        <li 
+                          key={index} 
                           className={index % 2 !== 0 ? "bg-gray-100 h-[35px] flex items-center justify-center cursor-pointer" : "cursor-pointer h-[35px]"}
                           onClick={() => handleCompanion(companion.name)}
                         >
@@ -88,17 +95,17 @@ export function DetailsBody() {
                     }
                   </ul>
                 </div>
-
+                
               </div>
             )
           }
         </div>
-        <DetailsList />
+        <DetailsList/>
       </div>
 
       {
         isOpenedModalRefund && (
-          <FormRefund />
+          <FormRefund/>
         )
       }
     </div>
