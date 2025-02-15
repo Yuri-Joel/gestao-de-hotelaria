@@ -18,10 +18,7 @@ export const AddFloorModal = () => {
   const { create, handleOpenModalNewFloor, isOpenModalNewFloor } = floorStore();
   const {
     acessible,
-    firstStore,
     name,
-    step,
-    nextStep,
     resetStore,
     setAcessible,
     setName,
@@ -45,133 +42,105 @@ export const AddFloorModal = () => {
       });
 
       if (!res.error.value) {
-        nextStep();
-      } 
-        setAlertFalse(false);
-        setAlertTrue(true);
-      
+      }
+      setAlertFalse(false);
+      setAlertTrue(true);
     } catch {
       setAlertFalse(true);
       setAlertTrue(false);
-    } finally{
+    } finally {
       setIsLoading(false);
+      handleOpenModalNewFloor();
     }
   };
 
-    const handleAddMoreFloor = () => {
-      resetStore();
-      setAlertTrue(false);
-    };
-  
-    const handleCancel = () => {
-      firstStore();
-      setAlertFalse(false);
-    };
-  
-    const handleGoToFloor = () => {
-  
-        resetStore();
-        setAlertTrue(false);
-        setIsLoading(false);
-        handleOpenModalNewFloor();
-      }
-  
+  const handleAddMoreFloor = () => {
+    resetStore();
+    handleOpenModalNewFloor();
+    setAlertFalse(false);
+    setAlertTrue(false);
+  };
+
+  const handleCancel = () => {
+    handleOpenModalNewFloor();
+    setAlertFalse(false);
+  };
+
+  const handleGoToFloor = () => {
+    resetStore();
+    setAlertTrue(false);
+    setIsLoading(false);
+    handleOpenModalNewFloor();
+  };
 
   return (
-    <Modal
-      title="Cadastrar andar"
-      description="Cadastrar um novo andar"
-      onClose={handleOpenModalNewFloor}
-      isOpen={isOpenModalNewFloor}
-    >
-      {step === "first" && (
-        <div className="flex flex-col gap-5">
-          <div>
-            <label htmlFor="floor_name">Nome</label>
-            <Input
-              type="text"
-              placeholder="Insira o nome"
-              value={name}
-              handleValue={(e) => setName(e.target.value)}
-              className="mt-6 w-full  outline-none border  text-black"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3 w-full">
-              Acessível
-            </label>
-            <div className="flex justify-start gap-2 w-full items-center ">
-              <Checkbox
-                index={1}
-                isChecked={acessible ? true : false}
-                onClick={() => setAcessible(true)}
+    <>
+      <Modal
+        title="Cadastrar andar"
+        description="Cadastrar um novo andar"
+        onClose={handleOpenModalNewFloor}
+        isOpen={isOpenModalNewFloor}
+      >
+          <div className="flex flex-col gap-5">
+            <div>
+              <label htmlFor="floor_name">Nome</label>
+              <Input
+                type="text"
+                placeholder="Insira o nome"
+                value={name}
+                handleValue={(e) => setName(e.target.value)}
+                className="mt-6 w-full  outline-none border  text-black"
               />
-              <label>Sim</label>
-              <Checkbox
-                index={1}
-                isChecked={acessible ? false : true}
-                onClick={() => setAcessible(false)}
-              />
-              <label>Não</label>
             </div>
-          </div>
-          <Button handleActive={() => name.length > 0} handleClick={nextStep}>
-            Cadastrar
-          </Button>
-        </div>
-      )}
-      {step === "second" && (
-        <div className="bg-white flex flex-col p-10">
-          <h1 className="font-bold text-xl w-full text-center">
-            Dados do Andar
-          </h1>
-          <span className="mt-6 w-full outline-none text-black">
-            Nome: {name}
-          </span>
-          <span className="mt-3 w-full outline-none text-black">
-            Acessibilidade: {acessible ? "Acessível" : "Não acessível"}
-          </span>
-          <div className="w-full flex gap-4 mt-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-3 w-full">
+                Acessível
+              </label>
+              <div className="flex justify-start gap-2 w-full items-center ">
+                <Checkbox
+                  index={1}
+                  isChecked={acessible ? true : false}
+                  onClick={() => setAcessible(true)}
+                />
+                <label>Sim</label>
+                <Checkbox
+                  index={1}
+                  isChecked={acessible ? false : true}
+                  onClick={() => setAcessible(false)}
+                />
+                <label>Não</label>
+              </div>
+            </div>
             <Button
-              label="Voltar"
-              handleActive={() => !isLoading}
-              handleClick={firstStore}
-              className="w-full bg-gray-500"
-            />
-            <Button
-              label="Confirmar"
               isLoading={isLoading}
-              handleActive={() => true}
+              handleActive={() => name.length > 0}
               handleClick={handleNewFloor}
-              className="w-full"
-            />
+            >
+              Cadastrar
+            </Button>
           </div>
-        </div>
-      )}
-      {AlertTrue && (
+       
+      </Modal>
         <AlertDialog
           typeAlert={"confirm"}
           title="Sucesso"
           description="Sua andar foi cadastrado com sucesso"
-          confirmTitleBtn="Confirmar"
+          confirmTitleBtn="Ir para andares"
           cancelTitleBtn="Adicionar mais andares"
-          isOpenedModalManagement={true}
+          isOpenedModalManagement={AlertTrue}
           handleConfirm={handleGoToFloor}
           handleCancel={handleAddMoreFloor}
           hideCloseTopButton
         />
-      )}
-      {AlertFalse && (
         <AlertDialog
           typeAlert={"cancel"}
           title="Erro"
-          description="Erro ao cadastrar uma nova propriedade"
+          description="Erro ao cadastrar um novo andar"
           cancelTitleBtn="Voltar"
-          isOpenedModalManagement={isOpenModalNewFloor}
+          isOpenedModalManagement={AlertFalse}
           handleCancel={handleCancel}
           hideCloseTopButton
         />
-      )}
-    </Modal>
+    </>
   );
 };

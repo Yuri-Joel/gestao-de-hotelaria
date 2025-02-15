@@ -13,8 +13,9 @@ import { Modal } from "@/components/Modal/Modal";
 const AddUser: React.FC = () => {
   const { AddUserModal, setAddUserModal, create } = userStore();
 
-  const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [AlertTrue, setAlertTrue] = useState(false);
+  const [AlertFalse, setAlertFalse] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -43,14 +44,36 @@ const AddUser: React.FC = () => {
     }));
   };
 
-  const handleConfirmCancel = async () => {
-    setIsAlertDialogOpen(false);
+  const handleBack = () => {
+    setAddUserModal(true);
+    setAlertFalse(false)
+  };
+  const handleGoToUsers = () => {
     setAddUserModal(false);
-    resetFormData();
+    setAlertTrue(false)
   };
 
+  const handleAddMoreUser = () =>{
+    resetFormData();
+    setAddUserModal(true);
+    setAlertTrue(false)
+  }
+
   const handleAddNewUser = async () => {
-    setIsLoading(true);
+
+    
+    if (
+      !formData.firstName  ||
+      !formData.lastName  ||
+      !formData.email  ||
+      !formData.password  ||
+      !formData.properties 
+    ) {
+      setAddUserModal(false);
+      setAlertFalse(true)
+      return setIsLoading(false)
+    } 
+      setIsLoading(true);
     try {
       const cookie = parseCookie();
 
@@ -66,9 +89,12 @@ const AddUser: React.FC = () => {
       await create(setData);
 
       setAddUserModal(false);
+      setAlertTrue(true)
       resetFormData();
+    
     } catch (error) {
       console.error(error);
+      setAlertFalse(true)
     } finally {
       setIsLoading(false);
     }
@@ -77,17 +103,7 @@ const AddUser: React.FC = () => {
  
 
   const clorseAddUserModal = () => {
-    if (
-      formData.firstName.length > 0 ||
-      formData.lastName.length > 0 ||
-      formData.email.length > 0 ||
-      formData.password.length > 0 ||
-      formData.properties.length > 0
-    ) {
-      setIsAlertDialogOpen(true);
-    } else {
-      setAddUserModal(false);
-    }
+    setAddUserModal(false);
   };
 
   return (
@@ -98,16 +114,10 @@ const AddUser: React.FC = () => {
          title="Cadastrar novo usuário"
          description="Preencha os dados abaixo para cadastrar um novo usuário"
          isOpen={AddUserModal}
-         onClose={ clorseAddUserModal}
-         children={
-            <div
-              className={twMerge(
-                "w-full max-h-[calc(100vh-100px)] bg-white flex flex-col gap-4 overflow-y-auto no-scrollbar transition-all duration-400 ease-in-out"
-              )}
-            >
- 
+         onClose={clorseAddUserModal}
+        >
+            <div>
                
-                <div className="flex flex-col flex-1 gap-2">
                   <div className="flex flex-col gap-1 mb-2">
                     <span className="font-medium text-sm text-black">
                       Primeiro Nome
@@ -169,31 +179,40 @@ const AddUser: React.FC = () => {
                     isLoading={isLoading}
                     handleActive={() => true}
                     handleClick={handleAddNewUser}
-                    width="100%"
-                    height="45px"
-                    className="mt-4"
+                    className="mt-4 w-full"
                   >
                     Adicionar Usuário
                   </Button>
-                   </div>
       
           </div>
  
-          }
-        />
-          <AlertDialog
-            typeAlert="cancel"
-            title="Tem certeza que deseja cancelar?"
-            description="Ao confirmar, perderá todas as alterações feitas nos campos atuais."
-            confirmTitleBtn="Sim, tenho certeza"
-            cancelTitleBtn="Não, quero continuar editando"
-            isOpenedModalManagement={isAlertDialogOpen}
-            handleConfirm={handleConfirmCancel}
-            handleCancel={() => setIsAlertDialogOpen(false)}
-          />
-          
+          </Modal>
         </div>
       )}
+       <AlertDialog
+          typeAlert={"confirm"}
+          title="Sucesso"
+          description="Usuário foi cadastrado com sucesso"
+          confirmTitleBtn="Ir para usuários"
+          cancelTitleBtn="Adicionar mais usuários"
+          isOpenedModalManagement={AlertTrue}
+          handleConfirm={handleGoToUsers}
+          handleCancel={handleAddMoreUser}
+          hideCloseTopButton
+        />
+        <AlertDialog
+          typeAlert={"cancel"}
+          title="Erro"
+          description="Erro ao cadastrar um novo usuario"
+          cancelTitleBtn="Voltar"
+          isOpenedModalManagement={AlertFalse}
+          handleCancel={handleBack}
+          hideCloseTopButton
+        />
+
+
+
+
     </>
   );
 };
