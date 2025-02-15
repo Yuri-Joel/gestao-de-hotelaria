@@ -5,6 +5,7 @@ import { BiChevronDown } from "react-icons/bi";
 import { Button } from "../Button/Button";
 import { FloorEntity } from "@/interfaces/EntitiesForNewAPI/FloorEntity";
 import FloorEditModal from "./FloorEditModal";
+import Cookies from "js-cookie";
 
 function FloorDetails() {
   const [openMenuId, setOpenMenuId] = useState<boolean>(false);
@@ -12,10 +13,12 @@ function FloorDetails() {
   const menuRef2 = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
+  const slug = Cookies.get(`${process.env.NEXT_PUBLIC_PROPERTY_SLUG}`)
+
   const { setEditFloorModal, EditFloorModal, selectedFloor } = floorStore();
 
   useEffect(() => {
-    if (!selectedFloor) return router.push(`/hotel-ao/cadastro/andares`);
+    if (!selectedFloor) return router.push(`/${slug}/cadastro/andares`);
     function handleClickOutside(event: MouseEvent) {
       if (
         menuRef2.current &&

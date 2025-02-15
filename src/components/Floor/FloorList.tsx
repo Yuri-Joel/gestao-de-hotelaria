@@ -20,9 +20,13 @@ import { Skeleton } from "../Skeleton/Skeleton";
 import FloorEditModal from "./FloorEditModal";
 import { AddFloorModal } from "./AddFloor/AddFloorModal";
 
+import Cookies from "js-cookie";
+
 export function FloorList() {
   const router = useRouter();
   const [IsLoading, setLoading] = useState<boolean>(false);
+
+  const slug = Cookies.get(`${process.env.NEXT_PUBLIC_PROPERTY_SLUG}`)
 
   const {
     find,
@@ -74,11 +78,11 @@ export function FloorList() {
                 Acessibilidade
               </TableHeader>
               <TableHeader className="text-center px-[5rem] font-bold">
-								Status
-							</TableHeader> 
+                Status
+              </TableHeader>
               <TableHeader className="text-center px-[5rem] font-bold">
-								Descrição
-							</TableHeader> 
+                Descrição
+              </TableHeader>
               <TableHeader className="text-center px-[5rem] font-bold">
                 Ações
               </TableHeader>
@@ -107,7 +111,7 @@ export function FloorList() {
                       onClick={(e?: any) => {
                         e.stopPropagation();
                         setSelectedFloor(floor);
-                        router.push(`/hotel-ao/cadastro/andares/details`);
+                        router.push(`/${slug}/cadastro/andares/details`);
                       }}
                       className=" w-full text-center text-primary cursor-pointer"
                     >
@@ -119,16 +123,16 @@ export function FloorList() {
                       {floor.isAccessible ? "Acessivel" : "Não acessível"}
                     </div>
                   </TableCell>
-                   <TableCell className="text-center">
-										<div className="p-2 w-full text-center">
-											-
-										</div>
-									</TableCell> 
                   <TableCell className="text-center">
-										<div className="p-2 w-full text-center">
-											-
-										</div>
-									</TableCell>
+                    <div className="p-2 w-full text-center">
+                      -
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <div className="p-2 w-full text-center">
+                      -
+                    </div>
+                  </TableCell>
                   <TableCell className="text-center flex items-center  justify-center">
                     <div
                       className="flex justify-center items-center mt-2  relative w-6 h-6"
@@ -185,51 +189,51 @@ export function FloorList() {
           </tbody>
           <tfoot>
             <tr>
-            <TableCell colSpan={5}>
-                    <div className="flex items-center justify-end gap-8">
-                      <span>Pagina {currentPage} de {totalPages}</span>
-                      <div className="flex gap-1.5">
-                        <IconButton
-                          disabled={currentPage === 1}
-                          transparent={currentPage != 1 ? false : true}
-                          onClick={() => {
-                            setCurrentPage(1)
-                          }}
-                        >
-                          <BiChevronsLeft className="size-4" />
-                        </IconButton>
-                        <IconButton
-                          onClick={() => {
-                            setCurrentPage(currentPage - 1)
-                          }
-                          }
-                          disabled={currentPage === 1}
-                          transparent={currentPage === 1 ? true : false}
-                        >
-                          <BiChevronLeft className="size-4" />
-                        </IconButton>
-                        <IconButton
-                          onClick={() => {
-                            setCurrentPage(currentPage + 1)
-                          }}
-                          disabled={currentPage === totalPages || totalPages === 0}
-                          transparent={currentPage === totalPages || totalPages === 0 ? true : false}
-                        >
-                          <BiChevronRight className="size-4" />
-                        </IconButton>
-                        <IconButton
-                          onClick={() => {
-                            setCurrentPage(totalPages)
-                          }
-                          }
-                          disabled={currentPage === totalPages || totalPages === 0}
-                          transparent={currentPage === totalPages || totalPages === 0 ? true : false}
-                        >
-                          <BiChevronsRight className="size-4" />
-                        </IconButton>
-                      </div>
-                    </div>
-                  </TableCell>
+              <TableCell colSpan={5}>
+                <div className="flex items-center justify-end gap-8">
+                  <span>Pagina {currentPage} de {totalPages}</span>
+                  <div className="flex gap-1.5">
+                    <IconButton
+                      disabled={currentPage === 1}
+                      transparent={currentPage != 1 ? false : true}
+                      onClick={() => {
+                        setCurrentPage(1)
+                      }}
+                    >
+                      <BiChevronsLeft className="size-4" />
+                    </IconButton>
+                    <IconButton
+                      onClick={() => {
+                        setCurrentPage(currentPage - 1)
+                      }
+                      }
+                      disabled={currentPage === 1}
+                      transparent={currentPage === 1 ? true : false}
+                    >
+                      <BiChevronLeft className="size-4" />
+                    </IconButton>
+                    <IconButton
+                      onClick={() => {
+                        setCurrentPage(currentPage + 1)
+                      }}
+                      disabled={currentPage === totalPages || totalPages === 0}
+                      transparent={currentPage === totalPages || totalPages === 0 ? true : false}
+                    >
+                      <BiChevronRight className="size-4" />
+                    </IconButton>
+                    <IconButton
+                      onClick={() => {
+                        setCurrentPage(totalPages)
+                      }
+                      }
+                      disabled={currentPage === totalPages || totalPages === 0}
+                      transparent={currentPage === totalPages || totalPages === 0 ? true : false}
+                    >
+                      <BiChevronsRight className="size-4" />
+                    </IconButton>
+                  </div>
+                </div>
+              </TableCell>
             </tr>
           </tfoot>
         </Table>

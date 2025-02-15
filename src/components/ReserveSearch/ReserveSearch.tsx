@@ -9,7 +9,11 @@ import { MagnifieIcon } from "@/assets/Icons/MagnifierIcon"
 import { useRouter } from "next/navigation"
 import { Skeleton } from "../Skeleton/Skeleton"
 
+import Cookies from "js-cookie"
+
 export function ReservationSearch() {
+    const slug = Cookies.get(`${process.env.NEXT_PUBLIC_PROPERTY_SLUG}`)
+
     const [searchTerm, setSearchTerm] = useState("");
     const [reservations, setReservations] = useState<typeof guests>([]);
     const [loading, setLoading] = useState(false);
@@ -73,7 +77,7 @@ export function ReservationSearch() {
         setReservations([]);
         setHasSearched(false);
         handleOpenReserveSearch(false);
-        router.push(`/hotel-ao/reservas`);
+        router.push(`/${slug}/reservas`);
     };
 
     return (

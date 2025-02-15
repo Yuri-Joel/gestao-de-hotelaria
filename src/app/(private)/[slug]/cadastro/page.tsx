@@ -1,9 +1,10 @@
 import SquareNav, { SquareNavItem } from "@/components/SquareNav/SquareNav";
 import { Wrapper } from "@/components/Wrapper";
+import Cookies from "js-cookie";
 
 const page: React.FC = () => {
+  const slug = Cookies.get(`${process.env.NEXT_PUBLIC_PROPERTY_SLUG}`)
 
-   const slug = "hotel-ao"
   const navigationItems: SquareNavItem[] = [
     { title: "Andares", href: `/${slug}/cadastro/andares` },
     { title: "Quartos", href: `/${slug}/cadastro/quartos` },
@@ -15,7 +16,7 @@ const page: React.FC = () => {
     { title: "Produtos", href: `/${slug}/cadastro/produtos` },
   ]
 
-  return <Wrapper title="CADASTRO - INICIO" children={<SquareNav navigationItems={navigationItems}/>} />
+  return <Wrapper title="CADASTRO - INICIO" children={<SquareNav navigationItems={navigationItems} />} />
 }
 
 export default page;

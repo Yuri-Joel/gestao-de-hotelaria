@@ -9,9 +9,12 @@ import { FaHotel } from "react-icons/fa";
 import Link from "next/link";
 import { FormRefund } from "./FormRefund";
 
-export function DetailsBody() {
+import Cookies from "js-cookie";
 
-  const {isOpenedModalGuest, setIsOpenedModalGuest, isOpenedModalRefund} = reserveStore()
+export function DetailsBody() {
+  const slug = Cookies.get(`${process.env.NEXT_PUBLIC_PROPERTY_SLUG}`)
+
+  const { isOpenedModalGuest, setIsOpenedModalGuest, isOpenedModalRefund } = reserveStore()
   const [selectedGuest, setSelectedGuest] = useState(() => {
     if (typeof window !== "undefined") { // Verifica se está no navegador
       const guest = localStorage.getItem('guesteSelected');
@@ -22,36 +25,36 @@ export function DetailsBody() {
     return fakeGuestAndCompanion.guest.name;
   })
 
-  const verifyIfIsCompanion = fakeGuestAndCompanion.guest.companion.filter((companion,index) => companion.name === selectedGuest )
-  
-  
-  function handleCompanion(name:string) {
+  const verifyIfIsCompanion = fakeGuestAndCompanion.guest.companion.filter((companion, index) => companion.name === selectedGuest)
+
+
+  function handleCompanion(name: string) {
     localStorage.setItem("guesteSelected", JSON.stringify(name))
     setIsOpenedModalGuest(false)
-    window.location.href = "/hotel-ao/reservas/details"
+    window.location.href = `/${slug}/reservas/details`
   }
 
-  return(
+  return (
     <div>
       <div className="flex flex-col items-start gap-y-4 mx-5 mt-10">
         <div className="flex flex-col items-start justify-center gap-2 relative">
           <div className="flex items-center justify-center gap-6">
             <div className="flex items-center justify-center gap-5">
-              <h1 className="font-bold text-xl">{ selectedGuest }</h1>
-              <button 
+              <h1 className="font-bold text-xl">{selectedGuest}</h1>
+              <button
                 className="cursor-pointer"
                 onClick={() => setIsOpenedModalGuest(!isOpenedModalGuest)}
               >
-                <ArrowDown/>
+                <ArrowDown />
               </button>
             </div>
             <div className="flex items-center justify-center gap-4">
               <div className="flex items-center justify-center gap-2">
-                <FaHotel className="fill-gray-200"/>
+                <FaHotel className="fill-gray-200" />
                 <Link href="" className="text-primary-700">Booking.com</Link>
               </div>
               <div className="flex items-center justify-center gap-2">
-                <FaHotel className="fill-gray-200"/>
+                <FaHotel className="fill-gray-200" />
                 <Link href="" className="text-primary-700">SONAR CONEXOES & EQUIPAMENTOS</Link>
               </div>
             </div>
@@ -74,8 +77,8 @@ export function DetailsBody() {
                   <ul className="text-center">
                     {
                       fakeGuestAndCompanion.guest.companion.map((companion, index) => (
-                        <li 
-                          key={index} 
+                        <li
+                          key={index}
                           className={index % 2 !== 0 ? "bg-gray-100 h-[35px] flex items-center justify-center cursor-pointer" : "cursor-pointer h-[35px]"}
                           onClick={() => handleCompanion(companion.name)}
                         >
@@ -85,17 +88,17 @@ export function DetailsBody() {
                     }
                   </ul>
                 </div>
-                
+
               </div>
             )
           }
         </div>
-        <DetailsList/>
+        <DetailsList />
       </div>
 
       {
         isOpenedModalRefund && (
-          <FormRefund/>
+          <FormRefund />
         )
       }
     </div>

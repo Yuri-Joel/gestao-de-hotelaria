@@ -11,12 +11,13 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation'
 
 import { useEffect, useRef } from 'react';
+import Cookies from "js-cookie";
 
 export function Sidebar() {
-
     const { state, closeAllSubMenus, openSubMenus, setOpenSubMenus } = sideBarStateStore();
     const pathname = usePathname()
-    const slug = "hotel-ao"
+    const slug = Cookies.get(`${process.env.NEXT_PUBLIC_PROPERTY_SLUG}`)
+
     const menuItems: TmenuSidebar = [
         {
             label: "Inicio",

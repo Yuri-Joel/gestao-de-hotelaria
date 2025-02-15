@@ -1,3 +1,4 @@
+import { parseCookie } from "@/helpers/cookies/authCookie";
 import handleRequest from "@/helpers/handleRequest"
 import { PropertyEntity } from "@/interfaces/EntitiesForNewAPI/PropertyEntity";
 import { TModelPagination } from "@/types/TModelPagination";
@@ -6,9 +7,11 @@ import { Types } from "mongoose";
 
 
 export const propertyServices = () => {
+  const account = parseCookie();
+
   const find = async (page: number) => {
     const response = await handleRequest<TModelPagination<PropertyEntity>>({
-      url: `/properties?page=${page}&limit=10`,
+      url: `/properties?account=${account?.account}&page=${page}&limit=10`,
       method: "GET",
     })
 
@@ -21,7 +24,7 @@ export const propertyServices = () => {
       method: "POST",
       body: JSON.stringify(property),
     })
-    
+
     return response;
   }
 
