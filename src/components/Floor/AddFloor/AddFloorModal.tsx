@@ -70,7 +70,6 @@ export const AddFloorModal = () => {
     resetStore();
     setAlertTrue(false);
     setIsLoading(false);
-    handleOpenModalNewFloor();
   };
 
   return (
