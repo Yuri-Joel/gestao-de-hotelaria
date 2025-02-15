@@ -53,27 +53,26 @@ const AddUser: React.FC = () => {
     setAlertTrue(false)
   };
 
-  const handleAddMoreUser = () =>{
+  const handleAddMoreUser = () => {
     resetFormData();
     setAddUserModal(true);
     setAlertTrue(false)
   }
 
   const handleAddNewUser = async () => {
-
-    
     if (
-      !formData.firstName  ||
-      !formData.lastName  ||
-      !formData.email  ||
-      !formData.password  ||
-      !formData.properties 
+      !formData.firstName ||
+      !formData.lastName ||
+      !formData.email ||
+      !formData.password ||
+      !formData.properties
     ) {
       setAddUserModal(false);
       setAlertFalse(true)
       return setIsLoading(false)
-    } 
-      setIsLoading(true);
+    }
+    setIsLoading(true);
+
     try {
       const cookie = parseCookie();
 
@@ -91,7 +90,7 @@ const AddUser: React.FC = () => {
       setAddUserModal(false);
       setAlertTrue(true)
       resetFormData();
-    
+
     } catch (error) {
       console.error(error);
       setAlertFalse(true)
@@ -100,7 +99,7 @@ const AddUser: React.FC = () => {
     }
   };
 
- 
+
 
   const clorseAddUserModal = () => {
     setAddUserModal(false);
@@ -110,109 +109,107 @@ const AddUser: React.FC = () => {
     <>
       {AddUserModal && (
         <div>
-        <Modal
-         title="Cadastrar novo usuário"
-         description="Preencha os dados abaixo para cadastrar um novo usuário"
-         isOpen={AddUserModal}
-         onClose={clorseAddUserModal}
-        >
+          <Modal
+            title="Cadastrar novo usuário"
+            description="Preencha os dados abaixo para cadastrar um novo usuário"
+            isOpen={AddUserModal}
+            onClose={clorseAddUserModal}
+          >
             <div>
-               
-                  <div className="flex flex-col gap-1 mb-2">
-                    <span className="font-medium text-sm text-black">
-                      Primeiro Nome
-                    </span>
-                    <Input
-                      type="text"
-                      name="firstName"
-                      value={formData.firstName}
-                      handleValue={handleInputChange}
-                      className="bg-transparent px-3 py-3 appearance-none h-14 w-full text-black text-sm border focus:border-primary"
-                      placeholder="Insira o primeiro nome"
-                    />
-                  </div>
 
-                  <div className="flex flex-col gap-1 mb-2">
-                    <span className="font-medium text-sm text-black">
-                      Sobrenome
-                    </span>
-                    <Input
-                      type="text"
-                      name="lastName"
-                      value={formData.lastName}
-                      handleValue={handleInputChange}
-                      className="bg-transparent px-3 py-3 appearance-none h-14 w-full text-black text-sm border focus:border-primary"
-                      placeholder="Insira o sobrenome"
-                    />
-                  </div>
+              <div className="flex flex-col gap-1 mb-2">
+                <span className="font-medium text-sm text-black">
+                  Primeiro Nome
+                </span>
+                <Input
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  handleValue={handleInputChange}
+                  className="bg-transparent px-3 py-3 appearance-none h-14 w-full text-black text-sm border focus:border-primary"
+                  placeholder="Insira o primeiro nome"
+                />
+              </div>
 
-                  <div className="flex flex-col gap-1 mb-2">
-                    <span className="font-medium text-sm text-black">
-                      Email
-                    </span>
-                    <Input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      handleValue={handleInputChange}
-                      className="bg-transparent px-3 py-3 appearance-none h-14 w-full text-black text-sm border focus:border-primary"
-                      placeholder="Insira o email"
-                    />
-                  </div>
+              <div className="flex flex-col gap-1 mb-2">
+                <span className="font-medium text-sm text-black">
+                  Sobrenome
+                </span>
+                <Input
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  handleValue={handleInputChange}
+                  className="bg-transparent px-3 py-3 appearance-none h-14 w-full text-black text-sm border focus:border-primary"
+                  placeholder="Insira o sobrenome"
+                />
+              </div>
 
-                  <div className="flex flex-col gap-1 mb-2">
-                    <span className="font-medium text-sm text-black">
-                      Senha
-                    </span>
-                    <Input
-                      type="password"
-                      name="password"
-                      value={formData.password}
-                      handleValue={handleInputChange}
-                      className="bg-transparent px-3 py-3 appearance-none h-14 w-full text-black text-sm border focus:border-primary"
-                      placeholder="Insira a senha"
-                    />
-                  </div>
+              <div className="flex flex-col gap-1 mb-2">
+                <span className="font-medium text-sm text-black">
+                  Email
+                </span>
+                <Input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  handleValue={handleInputChange}
+                  className="bg-transparent px-3 py-3 appearance-none h-14 w-full text-black text-sm border focus:border-primary"
+                  placeholder="Insira o email"
+                />
+              </div>
 
-                  <Button
-                    type="submit"
-                    isLoading={isLoading}
-                    handleActive={() => true}
-                    handleClick={handleAddNewUser}
-                    className="mt-4 w-full"
-                  >
-                    Adicionar Usuário
-                  </Button>
-      
-          </div>
- 
+              <div className="flex flex-col gap-1 mb-2">
+                <span className="font-medium text-sm text-black">
+                  Senha
+                </span>
+                <Input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  handleValue={handleInputChange}
+                  className="bg-transparent px-3 py-3 appearance-none h-14 w-full text-black text-sm border focus:border-primary"
+                  placeholder="Insira a senha"
+                />
+              </div>
+
+              <Button
+                type="submit"
+                isLoading={isLoading}
+                handleActive={() => true}
+                handleClick={handleAddNewUser}
+                className="mt-4 w-full"
+              >
+                Adicionar Usuário
+              </Button>
+
+            </div>
+
           </Modal>
         </div>
       )}
-       <AlertDialog
-          typeAlert={"confirm"}
-          title="Sucesso"
-          description="Usuário foi cadastrado com sucesso"
-          confirmTitleBtn="Ir para usuários"
-          cancelTitleBtn="Adicionar mais usuários"
-          isOpenedModalManagement={AlertTrue}
-          handleConfirm={handleGoToUsers}
-          handleCancel={handleAddMoreUser}
-          hideCloseTopButton
-        />
-        <AlertDialog
-          typeAlert={"cancel"}
-          title="Erro"
-          description="Erro ao cadastrar um novo usuario"
-          cancelTitleBtn="Voltar"
-          isOpenedModalManagement={AlertFalse}
-          handleCancel={handleBack}
-          hideCloseTopButton
-        />
 
+      <AlertDialog
+        typeAlert={"confirm"}
+        title="Sucesso"
+        description="Usuário foi cadastrado com sucesso"
+        confirmTitleBtn="Ir para usuários"
+        cancelTitleBtn="Adicionar mais usuários"
+        isOpenedModalManagement={AlertTrue}
+        handleConfirm={handleGoToUsers}
+        handleCancel={handleAddMoreUser}
+        hideCloseTopButton
+      />
 
-
-
+      <AlertDialog
+        typeAlert={"cancel"}
+        title="Erro"
+        description="Erro ao cadastrar um novo usuario"
+        cancelTitleBtn="Voltar"
+        isOpenedModalManagement={AlertFalse}
+        handleCancel={handleBack}
+        hideCloseTopButton
+      />
     </>
   );
 };

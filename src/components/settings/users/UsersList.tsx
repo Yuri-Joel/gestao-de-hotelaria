@@ -184,7 +184,8 @@ export function UserList({ data }: UsersProps) {
                         itemId={user._id!}
                         openMenuId={openMenuId}
                         onSelect={handleSetSelectedUser}
-                        onDelete={openModelDeleteUser} details={false}                      />
+                        onDelete={openModelDeleteUser}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}
