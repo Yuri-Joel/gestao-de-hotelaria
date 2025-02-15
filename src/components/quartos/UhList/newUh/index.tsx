@@ -13,7 +13,7 @@ import { Types } from "mongoose";
 import { useRouter } from "next/navigation";
 
 import { useEffect, useState } from "react"
-
+import Cookies from 'js-cookie'
 
 
 export const NewUhModal = () => {
@@ -45,12 +45,15 @@ export const NewUhModal = () => {
     const handleNewUhSubmit = async () => {
 
         try {
-
+            const propetyId = Cookies.get(
+                process.env.NEXT_PUBLIC_PROPERTY_ID as string
+              );
+        
             setloading(true);
             const data: Partial<UHEntity> = {
                 name,
                 account: user?.account,
-                property: user?.properties[0],
+                property: new Types.ObjectId(propetyId as string),
                 floor: floor?._id,
                 information: {
                     beds
