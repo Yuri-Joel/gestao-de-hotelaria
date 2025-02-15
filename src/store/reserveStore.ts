@@ -27,6 +27,8 @@ type State = {
   totalPages2: number,
   reservePerPage: number;
 
+  selectedGuest: string;
+  
   selectedTitleHeader: TTabNavigation;
 
   isOpenedModalGuest: boolean;
@@ -52,6 +54,7 @@ type Actions = {
   setReservePerPage: (page: number) => void;
   handleOpenModalRefund: () => void;
   setIsOpenedModalGuest: (data: boolean) => void;
+  setSelectedGuest: (guest: string) => void;
   setIschecked: (isChecked: string) => void
   setDetailsSubTotal: (detailsSubTotal: DetailsSubtotal[] | ((prev: DetailsSubtotal[]) => DetailsSubtotal[])) => void;
   find: (page: number) => Promise<IResponse<TModelPagination<ReserveEntity>>>
@@ -71,6 +74,7 @@ export const reserveStore = create<State & Actions>((set, get) => ({
   totalPages2: 1,
   selectedTitleHeader: {id:1, label:"Chegadas"},
   isChecked: "",
+  selectedGuest: "",
   detailStartDate: new Date(),
   detailEndDate: new Date(),
   reservePerPage: 0,
@@ -92,6 +96,11 @@ export const reserveStore = create<State & Actions>((set, get) => ({
   setDetailStartDate: (data) => set({ detailStartDate: data }),
 
   setDetailEndDate: (data) => set({ detailEndDate: data }),
+
+  setSelectedGuest: (guest) => {
+    localStorage.setItem("guesteSelected", JSON.stringify(guest));
+    set({ selectedGuest: guest });
+  },
 
   setDetailsSubTotal: (detailsSubTotal) => set((state) => {
     // Se for uma função (atualização com base no estado anterior)

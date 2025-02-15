@@ -53,7 +53,7 @@ const AddPropety: React.FC = () => {
     setIsLoading(true);
 
     try {
-      router.push("/hotel-ao/propriedades");
+      router.push("/propriedades");
       resetStore();
       setIsModalOpen(false);
     }

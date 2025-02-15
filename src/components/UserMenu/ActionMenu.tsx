@@ -9,7 +9,7 @@ interface ActionMenuProps {
   itemId: string | Types.ObjectId;
   openMenuId: string | null;
   onSelect: (itemId: { _id: string | Types.ObjectId }, event: React.MouseEvent<HTMLDivElement>) => void;
-  onDelete?: (itemId: string |Types.ObjectId) => void;
+  onDelete?: (itemId: Types.ObjectId) => void;
   onRefund?: (itemId: string |Types.ObjectId) => void;
   details: boolean
 }

@@ -10,15 +10,19 @@ import { Modal } from "../Modal/Modal";
 import { Button } from "../Button/Button";
 import Select from "../Input/Select";
 
+import Cookies from "js-cookie";
+
 function FloorEditModal() {
   const router = useRouter();
+
+  const slug = Cookies.get(`${process.env.NEXT_PUBLIC_PROPERTY_SLUG}`)
 
   const { setEditFloorModal, EditFloorModal, selectedFloor, setSelectedFloor } =
     floorStore();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (!selectedFloor) return router.push(`/hotel-ao/cadastro/andares`);
+    if (!selectedFloor) return router.push(`/${slug}/cadastro/andares`);
   }, [selectedFloor, router]);
 
   useEffect(() => {
@@ -89,7 +93,7 @@ function FloorEditModal() {
             }
           />
           <label className="">Não</label>
-        </div> 
+        </div>
       </div>
 
       <div className="w-full *:w-full">

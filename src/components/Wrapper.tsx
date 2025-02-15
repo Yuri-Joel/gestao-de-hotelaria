@@ -18,7 +18,7 @@ export function Wrapper({
       <div
         className={`  ${description ? "" : "flex flex-col flex-start justify-start"} border-b w-full border-black px-7 py-5 `}
       >
-        <h1 className={` font-bold text-2xl  ${description ? "" : "mt-6"} `}>
+        <h1 className={`font-bold text-2xl uppercase ${description ? "" : "mt-6"} `}>
           {title}
         </h1>
         {description && (

@@ -11,7 +11,6 @@ import menuProfileStore from '@/store/menuProfileStore';
 
 export const Header = () => {
   const pathname = usePathname();
-  const slug = "hotel-ao"
   const { changeSideBarState, state, closeAllSubMenus } = sideBarStateStore();
   const { handleOpenReserveSearch } = reserveSearchStore()
   const { handleOpenDropdownProfile } = menuProfileStore();
@@ -51,7 +50,7 @@ export const Header = () => {
         </Link>
       </div>
       <div className="flex gap-2 mt-2">
-        <Link href={`/${slug}/propriedades`} className='mr-1'>
+        <Link href={`/propriedades`} className='mr-1'>
           Selecionar Propriedade
         </Link>
         {formatPathName(pathname) !== "propriedades" &&

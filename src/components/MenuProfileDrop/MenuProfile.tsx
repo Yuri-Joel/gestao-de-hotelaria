@@ -5,13 +5,15 @@ import { useRouter } from "next/navigation";
 import { modalManagementStore } from "@/store/modalManagementStore";
 import menuProfileStore from "@/store/menuProfileStore";
 
+import Cookies from "js-cookie"
+
 export const MenuProfile = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { handleOpenDropdownProfile, state } = menuProfileStore();
   const { handleOpenAlertDialogConfirmLogout } = modalManagementStore();
 
   const router = useRouter();
-  const slug = "hotel-ao"
+  const slug = Cookies.get(`${process.env.NEXT_PUBLIC_PROPERTY_SLUG}`)
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {

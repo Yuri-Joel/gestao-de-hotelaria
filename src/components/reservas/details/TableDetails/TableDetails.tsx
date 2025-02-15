@@ -9,15 +9,15 @@ import { DetailsSubtotal, reserveStore } from "@/store/reserveStore";
 import { Types } from "mongoose";
 import { useEffect, useState } from "react";
 
-interface TableDetailsProps<T>{
+interface TableDetailsProps<T> {
   rows: T[]
   columns: (keyof T)[]
   title: string
   id: number;
 }
 
-export function TableDetails<T>({rows, title, columns,id}:TableDetailsProps<T>) {
-  
+export function TableDetails<T>({ rows, title, columns, id }: TableDetailsProps<T>) {
+
   const {
     isChecked,
     setIschecked,
@@ -36,7 +36,7 @@ export function TableDetails<T>({rows, title, columns,id}:TableDetailsProps<T>) 
     setIschecked("")
   }
 
-  const subtotal = rows.reduce((acc, row) => {    
+  const subtotal = rows.reduce((acc, row) => {
     const penultimateColumnValue = row[columns[columns.length - 1]]
     const cleanedValue = String(penultimateColumnValue).replace(/\./g, '').replace(',', '.')
 
@@ -44,7 +44,7 @@ export function TableDetails<T>({rows, title, columns,id}:TableDetailsProps<T>) 
     return acc + (isNaN(numberValue) ? 0 : numberValue)
   }, 0)
 
-  const handleSetSelectedItem = (row: {_id: string | Types.ObjectId }, e: React.MouseEvent) => {
+  const handleSetSelectedItem = (row: { _id: string | Types.ObjectId }, e: React.MouseEvent) => {
     e.stopPropagation();
     const id = row._id.toString();
     if (openMenuId === id) {
@@ -63,29 +63,29 @@ export function TableDetails<T>({rows, title, columns,id}:TableDetailsProps<T>) 
     setDetailsSubTotal([{ subtotal, id }]);
   }, [subtotal, id]);
 
-  return(
+  return (
     <div className="flex flex-col">
       <div className="flex items-center justify-between px-10">
         <h1 className="font-bold text-xl ">{title}</h1>
         <button onClick={() => handleBrandAction()}>
-          <SettingIcon/>
+          <SettingIcon />
         </button>
       </div>
       <Table>
         <tbody>
           {
-            rows.map((row,index) => (
-              <TableRow 
-                className={index % 2 !== 0 ? " bg-gray-90 h-[57px] border-b text-center" : "h-[57px] border-b text-center"} 
+            rows.map((row, index) => (
+              <TableRow
+                className={index % 2 !== 0 ? " bg-gray-90 h-[57px] border-b text-center" : "h-[57px] border-b text-center"}
                 key={index}
                 onClick={() => setOpenMenuId(null)}
               >
                 {
-                  columns.map((col,index) => (
+                  columns.map((col, index) => (
                     <TableCell key={index} className={index === 2 ? "font-bold " : ""}>{String(row[col])}</TableCell>
                   ))
                 }
-                 {showLastColumn && (
+                {showLastColumn && (
                   <TableCell>
                     <ActionMenu
                       onRefund={openModelRefund}
@@ -95,7 +95,7 @@ export function TableDetails<T>({rows, title, columns,id}:TableDetailsProps<T>) 
                       details={true}
                     />
                   </TableCell>
-              )}
+                )}
               </TableRow>
             ))
           }
@@ -111,6 +111,6 @@ export function TableDetails<T>({rows, title, columns,id}:TableDetailsProps<T>) 
           </TableRow>
         </tfoot>
       </Table>
-    </div>    
+    </div>
   )
 }

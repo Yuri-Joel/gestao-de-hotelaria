@@ -8,6 +8,7 @@ import { RefreshIcon } from "@/assets/Icons/RefreshIcon";
 import { isNumber } from "@/helpers/validateNumber";
 import { removeNonNumerics } from "@/helpers/removeNonNumerics";
 import { reserveStore } from "@/store/reserveStore";
+import { formatDate } from "@/helpers/formatDateReserve";
 
 const tarefas = [
   {
@@ -38,8 +39,28 @@ export function DetailsList() {
   const { detailsSubTotal } = reserveStore()
   const [brandInputEdit, setBrandInputEdit] = useState(false)
   const [inputValue, setInputValue] = useState("300")
-  const [subtotals, setSubtotals] = useState<number[]>([0, 0, 0]);
+  const total = detailsSubTotal.reduce((acc, curr) => acc + curr.subtotal, 0);
 
+  const today = new Date();
+  const tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1);
+
+  //Função para formatar a data pro tipo 14 de fev de 2025
+  function formattedDate(date:Date) {
+    const formatteDate = date.toLocaleDateString("pt-Br", {
+      day:"2-digit",
+      month:"short",
+      year:"numeric"
+
+    })
+
+    const finalDate = formatteDate
+    .replace(/\./g, '') 
+
+    return finalDate
+  }
+  const formattedToday = formattedDate(today);
+  const formattedTomorrow = formattedDate(tomorrow);
 
   function handleChange(textInput: React.ChangeEvent<HTMLInputElement>) {
     const text = textInput.target.value.toString()
@@ -53,8 +74,6 @@ export function DetailsList() {
   }
 
   // Calculo das subtotais
-  const total = detailsSubTotal.reduce((acc, curr) => acc + curr.subtotal, 0);
-
   return(
     <div className="grid grid-cols-[23rem_auto] gap-3 w-full">
       <div id="boxes" className="flex flex-col gap-y-5 w-[23rem]">
@@ -96,7 +115,7 @@ export function DetailsList() {
                 </div>
               )
             }
-            <p className="font-bold">3 de fev de 2025 -  4 de fev de 2025</p>
+            <p className="font-bold">{formattedToday} -  {formattedTomorrow}</p>
             <span>(1 diaria/s)</span>
             <h1 className="font-semibold">Quarto</h1>
             <span>101</span>
@@ -105,7 +124,7 @@ export function DetailsList() {
 
         <Box title="Informações de chegada" className="h-[170px] overflow-y-scroll">
           <div className="flex flex-col gap-y-3">
-            <span>Hospede chega as 02:00</span>
+            <span>Hospede chega as 14:00</span>
           </div>
         </Box>
       </div>

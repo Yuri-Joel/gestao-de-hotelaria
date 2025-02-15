@@ -9,9 +9,10 @@ import { jwtDecode } from "jwt-decode";
 import { removeAuthCookie } from "@/helpers/cookies/authCookie";
 
 export default function page() {
-
   const router = useRouter()
-  const [property] = useState("hotel-ao");
+
+  const property = Cookies.get(`${process.env.NEXT_PUBLIC_PROPERTY_ID}`)
+  const slug = Cookies.get(`${process.env.NEXT_PUBLIC_PROPERTY_SLUG}`)
 
   useEffect(() => {
     const updateOnlineStatus = () => {
@@ -48,8 +49,10 @@ export default function page() {
         if (nowDate > dateExp) {
           removeAuthCookie();
           router.push('/login');
-        } else if (cookie && property) {
-          router.push(`/${property}/home`);
+        } else if (cookie && (slug && property)) {
+          router.push(`/${slug}/home`);
+        } else if (cookie && (!slug || !property)) {
+          router.push(`/propriedades`);
         } else {
           removeAuthCookie();
           router.push('/login');
