@@ -1,10 +1,10 @@
 import { SettingIcon } from "@/assets/Icons/SettingIcon";
-import { ActionMenu } from "@/components/ActionMenu/ActionMenu";
 import { Checkbox } from "@/components/Input/CheckBox";
 import { Table } from "@/components/Table/table";
 import { TableCell } from "@/components/Table/table-cell";
 import { TableHeader } from "@/components/Table/table-header";
 import { TableRow } from "@/components/Table/table-row";
+import { ActionMenu } from "@/components/UserMenu/ActionMenu";
 import { DetailsSubtotal, reserveStore } from "@/store/reserveStore";
 import { Types } from "mongoose";
 import { useEffect, useState } from "react";
