@@ -14,6 +14,7 @@ export const MenuProfile = () => {
 
   const router = useRouter();
   const slug = Cookies.get(`${process.env.NEXT_PUBLIC_PROPERTY_SLUG}`)
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
