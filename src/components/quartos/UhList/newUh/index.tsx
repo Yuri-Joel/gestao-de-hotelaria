@@ -129,7 +129,6 @@ export const NewUhModal = () => {
             description="Preencha os detalhes para cadastrar um novo quarto."
             onClose={handleOpenModalNewUh}
             isOpen={isOpenedModalNewUh}
-
         >
             <div className="w-full  space-y-6">
                 {/* Campo Nome do Quarto */}
@@ -184,14 +183,14 @@ export const NewUhModal = () => {
                 </div>
 
                 {/* Botão  */}
-                <div className="flex justify-end">
+                <div className="flex justify-end py-3">
                     <Button
                         handleClick={handleNewUhSubmit}
                         handleActive={() => handleActive()}
                         isLoading={loading}
                         className="bg-indigo-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md 
-                   hover:bg-indigo-700 transition-all duration-300 
-                   disabled:bg-gray-400 disabled:cursor-not-allowed"
+                        hover:bg-indigo-700 transition-all duration-300
+                        disabled:bg-gray-400 disabled:cursor-not-allowed"
                     >
                         Adicionar
                     </Button>

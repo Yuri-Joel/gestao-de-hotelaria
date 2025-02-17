@@ -43,7 +43,7 @@ export const UhStore = create<State & Action>((set, get) => ({
   IsOpenedModalNoteReserve: false,
   isOpenedModalRegisterGuest: false,
   currentPage: 1,
-  totalPages: 0,
+  totalPages: 1,
   totalItems: 0,
   setSelectedRoom: (arg: UHEntity | null) => {
     set({ selectedRoom: arg })

@@ -33,8 +33,6 @@ type State = {
 
   isOpenedModalGuest: boolean;
   
-  isOpenedModalRefund: boolean;
-
   isChecked: string,
 
   detailsSubTotal: DetailsSubtotal[]
@@ -52,7 +50,6 @@ type Actions = {
   setTotalPage2: (page: number) => void;
   setTotalPage: (page: number) => void;
   setReservePerPage: (page: number) => void;
-  handleOpenModalRefund: () => void;
   setIsOpenedModalGuest: (data: boolean) => void;
   setSelectedGuest: (guest: string) => void;
   setIschecked: (isChecked: string) => void
@@ -79,7 +76,6 @@ export const reserveStore = create<State & Actions>((set, get) => ({
   detailEndDate: new Date(),
   reservePerPage: 0,
   isOpenedModalGuest: false,
-  isOpenedModalRefund: false,
 
   setCurrentPage: (data) => set({ currentPage: data }),
 
@@ -103,7 +99,7 @@ export const reserveStore = create<State & Actions>((set, get) => ({
   },
 
   setDetailsSubTotal: (detailsSubTotal) => set((state) => {
-    // Se for uma função (atualização com base no estado anterior)
+    // Se for uma função atualiza com base no estado anterior
     if (typeof detailsSubTotal === 'function') {
       return {
         detailsSubTotal: detailsSubTotal(state.detailsSubTotal)
@@ -127,12 +123,6 @@ export const reserveStore = create<State & Actions>((set, get) => ({
 
   setIsOpenedModalGuest: (data) => set({ isOpenedModalGuest: data }),
   
-  handleOpenModalRefund: () => {
-    const isOpened = get().isOpenedModalRefund
-
-    set({ isOpenedModalRefund: !isOpened})
-  },
-
   setSelectedTitleHeader: (data) => {
     set({ selectedTitleHeader:{id: data?.id, label: data.label} });
   },

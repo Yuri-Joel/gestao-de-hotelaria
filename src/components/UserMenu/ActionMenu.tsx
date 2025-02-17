@@ -4,6 +4,7 @@ import { Types } from 'mongoose';
 import { RightIcon } from '@/assets/Icons/RightIcon';
 import { EditIcon } from '@/assets/Icons/EditIcon';
 import { UndoAltIncon } from '@/assets/Icons/UndoAltIcon';
+import { DeleteIcon } from '@/assets/Icons/DeleteIcon';
 
 interface ActionMenuProps {
   itemId: string | Types.ObjectId;
@@ -36,57 +37,45 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
       </div>
 
       {openMenuId === itemId && (
-        <div className={details ? "absolute top-full w-28 bg-white shadow-md border border-gray-90 rounded-lg shadow-mdring-1 ring-black ring-opacity-5 z-10" : "absolute top-full w-24 bg-white shadow-md border border-gray-90 rounded-lg shadow-mdring-1 ring-black ring-opacity-5 z-10"}>
+        <div className={"absolute top-full w-28 bg-white shadow-md border border-gray-90 rounded-lg shadow-mdring-1 ring-black ring-opacity-5 z-10" }>
           <div
             className="bg-white"
             role="menu"
             aria-orientation="vertical"
           >
-            {
-              !details ? (
-                <>
                   <Button
-                    className="w-full text-left px-4 py-2 text-sm text-gray-700 bg-white hover:bg-gray-100"
+                    className="w-full text-left px-4 py-2 text-sm text-gray-700 bg-white flex items-center hover:bg-gray-100 gap-2"
                     role="menuitem"
                     handleClick={() => true}
                     handleActive={() => true}
                   >
-                    Editar
-                  </Button>
-
-                  <Button
-                    className="w-full text-left px-4 py-2 text-sm text-red-600 bg-white hover:bg-gray-100"
-                    role="menuitem"
-                    handleClick={() => onDelete && onDelete(new Types.ObjectId(itemId) )}
-                    handleActive={() => true}
-                  >
-                    Excluir
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Button
-                    className="w-full text-left px-4 py-2 text-sm text-gray-700 bg-white hover:bg-gray-100 flex items-center gap-2"
-                    role="menuitem"
-                    handleClick={() => true}
-                    handleActive={() => true}
-                  > 
                     <EditIcon/>
                     Editar
                   </Button>
 
-                  <Button
-                    className="w-full text-left px-4 py-2 text-sm text-gray-700 bg-white hover:bg-gray-100 flex items-center gap-2"
-                    role="menuitem"
-                    handleClick={() => onRefund && onRefund(itemId)}
-                    handleActive={() => true}
-                  >
-                    <UndoAltIncon/>
-                    Estorno
-                  </Button>
-                </>
-              )
-            }
+                  {
+                    !details 
+                    ? (<Button
+                          className="w-full text-left px-4 py-2 text-sm text-gray-700 bg-white flex items-center hover:bg-gray-100 gap-2"
+                          role="menuitem"
+                          handleClick={() => onDelete && onDelete(new Types.ObjectId(itemId) )}
+                          handleActive={() => true}
+                        >
+                          <DeleteIcon/>
+                          Excluir
+                        </Button>) 
+                    : (
+                      <Button
+                        className="w-full text-left px-4 py-2 text-sm text-gray-700 bg-white hover:bg-gray-100 flex items-center gap-2"
+                        role="menuitem"
+                        handleClick={() => onRefund && onRefund(itemId)}
+                        handleActive={() => true}
+                      >
+                        <UndoAltIncon/>
+                        Estorno
+                      </Button>
+                    )
+                  }
           </div>
         </div>
       )}

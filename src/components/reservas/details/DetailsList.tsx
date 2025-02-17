@@ -39,6 +39,8 @@ export function DetailsList() {
   const { detailsSubTotal } = reserveStore()
   const [brandInputEdit, setBrandInputEdit] = useState(false)
   const [inputValue, setInputValue] = useState("300")
+
+  //Calculo dos totais
   const total = detailsSubTotal.reduce((acc, curr) => acc + curr.subtotal, 0);
 
   const today = new Date();
@@ -59,9 +61,11 @@ export function DetailsList() {
 
     return finalDate
   }
+  //As datas formatadas de hoje e amanhã
   const formattedToday = formattedDate(today);
   const formattedTomorrow = formattedDate(tomorrow);
 
+  //Função para pegar o texto da input referência externa
   function handleChange(textInput: React.ChangeEvent<HTMLInputElement>) {
     const text = textInput.target.value.toString()
     const convertToNumber = removeNonNumerics(text)
@@ -73,7 +77,6 @@ export function DetailsList() {
     && setBrandInputEdit(false)
   }
 
-  // Calculo das subtotais
   return(
     <div className="grid grid-cols-[23rem_auto] gap-3 w-full">
       <div id="boxes" className="flex flex-col gap-y-5 w-[23rem]">

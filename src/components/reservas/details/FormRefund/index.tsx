@@ -2,12 +2,15 @@ import { Button } from "@/components/Button/Button";
 import { Input } from "@/components/Input/Input";
 import { Modal } from "@/components/Modal/Modal";
 import { delay } from "@/helpers/delay";
-import { reserveStore } from "@/store/reserveStore";
+import { modalManagementStore } from "@/store/modalManagementStore";
 import { useState } from "react";
 
 export function FormRefund() {
 
-  const { handleOpenModalRefund, isOpenedModalRefund } = reserveStore()
+   const {
+      isOpenedModalRefund,
+      handleOpenModalRefund
+    } = modalManagementStore()
   const [inputReason, setInputReason] = useState("")
   const [inputPassword, setInputPassWord] = useState("")
 	const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +30,6 @@ export function FormRefund() {
     await delay(1000)
     setIsLoading(false)
     handleOpenModalRefund()
-
   }
 
   return(

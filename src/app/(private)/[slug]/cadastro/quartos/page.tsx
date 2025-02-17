@@ -1,6 +1,6 @@
 import React from 'react';
 import { Wrapper } from '@/components/Wrapper';
-import { UhList } from '@/components/quartos/Uhlist/Uhlist';
+import { UhList } from '@/components/quartos/UhList/Uhlist';
 
 function page() {
   return (

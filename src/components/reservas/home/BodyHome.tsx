@@ -57,7 +57,7 @@ export function BodyHome(){
     })();
   }, [selectedTitleHeader]);
 
-    
+     
   return(
     <Wrapper title="RESERVA - INICIO">
       <SearchAndFilter
