@@ -80,8 +80,8 @@ export function Sidebar() {
                     path: "/cadastro/quartos"
                 },
                 {
-                    label: "Hóspede",
-                    path: "/cadastro/hospede",
+                    label: "Hóspedes",
+                    path: "/cadastro/hospedes",
                 },
                 {
                     label: "Empresas",
