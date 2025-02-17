@@ -3,13 +3,15 @@ import handleRequest from "@/helpers/handleRequest";
 import { UHEntity } from "@/interfaces/EntitiesForNewAPI/UHEntity";
 import { TModelPagination } from "@/types/TModelPagination";
 import { Types } from "mongoose";
+import Cookies from 'js-cookie'
 
 export const UhServices = () => {
   const account = parseCookie();
+  const property = Cookies.get(`${process.env.NEXT_PUBLIC_PROPERTY_ID}`)
 
   const find = async (page: number) => {
     const response = await handleRequest<TModelPagination<UHEntity>>({
-      url: `/uhs?account=${account?.account}&page=${page}&limit=10`,
+      url: `/uhs?account=${account?.account}&property=${property}&page=${page}&limit=10`,
       method: "GET",
     });
     return response;

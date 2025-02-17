@@ -3,10 +3,11 @@ import handleRequest from "@/helpers/handleRequest";
 import { UserEntity } from "@/interfaces/EntitiesForNewAPI/UserEntity";
 import { TModelPagination } from "@/types/TModelPagination";
 import { Types } from "mongoose";
-
+import Cookies from 'js-cookie'
 
 export const usersServices = () => {
   const account = parseCookie();
+  const property = Cookies.get(`${process.env.NEXT_PUBLIC_PROPERTY_ID}`)
 
   const create = async (user: UserEntity) => {
     const response = await handleRequest<UserEntity>({
@@ -20,7 +21,7 @@ export const usersServices = () => {
 
   const find = async (page: number) => {
     const response = await handleRequest<TModelPagination<UserEntity>>({
-      url: `/users?account=${account?.account}&page=${page}&limit=10`,
+      url: `/users?account=${account?.account}&property=${property}&page=${page}&limit=10`,
       method: "GET",
     });
     return response;
