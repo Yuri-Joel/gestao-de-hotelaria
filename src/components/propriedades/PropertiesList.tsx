@@ -14,12 +14,12 @@ import { TableRow } from "../Table/table-row"
 import { TableCell } from "../Table/table-cell"
 import { TableHeader } from "../Table/table-header"
 import { IconButton } from "../Table/table-button-navigation"
-import { Search } from "./Search"
 import { propertyStore } from "@/store/propertyStore"
 import { PropertyEntity } from "@/interfaces/EntitiesForNewAPI/PropertyEntity"
 import { Skeleton } from "../Skeleton/Skeleton"
 import { delay } from "@/helpers/delay"
 import { Types } from "mongoose";
+import { Input } from "../Input/Input";
 
 interface PropertiesProps {
   data: PropertyEntity[] | null
@@ -81,13 +81,17 @@ export function PropertiesList({ data }: PropertiesProps) {
 
   return (
     <>
-      <Search
-        data={data}
-        setCurrentPage={setCurrentPage}
-        setSearchData={setSearchData}
-        searchInput={searchInput}
-        setSearchInput={setSearchInput}
-      />
+     <div className="flex flex-col items-start">
+       <div className="w-[300px] space-y-4">
+         <h1 className="font-semibold">Todas as Propriedades</h1>
+         <Input
+          value={searchInput}
+           placeholder="Nome ou ID da propriedade"
+           handleValue={()=> true}
+         />          
+       </div>
+         <div className="bg-black h-[1.5px] w-full mt-12"></div>
+     </div>
 
       {loading || searchData === null || (Array.isArray(searchData) && searchData.length < 1) && (
         <div className="space-y-2">
@@ -107,9 +111,9 @@ export function PropertiesList({ data }: PropertiesProps) {
       )}
 
 
-      {loading && searchData !== null && (Array.isArray(searchData) && searchData.length > 1) && (
+      {loading && data !== null && (Array.isArray(searchData) && data.length > 1) && (
         <Table className="w-full">
-          {searchData && searchData.length > 0 && (
+          {data && data.length > 0 && (
             <thead>
               <tr className="border-none">
                 <TableHeader className="px-8 font-bold">Propriedade</TableHeader>
@@ -144,7 +148,7 @@ export function PropertiesList({ data }: PropertiesProps) {
           </tbody>
 
           {
-            searchData && searchData.length > 0 && (
+            data && data.length > 0 && (
               <tfoot>
                 <tr>
                   <TableCell colSpan={2}>
